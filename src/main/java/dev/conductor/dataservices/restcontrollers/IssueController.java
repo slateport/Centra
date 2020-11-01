@@ -1,5 +1,6 @@
 package dev.conductor.dataservices.restcontrollers;
 
+import dev.conductor.dataservices.cql.CqlQuery;
 import dev.conductor.dataservices.dto.IssueCommentDTO;
 import dev.conductor.dataservices.dto.IssueDTO;
 import dev.conductor.dataservices.entities.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +37,9 @@ public class IssueController {
 
     @Autowired
     private ApplicationUserService applicationUserService;
+
+    @Autowired
+    LabelService labelService;
 
     @GetMapping(value = "/{id}")
     public IssueDTO findById(@PathVariable String id) {
@@ -69,17 +74,19 @@ public class IssueController {
         try {
 
             Issue entity = new Issue(
-                    issueService.getNextExternalIdByProject(project.getId()),
-                    issue.getTitle(),
-                    issue.getDescription(),
-                    project.getId(),
-                    new Date(),
-                    new Date(),
-                    workflowService.getInitialState(workflow.get()),
-                    issue.getWorkflowId(),
-                    user.getId(),
-                    user.getId(),
-                    (issue.getIssuePriority() != null ? issue.getIssuePriority() : Issue.DEFAULT_PRIORITY));
+                issueService.getNextExternalIdByProject(project.getId()),
+                issue.getTitle(),
+                issue.getDescription(),
+                project.getId(),
+                new Date(),
+                new Date(),
+                workflowService.getInitialState(workflow.get()),
+                issue.getWorkflowId(),
+                user.getId(),
+                user.getId(),
+                (issue.getIssuePriority() != null ? issue.getIssuePriority() : Issue.DEFAULT_PRIORITY),
+                (issue.getLabels() != null) ? issue.getLabels() : new ArrayList<>()
+            );
 
             issueService.save(entity);
 
@@ -155,19 +162,21 @@ public class IssueController {
 
 
             IssueDTO issueDTO = new IssueDTO(
-                    issue.getId(),
-                    issue.getExternalId(),
-                    project.get().getProjectKey(),
-                    issue.getTitle(),
-                    issue.getDescription(),
-                    issue.getCreatedDate(),
-                    new Date(),
-                    issue.getProjectId(),
-                    newState,
-                    issue.getWorkflowId(),
-                    issue.getCreatedByUserId(),
-                    user.getId(),
-                    issue.getIssuePriority());
+                issue.getId(),
+                issue.getExternalId(),
+                project.get().getProjectKey(),
+                issue.getTitle(),
+                issue.getDescription(),
+                issue.getCreatedDate(),
+                new Date(),
+                issue.getProjectId(),
+                newState,
+                issue.getWorkflowId(),
+                issue.getCreatedByUserId(),
+                user.getId(),
+                issue.getIssuePriority(),
+                issue.getLabels()
+            );
 
             Issue entity = Issue.fromIssueDto(issueDTO);
 
@@ -180,6 +189,16 @@ public class IssueController {
                     e.getMessage()
             );
         }
+    }
+
+    @GetMapping("/labels")
+    public List<Label> regexSearchLabels(@RequestParam String labelValue){
+        return labelService.regexFindByValue(labelValue);
+    }
+
+    @PostMapping("/labels")
+    public Label createNEwLabel(@RequestBody Label label){
+        return labelService.save(label);
     }
 
     private Issue getIssueByExternalId(String id) {
