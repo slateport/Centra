@@ -10,7 +10,9 @@ public class ApplicationUser implements Serializable {
 
     @Id private String id;
     private String username;
+    private String emailAddress;
     private String password;
+    private String displayName;
     private Boolean admin;
     private Boolean enabled;
 
@@ -20,6 +22,10 @@ public class ApplicationUser implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
     public String getPassword() {
@@ -32,6 +38,10 @@ public class ApplicationUser implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     public Boolean getAdmin() {
