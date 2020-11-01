@@ -5,7 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "issues")
 public class Issue {
@@ -23,7 +25,8 @@ public class Issue {
     private final WorkflowState workflowState;
     private final String createdByUserId;
     private final String lastModifiedByUserId;
-    private final IssuePriority issuePriority;
+    private IssuePriority issuePriority = DEFAULT_PRIORITY;
+    private final List<Label> labels;
 
     public Issue(
             long externalId,
@@ -36,7 +39,9 @@ public class Issue {
             String workflowId,
             String createdByUserId,
             String lastModifiedByUserId,
-            IssuePriority issuePriority) {
+            IssuePriority issuePriority,
+            List<Label> labels
+    ) {
         this.externalId = externalId;
         this.title = title;
         this.description = description;
@@ -48,6 +53,7 @@ public class Issue {
         this.createdByUserId = createdByUserId;
         this.lastModifiedByUserId = lastModifiedByUserId;
         this.issuePriority = issuePriority;
+        this.labels = labels;
     }
 
     @PersistenceConstructor
@@ -63,7 +69,9 @@ public class Issue {
             String workflowId,
             String createdByUserId,
             String lastModifiedByUserId,
-            IssuePriority issuePriority) {
+            IssuePriority issuePriority,
+            List<Label> labels
+    ) {
         this.id = id;
         this.externalId = externalId;
         this.title = title;
@@ -76,6 +84,7 @@ public class Issue {
         this.createdByUserId = createdByUserId;
         this.lastModifiedByUserId = lastModifiedByUserId;
         this.issuePriority = issuePriority;
+        this.labels = labels;
     }
 
     public static Issue fromIssueDto(IssueDTO issueDTO) {
@@ -91,7 +100,9 @@ public class Issue {
             issueDTO.getWorkflowId(),
             issueDTO.getLastModifiedByUserId(),
             issueDTO.getCreatedByUserId(),
-            issueDTO.getIssuePriority());
+            issueDTO.getIssuePriority(),
+            issueDTO.getLabels()
+        );
     }
 
     public String getId() {
@@ -140,5 +151,9 @@ public class Issue {
 
     public IssuePriority getIssuePriority() {
         return issuePriority;
+    }
+
+    public List<Label> getLabels() {
+        return labels;
     }
 }

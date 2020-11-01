@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
-@Document(collection = "user")
+@Document(collection = "users")
 public class ApplicationUser implements Serializable {
 
     @Id private String id;

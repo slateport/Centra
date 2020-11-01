@@ -3,6 +3,7 @@ package dev.conductor.dataservices.dto;
 import dev.conductor.dataservices.entities.*;
 
 import java.util.Date;
+import java.util.List;
 
 public class IssueDTO {
 
@@ -19,6 +20,7 @@ public class IssueDTO {
     private final String createdByUserId;
     private final String lastModifiedByUserId;
     private final IssuePriority issuePriority;
+    private final List<Label> labels;
 
     public IssueDTO(
             String id,
@@ -33,7 +35,9 @@ public class IssueDTO {
             String workflowId,
             String createdByUserId,
             String lastModifiedByUserId,
-            IssuePriority issuePriority) {
+            IssuePriority issuePriority,
+            List<Label> labels
+    ) {
         this.id = id;
         this.externalId = externalId;
         this.projectKey = projectKey;
@@ -47,6 +51,7 @@ public class IssueDTO {
         this.createdByUserId = createdByUserId;
         this.lastModifiedByUserId = lastModifiedByUserId;
         this.issuePriority = issuePriority;
+        this.labels = labels;
     }
 
     public static IssueDTO fromIssue (Issue issue, Project project) {
@@ -63,7 +68,9 @@ public class IssueDTO {
             issue.getWorkflowId(),
             issue.getCreatedByUserId(),
             issue.getLastModifiedByUserId(),
-            issue.getIssuePriority());
+            issue.getIssuePriority(),
+            issue.getLabels()
+        );
     }
 
     public String getId() {
@@ -116,5 +123,9 @@ public class IssueDTO {
 
     public IssuePriority getIssuePriority() {
         return issuePriority;
+    }
+
+    public List<Label> getLabels() {
+        return labels;
     }
 }
