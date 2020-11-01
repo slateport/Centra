@@ -33,10 +33,6 @@ public class SearchServiceImpl implements SearchService {
     public List<Issue> search(CqlQuery cqlQuery) {
         Query query = new Query();
 
-        for (String fields :cqlQuery.getSelect().getFields()){
-            query.fields().include(fields);
-        }
-
         for (Condition condition: cqlQuery.getWhere().getRoot()) {
             condition = normalizeCondition(condition);
 
