@@ -1,0 +1,27 @@
+package dev.conductor.dataservices.entities;
+
+import org.springframework.data.mongodb.core.index.Indexed;
+
+public class Settings {
+    @Indexed(unique=true)
+    private final String key;
+    private final String value;
+
+    public Settings(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+}
