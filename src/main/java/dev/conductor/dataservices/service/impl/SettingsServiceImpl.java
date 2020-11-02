@@ -1,5 +1,6 @@
 package dev.conductor.dataservices.service.impl;
 
+import dev.conductor.dataservices.config.DefualtSettingsEnum;
 import dev.conductor.dataservices.config.SettingsEnum;
 import dev.conductor.dataservices.entities.Settings;
 import dev.conductor.dataservices.repository.SettingsRepository;
@@ -22,5 +23,12 @@ public class SettingsServiceImpl implements SettingsService {
     @Override
     public List<Settings> findAll() {
         return settingsRepository.findAll();
+    }
+
+    @Override
+    public Settings getDefaultByName(SettingsEnum name) {
+        DefualtSettingsEnum defaultSettings = DefualtSettingsEnum.valueOf(name.name());
+
+        return new Settings(name.name(), defaultSettings.toString());
     }
 }

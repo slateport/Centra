@@ -40,16 +40,11 @@ public class InitController {
         return initData;
     }
 
-
-
-
-
-
     private String getSettings(SettingsEnum settings) {
         Settings retrievedValue = settingsService.getSettingsByName(settings);
 
         if (retrievedValue == null) {
-            return null;
+            return settingsService.getDefaultByName(settings).getValue();
         }
 
         return retrievedValue.getValue();
