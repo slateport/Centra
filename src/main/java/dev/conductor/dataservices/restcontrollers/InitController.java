@@ -24,23 +24,23 @@ public class InitController {
 
         initData.put(
                 SettingsEnum.INSTANCE_NAME.toString(),
-                getSettings(SettingsEnum.INSTANCE_NAME)
+                getSettingsValue(SettingsEnum.INSTANCE_NAME)
         );
 
         initData.put(
                 SettingsEnum.ALLOW_REGISTRATION.toString(),
-                getSettings(SettingsEnum.ALLOW_REGISTRATION)
+                getSettingsValue(SettingsEnum.ALLOW_REGISTRATION)
         );
 
         initData.put(
                 SettingsEnum.PRIVATE_INSTANCE.toString(),
-                getSettings(SettingsEnum.PRIVATE_INSTANCE)
+                getSettingsValue(SettingsEnum.PRIVATE_INSTANCE)
         );
 
         return initData;
     }
 
-    private String getSettings(SettingsEnum settings) {
+    private String getSettingsValue(SettingsEnum settings) {
         Settings retrievedValue = settingsService.getSettingsByName(settings);
 
         if (retrievedValue == null) {

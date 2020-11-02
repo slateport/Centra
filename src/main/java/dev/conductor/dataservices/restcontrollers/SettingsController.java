@@ -46,7 +46,7 @@ public class SettingsController extends BaseController {
         Settings retrievedValue = settingsService.getSettingsByName(settings);
 
         if (retrievedValue == null) {
-            return null;
+            return settingsService.getDefaultByName(settings).getValue();
         }
 
         return retrievedValue.getValue();
