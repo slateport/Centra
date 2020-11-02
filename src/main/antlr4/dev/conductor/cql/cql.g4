@@ -1,4 +1,4 @@
-grammar Cql;
+grammar cql;
 
 parse
  : ( cql_stmt_list )* EOF
@@ -7,13 +7,13 @@ parse
 cql_stmt_list
  : SCOL* cql_stmt ( SCOL+ cql_stmt )* SCOL*
  ;
- 
+
 cql_stmt
  : OPEN_PAR* expr ( ( K_AND | K_OR) OPEN_PAR* expr CLOSE_PAR* )* CLOSE_PAR* ordering_term?
- ; 
+ ;
 
 expr
- : K_NOT* ( field | literal_value ) operator OPEN_PAR* ( literal_value | literal_list | FUNCTION | dates ) (compare_dates)? CLOSE_PAR* 
+ : K_NOT* ( field | literal_value ) operator OPEN_PAR* ( literal_value | literal_list | FUNCTION | dates ) (compare_dates)? CLOSE_PAR*
  ;
 
 ordering_term
@@ -25,11 +25,11 @@ operator
  | NOT_EQ
  | CONTAINS
  | NOT_CONTAINS
- | LT_EQ 
- | LT 
- | GT 
- | GT_EQ 
- | K_IN 
+ | LT_EQ
+ | LT
+ | GT
+ | GT_EQ
+ | K_IN
  | K_NOT K_IN
  | K_IS
  | K_WAS
@@ -45,9 +45,9 @@ literal_value
  | field
  | dates
  ;
- 
+
 FUNCTION
- : [a-zA-Z]+ '(' (.*? | FUNCTION) ')' 
+ : [a-zA-Z]+ '(' (.*? | FUNCTION) ')'
  ;
 
 literal_list
@@ -76,7 +76,7 @@ keyword
 state_name
  : K_EMPTY
  ;
- 
+
 field
  : F_AFFECTED_VERSION
  | F_APPROVALS
@@ -137,11 +137,11 @@ field
  | F_WORK_RATIO
  ;
 
-compare_dates : ( K_ON | K_AFTER | K_BEFORE )? dates ; 
+compare_dates : ( K_ON | K_AFTER | K_BEFORE )? dates ;
 dates : DATETIME ;
 
-DATETIME 
- : ('-'|'+')? (NUMBER ('d'|'w'|'y'|'h'|'m')?)+ 
+DATETIME
+ : ('-'|'+')? (NUMBER ('d'|'w'|'y'|'h'|'m')?)+
  | ('"' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '"')
  | ('\'' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '\'')
  | ( DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? )
@@ -256,7 +256,7 @@ STRING_LITERAL
  : '\'' ('\\'. | '\'\'' | ~('\'' | '\\'))* '\''
  | '"' ( '\\'. | '""' | ~('"'| '\\') )* '"'
  ;
- 
+
 COMMENT
  : '/*' .*? '*/' -> skip
  ;
@@ -268,7 +268,7 @@ LINE_COMMENT
 SPACES
  : [ \u000B\t\r\n] -> channel(HIDDEN)
  ;
-jql
+
 fragment DIGIT : [0-9];
 
 fragment A : [aA];

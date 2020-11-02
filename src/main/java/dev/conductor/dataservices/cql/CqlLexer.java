@@ -1,4 +1,4 @@
-package dev.conductor.dataservices.cql;// Generated from /Users/shamil/Documents/Projects/conductor.dev/data-services/src/main/antlr4/dev/conductor/cql/Cql.g4 by ANTLR 4.8
+package dev.conductor.dataservices.cql;// Generated from /Users/shamil/Documents/Projects/conductor.dev/data-services/src/main/antlr4/dev/conductor/cql/cql.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -136,7 +136,7 @@ public class CqlLexer extends Lexer {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Cql.g4"; }
+	public String getGrammarFileName() { return "cql.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
