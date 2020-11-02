@@ -9,4 +9,5 @@ public interface SettingsService {
 
     Settings getSettingsByName(SettingsEnum name);
     List<Settings> findAll();
+    Settings getDefaultByName(SettingsEnum name);
 }
