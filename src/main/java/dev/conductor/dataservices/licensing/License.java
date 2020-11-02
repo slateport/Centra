@@ -29,4 +29,14 @@ public class License {
     public boolean isEvaluation() {
         return isEvaluation;
     }
+
+    @Override
+    public String toString() {
+        return "License{" +
+                "numberOfUser=" + numberOfUser +
+                ", licenseEdition='" + licenseEdition + '\'' +
+                ", licenseId='" + licenseId + '\'' +
+                ", isEvaluation=" + isEvaluation +
+                '}';
+    }
 }
