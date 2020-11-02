@@ -34,26 +34,14 @@ public class CqlListenerImpl extends CqlBaseListener {
 
     @Override
     public void enterOperator(CqlParser.OperatorContext ctx) {
-        Operator operator;
-
-        switch (ctx.getStop().getText()) {
-            default:
-            case "=":
-                operator = Operator.EQUALS;
-                break;
-            case "~":
-                operator = Operator.LIKE;
-                break;
-            case ">":
-                operator = Operator.GREATER_THAN;
-                break;
-            case "<":
-                operator = Operator.LESS_THAN;
-                break;
-            case "IN":
-                operator = Operator.IN;
-                break;
-        }
+        Operator operator = switch (ctx.getStop().getText()) {
+            case "=" -> Operator.EQUALS;
+            case "~" -> Operator.LIKE;
+            case ">" -> Operator.GREATER_THAN;
+            case "<" -> Operator.LESS_THAN;
+            case "IN" -> Operator.IN;
+            default -> throw new IllegalStateException("Unexpected value: " + ctx.getStop().getText());
+        };
 
         this.currentCondition.setOperator(operator);
     }

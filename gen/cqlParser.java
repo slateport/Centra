@@ -1,5 +1,4 @@
-package dev.conductor.dataservices.cql;// Generated from /Users/shamil/Documents/Projects/conductor.dev/data-services/src/main/antlr4/dev/conductor/cql/cql.g4 by ANTLR 4.8
-import org.antlr.v4.runtime.Parser;
+// Generated from /Users/shamil/Documents/Projects/conductor.dev/Conductor/src/main/antlr4/dev/conductor/cql/cql.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +9,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class CqlParser extends Parser {
+public class cqlParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -123,13 +122,13 @@ public class CqlParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public CqlParser(TokenStream input) {
+	public cqlParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	public static class ParseContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(CqlParser.EOF, 0); }
+		public TerminalNode EOF() { return getToken(cqlParser.EOF, 0); }
 		public List<Cql_stmt_listContext> cql_stmt_list() {
 			return getRuleContexts(Cql_stmt_listContext.class);
 		}
@@ -142,15 +141,15 @@ public class CqlParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_parse; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterParse(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterParse(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitParse(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitParse(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitParse(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitParse(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -198,9 +197,9 @@ public class CqlParser extends Parser {
 		public Cql_stmtContext cql_stmt(int i) {
 			return getRuleContext(Cql_stmtContext.class,i);
 		}
-		public List<TerminalNode> SCOL() { return getTokens(CqlParser.SCOL); }
+		public List<TerminalNode> SCOL() { return getTokens(cqlParser.SCOL); }
 		public TerminalNode SCOL(int i) {
-			return getToken(CqlParser.SCOL, i);
+			return getToken(cqlParser.SCOL, i);
 		}
 		public Cql_stmt_listContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -208,15 +207,15 @@ public class CqlParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_cql_stmt_list; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterCql_stmt_list(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterCql_stmt_list(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitCql_stmt_list(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitCql_stmt_list(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitCql_stmt_list(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitCql_stmt_list(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -248,7 +247,7 @@ public class CqlParser extends Parser {
 			setState(49);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
-			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -278,7 +277,7 @@ public class CqlParser extends Parser {
 			setState(55);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
-			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -311,24 +310,24 @@ public class CqlParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public List<TerminalNode> OPEN_PAR() { return getTokens(CqlParser.OPEN_PAR); }
+		public List<TerminalNode> OPEN_PAR() { return getTokens(cqlParser.OPEN_PAR); }
 		public TerminalNode OPEN_PAR(int i) {
-			return getToken(CqlParser.OPEN_PAR, i);
+			return getToken(cqlParser.OPEN_PAR, i);
 		}
-		public List<TerminalNode> CLOSE_PAR() { return getTokens(CqlParser.CLOSE_PAR); }
+		public List<TerminalNode> CLOSE_PAR() { return getTokens(cqlParser.CLOSE_PAR); }
 		public TerminalNode CLOSE_PAR(int i) {
-			return getToken(CqlParser.CLOSE_PAR, i);
+			return getToken(cqlParser.CLOSE_PAR, i);
 		}
 		public Ordering_termContext ordering_term() {
 			return getRuleContext(Ordering_termContext.class,0);
 		}
-		public List<TerminalNode> K_AND() { return getTokens(CqlParser.K_AND); }
+		public List<TerminalNode> K_AND() { return getTokens(cqlParser.K_AND); }
 		public TerminalNode K_AND(int i) {
-			return getToken(CqlParser.K_AND, i);
+			return getToken(cqlParser.K_AND, i);
 		}
-		public List<TerminalNode> K_OR() { return getTokens(CqlParser.K_OR); }
+		public List<TerminalNode> K_OR() { return getTokens(cqlParser.K_OR); }
 		public TerminalNode K_OR(int i) {
-			return getToken(CqlParser.K_OR, i);
+			return getToken(cqlParser.K_OR, i);
 		}
 		public Cql_stmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -336,15 +335,15 @@ public class CqlParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_cql_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterCql_stmt(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterCql_stmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitCql_stmt(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitCql_stmt(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitCql_stmt(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitCql_stmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -408,7 +407,7 @@ public class CqlParser extends Parser {
 				setState(76);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
-				while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
@@ -480,24 +479,24 @@ public class CqlParser extends Parser {
 		public Literal_listContext literal_list() {
 			return getRuleContext(Literal_listContext.class,0);
 		}
-		public TerminalNode FUNCTION() { return getToken(CqlParser.FUNCTION, 0); }
+		public TerminalNode FUNCTION() { return getToken(cqlParser.FUNCTION, 0); }
 		public DatesContext dates() {
 			return getRuleContext(DatesContext.class,0);
 		}
-		public List<TerminalNode> K_NOT() { return getTokens(CqlParser.K_NOT); }
+		public List<TerminalNode> K_NOT() { return getTokens(cqlParser.K_NOT); }
 		public TerminalNode K_NOT(int i) {
-			return getToken(CqlParser.K_NOT, i);
+			return getToken(cqlParser.K_NOT, i);
 		}
-		public List<TerminalNode> OPEN_PAR() { return getTokens(CqlParser.OPEN_PAR); }
+		public List<TerminalNode> OPEN_PAR() { return getTokens(cqlParser.OPEN_PAR); }
 		public TerminalNode OPEN_PAR(int i) {
-			return getToken(CqlParser.OPEN_PAR, i);
+			return getToken(cqlParser.OPEN_PAR, i);
 		}
 		public Compare_datesContext compare_dates() {
 			return getRuleContext(Compare_datesContext.class,0);
 		}
-		public List<TerminalNode> CLOSE_PAR() { return getTokens(CqlParser.CLOSE_PAR); }
+		public List<TerminalNode> CLOSE_PAR() { return getTokens(cqlParser.CLOSE_PAR); }
 		public TerminalNode CLOSE_PAR(int i) {
-			return getToken(CqlParser.CLOSE_PAR, i);
+			return getToken(cqlParser.CLOSE_PAR, i);
 		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -505,15 +504,15 @@ public class CqlParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterExpr(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitExpr(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitExpr(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitExpr(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -561,7 +560,7 @@ public class CqlParser extends Parser {
 			setState(107);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
-			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -615,7 +614,7 @@ public class CqlParser extends Parser {
 			setState(122);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
-			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -642,25 +641,25 @@ public class CqlParser extends Parser {
 	}
 
 	public static class Ordering_termContext extends ParserRuleContext {
-		public TerminalNode K_ORDER() { return getToken(CqlParser.K_ORDER, 0); }
-		public TerminalNode K_BY() { return getToken(CqlParser.K_BY, 0); }
+		public TerminalNode K_ORDER() { return getToken(cqlParser.K_ORDER, 0); }
+		public TerminalNode K_BY() { return getToken(cqlParser.K_BY, 0); }
 		public List<Literal_valueContext> literal_value() {
 			return getRuleContexts(Literal_valueContext.class);
 		}
 		public Literal_valueContext literal_value(int i) {
 			return getRuleContext(Literal_valueContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(CqlParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(cqlParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(CqlParser.COMMA, i);
+			return getToken(cqlParser.COMMA, i);
 		}
-		public List<TerminalNode> K_ASC() { return getTokens(CqlParser.K_ASC); }
+		public List<TerminalNode> K_ASC() { return getTokens(cqlParser.K_ASC); }
 		public TerminalNode K_ASC(int i) {
-			return getToken(CqlParser.K_ASC, i);
+			return getToken(cqlParser.K_ASC, i);
 		}
-		public List<TerminalNode> K_DESC() { return getTokens(CqlParser.K_DESC); }
+		public List<TerminalNode> K_DESC() { return getTokens(cqlParser.K_DESC); }
 		public TerminalNode K_DESC(int i) {
-			return getToken(CqlParser.K_DESC, i);
+			return getToken(cqlParser.K_DESC, i);
 		}
 		public Ordering_termContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -668,15 +667,15 @@ public class CqlParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_ordering_term; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterOrdering_term(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterOrdering_term(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitOrdering_term(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitOrdering_term(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitOrdering_term(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitOrdering_term(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -760,35 +759,35 @@ public class CqlParser extends Parser {
 	}
 
 	public static class OperatorContext extends ParserRuleContext {
-		public TerminalNode EQ() { return getToken(CqlParser.EQ, 0); }
-		public TerminalNode NOT_EQ() { return getToken(CqlParser.NOT_EQ, 0); }
-		public TerminalNode CONTAINS() { return getToken(CqlParser.CONTAINS, 0); }
-		public TerminalNode NOT_CONTAINS() { return getToken(CqlParser.NOT_CONTAINS, 0); }
-		public TerminalNode LT_EQ() { return getToken(CqlParser.LT_EQ, 0); }
-		public TerminalNode LT() { return getToken(CqlParser.LT, 0); }
-		public TerminalNode GT() { return getToken(CqlParser.GT, 0); }
-		public TerminalNode GT_EQ() { return getToken(CqlParser.GT_EQ, 0); }
-		public TerminalNode K_IN() { return getToken(CqlParser.K_IN, 0); }
-		public TerminalNode K_NOT() { return getToken(CqlParser.K_NOT, 0); }
-		public TerminalNode K_IS() { return getToken(CqlParser.K_IS, 0); }
-		public TerminalNode K_WAS() { return getToken(CqlParser.K_WAS, 0); }
-		public TerminalNode K_CHANGED() { return getToken(CqlParser.K_CHANGED, 0); }
-		public TerminalNode K_TO() { return getToken(CqlParser.K_TO, 0); }
+		public TerminalNode EQ() { return getToken(cqlParser.EQ, 0); }
+		public TerminalNode NOT_EQ() { return getToken(cqlParser.NOT_EQ, 0); }
+		public TerminalNode CONTAINS() { return getToken(cqlParser.CONTAINS, 0); }
+		public TerminalNode NOT_CONTAINS() { return getToken(cqlParser.NOT_CONTAINS, 0); }
+		public TerminalNode LT_EQ() { return getToken(cqlParser.LT_EQ, 0); }
+		public TerminalNode LT() { return getToken(cqlParser.LT, 0); }
+		public TerminalNode GT() { return getToken(cqlParser.GT, 0); }
+		public TerminalNode GT_EQ() { return getToken(cqlParser.GT_EQ, 0); }
+		public TerminalNode K_IN() { return getToken(cqlParser.K_IN, 0); }
+		public TerminalNode K_NOT() { return getToken(cqlParser.K_NOT, 0); }
+		public TerminalNode K_IS() { return getToken(cqlParser.K_IS, 0); }
+		public TerminalNode K_WAS() { return getToken(cqlParser.K_WAS, 0); }
+		public TerminalNode K_CHANGED() { return getToken(cqlParser.K_CHANGED, 0); }
+		public TerminalNode K_TO() { return getToken(cqlParser.K_TO, 0); }
 		public OperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_operator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterOperator(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterOperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitOperator(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitOperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitOperator(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitOperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -927,8 +926,8 @@ public class CqlParser extends Parser {
 	}
 
 	public static class Literal_valueContext extends ParserRuleContext {
-		public TerminalNode STRING_LITERAL() { return getToken(CqlParser.STRING_LITERAL, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(CqlParser.IDENTIFIER, 0); }
+		public TerminalNode STRING_LITERAL() { return getToken(cqlParser.STRING_LITERAL, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(cqlParser.IDENTIFIER, 0); }
 		public State_nameContext state_name() {
 			return getRuleContext(State_nameContext.class,0);
 		}
@@ -944,15 +943,15 @@ public class CqlParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_literal_value; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterLiteral_value(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterLiteral_value(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitLiteral_value(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitLiteral_value(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitLiteral_value(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitLiteral_value(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1071,17 +1070,17 @@ public class CqlParser extends Parser {
 	}
 
 	public static class Literal_listContext extends ParserRuleContext {
-		public TerminalNode OPEN_PAR() { return getToken(CqlParser.OPEN_PAR, 0); }
+		public TerminalNode OPEN_PAR() { return getToken(cqlParser.OPEN_PAR, 0); }
 		public List<Literal_valueContext> literal_value() {
 			return getRuleContexts(Literal_valueContext.class);
 		}
 		public Literal_valueContext literal_value(int i) {
 			return getRuleContext(Literal_valueContext.class,i);
 		}
-		public TerminalNode CLOSE_PAR() { return getToken(CqlParser.CLOSE_PAR, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(CqlParser.COMMA); }
+		public TerminalNode CLOSE_PAR() { return getToken(cqlParser.CLOSE_PAR, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(cqlParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(CqlParser.COMMA, i);
+			return getToken(cqlParser.COMMA, i);
 		}
 		public Literal_listContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1089,15 +1088,15 @@ public class CqlParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_literal_list; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterLiteral_list(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterLiteral_list(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitLiteral_list(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitLiteral_list(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitLiteral_list(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitLiteral_list(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1145,37 +1144,37 @@ public class CqlParser extends Parser {
 	}
 
 	public static class KeywordContext extends ParserRuleContext {
-		public TerminalNode K_AFTER() { return getToken(CqlParser.K_AFTER, 0); }
-		public TerminalNode K_AND() { return getToken(CqlParser.K_AND, 0); }
-		public TerminalNode K_ASC() { return getToken(CqlParser.K_ASC, 0); }
-		public TerminalNode K_BEFORE() { return getToken(CqlParser.K_BEFORE, 0); }
-		public TerminalNode K_BY() { return getToken(CqlParser.K_BY, 0); }
-		public TerminalNode K_CHANGED() { return getToken(CqlParser.K_CHANGED, 0); }
-		public TerminalNode K_DESC() { return getToken(CqlParser.K_DESC, 0); }
-		public TerminalNode K_IN() { return getToken(CqlParser.K_IN, 0); }
-		public TerminalNode K_IS() { return getToken(CqlParser.K_IS, 0); }
-		public TerminalNode K_NOT() { return getToken(CqlParser.K_NOT, 0); }
-		public TerminalNode K_NULL() { return getToken(CqlParser.K_NULL, 0); }
-		public TerminalNode K_ON() { return getToken(CqlParser.K_ON, 0); }
-		public TerminalNode K_OR() { return getToken(CqlParser.K_OR, 0); }
-		public TerminalNode K_ORDER() { return getToken(CqlParser.K_ORDER, 0); }
-		public TerminalNode K_TO() { return getToken(CqlParser.K_TO, 0); }
-		public TerminalNode K_WAS() { return getToken(CqlParser.K_WAS, 0); }
+		public TerminalNode K_AFTER() { return getToken(cqlParser.K_AFTER, 0); }
+		public TerminalNode K_AND() { return getToken(cqlParser.K_AND, 0); }
+		public TerminalNode K_ASC() { return getToken(cqlParser.K_ASC, 0); }
+		public TerminalNode K_BEFORE() { return getToken(cqlParser.K_BEFORE, 0); }
+		public TerminalNode K_BY() { return getToken(cqlParser.K_BY, 0); }
+		public TerminalNode K_CHANGED() { return getToken(cqlParser.K_CHANGED, 0); }
+		public TerminalNode K_DESC() { return getToken(cqlParser.K_DESC, 0); }
+		public TerminalNode K_IN() { return getToken(cqlParser.K_IN, 0); }
+		public TerminalNode K_IS() { return getToken(cqlParser.K_IS, 0); }
+		public TerminalNode K_NOT() { return getToken(cqlParser.K_NOT, 0); }
+		public TerminalNode K_NULL() { return getToken(cqlParser.K_NULL, 0); }
+		public TerminalNode K_ON() { return getToken(cqlParser.K_ON, 0); }
+		public TerminalNode K_OR() { return getToken(cqlParser.K_OR, 0); }
+		public TerminalNode K_ORDER() { return getToken(cqlParser.K_ORDER, 0); }
+		public TerminalNode K_TO() { return getToken(cqlParser.K_TO, 0); }
+		public TerminalNode K_WAS() { return getToken(cqlParser.K_WAS, 0); }
 		public KeywordContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_keyword; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterKeyword(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterKeyword(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitKeyword(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitKeyword(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitKeyword(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitKeyword(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1211,22 +1210,22 @@ public class CqlParser extends Parser {
 	}
 
 	public static class State_nameContext extends ParserRuleContext {
-		public TerminalNode K_EMPTY() { return getToken(CqlParser.K_EMPTY, 0); }
+		public TerminalNode K_EMPTY() { return getToken(cqlParser.K_EMPTY, 0); }
 		public State_nameContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_state_name; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterState_name(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterState_name(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitState_name(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitState_name(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitState_name(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitState_name(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1253,78 +1252,78 @@ public class CqlParser extends Parser {
 	}
 
 	public static class FieldContext extends ParserRuleContext {
-		public TerminalNode F_AFFECTED_VERSION() { return getToken(CqlParser.F_AFFECTED_VERSION, 0); }
-		public TerminalNode F_APPROVALS() { return getToken(CqlParser.F_APPROVALS, 0); }
-		public TerminalNode F_ASSIGNEE() { return getToken(CqlParser.F_ASSIGNEE, 0); }
-		public TerminalNode F_ATTACHMENTS() { return getToken(CqlParser.F_ATTACHMENTS, 0); }
-		public TerminalNode F_CATEGORY() { return getToken(CqlParser.F_CATEGORY, 0); }
-		public TerminalNode F_COMMENT() { return getToken(CqlParser.F_COMMENT, 0); }
-		public TerminalNode F_COMPONENT() { return getToken(CqlParser.F_COMPONENT, 0); }
-		public TerminalNode F_CREATED() { return getToken(CqlParser.F_CREATED, 0); }
-		public TerminalNode F_CREATED_DATE() { return getToken(CqlParser.F_CREATED_DATE, 0); }
-		public TerminalNode F_CREATOR() { return getToken(CqlParser.F_CREATOR, 0); }
-		public TerminalNode F_CUSTOM_FIELD() { return getToken(CqlParser.F_CUSTOM_FIELD, 0); }
-		public TerminalNode F_CUSTOMER_REQUEST_TYPE() { return getToken(CqlParser.F_CUSTOMER_REQUEST_TYPE, 0); }
-		public TerminalNode F_DATE() { return getToken(CqlParser.F_DATE, 0); }
-		public TerminalNode F_DESCRIPTION() { return getToken(CqlParser.F_DESCRIPTION, 0); }
-		public TerminalNode F_DUE() { return getToken(CqlParser.F_DUE, 0); }
-		public TerminalNode F_DURATION() { return getToken(CqlParser.F_DURATION, 0); }
-		public TerminalNode F_ENVIRONMENT() { return getToken(CqlParser.F_ENVIRONMENT, 0); }
-		public TerminalNode F_EPIC_LINK() { return getToken(CqlParser.F_EPIC_LINK, 0); }
-		public TerminalNode F_FILTER() { return getToken(CqlParser.F_FILTER, 0); }
-		public TerminalNode F_FIX_VERSION() { return getToken(CqlParser.F_FIX_VERSION, 0); }
-		public TerminalNode F_ISSUE() { return getToken(CqlParser.F_ISSUE, 0); }
-		public TerminalNode F_ISSUE_KEY() { return getToken(CqlParser.F_ISSUE_KEY, 0); }
-		public TerminalNode F_ISSUE_TYPE() { return getToken(CqlParser.F_ISSUE_TYPE, 0); }
-		public TerminalNode F_KEY() { return getToken(CqlParser.F_KEY, 0); }
-		public TerminalNode F_LABEL() { return getToken(CqlParser.F_LABEL, 0); }
-		public TerminalNode F_LABELS() { return getToken(CqlParser.F_LABELS, 0); }
-		public TerminalNode F_LAST_VIEWED() { return getToken(CqlParser.F_LAST_VIEWED, 0); }
-		public TerminalNode F_LEVEL() { return getToken(CqlParser.F_LEVEL, 0); }
-		public TerminalNode F_NUMBER() { return getToken(CqlParser.F_NUMBER, 0); }
-		public TerminalNode F_ORGANIZATION() { return getToken(CqlParser.F_ORGANIZATION, 0); }
-		public TerminalNode F_ORIGINAL_ESTIMATE() { return getToken(CqlParser.F_ORIGINAL_ESTIMATE, 0); }
-		public TerminalNode F_PARENT() { return getToken(CqlParser.F_PARENT, 0); }
-		public TerminalNode F_PRIORITY() { return getToken(CqlParser.F_PRIORITY, 0); }
-		public TerminalNode F_PROJECT() { return getToken(CqlParser.F_PROJECT, 0); }
-		public TerminalNode F_RANK() { return getToken(CqlParser.F_RANK, 0); }
-		public TerminalNode F_REMAINING_ESTIMATE() { return getToken(CqlParser.F_REMAINING_ESTIMATE, 0); }
-		public TerminalNode F_REPORTER() { return getToken(CqlParser.F_REPORTER, 0); }
-		public TerminalNode F_REQUEST_CHANNEL_TYPE() { return getToken(CqlParser.F_REQUEST_CHANNEL_TYPE, 0); }
-		public TerminalNode F_REQUEST_LAST_ACTIVITY_TIME() { return getToken(CqlParser.F_REQUEST_LAST_ACTIVITY_TIME, 0); }
-		public TerminalNode F_RESOLUTION() { return getToken(CqlParser.F_RESOLUTION, 0); }
-		public TerminalNode F_RESOLUTION_DATE() { return getToken(CqlParser.F_RESOLUTION_DATE, 0); }
-		public TerminalNode F_RESOLVED() { return getToken(CqlParser.F_RESOLVED, 0); }
-		public TerminalNode F_SLA() { return getToken(CqlParser.F_SLA, 0); }
-		public TerminalNode F_SPRINT() { return getToken(CqlParser.F_SPRINT, 0); }
-		public TerminalNode F_STATUS() { return getToken(CqlParser.F_STATUS, 0); }
-		public TerminalNode F_SUMMARY() { return getToken(CqlParser.F_SUMMARY, 0); }
-		public TerminalNode F_TEXT() { return getToken(CqlParser.F_TEXT, 0); }
-		public TerminalNode F_TIME_SPENT() { return getToken(CqlParser.F_TIME_SPENT, 0); }
-		public TerminalNode F_TYPE() { return getToken(CqlParser.F_TYPE, 0); }
-		public TerminalNode F_UPDATED() { return getToken(CqlParser.F_UPDATED, 0); }
-		public TerminalNode F_USER() { return getToken(CqlParser.F_USER, 0); }
-		public TerminalNode F_VERSION() { return getToken(CqlParser.F_VERSION, 0); }
-		public TerminalNode F_VOTER() { return getToken(CqlParser.F_VOTER, 0); }
-		public TerminalNode F_VOTES() { return getToken(CqlParser.F_VOTES, 0); }
-		public TerminalNode F_WATCHER() { return getToken(CqlParser.F_WATCHER, 0); }
-		public TerminalNode F_WATCHERS() { return getToken(CqlParser.F_WATCHERS, 0); }
-		public TerminalNode F_WORK_RATIO() { return getToken(CqlParser.F_WORK_RATIO, 0); }
+		public TerminalNode F_AFFECTED_VERSION() { return getToken(cqlParser.F_AFFECTED_VERSION, 0); }
+		public TerminalNode F_APPROVALS() { return getToken(cqlParser.F_APPROVALS, 0); }
+		public TerminalNode F_ASSIGNEE() { return getToken(cqlParser.F_ASSIGNEE, 0); }
+		public TerminalNode F_ATTACHMENTS() { return getToken(cqlParser.F_ATTACHMENTS, 0); }
+		public TerminalNode F_CATEGORY() { return getToken(cqlParser.F_CATEGORY, 0); }
+		public TerminalNode F_COMMENT() { return getToken(cqlParser.F_COMMENT, 0); }
+		public TerminalNode F_COMPONENT() { return getToken(cqlParser.F_COMPONENT, 0); }
+		public TerminalNode F_CREATED() { return getToken(cqlParser.F_CREATED, 0); }
+		public TerminalNode F_CREATED_DATE() { return getToken(cqlParser.F_CREATED_DATE, 0); }
+		public TerminalNode F_CREATOR() { return getToken(cqlParser.F_CREATOR, 0); }
+		public TerminalNode F_CUSTOM_FIELD() { return getToken(cqlParser.F_CUSTOM_FIELD, 0); }
+		public TerminalNode F_CUSTOMER_REQUEST_TYPE() { return getToken(cqlParser.F_CUSTOMER_REQUEST_TYPE, 0); }
+		public TerminalNode F_DATE() { return getToken(cqlParser.F_DATE, 0); }
+		public TerminalNode F_DESCRIPTION() { return getToken(cqlParser.F_DESCRIPTION, 0); }
+		public TerminalNode F_DUE() { return getToken(cqlParser.F_DUE, 0); }
+		public TerminalNode F_DURATION() { return getToken(cqlParser.F_DURATION, 0); }
+		public TerminalNode F_ENVIRONMENT() { return getToken(cqlParser.F_ENVIRONMENT, 0); }
+		public TerminalNode F_EPIC_LINK() { return getToken(cqlParser.F_EPIC_LINK, 0); }
+		public TerminalNode F_FILTER() { return getToken(cqlParser.F_FILTER, 0); }
+		public TerminalNode F_FIX_VERSION() { return getToken(cqlParser.F_FIX_VERSION, 0); }
+		public TerminalNode F_ISSUE() { return getToken(cqlParser.F_ISSUE, 0); }
+		public TerminalNode F_ISSUE_KEY() { return getToken(cqlParser.F_ISSUE_KEY, 0); }
+		public TerminalNode F_ISSUE_TYPE() { return getToken(cqlParser.F_ISSUE_TYPE, 0); }
+		public TerminalNode F_KEY() { return getToken(cqlParser.F_KEY, 0); }
+		public TerminalNode F_LABEL() { return getToken(cqlParser.F_LABEL, 0); }
+		public TerminalNode F_LABELS() { return getToken(cqlParser.F_LABELS, 0); }
+		public TerminalNode F_LAST_VIEWED() { return getToken(cqlParser.F_LAST_VIEWED, 0); }
+		public TerminalNode F_LEVEL() { return getToken(cqlParser.F_LEVEL, 0); }
+		public TerminalNode F_NUMBER() { return getToken(cqlParser.F_NUMBER, 0); }
+		public TerminalNode F_ORGANIZATION() { return getToken(cqlParser.F_ORGANIZATION, 0); }
+		public TerminalNode F_ORIGINAL_ESTIMATE() { return getToken(cqlParser.F_ORIGINAL_ESTIMATE, 0); }
+		public TerminalNode F_PARENT() { return getToken(cqlParser.F_PARENT, 0); }
+		public TerminalNode F_PRIORITY() { return getToken(cqlParser.F_PRIORITY, 0); }
+		public TerminalNode F_PROJECT() { return getToken(cqlParser.F_PROJECT, 0); }
+		public TerminalNode F_RANK() { return getToken(cqlParser.F_RANK, 0); }
+		public TerminalNode F_REMAINING_ESTIMATE() { return getToken(cqlParser.F_REMAINING_ESTIMATE, 0); }
+		public TerminalNode F_REPORTER() { return getToken(cqlParser.F_REPORTER, 0); }
+		public TerminalNode F_REQUEST_CHANNEL_TYPE() { return getToken(cqlParser.F_REQUEST_CHANNEL_TYPE, 0); }
+		public TerminalNode F_REQUEST_LAST_ACTIVITY_TIME() { return getToken(cqlParser.F_REQUEST_LAST_ACTIVITY_TIME, 0); }
+		public TerminalNode F_RESOLUTION() { return getToken(cqlParser.F_RESOLUTION, 0); }
+		public TerminalNode F_RESOLUTION_DATE() { return getToken(cqlParser.F_RESOLUTION_DATE, 0); }
+		public TerminalNode F_RESOLVED() { return getToken(cqlParser.F_RESOLVED, 0); }
+		public TerminalNode F_SLA() { return getToken(cqlParser.F_SLA, 0); }
+		public TerminalNode F_SPRINT() { return getToken(cqlParser.F_SPRINT, 0); }
+		public TerminalNode F_STATUS() { return getToken(cqlParser.F_STATUS, 0); }
+		public TerminalNode F_SUMMARY() { return getToken(cqlParser.F_SUMMARY, 0); }
+		public TerminalNode F_TEXT() { return getToken(cqlParser.F_TEXT, 0); }
+		public TerminalNode F_TIME_SPENT() { return getToken(cqlParser.F_TIME_SPENT, 0); }
+		public TerminalNode F_TYPE() { return getToken(cqlParser.F_TYPE, 0); }
+		public TerminalNode F_UPDATED() { return getToken(cqlParser.F_UPDATED, 0); }
+		public TerminalNode F_USER() { return getToken(cqlParser.F_USER, 0); }
+		public TerminalNode F_VERSION() { return getToken(cqlParser.F_VERSION, 0); }
+		public TerminalNode F_VOTER() { return getToken(cqlParser.F_VOTER, 0); }
+		public TerminalNode F_VOTES() { return getToken(cqlParser.F_VOTES, 0); }
+		public TerminalNode F_WATCHER() { return getToken(cqlParser.F_WATCHER, 0); }
+		public TerminalNode F_WATCHERS() { return getToken(cqlParser.F_WATCHERS, 0); }
+		public TerminalNode F_WORK_RATIO() { return getToken(cqlParser.F_WORK_RATIO, 0); }
 		public FieldContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_field; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterField(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterField(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitField(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitField(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitField(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitField(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1363,24 +1362,24 @@ public class CqlParser extends Parser {
 		public DatesContext dates() {
 			return getRuleContext(DatesContext.class,0);
 		}
-		public TerminalNode K_ON() { return getToken(CqlParser.K_ON, 0); }
-		public TerminalNode K_AFTER() { return getToken(CqlParser.K_AFTER, 0); }
-		public TerminalNode K_BEFORE() { return getToken(CqlParser.K_BEFORE, 0); }
+		public TerminalNode K_ON() { return getToken(cqlParser.K_ON, 0); }
+		public TerminalNode K_AFTER() { return getToken(cqlParser.K_AFTER, 0); }
+		public TerminalNode K_BEFORE() { return getToken(cqlParser.K_BEFORE, 0); }
 		public Compare_datesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_compare_dates; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterCompare_dates(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterCompare_dates(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitCompare_dates(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitCompare_dates(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitCompare_dates(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitCompare_dates(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1426,22 +1425,22 @@ public class CqlParser extends Parser {
 	}
 
 	public static class DatesContext extends ParserRuleContext {
-		public TerminalNode DATETIME() { return getToken(CqlParser.DATETIME, 0); }
+		public TerminalNode DATETIME() { return getToken(cqlParser.DATETIME, 0); }
 		public DatesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_dates; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).enterDates(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).enterDates(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CqlListener ) ((CqlListener)listener).exitDates(this);
+			if ( listener instanceof cqlListener ) ((cqlListener)listener).exitDates(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CqlVisitor) return ((CqlVisitor<? extends T>)visitor).visitDates(this);
+			if ( visitor instanceof cqlVisitor ) return ((cqlVisitor<? extends T>)visitor).visitDates(this);
 			else return visitor.visitChildren(this);
 		}
 	}
