@@ -35,14 +35,4 @@ public class License {
     public String getLicenseString() {
         return licenseString;
     }
-
-    @Override
-    public String toString() {
-        return "License{" +
-                "numberOfUser=" + numberOfUser +
-                ", licenseEdition='" + licenseEdition + '\'' +
-                ", licenseId='" + licenseId + '\'' +
-                ", isEvaluation=" + isEvaluation +
-                '}';
-    }
 }
