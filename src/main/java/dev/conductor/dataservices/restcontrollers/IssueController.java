@@ -197,7 +197,7 @@ public class IssueController {
     }
 
     @PostMapping("/labels")
-    public Label createNEwLabel(@RequestBody Label label){
+    public Label createNewLabel(@RequestBody Label label){
         return labelService.save(label);
     }
 

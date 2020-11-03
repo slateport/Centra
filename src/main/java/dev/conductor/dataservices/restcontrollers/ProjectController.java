@@ -25,7 +25,10 @@ public class ProjectController {
     public Project createProject (@RequestBody Project project) {
 
         if (projectService.findByKey(project.getProjectKey()) != null) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Project with key already exists");
+            throw new ResponseStatusException(
+                    HttpStatus.UNPROCESSABLE_ENTITY,
+                    "Project with key already exists"
+            );
         }
 
         return projectService.save(project);
