@@ -6,12 +6,14 @@ public class License {
     private final String licenseEdition;
     private final String licenseId;
     private final boolean isEvaluation;
+    private final String licenseString;
 
-    public License(int numberOfUser, String licenseEdition, String licenseId, boolean isEvaluation) {
+    public License(int numberOfUser, String licenseEdition, String licenseId, boolean isEvaluation, String licenseString) {
         this.numberOfUser = numberOfUser;
         this.licenseEdition = licenseEdition;
         this.licenseId = licenseId;
         this.isEvaluation = isEvaluation;
+        this.licenseString = licenseString;
     }
 
     public int getNumberOfUser() {
@@ -28,6 +30,10 @@ public class License {
 
     public boolean isEvaluation() {
         return isEvaluation;
+    }
+
+    public String getLicenseString() {
+        return licenseString;
     }
 
     @Override

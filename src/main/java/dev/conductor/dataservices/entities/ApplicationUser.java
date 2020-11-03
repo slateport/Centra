@@ -16,6 +16,15 @@ public class ApplicationUser implements Serializable {
     private Boolean admin;
     private Boolean enabled;
 
+    public ApplicationUser(String username, String emailAddress, String password, String displayName, Boolean admin, Boolean enabled) {
+        this.username = username;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.displayName = displayName;
+        this.admin = admin;
+        this.enabled = enabled;
+    }
+
     public String getId() {
         return id;
     }
