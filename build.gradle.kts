@@ -28,6 +28,8 @@ dependencies {
     implementation("org.antlr:antlr4-runtime:4.8")
     implementation("commons-codec:commons-codec:1.15")
     implementation("javax.xml.bind:jaxb-api:2.3.0")
+    implementation("com.github.cloudyrock.mongock:mongock-spring-v5:4.1.17")
+    implementation("com.github.cloudyrock.mongock:mongodb-springdata-v3-driver:4.1.17")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.3.5.RELEASE")
 }
 
