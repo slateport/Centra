@@ -4,8 +4,8 @@
 
 ### Requirements
 * MongoDB
-* Maven 3
+* Gradle 6.7
 
 ### Running the app
 * Ensure the applications.properties file has to correct fallback parameters for your database connection.
-* mvn spring-boot:run
+* ./gradlew bootRun
