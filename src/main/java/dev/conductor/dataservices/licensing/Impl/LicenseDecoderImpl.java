@@ -28,8 +28,8 @@ public class LicenseDecoderImpl implements LicenseDecoder {
                 Integer.parseInt(properties.get("NumberOfUsers").toString()),
                 properties.get("LicenseEdition").toString(),
                 properties.get("LicenseID").toString(),
-                Boolean.parseBoolean(properties.get("Evaluation").toString())
-        );
+                Boolean.parseBoolean(properties.get("Evaluation").toString()),
+                licenseString);
     }
 
 
