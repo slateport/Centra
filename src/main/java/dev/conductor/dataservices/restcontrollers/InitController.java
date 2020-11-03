@@ -1,6 +1,7 @@
 package dev.conductor.dataservices.restcontrollers;
 
 import dev.conductor.dataservices.config.SettingsEnum;
+import dev.conductor.dataservices.dto.InitDTO;
 import dev.conductor.dataservices.entities.Settings;
 import dev.conductor.dataservices.service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,30 +20,13 @@ public class InitController {
     private SettingsService settingsService;
 
     @GetMapping()
-    public HashMap<String, String> getInit() {
-        HashMap<String, String> initData = new HashMap<>();
-
-        initData.put(
-                SettingsEnum.INSTALLATION_COMPLETE.toString(),
-                getSettingsValue(SettingsEnum.INSTALLATION_COMPLETE)
-        );
-
-        initData.put(
-                SettingsEnum.INSTANCE_NAME.toString(),
+    public InitDTO getInit() {
+        return new InitDTO(
+                Boolean.valueOf(getSettingsValue(SettingsEnum.ALLOW_REGISTRATION)),
+                Boolean.valueOf(getSettingsValue(SettingsEnum.PRIVATE_INSTANCE)),
+                Boolean.valueOf(getSettingsValue(SettingsEnum.INSTALLATION_COMPLETE)),
                 getSettingsValue(SettingsEnum.INSTANCE_NAME)
         );
-
-        initData.put(
-                SettingsEnum.ALLOW_REGISTRATION.toString(),
-                getSettingsValue(SettingsEnum.ALLOW_REGISTRATION)
-        );
-
-        initData.put(
-                SettingsEnum.PRIVATE_INSTANCE.toString(),
-                getSettingsValue(SettingsEnum.PRIVATE_INSTANCE)
-        );
-
-        return initData;
     }
 
     private String getSettingsValue(SettingsEnum settings) {
