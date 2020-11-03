@@ -6,6 +6,7 @@ plugins {
     java
     `maven-publish`
     id("org.springframework.boot") version "2.3.5.RELEASE"
+    id("io.spring.dependency-management") version "1.0.10.RELEASE"
 }
 
 repositories {
@@ -30,7 +31,14 @@ dependencies {
     implementation("javax.xml.bind:jaxb-api:2.3.0")
     implementation("com.github.cloudyrock.mongock:mongock-spring-v5:4.1.17")
     implementation("com.github.cloudyrock.mongock:mongodb-springdata-v3-driver:4.1.17")
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
+    implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation ("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.3.5.RELEASE")
+}
+
+springBoot {
+    mainClassName = "dev.conductor.dataservices.DataServicesApplication"
 }
 
 group = "dev.conductor"
