@@ -17,7 +17,7 @@ public class SettingsServiceImpl implements SettingsService {
 
     @Override
     public Settings getSettingsByName(SettingsEnum name) {
-        return settingsRepository.findOneByKey(name.toString());
+        return settingsRepository.findOneByKey(name.name());
     }
 
     @Override
@@ -30,5 +30,10 @@ public class SettingsServiceImpl implements SettingsService {
         DefualtSettingsEnum defaultSettings = DefualtSettingsEnum.valueOf(name.name());
 
         return new Settings(name.name(), defaultSettings.toString());
+    }
+
+    @Override
+    public Settings save(Settings settings) {
+        return settingsRepository.save(settings);
     }
 }

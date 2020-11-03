@@ -23,6 +23,11 @@ public class InitController {
         HashMap<String, String> initData = new HashMap<>();
 
         initData.put(
+                SettingsEnum.INSTALLATION_COMPLETE.toString(),
+                getSettingsValue(SettingsEnum.INSTALLATION_COMPLETE)
+        );
+
+        initData.put(
                 SettingsEnum.INSTANCE_NAME.toString(),
                 getSettingsValue(SettingsEnum.INSTANCE_NAME)
         );
