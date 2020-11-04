@@ -3,6 +3,8 @@ import com.moowork.gradle.node.npm.NpmTask;
 plugins {
     java
     `maven-publish`
+    idea
+    application
     id("org.springframework.boot") version "2.3.5.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
     id("com.github.node-gradle.node") version "2.2.2"
@@ -13,6 +15,7 @@ repositories {
     maven {
         url = uri("https://repo.maven.apache.org/maven2/")
     }
+    jcenter()
 }
 
 dependencies {
