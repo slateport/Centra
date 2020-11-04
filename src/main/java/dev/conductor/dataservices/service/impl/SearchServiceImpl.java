@@ -4,9 +4,11 @@ import dev.conductor.dataservices.cql.AndCondition;
 import dev.conductor.dataservices.cql.Condition;
 import dev.conductor.dataservices.cql.CqlQuery;
 import dev.conductor.dataservices.cql.Operator;
+import dev.conductor.dataservices.entities.ApplicationUser;
 import dev.conductor.dataservices.entities.Issue;
 import dev.conductor.dataservices.entities.Project;
 import dev.conductor.dataservices.repository.IssueRepository;
+import dev.conductor.dataservices.service.ApplicationUserService;
 import dev.conductor.dataservices.service.ProjectService;
 import dev.conductor.dataservices.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     ProjectService projectService;
+
+    @Autowired
+    ApplicationUserService applicationUserService;
 
     @Override
     public List<Issue> search(CqlQuery cqlQuery) {
@@ -68,6 +73,14 @@ public class SearchServiceImpl implements SearchService {
 
             case "status":
                 return new AndCondition("workflowState.label", Operator.EQUALS, condition.getLhs());
+
+            case "assignee":
+                ApplicationUser user = applicationUserService.findByUsername(condition.getLhs());
+                if (condition.getLhs().equals("Unassigned") || user == null){
+                    return new AndCondition("assigneeId", Operator.EQUALS, null);
+                } else {
+                    return new AndCondition("assigneeId", Operator.EQUALS, user.getId());
+                }
 
             default:
                 return condition;

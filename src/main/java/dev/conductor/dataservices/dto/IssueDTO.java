@@ -18,6 +18,7 @@ public class IssueDTO {
     private final WorkflowState workflowState;
     private final String workflowId;
     private final String createdByUserId;
+    private final String assigneeId;
     private final String lastModifiedByUserId;
     private final IssuePriority issuePriority;
     private final List<Label> labels;
@@ -34,6 +35,7 @@ public class IssueDTO {
             WorkflowState workflowState,
             String workflowId,
             String createdByUserId,
+            String assigneeId,
             String lastModifiedByUserId,
             IssuePriority issuePriority,
             List<Label> labels
@@ -49,6 +51,7 @@ public class IssueDTO {
         this.workflowState = workflowState;
         this.workflowId = workflowId;
         this.createdByUserId = createdByUserId;
+        this.assigneeId = assigneeId;
         this.lastModifiedByUserId = lastModifiedByUserId;
         this.issuePriority = issuePriority;
         this.labels = labels;
@@ -67,6 +70,7 @@ public class IssueDTO {
             issue.getWorkflowState(),
             issue.getWorkflowId(),
             issue.getCreatedByUserId(),
+            issue.getAssigneeId(),
             issue.getLastModifiedByUserId(),
             issue.getIssuePriority(),
             issue.getLabels()
@@ -115,6 +119,10 @@ public class IssueDTO {
 
     public String getCreatedByUserId() {
         return createdByUserId;
+    }
+
+    public String getAssigneeId() {
+        return assigneeId;
     }
 
     public String getLastModifiedByUserId() {

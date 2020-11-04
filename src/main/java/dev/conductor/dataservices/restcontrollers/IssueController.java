@@ -72,7 +72,6 @@ public class IssueController {
         ApplicationUser user = applicationUserService.findByUsername(principal.getName());
 
         try {
-
             Issue entity = new Issue(
                 issueService.getNextExternalIdByProject(project.getId()),
                 issue.getTitle(),
@@ -83,6 +82,7 @@ public class IssueController {
                 workflowService.getInitialState(workflow.get()),
                 issue.getWorkflowId(),
                 user.getId(),
+                issue.getAssigneeId(),
                 user.getId(),
                 (issue.getIssuePriority() != null ? issue.getIssuePriority() : Issue.DEFAULT_PRIORITY),
                 (issue.getLabels() != null) ? issue.getLabels() : new ArrayList<>()
@@ -173,6 +173,7 @@ public class IssueController {
                 newState,
                 issue.getWorkflowId(),
                 issue.getCreatedByUserId(),
+                issue.getAssigneeId(),
                 user.getId(),
                 issue.getIssuePriority(),
                 issue.getLabels()
