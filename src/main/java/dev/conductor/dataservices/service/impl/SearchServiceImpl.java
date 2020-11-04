@@ -23,16 +23,13 @@ import java.util.List;
 public class SearchServiceImpl implements SearchService {
 
     @Autowired
-    IssueRepository issueRepository;
-
-    @Autowired
     private MongoOperations mongoOps;
 
     @Autowired
-    ProjectService projectService;
+    private ProjectService projectService;
 
     @Autowired
-    ApplicationUserService applicationUserService;
+    private ApplicationUserService applicationUserService;
 
     @Override
     public List<Issue> search(CqlQuery cqlQuery) {
