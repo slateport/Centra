@@ -24,6 +24,7 @@ public class Issue {
     private final String workflowId;
     private final WorkflowState workflowState;
     private final String createdByUserId;
+    private final String assigneeId;
     private final String lastModifiedByUserId;
     private IssuePriority issuePriority = DEFAULT_PRIORITY;
     private final List<Label> labels;
@@ -38,6 +39,7 @@ public class Issue {
             WorkflowState workflowState,
             String workflowId,
             String createdByUserId,
+            String assigneeId,
             String lastModifiedByUserId,
             IssuePriority issuePriority,
             List<Label> labels
@@ -51,6 +53,7 @@ public class Issue {
         this.workflowState = workflowState;
         this.workflowId = workflowId;
         this.createdByUserId = createdByUserId;
+        this.assigneeId = assigneeId;
         this.lastModifiedByUserId = lastModifiedByUserId;
         this.issuePriority = issuePriority;
         this.labels = labels;
@@ -68,6 +71,7 @@ public class Issue {
             WorkflowState workflowState,
             String workflowId,
             String createdByUserId,
+            String assigneeId,
             String lastModifiedByUserId,
             IssuePriority issuePriority,
             List<Label> labels
@@ -82,6 +86,7 @@ public class Issue {
         this.workflowState = workflowState;
         this.workflowId = workflowId;
         this.createdByUserId = createdByUserId;
+        this.assigneeId = assigneeId;
         this.lastModifiedByUserId = lastModifiedByUserId;
         this.issuePriority = issuePriority;
         this.labels = labels;
@@ -89,7 +94,6 @@ public class Issue {
 
     public static Issue fromIssueDto(IssueDTO issueDTO) {
         return new Issue(
-            issueDTO.getId(),
             issueDTO.getExternalId(),
             issueDTO.getTitle(),
             issueDTO.getDescription(),
@@ -99,6 +103,7 @@ public class Issue {
             issueDTO.getWorkflowState(),
             issueDTO.getWorkflowId(),
             issueDTO.getLastModifiedByUserId(),
+            issueDTO.getAssigneeId(),
             issueDTO.getCreatedByUserId(),
             issueDTO.getIssuePriority(),
             issueDTO.getLabels()
@@ -145,6 +150,10 @@ public class Issue {
         return createdByUserId;
     }
 
+    public String getAssigneeId() {
+        return assigneeId;
+    }
+
     public String getLastModifiedByUserId() {
         return lastModifiedByUserId;
     }
@@ -156,4 +165,6 @@ public class Issue {
     public List<Label> getLabels() {
         return labels;
     }
+
+
 }
