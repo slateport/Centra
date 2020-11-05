@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 
 @RestController
-@RequestMapping("/init")
+@RequestMapping("/api/init")
 public class InitController {
 
     @Autowired
