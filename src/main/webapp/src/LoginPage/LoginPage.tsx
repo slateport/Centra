@@ -1,8 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import { Helmet } from 'react-helmet';
 import { userActions } from '../actions';
+import { Link } from 'react-router-dom'
+import styled from "styled-components";
+import AuthLayout from "../layouts/Auth";
+
+import {
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    Input,
+    InputLabel,
+    Button as MuiButton,
+    Paper,
+    Typography
+} from "@material-ui/core";
+import { spacing } from "@material-ui/system";
+import { MuiButtonSpacingType } from "../types/types";
+
+const Button = styled(MuiButton)<MuiButtonSpacingType>(spacing);
+
+const Wrapper = styled(Paper)`
+  padding: ${props => props.theme.spacing(6)}px;
+
+  ${props => props.theme.breakpoints.up("md")} {
+    padding: ${props => props.theme.spacing(10)}px;
+  }
+`;
 
 class LoginPage extends React.Component<any, any> {
     constructor(props) {
@@ -38,34 +63,63 @@ class LoginPage extends React.Component<any, any> {
     }
 
     render() {
-        const { loggingIn } = this.props;
         const { username, password, submitted } = this.state;
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Login</h2>
-                <form name="form" onSubmit={this.handleSubmit}>
-                    <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange} />
-                        {submitted && !username &&
-                            <div className="help-block">Username is required</div>
-                        }
-                    </div>
-                    <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={password} onChange={this.handleChange} />
-                        {submitted && !password &&
-                            <div className="help-block">Password is required</div>
-                        }
-                    </div>
-                    <div className="form-group">
-                        <button className="btn btn-primary">Login</button>
-                        {loggingIn &&
-                            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                        }
-                    </div>
-                </form>
-            </div>
+            <AuthLayout>
+            <Wrapper>
+                <Helmet title="Sign In" />
+                <div>
+                    <Typography component="h2" variant="h4" align="center" gutterBottom>
+                        Sign in to your account to continue
+                    </Typography>
+                    <form>
+                        <FormControl margin="normal" required fullWidth onSubmit={this.handleSubmit}>
+                            <InputLabel htmlFor="username">Username</InputLabel>
+                            <Input
+                                id="username"
+                                name="username"
+                                autoComplete="username"
+                                autoFocus
+                                value={username}
+                                onChange={this.handleChange}
+                            />
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <Input
+                                name="password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                value={password}
+                                onChange={this.handleChange}
+                            />
+                        </FormControl>
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" />}
+                            label="Remember me"
+                        />
+                        <Button
+                            component={Button}
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleSubmit}
+                        >
+                            Sign in
+                        </Button>
+                        <Button
+                            component={Link}
+                            to="/auth/reset-password"
+                            fullWidth
+                            color="primary"
+                        >
+                            Forgot password
+                        </Button>
+                    </form>
+                </div>
+            </Wrapper>
+            </AuthLayout>
         );
     }
 }
