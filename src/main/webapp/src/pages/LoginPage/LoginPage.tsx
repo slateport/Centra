@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { userActions } from '../actions';
+import { userActions } from '../../actions';
 import { Link } from 'react-router-dom'
 import styled from "styled-components";
-import AuthLayout from "../layouts/Auth";
+import AuthLayout from "../../layouts/Auth";
 
 import {
     Checkbox,
@@ -17,7 +17,8 @@ import {
     Typography
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
-import { MuiButtonSpacingType } from "../types/types";
+import { MuiButtonSpacingType } from "../../types/types";
+import {authentication} from "../../reducers/authentication";
 
 const Button = styled(MuiButton)<MuiButtonSpacingType>(spacing);
 
@@ -63,7 +64,17 @@ class LoginPage extends React.Component<any, any> {
     }
 
     render() {
-        const { username, password, submitted } = this.state;
+        const { username, password} = this.state;
+        const createNewAccountBtn = this.props.init.instancePrivate ? "" :
+            <Button
+                component={Link}
+                to="/auth/create-account"
+                fullWidth
+                color="primary"
+            >
+                Create account
+        </Button>
+
         return (
             <AuthLayout>
             <Wrapper>
@@ -116,6 +127,7 @@ class LoginPage extends React.Component<any, any> {
                         >
                             Forgot password
                         </Button>
+                        {createNewAccountBtn}
                     </form>
                 </div>
             </Wrapper>
@@ -125,9 +137,11 @@ class LoginPage extends React.Component<any, any> {
 }
 
 function mapStateToProps(state) {
-    const { loggingIn } = state.authentication;
+    const { authentication , init } = state;
+    const loggingIn = authentication.loggingIn;
     return {
-        loggingIn
+        loggingIn,
+        init
     };
 }
 
