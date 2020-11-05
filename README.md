@@ -9,4 +9,4 @@
 ### Running the app
 * Ensure the applications.properties file has to correct fallback parameters for your database connection.
 * ./gradlew bootRun
-* SwaggerUI available at http://localhost:8080/swagger-ui/#/issue-controller
+* SwaggerUI available at http://localhost:8080/swagger-ui/ (if env var SWAGGER_ENABLED=true)
