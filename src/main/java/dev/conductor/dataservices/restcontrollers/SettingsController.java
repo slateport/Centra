@@ -16,7 +16,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("/settings")
+@RequestMapping("/api/settings")
 public class SettingsController extends BaseController {
 
     @Autowired

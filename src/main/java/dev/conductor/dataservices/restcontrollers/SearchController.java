@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/api/search")
 public class SearchController {
 
     @Autowired

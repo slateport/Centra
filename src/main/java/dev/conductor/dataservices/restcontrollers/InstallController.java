@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/install")
+@RequestMapping("/api/install")
 public class InstallController {
 
     @Autowired
