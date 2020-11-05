@@ -1,0 +1,5 @@
+export const initConstants = {
+    INIT_REQUEST: 'INIT_REQUEST',
+    INIT_SUCCESS: 'INIT_SUCCESS',
+    INIT_FAILURE: 'INIT_FAILURE',
+};
