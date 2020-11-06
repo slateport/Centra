@@ -2,16 +2,16 @@ package dev.conductor.dataservices.dto;
 
 public class InstallationDTO {
 
-    private String initialAdminUsername;
-    private String initialAdminPassword;
+    private String username;
+    private String password;
     private String licenseKey;
 
-    public String getInitialAdminUsername() {
-        return initialAdminUsername;
+    public String getUsername() {
+        return username;
     }
 
-    public String getInitialAdminPassword() {
-        return initialAdminPassword;
+    public String getPassword() {
+        return password;
     }
 
     public String getLicenseKey() {

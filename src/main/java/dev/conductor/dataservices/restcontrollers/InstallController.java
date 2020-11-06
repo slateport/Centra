@@ -45,10 +45,10 @@ public class InstallController {
         }
 
         userService.createUser(new ApplicationUser(
-                installationDTO.getInitialAdminUsername(),
+                installationDTO.getUsername(),
                 "",
-                installationDTO.getInitialAdminPassword(),
-                installationDTO.getInitialAdminUsername(),
+                installationDTO.getPassword(),
+                installationDTO.getUsername(),
                 true,
                 true
         ));
