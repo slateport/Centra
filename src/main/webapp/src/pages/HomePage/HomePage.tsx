@@ -10,7 +10,6 @@ class HomePage extends React.Component<any, any> {
         return (
                 <React.Fragment>
                     <Helmet title="Dashboard" />
-                    <PrimarySearchAppBar />
                     <h1>Hi !</h1>
                     <p>
                         <Link to="/login">Logout</Link>

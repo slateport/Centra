@@ -1,20 +1,20 @@
-import { blue, green, grey } from "@material-ui/core/colors";
+import { blue, green, grey } from '@material-ui/core/colors'
 
 const darkVariant = {
-  name: "Dark",
+  name: 'Dark',
   palette: {
     primary: {
       main: blue[700],
-      contrastText: "#FFF"
+      contrastText: '#FFF'
     },
     secondary: {
       main: blue[500],
-      contrastText: "#FFF"
+      contrastText: '#FFF'
     }
   },
   header: {
     color: grey[500],
-    background: "#FFFFFF",
+    background: '#FFFFFF',
     search: {
       color: grey[800]
     },
@@ -24,17 +24,17 @@ const darkVariant = {
   },
   sidebar: {
     color: grey[200],
-    background: "#1B2430",
+    background: '#1B2430',
     header: {
       color: grey[200],
-      background: "#232f3e",
+      background: '#232f3e',
       brand: {
         color: blue[500]
       }
     },
     footer: {
       color: grey[200],
-      background: "#232f3e",
+      background: '#232f3e',
       online: {
         background: green[500]
       }
@@ -43,21 +43,20 @@ const darkVariant = {
       fontWeight: 400
     },
     badge: {
-      color: "#FFF",
+      color: '#FFF',
       background: blue[500]
     }
   },
   body: {
-    background: "#F7F9FC"
+    background: '#F7F9FC'
   }
-};
+}
 
 const variants: Array<VariantType> = [
-  darkVariant,
-];
+  darkVariant
+]
 
-export default variants;
-
+export default variants
 
 export type VariantType = {
   name: string

@@ -118,13 +118,16 @@ public class IssueController {
     }
 
     @PostMapping(value = "/{id}/comments")
-    public IssueComment addCommentByExternalId(@RequestBody IssueCommentDTO commentDto, @PathVariable String id) {
+    public IssueComment addCommentByExternalId(@RequestBody IssueCommentDTO commentDto, @PathVariable String id, Principal principal) {
         Issue issue = getIssueByExternalId(id);
+
+        ApplicationUser user = applicationUserService.findByUsername(principal.getName());
 
         IssueComment comment = new IssueComment(
                 issue.getId(),
                 commentDto.getText(),
-                new Date()
+                new Date(),
+                user.getId()
         );
 
         issueCommentService.save(comment);

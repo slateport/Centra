@@ -1,8 +1,8 @@
 export const init = {
-    getInit,
-};
+  getInit
+}
 
-function getInit() {
-    return fetch(`/api/init`)
-    .then(initData => initData.json());
+function getInit () {
+  return fetch('/api/init')
+    .then(initData => initData.json())
 }

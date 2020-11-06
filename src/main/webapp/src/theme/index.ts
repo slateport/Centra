@@ -1,12 +1,11 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme } from '@material-ui/core/styles'
 
-import variants from "./variants";
-import typography from "./typography";
-import overrides from "./overrides";
-import breakpoints from "./breakpoints";
-import props from "./props";
-import shadows from "./shadows";
-import { VariantType } from "./variants";
+import variants, { VariantType } from './variants'
+import typography from './typography'
+import overrides from './overrides'
+import breakpoints from './breakpoints'
+import props from './props'
+import shadows from './shadows'
 
 const theme = (variant: VariantType) => {
   return createMuiTheme(
@@ -17,7 +16,7 @@ const theme = (variant: VariantType) => {
       props: props,
       typography: typography,
       shadows: shadows,
-      palette: variant.palette,
+      palette: variant.palette
     },
     {
       name: variant.name,
@@ -25,9 +24,9 @@ const theme = (variant: VariantType) => {
       header: variant.header,
       sidebar: variant.sidebar
     }
-  );
-};
+  )
+}
 
-const themes = variants.map(variant => theme(variant));
+const themes = variants.map(variant => theme(variant))
 
-export default themes;
+export default themes

@@ -1,9 +1,11 @@
-import { combineReducers } from 'redux';
-import { authentication } from './authentication';
-import { users } from './users';
-import { alert } from './alert';
-import { init } from './init';
-import { install } from './install';
+import { combineReducers } from 'redux'
+import { authentication } from './authentication'
+import { users } from './users'
+import { alert } from './alert'
+import { init } from './init'
+import { install } from './install'
+import { issue } from './issue'
+import { project } from './project'
 
 const rootReducer = combineReducers({
   authentication,
@@ -11,6 +13,8 @@ const rootReducer = combineReducers({
   alert,
   init,
   install,
-});
+  issue,
+  project
+})
 
-export default rootReducer;
+export default rootReducer
