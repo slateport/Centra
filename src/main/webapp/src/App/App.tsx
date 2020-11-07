@@ -18,6 +18,7 @@ import { alertActions, initActions } from '../actions'
 import theme from '../theme'
 import { InstallationPage } from '../pages/InstallationPage'
 import { ViewIssuePage } from '../pages/ViewIssuePage'
+import { SearchPage } from '../pages/SearchPage'
 import { ApplicationLayout } from "../layouts/ApplicationLayout";
 
 const Alert = styled(MuiAlert)(spacing)
@@ -33,7 +34,6 @@ class App extends React.Component<any, any> {
     dispatch(initActions.loadInit())
 
     history.listen((location, action) => {
-      // clear alert on location change
       dispatch(alertActions.clear())
     })
   }
@@ -75,6 +75,7 @@ class App extends React.Component<any, any> {
                                             <Route path="/login" component={LoginPage} />
                                             <Route path="/install" component={InstallationPage} />
                                             <Routing path="/browse/:externalId" component={ViewIssuePage} />
+                                            <Routing path="/search" component={SearchPage} />
                                             <Routing path="/" exact component={HomePage} />
                                             <Route component={NoMatch} />
                                         </Switch>
