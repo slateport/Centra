@@ -22,6 +22,7 @@ import Field from '../../components/StandardTextField'
 import RedactorField from "../../components/RedactorField"
 import { DropzoneArea } from 'material-ui-dropzone'
 import { RoundTimeAgo } from '../../components/RoundTimeAgo'
+import StatusChip from "./components/StatusChip";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
@@ -57,6 +58,15 @@ class ViewIssuePage extends React.Component<any, any> {
         this.props.dispatch(issueActions.updateIssue(params.externalId, issue))
     }
 
+    onSaveDescription = (e) => {
+        const { match: { params } } = this.props;
+        const description = e.children;
+        const issue = this.props.issue;
+        issue.description = description;
+
+        this.props.dispatch(issueActions.updateIssue(params.externalId, issue))
+    }
+
     loadState(){
         const { match: { params } } = this.props;
         this.props.dispatch(issueActions.getIssue(params.externalId))
@@ -67,7 +77,7 @@ class ViewIssuePage extends React.Component<any, any> {
     }
 
     render() {
-        if (!this.props.issue){
+        if (Object.keys(this.props.issue).length === 0 || !this.props.issue){
             return (
                 <React.Fragment>
                     <Typography component="h2" variant="h1" align="center" gutterBottom>
@@ -109,11 +119,19 @@ class ViewIssuePage extends React.Component<any, any> {
                         <Grid item xs={3}>
                             Feature Request
                         </Grid>
+                        <Grid item xs={3}>Status</Grid>
                         <Grid item xs={3}>
-                            Priority
+                            { issue.workflowState &&
+                            <StatusChip issue={issue} />
+                            }
+                        </Grid>
+                        <Grid item xs={3}>Priority</Grid>
+                        <Grid item xs={3}><Typography>{issue.issuePriority}</Typography></Grid>
+                        <Grid item xs={3}>
+                            Resolution
                         </Grid>
                         <Grid item xs={3}>
-                            <Typography>{issue.issuePriority}</Typography>
+                            <Typography>Unresolved</Typography>
                         </Grid>
                     </Grid>
                     <Grid container xs={1} />
@@ -133,12 +151,13 @@ class ViewIssuePage extends React.Component<any, any> {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <Divider my={8} />
                     <Grid container xs={8}>
                         <Typography variant="h6">
                             Description
                         </Typography>
                         <Grid item xs={12}>
-                            <EditableContainer Component={RedactorField}>
+                            <EditableContainer Component={RedactorField} handlefn={this.onSaveDescription}>
                                 {issue.description}
                             </EditableContainer>
                         </Grid>
