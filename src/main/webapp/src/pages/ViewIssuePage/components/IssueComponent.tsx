@@ -16,7 +16,7 @@ import PeopleField from "./PeopleField";
 import RedactorField from "../../../components/RedactorField";
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
 import {DropzoneArea} from "material-ui-dropzone";
-import IssueComment from "./IssuesComponent";
+import IssueComment from "./CommentsComponent";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";

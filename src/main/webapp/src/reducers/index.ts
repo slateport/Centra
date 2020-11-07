@@ -6,6 +6,7 @@ import { init } from './init'
 import { install } from './install'
 import { issue } from './issue'
 import { project } from './project'
+import { search } from './search'
 
 const rootReducer = combineReducers({
   authentication,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   init,
   install,
   issue,
-  project
+  project,
+  search
 })
 
 export default rootReducer
