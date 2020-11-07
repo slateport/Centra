@@ -94,6 +94,7 @@ public class Issue {
 
     public static Issue fromIssueDto(IssueDTO issueDTO) {
         return new Issue(
+            issueDTO.getId(),
             issueDTO.getExternalId(),
             issueDTO.getTitle(),
             issueDTO.getDescription(),

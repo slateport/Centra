@@ -2,7 +2,8 @@ import { authHeader } from '../helpers'
 
 export const issue = {
   getIssue,
-  getIssueComments
+  getIssueComments,
+  putIssue
 }
 
 function getIssue (externalId: string) {
@@ -21,4 +22,14 @@ function getIssueComments (externalId: string) {
   }
 
   return fetch(`/api/issues/${externalId}/comments`, requestOptions)
+}
+
+function putIssue(externalId: string, issueDto) {
+  const requestOptions = {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json', ...authHeader()},
+    body: JSON.stringify(issueDto)
+  }
+
+    return fetch(`/api/issues/${externalId}`, requestOptions)
 }

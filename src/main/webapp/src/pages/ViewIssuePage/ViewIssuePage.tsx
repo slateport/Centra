@@ -32,12 +32,26 @@ class ViewIssuePage extends React.Component<any, any> {
     constructor(props) {
         super(props);
 
+        this.loadState();
+    }
+
+    onSaveTitle = (e) => {
         const { match: { params } } = this.props;
-        props.dispatch(issueActions.getIssue(params.externalId))
-        .then(() => {
-            props.dispatch(projectActions.getProject(this.props.issue.projectId))
-            props.dispatch(issueActions.getIssueComments(params.externalId))
-        })
+        const title = e.children;
+        const issue = this.props.issue;
+        issue.title = title;
+        console.log(issue)
+
+        this.props.dispatch(issueActions.updateIssue(params.externalId, issue))
+    }
+
+    loadState(){
+        const { match: { params } } = this.props;
+        this.props.dispatch(issueActions.getIssue(params.externalId))
+            .then(() => {
+                this.props.dispatch(projectActions.getProject(this.props.issue.projectId))
+                this.props.dispatch(issueActions.getIssueComments(params.externalId))
+            })
     }
 
     render() {
@@ -51,17 +65,20 @@ class ViewIssuePage extends React.Component<any, any> {
             )
         }
 
+        const { issue, project } = this.props;
         return (
             <React.Fragment>
-                <Helmet title={this.props.issue.title} />
+                <Helmet title={issue.title} />
                 <Typography variant="h3" gutterBottom display="inline">
-                    {this.props.issue.title}
+                    <EditableContainer handleFn={this.onSaveTitle}>
+                        {issue.title}
+                    </EditableContainer>
                 </Typography>
                 <Breadcrumbs aria-label="Breadcrumb" mt={2}>
                     <Link component={NavLink} exact to="/">
-                        {this.props.project.projectName}
+                        {project.projectName}
                     </Link>
-                    <Typography>{this.props.issue.title}</Typography>
+                    <Typography>{issue.title}</Typography>
                 </Breadcrumbs>
                 <Divider my={8} />
                 <Card mb={6}>
@@ -82,7 +99,7 @@ class ViewIssuePage extends React.Component<any, any> {
                             Priority
                         </Grid>
                         <Grid item xs={3}>
-                            <Typography>{this.props.issue.issuePriority}</Typography>
+                            <Typography>{issue.issuePriority}</Typography>
                         </Grid>
                     </Grid>
                     <Grid container xs={1} />
@@ -92,13 +109,13 @@ class ViewIssuePage extends React.Component<any, any> {
                                Assignee:
                             </Grid>
                             <Grid item xs={6}>
-                                <PeopleField userId={this.props.issue.assignee} />
+                                <PeopleField userId={issue.assignee} />
                             </Grid>
                             <Grid item xs={6}>
                                 Reporter"
                             </Grid>
                             <Grid item xs={6}>
-                                <PeopleField userId={this.props.issue.createdByUserId} />
+                                <PeopleField userId={issue.createdByUserId} />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -111,7 +128,7 @@ class ViewIssuePage extends React.Component<any, any> {
                             Description
                         </Typography>
                         <EditableContainer>
-                            {this.props.issue.description}
+                            {issue.description}
                         </EditableContainer>
                     </CardContent>
                 </Card>

@@ -36,6 +36,7 @@ export default class EditableContainer extends React.Component<any, any> {
                 // turn on edit mode
                 this.setState({
                     edit: true,
+                    children: this.props.children
                 })
             }
 
@@ -47,10 +48,18 @@ export default class EditableContainer extends React.Component<any, any> {
     handleBlur (e) {
         // handle saving here
 
+        const { handleFn } = this.props;
+        handleFn(this.state);
         // close edit mode
         this.setState({
-            edit: false,
+            edit: false
         })
+    }
+
+    handleOnChange = (event, value) => {
+
+
+        this.setState({children: event.target.value})
     }
 
     render () {
@@ -63,6 +72,8 @@ export default class EditableContainer extends React.Component<any, any> {
                 <Field
                     autoFocus
                     onBlur={this.handleBlur.bind(this)}
+                    value={this.state.children}
+                    onChange={this.handleOnChange}
                 />
             )
         } else {

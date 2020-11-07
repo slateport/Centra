@@ -1,4 +1,5 @@
 import React from 'react'
+import { TextField } from "@material-ui/core"
 
 export default class FieldStyle extends React.Component<any, any> {
     private ref;
@@ -17,7 +18,7 @@ export default class FieldStyle extends React.Component<any, any> {
         // auto focus
         const ref = autoFocus ? (ref) => { this.ref = ref } : null
         return (
-            <input
+            <TextField
                 ref={ref}
                 type="text"
                 {...rest}
