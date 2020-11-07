@@ -108,7 +108,7 @@ function PrimarySearchAppBar () {
 
   const handleMenuClose = () => {
     setAnchorEl(null)
-    handleMobileMenuClose()
+    this.props.history.push('/login')
   }
 
   const handleMobileMenuOpen = (event) => {
@@ -130,7 +130,7 @@ function PrimarySearchAppBar () {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
         </Menu>
   )
 

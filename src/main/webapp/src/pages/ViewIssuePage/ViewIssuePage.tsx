@@ -10,7 +10,7 @@ import {
     Card as MuiCard,
     CardContent
 } from "@material-ui/core";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { spacing } from "@material-ui/system";
 import { NavLink as RouterNavLink, LinkProps} from "react-router-dom";
 import {Helmet} from "react-helmet";
@@ -19,13 +19,23 @@ import IssueComment from "./components/IssuesComponent";
 import PeopleField from "./components/PeopleField";
 import EditableContainer from "../../components/EditableContainer";
 import Field from '../../components/StandardTextField'
-import RedactorField from "../../components/RedactorField";
+import RedactorField from "../../components/RedactorField"
+import { DropzoneArea } from 'material-ui-dropzone'
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
     <RouterNavLink innerRef={ref} {...props} />
 ));
+const GlobalStyleDropzone = createGlobalStyle`
+  [class^="DropzoneArea-dropZone"] {
+    max-height: 100px;
+  }
+  
+  && .MuiDropzoneArea-root {
+    min-height: 100px;
+`
+
 
 const Card = styled(MuiCard)(spacing);
 const Divider = styled(MuiDivider)(spacing);
@@ -69,6 +79,7 @@ class ViewIssuePage extends React.Component<any, any> {
         const { issue, project } = this.props;
         return (
             <React.Fragment>
+                <GlobalStyleDropzone />
                 <Helmet title={issue.title} />
                 <Typography variant="h3" gutterBottom display="inline">
                     <EditableContainer handlefn={this.onSaveTitle} Component={Field}>
@@ -136,6 +147,14 @@ class ViewIssuePage extends React.Component<any, any> {
                 <Card mb={6}>
                     <CardContent>
                         <Typography variant="h6">
+                            Attachments
+                        </Typography>
+                        <DropzoneArea showFileNamesInPreview={true} showFileNames={true} />
+                    </CardContent>
+                </Card>
+                <Card mb={6}>
+                    <CardContent>
+                        <Typography variant="h6">
                             Comments
                         </Typography>
                         {this.props.issue.comments &&
@@ -144,6 +163,9 @@ class ViewIssuePage extends React.Component<any, any> {
                                 <IssueComment comment={comment}/>
                             )}
                         </ul>
+                        }
+                        {!this.props.issue.comments || this.props.issue.comments.length == 0 &&
+                        <React.Fragment>No comments have been made.</React.Fragment>
                         }
                     </CardContent>
                 </Card>
