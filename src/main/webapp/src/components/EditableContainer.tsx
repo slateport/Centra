@@ -1,5 +1,4 @@
-import React from 'react'
-import Field from './FieldStyle'
+import React, { Component } from 'react'
 
 export default class EditableContainer extends React.Component<any, any> {
     private count = 0;
@@ -8,32 +7,23 @@ export default class EditableContainer extends React.Component<any, any> {
     constructor (props) {
         super(props)
 
-        // init counter
         this.count = 0
 
-        // init state
         this.state = {
             edit: false,
         }
     }
 
     componentWillUnmount () {
-        // cancel click callback
         if (this.timeout) clearTimeout(this.timeout)
     }
 
     handleClick (e) {
-        // cancel previous callback
         if (this.timeout) clearTimeout(this.timeout)
-
-        // increment count
         this.count++
 
-        // schedule new callback  [timeBetweenClicks] ms after last click
         this.timeout = setTimeout(() => {
-            // listen for double clicks
             if (this.count === 2) {
-                // turn on edit mode
                 this.setState({
                     edit: true,
                     children: this.props.children
@@ -42,42 +32,43 @@ export default class EditableContainer extends React.Component<any, any> {
 
             // reset count
             this.count = 0
-        }, 250) // 250 ms
+        }, 250)
     }
 
-    handleBlur (e) {
-        // handle saving here
-
-        const { handleFn } = this.props;
-        handleFn(this.state);
-        // close edit mode
+    handleBlur () {
+        const { handlefn } = this.props;
+        handlefn(this.state);
         this.setState({
             edit: false
         })
     }
 
     handleOnChange = (event, value) => {
-
-
         this.setState({children: event.target.value})
     }
 
+    onKeyPress = (e) => {
+        e.persist();
+        if (e.key == 'Enter'){
+            this.handleBlur()
+        }
+    }
+
     render () {
-        const {children, ...rest} = this.props
+        const {children, Component, ...rest} = this.props
         const {edit} = this.state
 
         if (edit) {
-            // edit mode
             return (
-                <Field
+                <Component
                     autoFocus
                     onBlur={this.handleBlur.bind(this)}
                     value={this.state.children}
                     onChange={this.handleOnChange}
+                    onKeyPress={this.onKeyPress}
                 />
             )
         } else {
-            // view mode
             return (
                 <span
                     onClick={this.handleClick.bind(this)}

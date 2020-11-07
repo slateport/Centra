@@ -18,6 +18,8 @@ import {projectActions} from "../../actions/project";
 import IssueComment from "./components/IssuesComponent";
 import PeopleField from "./components/PeopleField";
 import EditableContainer from "../../components/EditableContainer";
+import Field from '../../components/StandardTextField'
+import RedactorField from "../../components/RedactorField";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
@@ -40,7 +42,6 @@ class ViewIssuePage extends React.Component<any, any> {
         const title = e.children;
         const issue = this.props.issue;
         issue.title = title;
-        console.log(issue)
 
         this.props.dispatch(issueActions.updateIssue(params.externalId, issue))
     }
@@ -70,7 +71,7 @@ class ViewIssuePage extends React.Component<any, any> {
             <React.Fragment>
                 <Helmet title={issue.title} />
                 <Typography variant="h3" gutterBottom display="inline">
-                    <EditableContainer handleFn={this.onSaveTitle}>
+                    <EditableContainer handlefn={this.onSaveTitle} Component={Field}>
                         {issue.title}
                     </EditableContainer>
                 </Typography>
@@ -112,7 +113,7 @@ class ViewIssuePage extends React.Component<any, any> {
                                 <PeopleField userId={issue.assignee} />
                             </Grid>
                             <Grid item xs={6}>
-                                Reporter"
+                                Reporter:
                             </Grid>
                             <Grid item xs={6}>
                                 <PeopleField userId={issue.createdByUserId} />
@@ -127,7 +128,7 @@ class ViewIssuePage extends React.Component<any, any> {
                         <Typography variant="h6">
                             Description
                         </Typography>
-                        <EditableContainer>
+                        <EditableContainer Component={RedactorField}>
                             {issue.description}
                         </EditableContainer>
                     </CardContent>

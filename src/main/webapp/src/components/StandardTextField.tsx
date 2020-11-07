@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField } from "@material-ui/core"
 
-export default class FieldStyle extends React.Component<any, any> {
+export default class StandardTextField extends React.Component<any, any> {
     private ref;
 
     constructor(props) {
@@ -20,6 +20,7 @@ export default class FieldStyle extends React.Component<any, any> {
         return (
             <TextField
                 ref={ref}
+                fullWidth
                 type="text"
                 {...rest}
             />
