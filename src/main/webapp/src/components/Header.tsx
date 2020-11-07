@@ -16,6 +16,9 @@ import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import styled from 'styled-components'
+import { ListItem, Box as MuiBox, } from '@material-ui/core'
+import { Layers } from "react-feather"
+import { spacing } from "@material-ui/system";
 
 const MuiAppBar = styled(AppBar)`
     && {
@@ -90,6 +93,33 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+const Box = styled(MuiBox)(spacing);
+
+const Brand = styled(ListItem)<{button?: boolean}>`
+  font-size: ${props => props.theme.typography.h5.fontSize};
+  font-weight: ${props => props.theme.typography.fontWeightMedium};
+  color: ${props => props.theme.sidebar.header.color};
+  background-color: ${props => props.theme.sidebar.header.background};
+  font-family: ${props => props.theme.typography.fontFamily};
+  min-height: 56px;
+  padding-left: ${props => props.theme.spacing(6)}px;
+  padding-right: ${props => props.theme.spacing(6)}px;
+  cursor: default;
+
+  ${props => props.theme.breakpoints.up("sm")} {
+    min-height: 64px;
+  }
+
+  &:hover {
+    background-color: ${props => props.theme.sidebar.header.background};
+  }
+`;
+
+const BrandIcon = styled(Layers)`
+  margin-right: ${props => props.theme.spacing(2)}px;
+  color: ${props => props.theme.sidebar.header.brand.color};
+`;
+
 function PrimarySearchAppBar () {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -108,7 +138,6 @@ function PrimarySearchAppBar () {
 
   const handleMenuClose = () => {
     setAnchorEl(null)
-    this.props.history.push('/login')
   }
 
   const handleMobileMenuOpen = (event) => {
@@ -188,7 +217,10 @@ function PrimarySearchAppBar () {
                         <MenuIcon />
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        {init.publicName}
+                        <Brand button>
+                            <BrandIcon /> <Box ml={1}>{init.publicName} </Box>
+                        </Brand>
+
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>

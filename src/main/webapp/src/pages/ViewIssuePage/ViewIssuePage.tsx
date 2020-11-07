@@ -21,6 +21,7 @@ import EditableContainer from "../../components/EditableContainer";
 import Field from '../../components/StandardTextField'
 import RedactorField from "../../components/RedactorField"
 import { DropzoneArea } from 'material-ui-dropzone'
+import { RoundTimeAgo } from '../../components/RoundTimeAgo'
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
@@ -77,6 +78,7 @@ class ViewIssuePage extends React.Component<any, any> {
         }
 
         const { issue, project } = this.props;
+
         return (
             <React.Fragment>
                 <GlobalStyleDropzone />
@@ -131,18 +133,42 @@ class ViewIssuePage extends React.Component<any, any> {
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-                </CardContent>
-                </Card>
-                <Card mb={6}>
-                    <CardContent>
+                    <Grid container xs={8}>
                         <Typography variant="h6">
                             Description
                         </Typography>
-                        <EditableContainer Component={RedactorField}>
-                            {issue.description}
-                        </EditableContainer>
-                    </CardContent>
+                        <Grid item xs={12}>
+                            <EditableContainer Component={RedactorField}>
+                                {issue.description}
+                            </EditableContainer>
+                        </Grid>
+                    </Grid>
+                    <Grid container xs={1} />
+                    <Grid container xs={3}>
+                        {issue.createdDate &&
+                        <React.Fragment>
+                            <Grid item xs={6}>
+                                Date created:
+                            </Grid>
+                            <Grid item xs={6}>
+                                <RoundTimeAgo date={new Date(issue.createdDate)} />
+                            </Grid>
+                        </React.Fragment>
+                        }
+
+                        {issue.lastModifiedDate &&
+                            <React.Fragment>
+                                <Grid item xs={6}>
+                                    Last modified:
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <RoundTimeAgo date={new Date(issue.lastModifiedDate)} />
+                                </Grid>
+                            </React.Fragment>
+                        }
+                    </Grid>
+                </Grid>
+                </CardContent>
                 </Card>
                 <Card mb={6}>
                     <CardContent>

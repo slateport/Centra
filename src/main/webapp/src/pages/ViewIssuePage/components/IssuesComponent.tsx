@@ -2,14 +2,17 @@ import React, {useEffect, useState} from "react";
 import {
     Accordion,
     AccordionDetails,
-    AccordionSummary, Typography,
+    AccordionSummary, Divider as MuiDivider, Typography,
 } from "@material-ui/core";
 import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 import {user} from "../../../services";
 import {Link} from "react-router-dom";
+import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
+import styled from "styled-components";
+import {spacing} from "@material-ui/system";
 
 const userPromise = (userId) => user.getUser(userId)
-
+const Divider = styled(MuiDivider)(spacing);
 const IssueComment = ({comment: commentDto}) => {
     const [user, setUser] = useState(null);
     useEffect(() => {
@@ -18,15 +21,22 @@ const IssueComment = ({comment: commentDto}) => {
 
 
     return (user == null) ? (<span>User Data unfilled</span>) : (
-        <Accordion expanded={true}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>
-                    <Link to={`/users/${user.id}`}>{user.displayName}</Link> added a comment - x hours ago</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-                <Typography>{commentDto.text}</Typography>
-            </AccordionDetails>
-        </Accordion>
+        <React.Fragment>
+            <Accordion expanded={true} id={commentDto.id}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>
+                        <Link to={`/users/${user.id}`}>{user.displayName}</Link> added a comment &nbsp;
+                        {commentDto.createdDate &&
+                        <RoundTimeAgo date={new Date(commentDto.createdDate)} />
+                        }
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography>{commentDto.text}</Typography>
+                </AccordionDetails>
+            </Accordion>
+            <Divider my={8} />
+        </React.Fragment>
     )
 }
 
