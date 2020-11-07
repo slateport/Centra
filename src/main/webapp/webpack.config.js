@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     mode: 'development',
@@ -10,7 +11,13 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
+                include: path.resolve(__dirname, 'src'),
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/i,
+                include: path.resolve(__dirname, 'src'),
+                use: ['css-loader'],
             },
         ]
     },

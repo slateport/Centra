@@ -1,50 +1,54 @@
-import React from 'react';
-import styled from "styled-components";
-import { Router, Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
+import React from 'react'
+import styled, { ThemeProvider } from 'styled-components'
+import { Router, Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Helmet } from 'react-helmet'
 
+import { history } from '../helpers'
+import { PrivateRoute } from '../components'
+import { HomePage } from '../pages/HomePage'
+import { LoginPage } from '../pages/LoginPage'
+import { StylesProvider } from '@material-ui/styles'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
+import { Alert as MuiAlert } from '@material-ui/lab'
 
-import { history } from '../helpers';
-import { PrivateRoute } from '../components';
-import { HomePage } from '../pages/HomePage';
-import { LoginPage } from '../pages/LoginPage';
-import { StylesProvider } from "@material-ui/styles";
-import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
-import { Alert as MuiAlert } from '@material-ui/lab';
-import { ThemeProvider } from "styled-components";
-import { spacing } from "@material-ui/system";
+import { spacing } from '@material-ui/system'
 import { alertActions, initActions } from '../actions'
 
-import theme from "../theme";
-import { InstallationPage } from "../pages/InstallationPage";
+import theme from '../theme'
+import { InstallationPage } from '../pages/InstallationPage'
+import { ViewIssuePage } from '../pages/ViewIssuePage'
+import { ApplicationLayout } from "../layouts/ApplicationLayout";
 
-const Alert = styled(MuiAlert)(spacing);
+const Alert = styled(MuiAlert)(spacing)
+const NoMatch = ({ location }) => (
+    <h3>No match for <code>{location.pathname}</code></h3>
+)
 
 class App extends React.Component<any, any> {
-    constructor(props) {
-        super(props);
+  constructor (props) {
+    super(props)
 
-        const { dispatch } = this.props;
-        dispatch(initActions.loadInit());
+    const { dispatch } = this.props
+    dispatch(initActions.loadInit())
 
-        history.listen((location, action) => {
-            // clear alert on location change
-            dispatch(alertActions.clear());
-        });
-    }
+    history.listen((location, action) => {
+      // clear alert on location change
+      dispatch(alertActions.clear())
+    })
+  }
 
-    render() {
-        const { alert, init } = this.props;
-        if (init && init.installationComplete == false && window.location.href != '/install') {
-            return (
+  render () {
+    const { alert, init } = this.props
+    if (init && init.installationComplete == false && window.location.href != '/install') {
+      return (
                 <React.Fragment>
                     <Helmet titleTemplate="%s | Conductor" defaultTitle="Conductor"/>
                     <StylesProvider injectFirst>
                         <MuiThemeProvider theme={theme[0]}>
                             <ThemeProvider theme={theme[0]}>
                                 {alert.message &&
-                                <Alert mb={4} severity={alert.type}>{alert.message}</Alert>
+                                <Alert variant="filled" mb={4} severity={alert.type}>{alert.message}</Alert>
                                 }
                                 <InstallationPage />
                             </ThemeProvider>
@@ -52,39 +56,45 @@ class App extends React.Component<any, any> {
                     </StylesProvider>
                 </React.Fragment>
 
-            );
-        } else {
-            return (
+      )
+    } else {
+        const Routing = (init.privateInstance) ? PrivateRoute : Route;
+
+      return (
                 <React.Fragment>
                     <Helmet titleTemplate="%s | Conductor" defaultTitle="Conductor"/>
                     <StylesProvider injectFirst>
                         <MuiThemeProvider theme={theme[0]}>
                             <ThemeProvider theme={theme[0]}>
                                 {alert.message &&
-                                <Alert mb={4} severity={alert.type}>{alert.message}</Alert>
+                                <Alert variant="filled" mb={4} severity={alert.type}>{alert.message}</Alert>
                                 }
-                                <Router history={history}>
-                                    <div>
-                                        <Route path="/login" component={LoginPage} />
-                                        <Route path="/install" component={InstallationPage} />
-                                        <PrivateRoute path="/" exact component={HomePage} />
-                                    </div>
-                                </Router>
+                                <ApplicationLayout>
+                                    <Router history={history}>
+                                        <Switch>
+                                            <Route path="/login" component={LoginPage} />
+                                            <Route path="/install" component={InstallationPage} />
+                                            <Routing path="/browse/:externalId" component={ViewIssuePage} />
+                                            <Routing path="/" exact component={HomePage} />
+                                            <Route component={NoMatch} />
+                                        </Switch>
+                                    </Router>
+                                </ApplicationLayout>
                             </ThemeProvider>
                         </MuiThemeProvider>
                     </StylesProvider>
                 </React.Fragment>
-            );
-        }
+      )
     }
+  }
 }
 
-function mapStateToProps(state) {
-    const { alert, init } = state;
-    return {
-        alert, init
-    };
+function mapStateToProps (state) {
+  const { alert, init } = state
+  return {
+    alert, init
+  }
 }
 
-const connectedApp = connect(mapStateToProps)(App);
-export { connectedApp as App }; 
+const connectedApp = connect(mapStateToProps)(App)
+export { connectedApp as App }

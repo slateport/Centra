@@ -1,14 +1,13 @@
-import React from "react";
-import { SpacingProps } from "@material-ui/system";
-import { ThemeProps } from "styled-components";
-import { Theme } from "@material-ui/core";
+import React from 'react'
+import { SpacingProps } from '@material-ui/system'
+import { ThemeProps } from 'styled-components'
+import { Theme } from '@material-ui/core'
 
 export interface MuiButtonSpacingType extends SpacingProps {
     component: React.PropsWithoutRef<{}>
     to?: string
 
 }
-
 
 export type GlobalStyleProps = {
     theme: ThemeProps<Theme> & {body: any}

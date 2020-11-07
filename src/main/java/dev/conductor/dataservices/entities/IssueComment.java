@@ -13,19 +13,22 @@ public class IssueComment {
     private final String issueId;
     private final String text;
     private final Date createdDate;
+    private final String createdByUserId;
 
     @PersistenceConstructor
-    public IssueComment(String id, String issueId, String text, Date createdDate) {
+    public IssueComment(String id, String issueId, String text, Date createdDate, String createdByUserId) {
         this.id = id;
         this.issueId = issueId;
         this.text = text;
         this.createdDate = createdDate;
+        this.createdByUserId = createdByUserId;
     }
 
-    public IssueComment(String issueId, String text, Date createdDate) {
+    public IssueComment(String issueId, String text, Date createdDate, String createdByUserId) {
         this.issueId = issueId;
         this.text = text;
         this.createdDate = createdDate;
+        this.createdByUserId = createdByUserId;
     }
 
     public String getId() {
@@ -38,6 +41,10 @@ public class IssueComment {
 
     public String getText() {
         return text;
+    }
+
+    public String getCreatedByUserId() {
+        return createdByUserId;
     }
 
     public Date getCreatedDate() {
