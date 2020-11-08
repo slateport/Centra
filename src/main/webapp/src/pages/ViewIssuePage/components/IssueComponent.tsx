@@ -17,7 +17,7 @@ import RedactorField from "../../../components/RedactorField";
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
 import {DropzoneArea} from "material-ui-dropzone";
 import IssueComment from "./CommentsComponent";
-import styled from "styled-components";
+import styled, { createGlobalStyle }  from "styled-components";
 import {spacing} from "@material-ui/system";
 import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import {issueActions} from "../../../actions";
@@ -26,31 +26,35 @@ const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
     <RouterNavLink innerRef={ref} {...props} />
 ));
+const GlobalStyleDropzone = createGlobalStyle`
+  &&  .MuiDropzoneArea-root {
+    min-height: 51px;
+  }
+`
 
 const Card = styled(MuiCard)(spacing);
 const Divider = styled(MuiDivider)(spacing);
 
 const onSaveTitle = (props, issue) => {
     return (e) => {
-        const externalId = issue.projectKey +'-'+ issue.externalId
         issue.title = e.children;
-
-        props.dispatch(issueActions.updateIssue(externalId, issue))
+        props.dispatch(issueActions.updateIssue(buildExternalKey(issue), issue))
     }
 }
 
 const onSaveDescription = (props, issue) => {
     return (e) => {
-        const externalId = issue.projectKey +'-'+ issue.externalId
         issue.description = e.children;
-
-        props.dispatch(issueActions.updateIssue, externalId)
+        props.dispatch(issueActions.updateIssue, buildExternalKey(issue))
     }
 }
+
+const buildExternalKey = (issue) => issue.projectKey +'-'+ issue.externalId
 
 const IssueComponent = ({issue, project, props}) => {
     return (
         <React.Fragment>
+            <GlobalStyleDropzone />
             <Helmet title={issue.title} />
             <Typography variant="h3" gutterBottom display="inline">
                 <EditableContainer handlefn={onSaveTitle(props, issue)} Component={Field}>
@@ -61,7 +65,7 @@ const IssueComponent = ({issue, project, props}) => {
                 <Link component={NavLink} exact to="/">
                     {project.projectName}
                 </Link>
-                <Typography>{issue.title}</Typography>
+                <Typography>{buildExternalKey(issue)}: {issue.title}</Typography>
             </Breadcrumbs>
             <Divider my={8} />
             <Card mb={6}>

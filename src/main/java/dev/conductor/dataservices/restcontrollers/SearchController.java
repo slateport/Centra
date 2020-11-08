@@ -49,23 +49,28 @@ public class SearchController {
         for (Issue issue: searchService.search(query)) {
             Optional<Project> project = projectService.findById(issue.getProjectId());
 
-            dtoList.add(new IssueDTO(
-                    issue.getId(),
-                    issue.getExternalId(),
-                    project.get().getProjectKey(),
-                    issue.getTitle(),
-                    issue.getDescription(),
-                    issue.getCreatedDate(),
-                    issue.getLastModifiedDate(),
-                    issue.getProjectId(),
-                    issue.getWorkflowState(),
-                    issue.getWorkflowId(),
-                    issue.getCreatedByUserId(),
-                    issue.getAssigneeId(),
-                    issue.getLastModifiedByUserId(),
-                    issue.getIssuePriority(),
-                    issue.getLabels()
-            ));
+            try {
+                dtoList.add(new IssueDTO(
+                        issue.getId(),
+                        issue.getExternalId(),
+                        project.get().getProjectKey(),
+                        issue.getTitle(),
+                        issue.getDescription(),
+                        issue.getCreatedDate(),
+                        issue.getLastModifiedDate(),
+                        issue.getProjectId(),
+                        issue.getWorkflowState(),
+                        issue.getWorkflowId(),
+                        issue.getCreatedByUserId(),
+                        issue.getAssigneeId(),
+                        issue.getLastModifiedByUserId(),
+                        issue.getIssuePriority(),
+                        issue.getLabels()
+                ));
+            } catch (RuntimeException e) {
+                System.out.println(issue.getId() + " encountered an issue");
+            }
+
         }
 
         return dtoList;
