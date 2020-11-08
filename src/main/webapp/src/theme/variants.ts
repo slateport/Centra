@@ -14,37 +14,15 @@ const darkVariant = {
   },
   header: {
     color: grey[500],
-    background: '#FFFFFF',
+    background: '#232f3e',
     search: {
-      color: grey[800]
+      color: '#FFFFFF'
     },
     indicator: {
       background: blue[600]
-    }
-  },
-  sidebar: {
-    color: grey[200],
-    background: '#1B2430',
-    header: {
-      color: grey[200],
-      background: '#232f3e',
-      brand: {
-        color: blue[500]
-      }
     },
-    footer: {
-      color: grey[200],
-      background: '#232f3e',
-      online: {
-        background: green[500]
-      }
-    },
-    category: {
-      fontWeight: 400
-    },
-    badge: {
-      color: '#FFF',
-      background: blue[500]
+    brand: {
+      color: blue[500]
     }
   },
   body: {
@@ -71,22 +49,6 @@ export type VariantType = {
       indicator: {
           background: string
       }
-  }
-  sidebar: ColorBgType & {
-      header: ColorBgType & {
-          brand: {
-              color: string
-          }
-      }
-      footer: ColorBgType & {
-          online: {
-              background: string
-          }
-      }
-      category: {
-          fontWeight: number
-      }
-      badge: ColorBgType
   }
   body: {
       background: string

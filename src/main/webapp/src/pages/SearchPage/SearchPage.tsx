@@ -1,3 +1,4 @@
+import "react-perfect-scrollbar/dist/css/styles.css";
 import React from "react"
 import {
     Button as MuiButton,
@@ -6,10 +7,10 @@ import {
     TextField,
     Typography,
     CardContent,
-    List,
+    List as MuiList,
     ListItem,
     ListItemText,
-    Divider
+    Divider,
 } from "@material-ui/core";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
@@ -20,9 +21,25 @@ import {MuiButtonSpacingType} from "../../types/types";
 import {issueActions, userActions} from "../../actions";
 import {searchActions} from "../../actions/search";
 import {projectActions} from "../../actions/project";
+import PerfectScrollbar from "react-perfect-scrollbar";
 
 const Button = styled(MuiButton)<MuiButtonSpacingType>(spacing);
 const Card = styled(MuiCard)(spacing);
+
+const List = styled(MuiList)`
+  border: 1px solid rgba(0, 0, 0, 0.12);
+`;
+
+const IssueListContainer = styled.div`
+  height: 75vh;
+  position: relative;
+  overflow: scroll;
+`;
+
+const IssueListContent = styled.div`
+  position: relative;
+`;
+
 
 class SearchPage extends React.Component<any, any>{
 
@@ -60,61 +77,84 @@ class SearchPage extends React.Component<any, any>{
         return (
             <React.Fragment>
                 <Helmet title="Search" />
-                <Card>
-                    <CardContent>
-                        <Typography variant="h3" gutterBottom display="inline">
+                        <Typography variant="h3" display="block">
                             Search
                         </Typography>
-                        <Grid container xs={12}>
-                            <Grid item xs={10}>
-                                <TextField
-                                    fullWidth
-                                    multiline
-                                    type="text"
-                                    name={"cql"}
-                                    onChange={this.handleChange}
-                                />
-                            </Grid>
-                            <Grid item xs={1}>
-                                <Button
-                                    component={Button}
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={this.handleSearchSubmit}
-                                >
-                                    Search
-                                </Button>
+                        <br />
+                         <Divider />
+                        <br />
+                        <Grid container spacing={6}>
+                            <Grid item xs={12}>
+                                <Card>
+                                    <CardContent>
+                                        <Grid container spacing={6}>
+                                            <Grid item xs={10}>
+                                                <TextField
+                                                    fullWidth
+                                                    multiline
+                                                    type="text"
+                                                    name={"cql"}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={1} />
+                                            <Grid item xs={1}>
+                                                <Button
+                                                    component={Button}
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={this.handleSearchSubmit}
+                                                >
+                                                    Search
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                </Card>
                             </Grid>
                         </Grid>
-                        <Grid container xs={12}>
-                            <Grid item xs={3}>
-                                <List component="nav">
+                        <br/>
+                        <Grid container spacing={6}>
+                            <Grid item xs={3} >
                                     {this.props.search.issues &&
-                                    <ul>
-                                        {this.props.search.issues.map((issue, _) =>
-                                            <React.Fragment>
-                                                <ListItem
-                                                    button
-                                                    onClick={() => this.loadIssue(issue.projectKey +'-'+issue.externalId)}
-                                                    key={issue.id}
-                                                >
-                                                    <ListItemText primary={issue.title} />
-                                                </ListItem>
-                                                <Divider />
-                                            </React.Fragment>
-                                        )}
-                                    </ul>
+                                    <Card>
+                                    <CardContent>
+                                        <IssueListContainer>
+                                            <PerfectScrollbar component="div">
+                                                <IssueListContent>
+                                                    <List disablePadding>
+                                                        {this.props.search.issues.map((issue, _) =>
+                                                            <React.Fragment key={issue.id}>
+                                                                <ListItem
+                                                                    button
+                                                                    onClick={() => this.loadIssue(issue.projectKey +'-'+issue.externalId)}
+                                                                    key={issue.id}
+                                                                >
+                                                                    <ListItemText key={issue.id} primary={issue.title} secondary={issue.projectKey + '-' + issue.externalId} />
+                                                                </ListItem>
+                                                                <Divider />
+                                                            </React.Fragment>
+                                                        )}
+                                                    </List>
+                                                </IssueListContent>
+                                            </PerfectScrollbar>
+                                        </IssueListContainer>
+
+                                    </CardContent>
+                                    </Card>
                                     }
-                            </List>
                             </Grid>
                             <Grid item xs={9}>
                                 {this.props.issue.title != undefined  &&
-                                    <IssueComponent issue={this.props.issue} project={this.props.project} props={this.props} />
+                                <Card>
+                                    <CardContent>
+                                        <IssueComponent issue={this.props.issue} project={this.props.project} props={this.props} />
+
+                                    </CardContent>
+                                </Card>
                                 }
                             </Grid>
                         </Grid>
-                    </CardContent>
-                </Card>
             </React.Fragment>
         )
     }

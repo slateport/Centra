@@ -16,8 +16,16 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                include: path.resolve(__dirname, 'src'),
                 use: ['css-loader'],
+            },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    // Translates CSS into CommonJS
+                    'css-loader',
+                    // Compiles Sass to CSS
+                    'sass-loader',
+                ],
             },
         ]
     },
