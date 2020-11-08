@@ -1,12 +1,12 @@
 import React from "react"
 import {Helmet} from "react-helmet";
 import {
-    Breadcrumbs as MuiBreadcrumbs,
+    Breadcrumbs as MuiBreadcrumbs, Button,
     Card as MuiCard,
     CardContent,
     Divider as MuiDivider,
     Grid,
-    Link,
+    Link, Menu, MenuItem,
     Typography
 } from "@material-ui/core";
 import EditableContainer from "../../../components/EditableContainer";
@@ -49,9 +49,21 @@ const onSaveDescription = (props, issue) => {
     }
 }
 
+
+
 const buildExternalKey = (issue) => issue.projectKey +'-'+ issue.externalId
 
-const IssueComponent = ({issue, project, props}) => {
+const IssueComponent = ({issue, project, workflowTransitions, props}) => {
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <React.Fragment>
             <GlobalStyleDropzone />
@@ -68,6 +80,28 @@ const IssueComponent = ({issue, project, props}) => {
                 <Typography>{buildExternalKey(issue)}: {issue.title}</Typography>
             </Breadcrumbs>
             <Divider my={8} />
+            <Card mb={6}>
+                <CardContent>
+                    {workflowTransitions.length > 0 &&
+                        <React.Fragment>w
+                            <Button aria-controls="simple-menu" aria-haspopup="true" color="primary" onClick={handleClick}>
+                                Transition
+                            </Button>
+                            <Menu
+                                id="simple-menu"
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                            >
+                                {workflowTransitions.map(transition =>
+                                    <MenuItem onClick={handleClose}>{transition.label}</MenuItem>
+                                )}
+                            </Menu>
+                        </React.Fragment>
+                    }
+                </CardContent>
+            </Card>
             <Card mb={6}>
                 <CardContent>
                     <Typography variant="h6">

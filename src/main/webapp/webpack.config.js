@@ -1,7 +1,9 @@
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const smp = new SpeedMeasurePlugin();
 
-module.exports = {
+const webpackConfig = smp.wrap({
     mode: 'development',
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
@@ -35,4 +37,6 @@ module.exports = {
     devServer: {
         historyApiFallback: true
     }
-}
+});
+
+module.exports = webpackConfig

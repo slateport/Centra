@@ -3,7 +3,8 @@ import { authHeader } from '../helpers'
 export const issue = {
   getIssue,
   getIssueComments,
-  putIssue
+  putIssue,
+  getWorkflowTransitions
 }
 
 function getIssue (externalId: string) {
@@ -32,4 +33,13 @@ function putIssue(externalId: string, issueDto) {
   }
 
     return fetch(`/api/issues/${externalId}`, requestOptions)
+}
+
+function getWorkflowTransitions(externalId: string) {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', ...authHeader() }
+  }
+
+  return fetch(`/api/issues/${externalId}/transitions`, requestOptions)
 }
