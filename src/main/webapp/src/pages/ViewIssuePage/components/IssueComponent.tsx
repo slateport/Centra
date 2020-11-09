@@ -45,7 +45,7 @@ const onSaveTitle = (props, issue) => {
 const onSaveDescription = (props, issue) => {
     return (e) => {
         issue.description = e.children;
-        props.dispatch(issueActions.updateIssue, buildExternalKey(issue))
+        props.dispatch(issueActions.updateIssue(buildExternalKey(issue), issue))
     }
 }
 

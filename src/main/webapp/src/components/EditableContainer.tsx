@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import parse from 'html-react-parser';
 
 export default class EditableContainer extends React.Component<any, any> {
     private count = 0;
@@ -43,8 +44,11 @@ export default class EditableContainer extends React.Component<any, any> {
         })
     }
 
-    handleOnChange = (event, value) => {
-        this.setState({children: event.target.value})
+    handleOnChange = (event, value, callback) => {
+        this.setState({
+            children: value
+        },callback)
+
     }
 
     onKeyPress = (e) => {
@@ -52,6 +56,10 @@ export default class EditableContainer extends React.Component<any, any> {
         if (e.key == 'Enter'){
             this.handleBlur()
         }
+    }
+
+    saveAll = (event, value) => {
+        this.handleOnChange(event, value, () => this.handleBlur())
     }
 
     render () {
@@ -66,6 +74,7 @@ export default class EditableContainer extends React.Component<any, any> {
                     value={this.state.children}
                     onChange={this.handleOnChange}
                     onKeyPress={this.onKeyPress}
+                    saveFn={this.saveAll}
                 />
             )
         } else {
@@ -74,7 +83,7 @@ export default class EditableContainer extends React.Component<any, any> {
                     onClick={this.handleClick.bind(this)}
                     {...rest}
                 >
-          {children}
+          {parse(children as string)}
         </span>
             )
         }
