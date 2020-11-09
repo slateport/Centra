@@ -33,7 +33,7 @@ class App extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(initActions.loadInit())
 
-    history.listen((location, action) => {
+    history.listen(({location, action}) => {
       dispatch(alertActions.clear())
     })
   }
