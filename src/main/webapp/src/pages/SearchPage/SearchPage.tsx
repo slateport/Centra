@@ -18,10 +18,11 @@ import IssueComponent from "../ViewIssuePage/components/IssueComponent";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 import {MuiButtonSpacingType} from "../../types/types";
-import {issueActions, userActions} from "../../actions";
+import {alertActions, issueActions, userActions} from "../../actions";
 import {searchActions} from "../../actions/search";
 import {projectActions} from "../../actions/project";
 import PerfectScrollbar from "react-perfect-scrollbar";
+import {issue} from "../../services";
 
 const Button = styled(MuiButton)<MuiButtonSpacingType>(spacing);
 const Card = styled(MuiCard)(spacing);
@@ -42,7 +43,7 @@ const IssueListContent = styled.div`
 
 
 class SearchPage extends React.Component<any, any>{
-
+    private transitions = [];
     constructor(props) {
         super(props);
 
@@ -70,6 +71,14 @@ class SearchPage extends React.Component<any, any>{
             .then(() => {
                 this.props.dispatch(projectActions.getProject(this.props.issue.projectId))
                 this.props.dispatch(issueActions.getIssueComments(externalId))
+                issue.getWorkflowTransitions(externalId)
+                    .then(async (resp) => {
+                            this.transitions = await resp.json();
+                            return Promise.resolve();
+                        },
+                        (error) => {
+                            this.props.dispatcj(alertActions.error("ffailed to fetch transitions"))
+                        });
             })
     }
 
@@ -148,7 +157,11 @@ class SearchPage extends React.Component<any, any>{
                                 {this.props.issue.title != undefined  &&
                                 <Card>
                                     <CardContent>
-                                        <IssueComponent issue={this.props.issue} project={this.props.project} props={this.props} />
+                                        <IssueComponent
+                                            issue={this.props.issue}
+                                            project={this.props.project}
+                                            workflowTransitions={this.transitions}
+                                            props={this.props} />
 
                                     </CardContent>
                                 </Card>

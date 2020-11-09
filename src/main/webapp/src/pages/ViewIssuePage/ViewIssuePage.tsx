@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { issueActions } from "../../actions";
+import {alertActions, issueActions} from "../../actions";
 import { Typography } from "@material-ui/core";
 import { createGlobalStyle } from "styled-components";
 import {projectActions} from "../../actions/project";
 import IssueComponent from "./components/IssueComponent";
+import { issue } from "../../services";
 
 const GlobalStyleDropzone = createGlobalStyle`
   [class^="DropzoneArea-dropZone"] {
@@ -21,6 +22,10 @@ class ViewIssuePage extends React.Component<any, any> {
     constructor(props) {
         super(props);
 
+        this.state = {
+            transitions: []
+        }
+
         this.loadState();
     }
 
@@ -30,6 +35,15 @@ class ViewIssuePage extends React.Component<any, any> {
             .then(() => {
                 this.props.dispatch(projectActions.getProject(this.props.issue.projectId))
                 this.props.dispatch(issueActions.getIssueComments(params.externalId))
+                issue.getWorkflowTransitions(params.externalId)
+                    .then((resp) => {
+                            resp.json()
+                                .then(data => this.setState({transitions:data}));
+                            return Promise.resolve();
+                        },
+                        (error) => {
+                            this.props.dispatcj(alertActions.error("ffailed to fetch transitions"))
+                        });
             })
     }
 
@@ -49,7 +63,7 @@ class ViewIssuePage extends React.Component<any, any> {
         return (
             <React.Fragment>
                 <GlobalStyleDropzone />
-                <IssueComponent issue={issue} project={project} props={this.props} />
+                <IssueComponent issue={issue} project={project} workflowTransitions={this.state.transitions} props={this.props} />
             </React.Fragment>
         )
     }
