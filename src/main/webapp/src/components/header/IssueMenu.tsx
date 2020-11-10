@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Menu, MenuItem } from '@material-ui/core';
 import { history } from '../../helpers'
+import {Link} from "react-router-dom";
 
 export default function IssueMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -26,9 +27,8 @@ export default function IssueMenu() {
             onClose={handleClose}
             >
             <MenuItem onClick={() => {
-                history.push('/search')
                 handleClose()
-            }}>Search for issues</MenuItem>
+            }} component={"a"} href={"/search"}>Search for issues</MenuItem>
         </Menu>
         </React.Fragment>
 );

@@ -23,6 +23,7 @@ import { SearchPage } from '../pages/SearchPage'
 import { ApplicationLayout } from "../layouts/ApplicationLayout";
 
 import $ from 'jquery'
+import {PrimarySearchAppBar} from "../components/Header";
 
 $.fn.draggable = () => {}
 $.fn.droppable = () => {}
@@ -70,13 +71,13 @@ class App extends React.Component<any, any> {
                 <React.Fragment>
                     <Helmet titleTemplate="%s | Conductor" defaultTitle="Conductor"/>
                     <StylesProvider injectFirst>
+                        <Router history={history}>
                         <MuiThemeProvider theme={theme[0]}>
                             <ThemeProvider theme={theme[0]}>
                                 {alert.message &&
                                 <Alert variant="filled" mb={4} severity={alert.type}>{alert.message}</Alert>
                                 }
                                 <ApplicationLayout>
-                                    <Router history={history}>
                                         <Switch>
                                             <Route path="/login" component={LoginPage} />
                                             <Route path="/install" component={InstallationPage} />
@@ -85,10 +86,10 @@ class App extends React.Component<any, any> {
                                             <Routing path="/" exact component={HomePage} />
                                             <Route component={NoMatch} />
                                         </Switch>
-                                    </Router>
                                 </ApplicationLayout>
                             </ThemeProvider>
                         </MuiThemeProvider>
+                        </Router>
                     </StylesProvider>
                 </React.Fragment>
       )
