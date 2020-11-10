@@ -22,6 +22,8 @@ import {spacing} from "@material-ui/system";
 import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import {issueActions} from "../../../actions";
 
+import WorkflowApplication from '../../../components/workflow/WorkflowApplication';
+
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
     <RouterNavLink innerRef={ref} {...props} />
@@ -64,6 +66,13 @@ const IssueComponent = ({issue, project, workflowTransitions, props}) => {
         setAnchorEl(null);
     };
 
+    const workflowOptions = (issue) => {
+        return {
+            // workflowId: issue.workflowId
+            workflowId : "5f9ef05e607b75554aa7e93f"
+        }
+    }
+
     return (
         <React.Fragment>
             <GlobalStyleDropzone />
@@ -83,7 +92,7 @@ const IssueComponent = ({issue, project, workflowTransitions, props}) => {
             <Card mb={6}>
                 <CardContent>
                     {workflowTransitions.length > 0 &&
-                        <React.Fragment>w
+                        <React.Fragment>
                             <Button aria-controls="simple-menu" aria-haspopup="true" color="primary" onClick={handleClick}>
                                 Transition
                             </Button>
@@ -208,6 +217,13 @@ const IssueComponent = ({issue, project, workflowTransitions, props}) => {
                     }
                     {!issue.comments || issue.comments.length == 0 &&
                     <React.Fragment>No comments have been made.</React.Fragment>
+                    }
+                </CardContent>
+            </Card>
+            <Card mb={6}>
+                <CardContent>
+                    {workflowOptions(issue).workflowId &&
+                    <WorkflowApplication options={workflowOptions(issue)}/>
                     }
                 </CardContent>
             </Card>

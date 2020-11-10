@@ -1,5 +1,6 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack')
 
 module.exports = {
     mode: 'development',
@@ -29,9 +30,17 @@ module.exports = {
             },
         ]
     },
-    plugins: [new HtmlWebpackPlugin({
-        template: './src/index.html'
-    })],
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+         }),
+        new webpack.ProvidePlugin({
+            '$': 'jquery',
+            'jquery': 'jquery',
+            'window.jQuery': 'jquery',
+            'jQuery': 'jquery'
+        }),
+    ],
     devServer: {
         historyApiFallback: true
     }

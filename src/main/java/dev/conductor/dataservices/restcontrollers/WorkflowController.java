@@ -67,4 +67,9 @@ public class WorkflowController {
 
         return workflow;
     }
+
+    @GetMapping("/{id}")
+    Workflow getById(@PathVariable String id){
+        return workflowService.findById(id).get();
+    }
 }

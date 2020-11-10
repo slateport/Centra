@@ -7,11 +7,13 @@ public class WorkflowTransition {
     private final String fromNode;
     private final String toNode;
     private final String label;
+    private Boolean isInitial = false;
 
-    public WorkflowTransition(String fromNode, String toNode, String label) {
+    public WorkflowTransition(String fromNode, String toNode, String label, Boolean isInitial) {
         this.fromNode = fromNode;
         this.toNode = toNode;
         this.label = label;
+        this.isInitial = isInitial;
     }
 
     public String getFromNode() {
@@ -24,6 +26,10 @@ public class WorkflowTransition {
 
     public String getLabel() {
         return label;
+    }
+
+    public Boolean getInitial() {
+        return isInitial;
     }
 
     @Override
