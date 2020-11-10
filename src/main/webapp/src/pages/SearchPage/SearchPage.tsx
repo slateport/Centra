@@ -77,7 +77,7 @@ class SearchPage extends React.Component<any, any>{
                             return Promise.resolve();
                         },
                         (error) => {
-                            this.props.dispatcj(alertActions.error("ffailed to fetch transitions"))
+                            this.props.dispatch(alertActions.error("Failed to fetch transitions"))
                         });
             })
     }
@@ -160,7 +160,7 @@ class SearchPage extends React.Component<any, any>{
                                         <IssueComponent
                                             issue={this.props.issue}
                                             project={this.props.project}
-                                            workflowTransitions={this.transitions}
+                                            initialWorkflowTransitions={this.transitions}
                                             props={this.props} />
 
                                     </CardContent>

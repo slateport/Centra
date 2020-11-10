@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {Helmet} from "react-helmet";
 import {
     Breadcrumbs as MuiBreadcrumbs, Button,
@@ -21,6 +21,7 @@ import styled, { createGlobalStyle }  from "styled-components";
 import {spacing} from "@material-ui/system";
 import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import {issueActions} from "../../../actions";
+import { issue as issueService} from '../../../services'
 
 import WorkflowApplication from '../../../components/workflow/WorkflowApplication';
 
@@ -37,26 +38,16 @@ const GlobalStyleDropzone = createGlobalStyle`
 const Card = styled(MuiCard)(spacing);
 const Divider = styled(MuiDivider)(spacing);
 
-const onSaveTitle = (props, issue) => {
-    return (e) => {
-        issue.title = e.children;
-        props.dispatch(issueActions.updateIssue(buildExternalKey(issue), issue))
-    }
-}
-
-const onSaveDescription = (props, issue) => {
-    return (e) => {
-        issue.description = e.children;
-        props.dispatch(issueActions.updateIssue(buildExternalKey(issue), issue))
-    }
-}
-
-
-
 const buildExternalKey = (issue) => issue.projectKey +'-'+ issue.externalId
 
-const IssueComponent = ({issue, project, workflowTransitions, props}) => {
+const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions);
+
+    // get initial state after initial render
+    useEffect(() => {
+        setWorkflowTransitions(initialWorkflowTransitions)
+    }, [initialWorkflowTransitions])
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -68,10 +59,37 @@ const IssueComponent = ({issue, project, workflowTransitions, props}) => {
 
     const workflowOptions = (issue) => {
         return {
-            // workflowId: issue.workflowId
-            workflowId : "5f9ef05e607b75554aa7e93f"
+            workflowId: issue.workflowId
         }
     }
+
+    const onSaveTitle = (props, issue) => {
+        return (e) => {
+            issue.title = e.children;
+            props.dispatch(issueActions.updateIssue(buildExternalKey(issue), issue))
+        }
+    }
+
+    const onSaveDescription = (props, issue) => {
+        return (e) => {
+            issue.description = e.children;
+            props.dispatch(issueActions.updateIssue(buildExternalKey(issue), issue))
+        }
+    }
+
+    const onTransitionIssue = (props, issue, transition) => {
+        return e => {
+            issueService.postWorkflowTransitions(buildExternalKey(issue), transition)
+                .then(() => issueService.getWorkflowTransitions(buildExternalKey(issue)).then(
+                    (response) => response.json().then(
+                        json => setWorkflowTransitions(previousValue => json)
+                    )
+                ))
+                .then(() => handleClose())
+                .then(() => props.dispatch(issueActions.getIssue(buildExternalKey(issue))))
+        }
+    }
+
 
     return (
         <React.Fragment>
@@ -91,24 +109,34 @@ const IssueComponent = ({issue, project, workflowTransitions, props}) => {
             <Divider my={8} />
             <Card mb={6}>
                 <CardContent>
-                    {workflowTransitions.length > 0 &&
                         <React.Fragment>
-                            <Button aria-controls="simple-menu" aria-haspopup="true" color="primary" onClick={handleClick}>
+                            <Button
+                                aria-controls="simple-menu"
+                                aria-haspopup="true"
+                                color="primary"
+                                onClick={handleClick}
+                                disabled={workflowTransitions.length == 0}
+                            >
                                 Transition
                             </Button>
                             <Menu
                                 id="simple-menu"
                                 anchorEl={anchorEl}
                                 keepMounted
+                                getContentAnchorEl={null}
+                                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                                transformOrigin={{ vertical: "top", horizontal: "center" }}
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
+                                color={"primary"}
                             >
                                 {workflowTransitions.map(transition =>
-                                    <MenuItem onClick={handleClose}>{transition.label}</MenuItem>
+                                    <MenuItem
+                                        onClick={onTransitionIssue(props, issue, transition)}
+                                    >{transition.label}</MenuItem>
                                 )}
                             </Menu>
                         </React.Fragment>
-                    }
                 </CardContent>
             </Card>
             <Card mb={6}>
