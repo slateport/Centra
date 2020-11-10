@@ -63,7 +63,12 @@ class ViewIssuePage extends React.Component<any, any> {
         return (
             <React.Fragment>
                 <GlobalStyleDropzone />
-                <IssueComponent issue={issue} project={project} workflowTransitions={this.state.transitions} props={this.props} />
+                <IssueComponent
+                    issue={issue}
+                    project={project}
+                    initialWorkflowTransitions={this.state.transitions}
+                    props={this.props}
+                />
             </React.Fragment>
         )
     }
