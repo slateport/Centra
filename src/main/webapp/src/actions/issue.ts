@@ -5,7 +5,8 @@ import { issue } from '../services'
 export const issueActions = {
   getIssue,
   getIssueComments,
-  updateIssue
+  updateIssue,
+  addComment
 }
 
 function getIssue (externalId: string) {
@@ -52,4 +53,23 @@ function updateIssue (externalId, issueDto) {
 
   function success (comments) { return { type: issueConstants.PUT_SUCCESS, comments } }
   function error (response) { return { type: issueConstants.PUT_FAILURE, response } }
+}
+
+function addComment (externalId: string, comment:string) {
+
+  return async dispatch => {
+    const response = await issue.addComment(externalId, comment);
+
+    if (response.ok) {
+        dispatch(success(await response.json()))
+        dispatch(getIssueComments(externalId))
+    } else {
+      dispatch(error(response))
+      dispatch(alertActions.error('Failed to add comment'))
+    }
+
+  }
+
+  function success (comments) { return { type: issueConstants.POST_SUCCESS, comments } }
+  function error (response) { return { type: issueConstants.POST_FAILURE, response } }
 }
