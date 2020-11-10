@@ -5,7 +5,8 @@ export const issue = {
   getIssueComments,
   putIssue,
   getWorkflowTransitions,
-  postWorkflowTransitions
+  postWorkflowTransitions,
+  addComment
 }
 
 function getIssue (externalId: string) {
@@ -54,4 +55,18 @@ function postWorkflowTransitions(externalId: string, transitionDto) {
 
 
   return fetch(`/api/issues/${externalId}/transitions`, requestOptions)
+}
+
+function addComment (externalId: string, comment:string) {
+  const body = {
+    text: comment
+  }
+
+  const requestOptions = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', ...authHeader()},
+    body: JSON.stringify(body)
+  }
+
+  return fetch(`/api/issues/${externalId}/comments`, requestOptions)
 }

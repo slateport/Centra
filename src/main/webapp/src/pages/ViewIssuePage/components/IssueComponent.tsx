@@ -43,6 +43,7 @@ const buildExternalKey = (issue) => issue.projectKey +'-'+ issue.externalId
 const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions);
+    const [newComment, setNewComment] = useState('');
 
     // get initial state after initial render
     useEffect(() => {
@@ -71,7 +72,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
     }
 
     const onSaveDescription = (props, issue) => {
-        return (e) => {
+        return   (e) => {
             issue.description = e.children;
             props.dispatch(issueActions.updateIssue(buildExternalKey(issue), issue))
         }
@@ -90,6 +91,11 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
         }
     }
 
+    const onAddComment = (props, issue) => {
+        return (e, value) => {
+            return props.dispatch(issueActions.addComment(buildExternalKey(issue), value))
+        }
+    }
 
     return (
         <React.Fragment>
@@ -239,13 +245,15 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     {issue.comments &&
                     <ul>
                         {issue.comments.map((comment, _) =>
-                            <IssueComment comment={comment}/>
+                            <IssueComment key={comment.id} comment={comment}/>
                         )}
                     </ul>
                     }
                     {!issue.comments || issue.comments.length == 0 &&
                     <React.Fragment>No comments have been made.</React.Fragment>
                     }
+                    <br />
+                    <RedactorField saveFn={onAddComment(props, issue)}/>
                 </CardContent>
             </Card>
             <Card mb={6}>

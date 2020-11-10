@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import parse from 'html-react-parser';
+
 import {
     Accordion,
     AccordionDetails,
@@ -32,7 +34,7 @@ const IssueComment = ({comment: commentDto}) => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>{commentDto.text}</Typography>
+                    <Typography>{parse(commentDto.text)}</Typography>
                 </AccordionDetails>
             </Accordion>
             <Divider my={8} />
