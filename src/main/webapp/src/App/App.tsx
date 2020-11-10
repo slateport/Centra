@@ -1,4 +1,5 @@
 import React from 'react'
+
 import styled, { ThemeProvider } from 'styled-components'
 import { Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -20,6 +21,11 @@ import { InstallationPage } from '../pages/InstallationPage'
 import { ViewIssuePage } from '../pages/ViewIssuePage'
 import { SearchPage } from '../pages/SearchPage'
 import { ApplicationLayout } from "../layouts/ApplicationLayout";
+
+import $ from 'jquery'
+
+$.fn.draggable = () => {}
+$.fn.droppable = () => {}
 
 const Alert = styled(MuiAlert)(spacing)
 const NoMatch = ({ location }) => (

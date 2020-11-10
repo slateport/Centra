@@ -1,0 +1,45 @@
+{
+  "id": "5f9ef05e607b75554aa7e93f",
+  "name": "Feature Request Workflow",
+  "projectId": "5f9ef049607b75554aa7e93e",
+  "issueTypeId": "1",
+  "states": [
+    {
+      "isTerminus": false,
+      "label": "Feature Request",
+      "entry": true
+    },
+    {
+      "isTerminus": false,
+      "label": "Under Consideration",
+      "entry": false
+    },
+    {
+      "isTerminus": true,
+      "label": "Rejected",
+      "entry": false
+    },
+    {
+      "isTerminus": true,
+      "label": "Implemented",
+      "entry": false
+    }
+  ],
+  "transitions": [
+    {
+      "fromNode": "Feature Request",
+      "toNode": "Under Consideration",
+      "label": "Under Consideration"
+    },
+    {
+      "fromNode": "Under Consideration",
+      "toNode": "Rejected",
+      "label": "Reject"
+    },
+    {
+      "fromNode": "Under Consideration",
+      "toNode": "Implemented",
+      "label": "Implement"
+    }
+  ]
+}
