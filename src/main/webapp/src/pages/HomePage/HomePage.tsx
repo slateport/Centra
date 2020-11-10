@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { PrimarySearchAppBar } from "../../components/Header";
 
 class HomePage extends React.Component<any, any> {
 

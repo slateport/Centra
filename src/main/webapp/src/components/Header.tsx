@@ -160,13 +160,6 @@ function PrimarySearchAppBar () {
 
     const stateFn = state => state.init
     const init = useSelector(stateFn)
-    const user = localStorage.getItem('user')
-
-    if (!user) {
-        return (
-            <React.Fragment/>
-        )
-    }
 
     return (
         <Box display="flex" bgcolor={'#232f3e'} p={2} alignItems="center">
