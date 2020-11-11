@@ -21,7 +21,6 @@ function completeInstallation (username: string, password: string, licenseKey: s
           dispatch(push('/'))
         },
         response => {
-          console.log(response)
           dispatch(alertActions.error(response || 'Unexpected error'))
           dispatch(failure(response))
         }

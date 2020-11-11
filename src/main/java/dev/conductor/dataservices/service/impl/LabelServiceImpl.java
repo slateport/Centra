@@ -20,6 +20,11 @@ public class LabelServiceImpl implements LabelService {
     }
 
     @Override
+    public List<Label> findAll() {
+        return labelRepository.findAll();
+    }
+
+    @Override
     public Label findById(String id) {
         return labelRepository.findById(id).get();
     }

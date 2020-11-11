@@ -1,8 +1,8 @@
 package dev.conductor.dataservices.restcontrollers;
 
-import dev.conductor.dataservices.cql.CqlQuery;
 import dev.conductor.dataservices.dto.IssueCommentDTO;
 import dev.conductor.dataservices.dto.IssueDTO;
+import dev.conductor.dataservices.dto.LabelDTO;
 import dev.conductor.dataservices.entities.*;
 import dev.conductor.dataservices.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,8 +196,16 @@ public class IssueController {
     }
 
     @GetMapping("/labels")
-    public List<Label> regexSearchLabels(@RequestParam String labelValue){
-        return labelService.regexFindByValue(labelValue);
+    public List<LabelDTO> regexSearchLabels(@RequestParam String labelValue){
+        List<Label> labelList = labelService.regexFindByValue(labelValue);
+
+        List<LabelDTO> dtoList = new ArrayList<>();
+
+        for (Label label: labelList){
+            dtoList.add(new LabelDTO(label.getId(), label.getValue()));
+        }
+
+        return dtoList;
     }
 
     @PostMapping("/labels")
