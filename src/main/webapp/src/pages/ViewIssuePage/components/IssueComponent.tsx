@@ -26,6 +26,7 @@ import {issueActions} from "../../../actions";
 import { issue as issueService} from '../../../services'
 import WorkflowApplication from '../../../components/workflow/WorkflowApplication';
 import LabelsField from "./LabelsField";
+import {issueHelper} from "../../../helpers";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -40,7 +41,6 @@ const GlobalStyleDropzone = createGlobalStyle`
 const Card = styled(MuiCard)(spacing);
 const Divider = styled(MuiDivider)(spacing);
 
-const buildExternalKey = (issue) => issue.projectKey +'-'+ issue.externalId
 
 const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
     const [anchorElTransitionMenu, setAnchorElTransitionMenu] = React.useState<null | HTMLElement>(null);
@@ -67,33 +67,33 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
     const onSaveTitle = (props, issue) => {
         return (e) => {
             issue.title = e.children;
-            props.dispatch(issueActions.updateIssue(buildExternalKey(issue), issue))
+            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
         }
     }
 
     const onSaveDescription = (props, issue) => {
         return   (e) => {
             issue.description = e.children;
-            props.dispatch(issueActions.updateIssue(buildExternalKey(issue), issue))
+            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
         }
     }
 
     const onTransitionIssue = (props, issue, transition) => {
         return e => {
-            issueService.postWorkflowTransitions(buildExternalKey(issue), transition)
-                .then(() => issueService.getWorkflowTransitions(buildExternalKey(issue)).then(
+            issueService.postWorkflowTransitions(issueHelper.buildExternalKey(issue), transition)
+                .then(() => issueService.getWorkflowTransitions(issueHelper.buildExternalKey(issue)).then(
                     (response) => response.json().then(
                         json => setWorkflowTransitions(previousValue => json)
                     )
                 ))
                 .then(() => handleClose())
-                .then(() => props.dispatch(issueActions.getIssue(buildExternalKey(issue))))
+                .then(() => props.dispatch(issueActions.getIssue(issueHelper.buildExternalKey(issue))))
         }
     }
 
     const onAddComment = (props, issue) => {
         return (e, value) => {
-            return props.dispatch(issueActions.addComment(buildExternalKey(issue), value))
+            return props.dispatch(issueActions.addComment(issueHelper.buildExternalKey(issue), value))
         }
     }
 
@@ -110,7 +110,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                 <Link component={NavLink} exact to="/">
                     {project.projectName}
                 </Link>
-                <Typography>{buildExternalKey(issue)}: {issue.title}</Typography>
+                <Typography>{issueHelper.buildExternalKey(issue)}: {issue.title}</Typography>
             </Breadcrumbs>
             <Divider my={8} />
             <Card mb={6}>
@@ -177,7 +177,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 Labels
                             </Grid>
                             <Grid item xs={10}>
-                                <LabelsField issue={issue} />
+                                <LabelsField issue={issue} props={props}/>
                             </Grid>
                         </Grid>
                         <Grid container xs={1} />
