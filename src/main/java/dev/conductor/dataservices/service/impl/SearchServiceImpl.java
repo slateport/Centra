@@ -53,7 +53,10 @@ public class SearchServiceImpl implements SearchService {
                 );
                 case LIKE -> query.addCriteria(
                         Criteria.where(condition.getRhs()).
-                                regex(".*" + condition.getLhs() + ".*", "i")
+                                regex(".*m" + condition.getLhs() + ".*", "i")
+                );
+                case ELEMMATCH ->  query.addCriteria(
+                        Criteria.where(condition.getLhs()).elemMatch(new Criteria().is(condition.getLhs()))
                 );
             }
         }
@@ -78,6 +81,9 @@ public class SearchServiceImpl implements SearchService {
                 } else {
                     return new AndCondition("assigneeId", Operator.EQUALS, user.getId());
                 }
+
+            case "label":
+                return new AndCondition("labels", Operator.ELEMMATCH, condition.getLhs());
 
             default:
                 return condition;
