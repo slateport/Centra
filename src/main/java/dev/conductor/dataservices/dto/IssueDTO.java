@@ -21,7 +21,7 @@ public class IssueDTO {
     private final String assigneeId;
     private final String lastModifiedByUserId;
     private final IssuePriority issuePriority;
-    private final List<Label> labels;
+    private final List<String> labels;
 
     public IssueDTO(
             String id,
@@ -38,7 +38,7 @@ public class IssueDTO {
             String assigneeId,
             String lastModifiedByUserId,
             IssuePriority issuePriority,
-            List<Label> labels
+            List<String> labels
     ) {
         this.id = id;
         this.externalId = externalId;
@@ -133,7 +133,7 @@ public class IssueDTO {
         return issuePriority;
     }
 
-    public List<Label> getLabels() {
+    public List<String> getLabels() {
         return labels;
     }
 }
