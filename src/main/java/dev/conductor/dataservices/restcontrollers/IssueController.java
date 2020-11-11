@@ -2,7 +2,6 @@ package dev.conductor.dataservices.restcontrollers;
 
 import dev.conductor.dataservices.dto.IssueCommentDTO;
 import dev.conductor.dataservices.dto.IssueDTO;
-import dev.conductor.dataservices.dto.LabelDTO;
 import dev.conductor.dataservices.entities.*;
 import dev.conductor.dataservices.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
