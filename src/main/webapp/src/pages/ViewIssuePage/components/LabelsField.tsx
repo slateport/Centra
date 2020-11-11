@@ -4,6 +4,9 @@ import React from "react";
 import {useAutocomplete} from "@material-ui/lab";
 import {issue as issueService} from "../../../services";
 import CheckIcon from "@material-ui/icons/Check";
+import {dark} from "@material-ui/core/styles/createPalette";
+import {issueActions} from "../../../actions";
+import {issueHelper} from "../../../helpers";
 
 interface Label {
     value: string;
@@ -122,7 +125,15 @@ const Listbox = styled('ul')`
   }
 `;
 
-const LabelsField = ({issue}) => {
+
+
+const LabelsField = ({issue, props}) => {
+
+    const handleOnLabelChange = (newLables: Label[]) => {
+        issue.labels = newLables
+        props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+    }
+
     const [labels, setLabels] = React.useState<Label[]>([]);
     const loadingLabels = labels && labels.length === 0;
 
@@ -145,7 +156,8 @@ const LabelsField = ({issue}) => {
         autoSelect: true,
         freeSolo:true,
         getOptionLabel: (option) => option.value,
-        getOptionSelected: (option, value) => option.value == value.value
+        getOptionSelected: (option, value) => option.value == value.value,
+        onChange: (_, values) => handleOnLabelChange(values)
     });
 
     React.useEffect(() => {
@@ -160,7 +172,7 @@ const LabelsField = ({issue}) => {
     })
 
     return (
-        <div>
+        <React.Fragment>
             <div {...getRootProps()}>
                 <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
                     {value.map((option, index: number) => (
@@ -179,7 +191,7 @@ const LabelsField = ({issue}) => {
                     ))}
                 </Listbox>
             ) : null}
-        </div>
+        </React.Fragment>
     )
 }
 
