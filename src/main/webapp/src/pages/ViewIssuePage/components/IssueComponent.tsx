@@ -6,24 +6,26 @@ import {
     CardContent,
     Divider as MuiDivider,
     Grid,
-    Link, Menu, MenuItem,
+    Link,
+    Menu,
+    MenuItem,
     Typography
 } from "@material-ui/core";
+import {DropzoneArea} from "material-ui-dropzone";
+import styled, { createGlobalStyle }  from "styled-components";
+import {spacing} from "@material-ui/system";
+import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import EditableContainer from "../../../components/EditableContainer";
 import Field from "../../../components/StandardTextField";
 import StatusChip from "./StatusChip";
 import PeopleField from "./PeopleField";
 import RedactorField from "../../../components/RedactorField";
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
-import {DropzoneArea} from "material-ui-dropzone";
 import IssueComment from "./CommentsComponent";
-import styled, { createGlobalStyle }  from "styled-components";
-import {spacing} from "@material-ui/system";
-import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import {issueActions} from "../../../actions";
 import { issue as issueService} from '../../../services'
-
 import WorkflowApplication from '../../../components/workflow/WorkflowApplication';
+import LabelsField from "./LabelsField";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -31,7 +33,7 @@ const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
 ));
 const GlobalStyleDropzone = createGlobalStyle`
   &&  .MuiDropzoneArea-root {
-    min-height: 51px;
+    max-height: 51px;
   }
 `
 
@@ -41,21 +43,19 @@ const Divider = styled(MuiDivider)(spacing);
 const buildExternalKey = (issue) => issue.projectKey +'-'+ issue.externalId
 
 const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorElTransitionMenu, setAnchorElTransitionMenu] = React.useState<null | HTMLElement>(null);
     const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions);
-    const [newComment, setNewComment] = useState('');
 
-    // get initial state after initial render
     useEffect(() => {
         setWorkflowTransitions(initialWorkflowTransitions)
     }, [initialWorkflowTransitions])
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
+        setAnchorElTransitionMenu(event.currentTarget);
     };
 
     const handleClose = () => {
-        setAnchorEl(null);
+        setAnchorElTransitionMenu(null);
     };
 
     const workflowOptions = (issue) => {
@@ -117,7 +117,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                 <CardContent>
                         <React.Fragment>
                             <Button
-                                aria-controls="simple-menu"
+                                aria-controls="transition-menu"
                                 aria-haspopup="true"
                                 color="primary"
                                 onClick={handleClick}
@@ -126,13 +126,13 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 Transition
                             </Button>
                             <Menu
-                                id="simple-menu"
-                                anchorEl={anchorEl}
+                                id="transition-menu"
+                                anchorEl={anchorElTransitionMenu}
                                 keepMounted
                                 getContentAnchorEl={null}
                                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                                 transformOrigin={{ vertical: "top", horizontal: "center" }}
-                                open={Boolean(anchorEl)}
+                                open={Boolean(anchorElTransitionMenu)}
                                 onClose={handleClose}
                                 color={"primary"}
                             >
@@ -153,25 +153,31 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     <br />
                     <Grid container>
                         <Grid container xs={8}>
-                            <Grid item xs={3}>
+                            <Grid item xs={2}>
                                 Type
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
                                 Feature Request
                             </Grid>
-                            <Grid item xs={3}>Status</Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={2}>Status</Grid>
+                            <Grid item xs={4}>
                                 { issue.workflowState &&
                                 <StatusChip issue={issue} />
                                 }
                             </Grid>
-                            <Grid item xs={3}>Priority</Grid>
-                            <Grid item xs={3}><Typography>{issue.issuePriority}</Typography></Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={2}>Priority</Grid>
+                            <Grid item xs={4}><Typography>{issue.issuePriority}</Typography></Grid>
+                            <Grid item xs={2}>
                                 Resolution
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
                                 <Typography>Unresolved</Typography>
+                            </Grid>
+                            <Grid item xs={2}>
+                                Labels
+                            </Grid>
+                            <Grid item xs={10}>
+                                <LabelsField issue={issue} />
                             </Grid>
                         </Grid>
                         <Grid container xs={1} />
@@ -252,6 +258,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     {!issue.comments || issue.comments.length == 0 &&
                     <React.Fragment>No comments have been made.</React.Fragment>
                     }
+                    <br />
                     <br />
                     <RedactorField saveFn={onAddComment(props, issue)}/>
                 </CardContent>

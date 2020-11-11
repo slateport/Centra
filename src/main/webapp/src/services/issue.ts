@@ -6,7 +6,8 @@ export const issue = {
   putIssue,
   getWorkflowTransitions,
   postWorkflowTransitions,
-  addComment
+  addComment,
+  getAllLabels
 }
 
 function getIssue (externalId: string) {
@@ -69,4 +70,13 @@ function addComment (externalId: string, comment:string) {
   }
 
   return fetch(`/api/issues/${externalId}/comments`, requestOptions)
+}
+
+function getAllLabels () {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', ...authHeader() }
+  }
+
+  return fetch(`/api/issues/labels?labelValue=`, requestOptions)
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface LabelService {
 
+    List<Label> findAll();
     List<Label> regexFindByValue(String search);
     Label findById(String id);
     Label findByValue(String value);
