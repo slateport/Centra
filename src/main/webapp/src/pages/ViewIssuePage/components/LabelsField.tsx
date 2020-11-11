@@ -145,6 +145,7 @@ const LabelsField = ({issue}) => {
         autoSelect: true,
         freeSolo:true,
         getOptionLabel: (option) => option.value,
+        getOptionSelected: (option, value) => option.value == value.value
     });
 
     React.useEffect(() => {
