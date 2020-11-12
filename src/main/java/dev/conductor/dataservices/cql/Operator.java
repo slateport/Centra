@@ -6,7 +6,8 @@ public enum Operator {
     GREATER_THAN("="),
     LESS_THAN("="),
     LIKE("~"),
-    IN("IN");
+    IN("IN"),
+    ELEMMATCH("$elemMatch");
 
     private final String operator;
 

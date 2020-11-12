@@ -27,7 +27,7 @@ public class Issue {
     private final String assigneeId;
     private final String lastModifiedByUserId;
     private IssuePriority issuePriority = DEFAULT_PRIORITY;
-    private final List<Label> labels;
+    private final List<String> labels;
 
     public Issue(
             long externalId,
@@ -42,7 +42,7 @@ public class Issue {
             String assigneeId,
             String lastModifiedByUserId,
             IssuePriority issuePriority,
-            List<Label> labels
+            List<String> labels
     ) {
         this.externalId = externalId;
         this.title = title;
@@ -74,7 +74,7 @@ public class Issue {
             String assigneeId,
             String lastModifiedByUserId,
             IssuePriority issuePriority,
-            List<Label> labels
+            List<String> labels
     ) {
         this.id = id;
         this.externalId = externalId;
@@ -163,7 +163,7 @@ public class Issue {
         return issuePriority;
     }
 
-    public List<Label> getLabels() {
+    public List<String> getLabels() {
         return labels;
     }
 

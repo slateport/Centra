@@ -8,9 +8,6 @@ import {dark} from "@material-ui/core/styles/createPalette";
 import {issueActions} from "../../../actions";
 import {issueHelper} from "../../../helpers";
 
-interface Label {
-    value: string;
-}
 
 const Tag = styled(({ label, onDelete, ...props }) => {
     return (
@@ -129,12 +126,12 @@ const Listbox = styled('ul')`
 
 const LabelsField = ({issue, props}) => {
 
-    const handleOnLabelChange = (newLables: Label[]) => {
+    const handleOnLabelChange = (newLables: string[]) => {
         issue.labels = newLables
         props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
     }
 
-    const [labels, setLabels] = React.useState<Label[]>([]);
+    const [labels, setLabels] = React.useState<string[]>([]);
     const loadingLabels = labels && labels.length === 0;
 
     const {
@@ -155,8 +152,8 @@ const LabelsField = ({issue, props}) => {
         options: labels,
         autoSelect: true,
         freeSolo:true,
-        getOptionLabel: (option) => option.value,
-        getOptionSelected: (option, value) => option.value == value.value,
+        getOptionLabel: (option) => option,
+        getOptionSelected: (option, value) => option == value,
         onChange: (_, values) => handleOnLabelChange(values)
     });
 
@@ -176,7 +173,7 @@ const LabelsField = ({issue, props}) => {
             <div {...getRootProps()}>
                 <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
                     {value.map((option, index: number) => (
-                        <Tag label={option.value} {...getTagProps({ index })} />
+                        <Tag label={option} {...getTagProps({ index })} />
                     ))}
                     <input {...getInputProps()} />
                 </InputWrapper>
@@ -185,7 +182,7 @@ const LabelsField = ({issue, props}) => {
                 <Listbox {...getListboxProps()}>
                     {groupedOptions.map((option, index) => (
                         <li {...getOptionProps({ option, index })}>
-                            <span>{option.value}</span>
+                            <span>{option}</span>
                             <CheckIcon fontSize="small" />
                         </li>
                     ))}

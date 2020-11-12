@@ -17,6 +17,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -32,7 +34,7 @@ public class SearchServiceImpl implements SearchService {
     private ApplicationUserService applicationUserService;
 
     @Override
-    public List<Issue> search(CqlQuery cqlQuery) {
+    public List<Issue>  search(CqlQuery cqlQuery) {
         Query query = new Query();
 
         for (Condition condition: cqlQuery.getWhere().getRoot()) {
@@ -53,7 +55,10 @@ public class SearchServiceImpl implements SearchService {
                 );
                 case LIKE -> query.addCriteria(
                         Criteria.where(condition.getRhs()).
-                                regex(".*" + condition.getLhs() + ".*", "i")
+                                regex(".*m" + condition.getLhs() + ".*", "i")
+                );
+                case IN ->  query.addCriteria(
+                        Criteria.where(condition.getRhs()).in(Collections.singletonList(condition.getLhs()))
                 );
             }
         }
@@ -78,6 +83,9 @@ public class SearchServiceImpl implements SearchService {
                 } else {
                     return new AndCondition("assigneeId", Operator.EQUALS, user.getId());
                 }
+
+            case "label":
+                return new AndCondition("labels", Operator.IN, condition.getLhs());
 
             default:
                 return condition;
