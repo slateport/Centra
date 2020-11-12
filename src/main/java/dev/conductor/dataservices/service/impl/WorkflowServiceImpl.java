@@ -25,11 +25,6 @@ public class WorkflowServiceImpl implements WorkflowService {
         return repository.findAll();
     }
 
-    @Override
-    public List<Workflow> findByProjectIdAndIssueTypeId(String projectId, String issueTypeId) {
-        return repository.findByProjectIdAndIssueTypeId(projectId, issueTypeId);
-    }
-
     public void save(Workflow workflow) {
         repository.save(workflow);
     }

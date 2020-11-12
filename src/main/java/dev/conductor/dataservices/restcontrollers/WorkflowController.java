@@ -40,8 +40,7 @@ public class WorkflowController {
             );
         }
 
-        List<Workflow> existingWorkflows = workflowService
-                .findByProjectIdAndIssueTypeId(project.get().getId(), dto.getIssueTypeId());
+        List<Workflow> existingWorkflows = workflowService.findAll();
 
         Workflow wfl = existingWorkflows.stream()
                 .filter(e -> e.getName().equals(dto.getName()))
@@ -57,7 +56,6 @@ public class WorkflowController {
 
         Workflow workflow = new Workflow(
                 dto.getName(),
-                dto.getProjectId(),
                 dto.getIssueTypeId(),
                 dto.getStates(),
                 dto.getTransitions()

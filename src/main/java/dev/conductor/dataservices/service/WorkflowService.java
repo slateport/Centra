@@ -12,7 +12,6 @@ public interface WorkflowService {
 
     List<Workflow> findAll();
     Optional<Workflow> findById(String id);
-    List<Workflow> findByProjectIdAndIssueTypeId(String projectId, String issueTypeId);
     void save(Workflow workflow);
     WorkflowState getInitialState(Workflow workflow);
     List<WorkflowTransition> getAvailableTransitions(Workflow workflow, WorkflowState currentState);
