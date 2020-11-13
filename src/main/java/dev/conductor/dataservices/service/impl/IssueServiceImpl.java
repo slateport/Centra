@@ -31,7 +31,7 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public synchronized long getNextExternalIdByProject(String projectId) {
-        Issue issue = issueRepository.findFirstByProjectIdOrderByLastModifiedDateDesc(projectId);
+        Issue issue = issueRepository.findFirstByProjectIdOrderByCreatedDateDesc(projectId);
         if (issue == null) {
             return 1;
         } else {
