@@ -3,8 +3,11 @@ package dev.conductor.dataservices.service.impl;
 import dev.conductor.dataservices.entities.Issue;
 import dev.conductor.dataservices.repository.IssueRepository;
 import dev.conductor.dataservices.service.IssueService;
+import org.javers.core.Changes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.javers.core.Javers;
+import org.javers.repository.jql.QueryBuilder;
 
 import java.util.List;
 
@@ -13,6 +16,9 @@ public class IssueServiceImpl implements IssueService {
 
     @Autowired
     private IssueRepository issueRepository;
+
+    @Autowired
+    private Javers javers;
 
     @Override
     public List<Issue> findByProjectId(String project) {
@@ -37,5 +43,13 @@ public class IssueServiceImpl implements IssueService {
         } else {
             return issue.getExternalId()+1;
         }
+    }
+
+    public Changes getAuditLogsForIssue(Issue issue) {
+        QueryBuilder queryBuilder = QueryBuilder
+                .byInstance(issue)
+                .withSnapshotTypeUpdate();
+
+        return javers.findChanges(queryBuilder.build());
     }
 }

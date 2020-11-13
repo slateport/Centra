@@ -4,6 +4,8 @@ import dev.conductor.dataservices.dto.IssueCommentDTO;
 import dev.conductor.dataservices.dto.IssueDTO;
 import dev.conductor.dataservices.entities.*;
 import dev.conductor.dataservices.service.*;
+import org.javers.core.Changes;
+import org.javers.core.metamodel.object.CdoSnapshot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -186,6 +188,12 @@ public class IssueController {
     @GetMapping("/labels")
     public List<String> regexSearchLabels(){
         return labelService.findAll();
+    }
+
+    @GetMapping("/{id}/audit")
+    public Changes getAuditForIssue(@PathVariable String id) {
+        Issue issue = getIssueByExternalId(id);
+        return issueService.getAuditLogsForIssue(issue);
     }
 
     private Issue getIssueByExternalId(String id) {
