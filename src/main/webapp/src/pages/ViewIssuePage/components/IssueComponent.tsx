@@ -177,7 +177,13 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 Labels
                             </Grid>
                             <Grid item xs={10}>
-                                <LabelsField issue={issue} props={props}/>
+                                <LabelsField
+                                    currentLabels={issue.labels}
+                                    onLabelChange={(values) => {
+                                        issue.labels = values
+                                        props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+                                    }}
+                                />
                             </Grid>
                         </Grid>
                         <Grid container xs={1} />

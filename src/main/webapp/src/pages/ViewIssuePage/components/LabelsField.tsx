@@ -4,7 +4,6 @@ import React from "react";
 import {useAutocomplete} from "@material-ui/lab";
 import {issue as issueService} from "../../../services";
 import CheckIcon from "@material-ui/icons/Check";
-import {dark} from "@material-ui/core/styles/createPalette";
 import {issueActions} from "../../../actions";
 import {issueHelper} from "../../../helpers";
 
@@ -124,11 +123,10 @@ const Listbox = styled('ul')`
 
 
 
-const LabelsField = ({issue, props}) => {
+const LabelsField = ({currentLabels, onLabelChange}) => {
 
     const handleOnLabelChange = (newLables: string[]) => {
-        issue.labels = newLables
-        props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+        onLabelChange(newLables)
     }
 
     const [labels, setLabels] = React.useState<string[]>([]);
@@ -147,7 +145,7 @@ const LabelsField = ({issue, props}) => {
         setAnchorEl,
     } = useAutocomplete({
         id: 'labels',
-        defaultValue: issue.labels,
+        defaultValue: currentLabels,
         multiple: true,
         options: labels,
         autoSelect: true,
@@ -173,7 +171,7 @@ const LabelsField = ({issue, props}) => {
             <div {...getRootProps()}>
                 <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
                     {value.map((option, index: number) => (
-                        <Tag label={option} {...getTagProps({ index })} />
+                        <Tag label={option} key={index} {...getTagProps({ index })} />
                     ))}
                     <input {...getInputProps()} />
                 </InputWrapper>
@@ -181,7 +179,7 @@ const LabelsField = ({issue, props}) => {
             {groupedOptions.length > 0 ? (
                 <Listbox {...getListboxProps()}>
                     {groupedOptions.map((option, index) => (
-                        <li {...getOptionProps({ option, index })}>
+                        <li key={index} {...getOptionProps({ option, index })}>
                             <span>{option}</span>
                             <CheckIcon fontSize="small" />
                         </li>
