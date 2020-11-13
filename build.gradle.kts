@@ -36,6 +36,7 @@ dependencies {
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation ("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.javers:javers-spring-boot-starter-mongo:5.13.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.3.5.RELEASE")
 }
 
