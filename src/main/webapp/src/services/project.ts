@@ -2,7 +2,7 @@ import { authHeader } from '../helpers'
 
 export const project = {
     getProject,
-    getAlProjects
+    getAllProjects
 }
 
 function getProject (internalId: string) {
@@ -14,7 +14,7 @@ function getProject (internalId: string) {
     return fetch(`/api/projects/${internalId}`, requestOptions)
 }
 
-function getAlProjects() {
+function getAllProjects() {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', ...authHeader() }

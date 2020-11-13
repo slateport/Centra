@@ -57,7 +57,7 @@ export default class NewIssueButton extends React.Component<any, any>{
     }
 
     componentDidMount() {
-        projectService.getAlProjects().then(
+        projectService.getAllProjects().then(
             r => r.json().then(data => this.setState({projectList: data}))
         )
     }
