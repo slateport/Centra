@@ -55,13 +55,13 @@ const MainContent = styled(Paper)`
   }
 `;
 
-const ApplicationLayout: React.FC = ({ children }) => {
+const ApplicationLayout = ({ props, children }) => {
     return (
         <Root>
             <CssBaseline />
             <GlobalStyle />
             <AppContent>
-                <PrimarySearchAppBar />
+                <PrimarySearchAppBar props={props}/>
                 <MainContent>
                     {children}
                 </MainContent>

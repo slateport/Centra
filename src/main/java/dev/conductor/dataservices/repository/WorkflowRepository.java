@@ -8,5 +8,4 @@ import java.util.List;
 public interface WorkflowRepository extends MongoRepository<Workflow, String> {
 
     List<Workflow> findAll();
-    List<Workflow> findByProjectIdAndIssueTypeId(String projectId, String issueTypeId);
 }

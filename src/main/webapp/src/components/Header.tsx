@@ -9,6 +9,7 @@ import { spacing } from "@material-ui/system";
 import { darken } from "polished";
 import IssueMenu from "./header/IssueMenu";
 import MyProfileMenu from "./header/MyProfileMenu";
+import NewIssueButton from "./header/NewIssueButton";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -155,7 +156,7 @@ const Input = styled(InputBase)`
 `;
 
 
-function PrimarySearchAppBar () {
+function PrimarySearchAppBar ({props}) {
     const classes = useStyles()
 
     const stateFn = state => state.init
@@ -177,7 +178,7 @@ function PrimarySearchAppBar () {
                 </Search>
             </Box>
             <Box>
-                <Button color="primary">Create</Button>
+                <NewIssueButton props={props}/>
             </Box>
             <Box flexGrow={1} textAlign="right">
                 <IssueMenu />

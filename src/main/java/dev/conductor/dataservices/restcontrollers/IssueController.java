@@ -32,9 +32,6 @@ public class IssueController {
     private WorkflowService workflowService;
 
     @Autowired
-    private IssueWorkflowService issueWorkflowService;
-
-    @Autowired
     private ApplicationUserService applicationUserService;
 
     @Autowired
@@ -59,9 +56,9 @@ public class IssueController {
             );
         }
 
-        Optional<Workflow> workflow = workflowService.findById(issue.getWorkflowId());
+        Optional<Workflow> workflow = workflowService.findById(project.getWorkflowId());
 
-        if (workflow.isEmpty() || !workflow.get().getProjectId().equals(project.getId())) {
+        if (workflow.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
                     "Workflow not found or belongs to a different project"
@@ -79,7 +76,7 @@ public class IssueController {
                 new Date(),
                 new Date(),
                 workflowService.getInitialState(workflow.get()),
-                issue.getWorkflowId(),
+                project.getWorkflowId(),
                 user.getId(),
                 issue.getAssigneeId(),
                 user.getId(),
@@ -137,14 +134,6 @@ public class IssueController {
     public List<WorkflowTransition> getAvailableIssueTransitions(@PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
         Optional<Workflow> workflow = workflowService.findById(issue.getWorkflowId());
-
-        if (workflow.isEmpty()
-                || !issueWorkflowService.workflowValidForIssue(workflow.get(), issue)) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNPROCESSABLE_ENTITY,
-                    "Workflow not found or belongs to a different project"
-            );
-        }
 
         return workflowService.getAvailableTransitions(workflow.get(), issue.getWorkflowState());
     }
