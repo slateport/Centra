@@ -25,8 +25,6 @@ const  randomUuidString = () => {
 
 export default class NewIssueButton extends React.Component<any, any>{
     private id: string;
-    private redactor: any;
-    private config = {subscribe: undefined};
 
     constructor(props) {
         super(props);
@@ -73,6 +71,7 @@ export default class NewIssueButton extends React.Component<any, any>{
 
                 if (!response.ok) {
                     this.props.dispatch(alertActions.error("Failed to create issue"))
+                    return;
                 }
 
                 response.json()

@@ -156,7 +156,7 @@ const Input = styled(InputBase)`
 `;
 
 
-function PrimarySearchAppBar ({props}) {
+function PrimarySearchAppBar () {
     const classes = useStyles()
 
     const stateFn = state => state.init
@@ -178,7 +178,7 @@ function PrimarySearchAppBar ({props}) {
                 </Search>
             </Box>
             <Box>
-                <NewIssueButton props={props}/>
+                <NewIssueButton />
             </Box>
             <Box flexGrow={1} textAlign="right">
                 <IssueMenu />
