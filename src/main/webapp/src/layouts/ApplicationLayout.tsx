@@ -61,7 +61,7 @@ const ApplicationLayout = ({ props, children }) => {
             <CssBaseline />
             <GlobalStyle />
             <AppContent>
-                <PrimarySearchAppBar props={props}/>
+                <PrimarySearchAppBar />
                 <MainContent>
                     {children}
                 </MainContent>
