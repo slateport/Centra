@@ -7,7 +7,8 @@ export const issue = {
   getWorkflowTransitions,
   postWorkflowTransitions,
   addComment,
-  getAllLabels
+  getAllLabels,
+  createIssue
 }
 
 function getIssue (externalId: string) {
@@ -79,4 +80,18 @@ function getAllLabels () {
   }
 
   return fetch(`/api/issues/labels?labelValue=`, requestOptions)
+}
+
+function createIssue(title, description, projectKey, labels) {
+  const body = {
+    title, description, projectKey, labels
+  }
+
+  const requestOptions = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', ...authHeader()},
+    body: JSON.stringify(body)
+  }
+
+  return fetch(`/api/issues/`, requestOptions)
 }
