@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../static/redactorx/redactorx.css'
 import {
     Button,
     Dialog,
@@ -9,19 +8,11 @@ import {
 } from '@material-ui/core';
 
 import {issue as issueService, project as projectService} from "../../services";
-import RedactorX from "../../static/redactorx/redactorx";
 import {issueHelper, history} from "../../helpers";
 import {alertActions} from "../../actions";
 import RedactorTextArea from "../RedactorTextArea";
-
-
-const  randomUuidString = () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
-
+import {randomUuidString} from "../../helpers/uuid";
+import LabelsField from "../../pages/ViewIssuePage/components/LabelsField";
 
 export default class NewIssueButton extends React.Component<any, any>{
     private id: string;
@@ -32,6 +23,7 @@ export default class NewIssueButton extends React.Component<any, any>{
         this.state = {
             open: false,
             projectList: [],
+            labelsList: [],
             projectId: '',
             title: '',
             description: '',
@@ -118,7 +110,14 @@ export default class NewIssueButton extends React.Component<any, any>{
                                 </Grid>
                                 <Grid item xs={3}>Description</Grid>
                                 <Grid item xs={9}>
-                                <RedactorTextArea id={this.id} handleChange={this.handleChange} name={'description'} />
+                                    <RedactorTextArea id={this.id} handleChange={this.handleChange} name={'description'} />
+                                </Grid>
+                                <Grid item xs={3}>Labels</Grid>
+                                <Grid item xs={9}>
+                                    <LabelsField
+                                        currentLabels={this.state.labels}
+                                        onLabelChange={(values) => this.setState({labels: values})}
+                                    />
                                 </Grid>
                             </Grid>
                         </React.Fragment>

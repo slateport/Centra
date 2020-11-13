@@ -2,14 +2,7 @@ import '../static/redactorx/redactorx.css'
 import React from "react";
 import RedactorX from '../static/redactorx/redactorx';
 import { Button } from "@material-ui/core"
-
-
-const  randomUuidString = () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
+import {randomUuidString} from "../helpers/uuid";
 
 class RedactorField extends React.Component<any, any> {
     private readonly id;

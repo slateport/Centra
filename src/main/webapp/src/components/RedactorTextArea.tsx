@@ -16,7 +16,7 @@ export default class RedactorTextArea extends React.Component<IRedactorTextArea,
         const subscribe = {
             'editor.change': event => {
                 var html = event.get('html');
-                this.props.handleChange({ target: {name: 'description', value: html}});
+                this.props.handleChange({ target: {name: this.props.name, value: html}});
                 return html
             }
         };
