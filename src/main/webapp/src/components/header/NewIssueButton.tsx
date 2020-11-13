@@ -93,7 +93,6 @@ export default class NewIssueButton extends React.Component<any, any>{
                                         name ="projectId"
                                         onChange={this.handleChange}
                                     >
-                                        <MenuItem selected          >-- Select a project --</MenuItem>
                                         {this.state.projectList.map((project) =>
                                             <MenuItem value={project.projectKey} key={project.id}>{project.projectName}</MenuItem>
                                         )}
