@@ -123,7 +123,7 @@ const Listbox = styled('ul')`
 
 
 
-const LabelsField = ({currentLabels, onLabelChange}) => {
+const LabelsField = ({currentLabels, onLabelChange, ...rest}) => {
 
     const handleOnLabelChange = (newLables: string[]) => {
         onLabelChange(newLables)
@@ -169,7 +169,7 @@ const LabelsField = ({currentLabels, onLabelChange}) => {
     return (
         <React.Fragment>
             <div {...getRootProps()}>
-                <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+                <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''} {...rest}>
                     {value.map((option, index: number) => (
                         <Tag label={option} key={index} {...getTagProps({ index })} />
                     ))}
