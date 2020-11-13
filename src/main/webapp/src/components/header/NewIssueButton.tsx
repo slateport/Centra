@@ -4,7 +4,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, Grid, MenuItem, Select, TextField,
+    DialogTitle, Grid as MuiGrid, MenuItem, Select, TextField,
 } from '@material-ui/core';
 
 import {issue as issueService, project as projectService} from "../../services";
@@ -13,6 +13,10 @@ import {alertActions} from "../../actions";
 import RedactorTextArea from "../RedactorTextArea";
 import {randomUuidString} from "../../helpers/uuid";
 import LabelsField from "../../pages/ViewIssuePage/components/LabelsField";
+import styled from "styled-components";
+import {spacing} from "@material-ui/system";
+
+const Grid = styled(MuiGrid)(spacing)
 
 export default class NewIssueButton extends React.Component<any, any>{
     private id: string;
@@ -86,37 +90,43 @@ export default class NewIssueButton extends React.Component<any, any>{
                     <DialogContent>
                         <React.Fragment>
                             <Grid container>
-                                <Grid item xs={3}>Project</Grid>
-                                <Grid item xs={9}>
+                                <Grid item xs={3} p={2}>Project</Grid>
+                                <Grid item xs={9} p={2}>
                                     <Select
                                         id="project"
                                         name ="projectId"
                                         onChange={this.handleChange}
+                                        variant="outlined"
+                                        fullWidth
                                     >
                                         {this.state.projectList.map((project) =>
                                             <MenuItem value={project.projectKey} key={project.id}>{project.projectName}</MenuItem>
                                         )}
                                     </Select>
                                 </Grid>
-                                <Grid item xs={3}>Title</Grid>
-                                <Grid item xs={9}>
+                                <Grid item xs={3} p={2}>Title</Grid>
+                                <Grid item xs={9} p={2}>
                                     <TextField
                                         id={"title"}
                                         name={"title"}
                                         fullWidth
                                         required
                                         onChange={this.handleChange}
+                                        variant="outlined"
                                     />
                                 </Grid>
                                 <Grid item xs={3}>Description</Grid>
                                 <Grid item xs={9}>
                                     <RedactorTextArea id={this.id} handleChange={this.handleChange} name={'description'} />
                                 </Grid>
-                                <Grid item xs={3}>Labels</Grid>
-                                <Grid item xs={9}>
+                                <Grid item xs={3} p={2}>Labels</Grid>
+                                <Grid item xs={9} p={2}>
                                     <LabelsField
                                         currentLabels={this.state.labels}
                                         onLabelChange={(values) => this.setState({labels: values})}
+                                        variant="outlined"
+                                        fullWidth
+                                        st
                                     />
                                 </Grid>
                             </Grid>
