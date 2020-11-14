@@ -10,7 +10,7 @@ import {
     List as MuiList,
     ListItem,
     ListItemText,
-    Divider,
+    Divider as MuiDivider,
 } from "@material-ui/core";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
@@ -41,6 +41,7 @@ const IssueListContent = styled.div`
   position: relative;
 `;
 
+const Divider = styled(MuiDivider)(spacing);
 
 class SearchPage extends React.Component<any, any>{
     private transitions = [];
@@ -90,7 +91,7 @@ class SearchPage extends React.Component<any, any>{
                             Search
                         </Typography>
                         <br />
-                         <Divider />
+                         <Divider my={6}/>
                         <br />
                         <Grid container spacing={6}>
                             <Grid item xs={12}>

@@ -41,12 +41,12 @@ dependencies {
 }
 
 springBoot {
-    mainClassName = "dev.conductor.dataservices.DataServicesApplication"
+    mainClassName = "dev.conductor.centra.CentraApplication"
 }
 
 group = "dev.conductor"
 version = "0.0.1-SNAPSHOT"
-description = "data-services"
+description = "centra"
 java.sourceCompatibility = JavaVersion.VERSION_15
 java.targetCompatibility = JavaVersion.VERSION_15
 

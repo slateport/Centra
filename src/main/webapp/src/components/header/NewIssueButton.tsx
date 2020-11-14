@@ -115,8 +115,8 @@ export default class NewIssueButton extends React.Component<any, any>{
                                         variant="outlined"
                                     />
                                 </Grid>
-                                <Grid item xs={3}>Description</Grid>
-                                <Grid item xs={9}>
+                                <Grid item xs={3} p={2}>Description</Grid>
+                                <Grid item xs={9} p={2}>
                                     <RedactorTextArea id={this.id} handleChange={this.handleChange} name={'description'} />
                                 </Grid>
                                 <Grid item xs={3} p={2}>Labels</Grid>
