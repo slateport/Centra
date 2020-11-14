@@ -10,6 +10,7 @@ import { darken } from "polished";
 import IssueMenu from "./header/IssueMenu";
 import MyProfileMenu from "./header/MyProfileMenu";
 import NewIssueButton from "./header/NewIssueButton";
+import {isAuthenticated} from "../helpers";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -177,9 +178,11 @@ function PrimarySearchAppBar () {
                     <Input placeholder="Search issues" />
                 </Search>
             </Box>
+            { isAuthenticated() &&
             <Box>
                 <NewIssueButton />
             </Box>
+            }
             <Box flexGrow={1} textAlign="right">
                 <IssueMenu />
                 <MyProfileMenu />

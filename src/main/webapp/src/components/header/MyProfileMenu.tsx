@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import {Button as MuiButton, Menu, MenuItem} from '@material-ui/core';
 import {AccountCircle} from "@material-ui/icons";
-import { history } from '../../helpers'
+import {history, isAuthenticated} from '../../helpers'
 
 const Button = styled(MuiButton)`
     color : ${props=> props.theme.header.color}
@@ -31,7 +31,16 @@ export default function MyProfileMenu() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={() => history.push('/login')}>Logout</MenuItem>
+                {isAuthenticated() &&
+                <MenuItem onClick={() => {
+                    handleClose()
+                }} component={"a"} href={"/login"}>Logout</MenuItem>
+                }
+                {!isAuthenticated() &&
+                <MenuItem onClick={() => {
+                    handleClose()
+                }} component={"a"} href={"/login"}>Login</MenuItem>
+                }
             </Menu>
         </React.Fragment>
     );

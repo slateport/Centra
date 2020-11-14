@@ -26,7 +26,7 @@ import {issueActions} from "../../../actions";
 import { issue as issueService} from '../../../services'
 import WorkflowApplication from '../../../components/workflow/WorkflowApplication';
 import LabelsField from "./LabelsField";
-import {issueHelper} from "../../../helpers";
+import {issueHelper, isAuthenticated} from "../../../helpers";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -110,41 +110,46 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                 <Link component={NavLink} exact to="/">
                     {project.projectName}
                 </Link>
-                <Typography>{issueHelper.buildExternalKey(issue)}: {issue.title}</Typography>
+                <Typography>
+                    <Link
+                        href={"/browse/"+issueHelper.buildExternalKey(issue)}
+                    >{issueHelper.buildExternalKey(issue)}: {issue.title}</Link></Typography>
             </Breadcrumbs>
             <Divider my={8} />
+            {isAuthenticated() &&
             <Card mb={6}>
                 <CardContent>
-                        <React.Fragment>
-                            <Button
-                                aria-controls="transition-menu"
-                                aria-haspopup="true"
-                                color="primary"
-                                onClick={handleClick}
-                                disabled={workflowTransitions.length == 0}
-                            >
-                                Transition
-                            </Button>
-                            <Menu
-                                id="transition-menu"
-                                anchorEl={anchorElTransitionMenu}
-                                keepMounted
-                                getContentAnchorEl={null}
-                                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                                transformOrigin={{ vertical: "top", horizontal: "center" }}
-                                open={Boolean(anchorElTransitionMenu)}
-                                onClose={handleClose}
-                                color={"primary"}
-                            >
-                                {workflowTransitions.map(transition =>
-                                    <MenuItem
-                                        onClick={onTransitionIssue(props, issue, transition)}
-                                    >{transition.label}</MenuItem>
-                                )}
-                            </Menu>
-                        </React.Fragment>
+                    <React.Fragment>
+                        <Button
+                            aria-controls="transition-menu"
+                            aria-haspopup="true"
+                            color="primary"
+                            onClick={handleClick}
+                            disabled={workflowTransitions.length == 0}
+                        >
+                            Transition
+                        </Button>
+                        <Menu
+                            id="transition-menu"
+                            anchorEl={anchorElTransitionMenu}
+                            keepMounted
+                            getContentAnchorEl={null}
+                            anchorOrigin={{vertical: "bottom", horizontal: "center"}}
+                            transformOrigin={{vertical: "top", horizontal: "center"}}
+                            open={Boolean(anchorElTransitionMenu)}
+                            onClose={handleClose}
+                            color={"primary"}
+                        >
+                            {workflowTransitions.map(transition =>
+                                <MenuItem
+                                    onClick={onTransitionIssue(props, issue, transition)}
+                                >{transition.label}</MenuItem>
+                            )}
+                        </Menu>
+                    </React.Fragment>
                 </CardContent>
             </Card>
+            }
             <Card mb={6}>
                 <CardContent>
                     <Typography variant="h6">
@@ -241,18 +246,20 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     </Grid>
                 </CardContent>
             </Card>
+            {isAuthenticated() &&
             <Card mb={6}>
                 <CardContent>
                     <Typography variant="h6">
                         Attachments
                     </Typography>
-                    <DropzoneArea showFileNamesInPreview={true} showFileNames={true} />
+                    <DropzoneArea showFileNamesInPreview={true} showFileNames={true}/>
                 </CardContent>
             </Card>
+            }
             <Card mb={6}>
                 <CardContent>
                     <Typography variant="h6">
-                        Comments
+                        Activity
                     </Typography>
                     {issue.comments &&
                     <ul>
@@ -266,7 +273,9 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     }
                     <br />
                     <br />
+                    {isAuthenticated() &&
                     <RedactorField saveFn={onAddComment(props, issue)}/>
+                    }
                 </CardContent>
             </Card>
             <Card mb={6}>
