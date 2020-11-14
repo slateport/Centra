@@ -46,6 +46,11 @@ public class IssueServiceImpl implements IssueService {
     }
 
     public Changes getAuditLogsForIssue(Issue issue) {
-        return javers.findChanges(QueryBuilder.byInstance(issue).build());
+        return javers.findChanges(
+                QueryBuilder
+                        .byInstance(issue)
+                        .withChildValueObjects()
+                        .build()
+        );
     }
 }

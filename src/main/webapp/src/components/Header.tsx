@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
-import { ListItem, Box as MuiBox, Typography, Button, InputBase} from '@material-ui/core'
+import {ListItem, Box as MuiBox, Typography, Button, InputBase, Link} from '@material-ui/core'
 import { Layers } from "react-feather"
 import { spacing } from "@material-ui/system";
 import { darken } from "polished";
@@ -108,7 +108,7 @@ const Brand = styled(ListItem)<{button?: boolean}>`
   color: ${props => props.theme.color};
   background-color: ${props => props.theme.header.background};
   font-family: ${props => props.theme.typography.fontFamily};
-  min-height: 56px;
+  min-height: 56px; 
   padding-left: ${props => props.theme.spacing(6)}px;
   padding-right: ${props => props.theme.spacing(6)}px;
   cursor: default;
@@ -167,7 +167,7 @@ function PrimarySearchAppBar () {
         <Box display="flex" bgcolor={'#232f3e'} p={2} alignItems="center">
             <Typography className={classes.title} noWrap color={"secondary"}>
                 <Brand button>
-                    <BrandIcon /> <Box ml={1}>{init.publicName} </Box>
+                    <BrandIcon /> <Box ml={1}><Link href={"/"}>{init.publicName}</Link> </Box>
                 </Brand>
             </Typography>
             <Box>

@@ -189,7 +189,7 @@ public class IssueController {
         return labelService.findAll();
     }
 
-    @GetMapping("/{id}/audit")
+    @GetMapping("/{id}/changes")
     public Changes getAuditForIssue(@PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
         return issueService.getAuditLogsForIssue(issue);

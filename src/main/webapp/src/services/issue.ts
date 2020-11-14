@@ -8,7 +8,8 @@ export const issue = {
   postWorkflowTransitions,
   addComment,
   getAllLabels,
-  createIssue
+  createIssue,
+  getAuditChanges
 }
 
 function getIssue (externalId: string) {
@@ -94,4 +95,13 @@ function createIssue(title, description, projectKey, labels) {
   }
 
   return fetch(`/api/issues/`, requestOptions)
+}
+
+function getAuditChanges(externalId: string) {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', ...authHeader() }
+  }
+
+  return fetch(`/api/issues/${externalId}/changes`, requestOptions)
 }

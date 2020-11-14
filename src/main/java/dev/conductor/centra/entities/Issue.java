@@ -1,6 +1,8 @@
 package dev.conductor.centra.entities;
 
 import dev.conductor.centra.dto.IssueDTO;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.DiffInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,19 +16,19 @@ public class Issue {
     public static final IssuePriority DEFAULT_PRIORITY = IssuePriority.MEDIUM;
 
     @Id private String id;
-    private final long externalId;
-    private final String projectId;
-    private final String title;
-    private final String description;
-    private final Date createdDate;
-    private final Date lastModifiedDate;
-    private final String workflowId;
-    private final WorkflowState workflowState;
-    private final String createdByUserId;
-    private final String assigneeId;
-    private final String lastModifiedByUserId;
-    private IssuePriority issuePriority = DEFAULT_PRIORITY;
-    private final List<String> labels;
+    @DiffInclude private final long externalId;
+    @DiffInclude private final String projectId;
+    @DiffInclude private final String title;
+    @DiffInclude private final String description;
+    @DiffInclude private final Date createdDate;
+    @DiffIgnore private final Date lastModifiedDate;
+    @DiffInclude private final String workflowId;
+    @DiffInclude private final WorkflowState workflowState;
+    @DiffInclude private final String createdByUserId;
+    @DiffInclude private final String assigneeId;
+    @DiffInclude private final String lastModifiedByUserId;
+    @DiffInclude private IssuePriority issuePriority = DEFAULT_PRIORITY;
+    @DiffInclude private final List<String> labels;
 
     public Issue(
             long externalId,

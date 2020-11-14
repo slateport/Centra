@@ -27,6 +27,12 @@ import { issue as issueService} from '../../../services'
 import WorkflowApplication from '../../../components/workflow/WorkflowApplication';
 import LabelsField from "./LabelsField";
 import {issueHelper, isAuthenticated} from "../../../helpers";
+import AuditHistory from "./AuditHistoryComponent";
+
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -41,10 +47,39 @@ const GlobalStyleDropzone = createGlobalStyle`
 const Card = styled(MuiCard)(spacing);
 const Divider = styled(MuiDivider)(spacing);
 
+function a11yProps(index: any) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box p={3}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
 
 const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
     const [anchorElTransitionMenu, setAnchorElTransitionMenu] = React.useState<null | HTMLElement>(null);
     const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions);
+    const [tabValue, setTabValue] = React.useState(0);
+
 
     useEffect(() => {
         setWorkflowTransitions(initialWorkflowTransitions)
@@ -261,28 +296,45 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     <Typography variant="h6">
                         Activity
                     </Typography>
-                    {issue.comments &&
-                    <ul>
-                        {issue.comments.map((comment, _) =>
-                            <IssueComment key={comment.id} comment={comment}/>
-                        )}
-                    </ul>
-                    }
-                    {!issue.comments || issue.comments.length == 0 &&
-                    <React.Fragment>No comments have been made.</React.Fragment>
-                    }
-                    <br />
-                    <br />
-                    {isAuthenticated() &&
-                    <RedactorField saveFn={onAddComment(props, issue)}/>
-                    }
-                </CardContent>
-            </Card>
-            <Card mb={6}>
-                <CardContent>
-                    {workflowOptions(issue).workflowId &&
-                    <WorkflowApplication options={workflowOptions(issue)}/>
-                    }
+                    <Paper square>
+                        <Tabs
+                            value={tabValue}
+                            onChange={(e, newValue) => setTabValue(newValue)}
+                            aria-label="simple tabs example"
+                            indicatorColor="primary"
+                            textColor="primary"
+
+                        >
+                            <Tab label="Comments" {...a11yProps(0)} />
+                            <Tab label="Workflow" {...a11yProps(1)} />
+                            <Tab label="History" {...a11yProps(2)} />
+                        </Tabs>
+                    </Paper>
+                    <TabPanel value={tabValue} index={0}>
+                        {issue.comments &&
+                        <ul>
+                            {issue.comments.map((comment, _) =>
+                                <IssueComment key={comment.id} comment={comment}/>
+                            )}
+                        </ul>
+                        }
+                        {!issue.comments || issue.comments.length == 0 &&
+                        <React.Fragment>No comments have been made.</React.Fragment>
+                        }
+                        <br />
+                        <br />
+                        {isAuthenticated() &&
+                        <RedactorField saveFn={onAddComment(props, issue)}/>
+                        }
+                    </TabPanel>
+                    <TabPanel value={tabValue} index={1}>
+                        {workflowOptions(issue).workflowId &&
+                        <WorkflowApplication options={workflowOptions(issue)}/>
+                        }
+                    </TabPanel>
+                    <TabPanel value={tabValue} index={2}>
+                        <AuditHistory externalId={issueHelper.buildExternalKey(issue)} />
+                    </TabPanel>
                 </CardContent>
             </Card>
         </React.Fragment>

@@ -15,8 +15,9 @@ function login (username, password) {
     userService.login(username, password)
       .then(
         user => {
-          dispatch(success(user))
-          history.push('/')
+            dispatch(success(user))
+            history.push('/')
+            location.reload()
         },
         error => {
           dispatch(alertActions.error('Login failed!'))
