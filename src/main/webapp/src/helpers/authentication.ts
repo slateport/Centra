@@ -8,3 +8,7 @@ export function authHeader () {
     return {}
   }
 }
+
+export function isAuthenticated(): boolean {
+  return (localStorage.getItem('user') != null)
+}

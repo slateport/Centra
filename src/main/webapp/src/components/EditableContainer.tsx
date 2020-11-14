@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import parse from 'html-react-parser';
+import {isAuthenticated} from "../helpers";
 
 export default class EditableContainer extends React.Component<any, any> {
     private count = 0;
@@ -66,7 +67,7 @@ export default class EditableContainer extends React.Component<any, any> {
         const {children, Component, ...rest} = this.props
         const {edit} = this.state
 
-        if (edit) {
+        if (edit && isAuthenticated()) {
             return (
                 <Component
                     autoFocus
