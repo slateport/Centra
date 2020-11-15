@@ -233,7 +233,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                     Assignee:
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <PeopleField userId={issue.assignee} />
+                                    <PeopleField userId={issue.assigneeId} />
                                 </Grid>
                                 <Grid item xs={6}>
                                     Reporter:

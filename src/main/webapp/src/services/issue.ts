@@ -83,9 +83,9 @@ function getAllLabels () {
   return fetch(`/api/issues/labels?labelValue=`, requestOptions)
 }
 
-function createIssue(title, description, projectKey, labels) {
+function createIssue(title, description, projectKey, labels, assigneeId) {
   const body = {
-    title, description, projectKey, labels
+    title, description, projectKey, labels, assigneeId
   }
 
   const requestOptions = {
