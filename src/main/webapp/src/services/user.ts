@@ -1,10 +1,12 @@
 import { authHeader } from '../helpers'
+import UserLite from "../entities/UserLite";
 
 export const user = {
   login,
   logout,
   getAll,
-  getUser
+  getUser,
+  getAllLite
 }
 
 function login (username: string, password: string) {
@@ -45,6 +47,23 @@ function getUser(userId: string) {
   }
 
   return fetch(`/api/users/${userId}`, requestOptions).then(
+      response => {
+        if (response.ok){
+          return Promise.resolve(response.json());
+        } else {
+          return Promise.reject(response.json());
+        }
+      }
+  )
+}
+
+function getAllLite() : Promise<UserLite[]> {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  }
+
+  return fetch(`/api/users/lite`, requestOptions).then(
       response => {
         if (response.ok){
           return Promise.resolve(response.json());

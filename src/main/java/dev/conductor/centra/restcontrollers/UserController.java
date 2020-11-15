@@ -1,6 +1,7 @@
 package dev.conductor.centra.restcontrollers;
 
 import dev.conductor.centra.dto.ApplicationUserPassword;
+import dev.conductor.centra.dto.UserLiteDTO;
 import dev.conductor.centra.entities.ApplicationUser;
 import dev.conductor.centra.service.ApplicationUserService;
 import dev.conductor.centra.service.exceptions.UsernameAlreadyExistsException;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -118,5 +120,10 @@ public class UserController extends BaseController {
         user.setPassword(null);
 
         return user;
+    }
+
+    @GetMapping("/lite")
+    public List<UserLiteDTO> getAllUserLite() {
+        return userService.findAllLite();
     }
 }

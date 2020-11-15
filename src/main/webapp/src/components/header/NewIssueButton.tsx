@@ -15,6 +15,7 @@ import {randomUuidString} from "../../helpers/uuid";
 import LabelsField from "../../pages/ViewIssuePage/components/LabelsField";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
+import UserPickerField from "../UserPickerField";
 
 const Grid = styled(MuiGrid)(spacing)
 
@@ -32,6 +33,7 @@ export default class NewIssueButton extends React.Component<any, any>{
             title: '',
             description: '',
             labels: [],
+            assigneeId: null,
         }
 
         this.id = randomUuidString();
@@ -62,7 +64,7 @@ export default class NewIssueButton extends React.Component<any, any>{
     }
 
     createIssueAndReturn() {
-        issueService.createIssue(this.state.title, this.state.description, this.state.projectId, this.state.labels)
+        issueService.createIssue(this.state.title, this.state.description, this.state.projectId, this.state.labels, this.state.assigneeId)
             .then(response => {
 
                 if (!response.ok) {
@@ -128,6 +130,10 @@ export default class NewIssueButton extends React.Component<any, any>{
                                         fullWidth
                                         st
                                     />
+                                </Grid>
+                                <Grid item xs={3} p={2}>Assignee</Grid>
+                                <Grid item xs={9} p={2}>
+                                    <UserPickerField userId={""} handleFn={(assigneeId) => this.setState({assigneeId})}/>
                                 </Grid>
                             </Grid>
                         </React.Fragment>
