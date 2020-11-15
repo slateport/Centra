@@ -1,8 +1,15 @@
+import {authHeader} from "../helpers";
+
 export const init = {
   getInit
 }
 
 function getInit () {
-  return fetch('/api/init')
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', ...authHeader() }
+  }
+
+  return fetch('/api/init', requestOptions)
     .then(initData => initData.json())
 }

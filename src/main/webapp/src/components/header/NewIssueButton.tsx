@@ -16,10 +16,11 @@ import LabelsField from "../../pages/ViewIssuePage/components/LabelsField";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 import UserPickerField from "../UserPickerField";
+import {connect} from "react-redux";
 
 const Grid = styled(MuiGrid)(spacing)
 
-export default class NewIssueButton extends React.Component<any, any>{
+class NewIssueButton extends React.Component<any, any> {
     private id: string;
 
     constructor(props) {
@@ -133,7 +134,7 @@ export default class NewIssueButton extends React.Component<any, any>{
                                 </Grid>
                                 <Grid item xs={3} p={2}>Assignee</Grid>
                                 <Grid item xs={9} p={2}>
-                                    <UserPickerField userId={""} handleFn={(assigneeId) => this.setState({assigneeId})}/>
+                                    <UserPickerField userId={this.props?.init?.user?.id} handleFn={(assigneeId) => this.setState({assigneeId})}/>
                                 </Grid>
                             </Grid>
                         </React.Fragment>
@@ -149,4 +150,15 @@ export default class NewIssueButton extends React.Component<any, any>{
                 </Dialog>
             </React.Fragment>
         )
-    }}
+    }
+}
+
+function mapStateToProps (state) {
+    const { alert, init } = state
+    return {
+        alert, init
+    }
+}
+
+const connectedNewIssueButton = connect(mapStateToProps)(NewIssueButton)
+export { connectedNewIssueButton as NewIssueButton }
