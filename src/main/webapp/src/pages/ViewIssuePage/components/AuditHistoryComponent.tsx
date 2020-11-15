@@ -95,7 +95,6 @@ export default class AuditHistory extends Component<IAuditHistoryProps, any> {
     }
 
     render() {
-        console.log(blacklistedChanges)
         return (
             <React.Fragment>
                 <TableContainer>
