@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import {issue as issueServices} from '../../../services'
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
-import PeopleField from "./PeopleField";
+import EditablePeopleField from "./EditablePeopleField";
 
 
 interface IAuditHistoryProps {
@@ -71,7 +71,7 @@ export default class AuditHistory extends Component<IAuditHistoryProps, any> {
                                 .filter((change) => blacklistedChanges.indexOf(change.propertyNameWithPath) == -1)
                                 .map((change, index) => (
                                     <TableRow key={index}>
-                                        <TableCell><PeopleField userId={change.changeByUserId}/> <RoundTimeAgo date={new Date(change.changeDate)} /></TableCell>
+                                        <TableCell><EditablePeopleField userId={change.changeByUserId} handleFn={() => {}} clickable={false}/> <RoundTimeAgo date={new Date(change.changeDate)} /></TableCell>
                                         <TableCell>{normalisePropertyName(change.propertyNameWithPath)}</TableCell>
                                         <TableCell>{parse(typeof change.left == 'string' ? change.left: '')}</TableCell>
                                         <TableCell>{parse(typeof change.right == 'string' ? change.right: '')}</TableCell>
