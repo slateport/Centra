@@ -1,5 +1,6 @@
 package dev.conductor.centra.restcontrollers;
 
+import dev.conductor.centra.dto.IssueChangeDTO;
 import dev.conductor.centra.dto.IssueCommentDTO;
 import dev.conductor.centra.dto.IssueDTO;
 import dev.conductor.centra.entities.*;
@@ -190,7 +191,7 @@ public class IssueController {
     }
 
     @GetMapping("/{id}/changes")
-    public Changes getAuditForIssue(@PathVariable String id) {
+    public List<IssueChangeDTO> getAuditForIssue(@PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
         return issueService.getAuditLogsForIssue(issue);
     }

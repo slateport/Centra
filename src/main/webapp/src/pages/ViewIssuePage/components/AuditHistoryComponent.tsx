@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import parse from 'html-react-parser';
+import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -7,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import {issue as issueServices} from '../../../services'
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
+import PeopleField from "./PeopleField";
 
 
 interface IAuditHistoryProps {
@@ -16,7 +18,7 @@ interface IAuditHistoryProps {
 const normalisePropertyName = (propertyName) => {
 
     switch(propertyName){
-        case 'workflowState.label':
+        case 'workflowState:label':
             return "Status"
 
         default:
@@ -26,8 +28,8 @@ const normalisePropertyName = (propertyName) => {
 
 
 const blacklistedChanges = [
-    'workflowState.isEntry',
-    'workflowState.isTerminus',
+    'workflowState:isEntry',
+    'workflowState:isTerminus',
 ]
 
 
@@ -51,29 +53,32 @@ export default class AuditHistory extends Component<IAuditHistoryProps, any> {
     }
 
     render() {
+        console.log(blacklistedChanges)
         return (
             <React.Fragment>
                 <TableContainer>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>When</TableCell>
-                            <TableCell>Field</TableCell>
-                            <TableCell>Original Value</TableCell>
-                            <TableCell>New Value</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {this.state.changes
-                            .filter((change) => blacklistedChanges.indexOf(change.propertNameWithPath) == -1)
-                            .map((change) => (
-                            <TableRow key={change.affectedGlobalId.cdoId}>
-                                <TableCell>{change.commitMetadata.author} <RoundTimeAgo date={new Date(change.commitMetadata.commitDate)} /></TableCell>
-                                <TableCell>{normalisePropertyName(change.propertyNameWithPath)}</TableCell>
-                                <TableCell>{parse(typeof change.left == 'string' ? change.left: '')}</TableCell>
-                                <TableCell>{parse(typeof change.right == 'string' ? change.right: '')}</TableCell>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>When</TableCell>
+                                <TableCell>Field</TableCell>
+                                <TableCell>Original Value</TableCell>
+                                <TableCell>New Value</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.changes
+                                .filter((change) => blacklistedChanges.indexOf(change.propertyNameWithPath) == -1)
+                                .map((change, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell><PeopleField userId={change.changeByUserId}/> <RoundTimeAgo date={new Date(change.changeDate)} /></TableCell>
+                                        <TableCell>{normalisePropertyName(change.propertyNameWithPath)}</TableCell>
+                                        <TableCell>{parse(typeof change.left == 'string' ? change.left: '')}</TableCell>
+                                        <TableCell>{parse(typeof change.right == 'string' ? change.right: '')}</TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
                 </TableContainer>
             </React.Fragment>
         )
