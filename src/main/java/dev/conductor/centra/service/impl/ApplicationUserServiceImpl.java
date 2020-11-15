@@ -1,5 +1,6 @@
 package dev.conductor.centra.service.impl;
 
+import dev.conductor.centra.dto.UserLiteDTO;
 import dev.conductor.centra.entities.ApplicationUser;
 import dev.conductor.centra.repository.ApplicationUserRepository;
 import dev.conductor.centra.service.ApplicationUserService;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,5 +72,16 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     public void changePassword(ApplicationUser user, String password) {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         save(user);
+    }
+
+    @Override
+    public List<UserLiteDTO> findAllLite() {
+        List<UserLiteDTO> results = new ArrayList<>();
+
+        findAll().forEach(user -> {
+            results.add(new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername()));
+        });
+
+        return results;
     }
 }
