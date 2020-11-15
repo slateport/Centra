@@ -21,11 +21,13 @@ const normalisePropertyName = (propertyName) => {
         case 'workflowState:label':
             return "Status"
 
+        case 'assigneeId':
+            return "Assignee"
+
         default:
             return propertyName.charAt(0).toUpperCase() + propertyName.slice(1)
     }
 }
-
 
 const blacklistedChanges = [
     'workflowState:isEntry',
