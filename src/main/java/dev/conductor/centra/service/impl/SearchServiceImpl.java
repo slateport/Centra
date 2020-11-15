@@ -53,7 +53,7 @@ public class SearchServiceImpl implements SearchService {
                 );
                 case LIKE -> query.addCriteria(
                         Criteria.where(condition.getRhs()).
-                                regex(".*m" + condition.getLhs() + ".*", "i")
+                                regex(condition.getLhs(), "i")
                 );
                 case IN ->  query.addCriteria(
                         Criteria.where(condition.getRhs()).in(Collections.singletonList(condition.getLhs()))
