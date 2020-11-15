@@ -18,7 +18,7 @@ import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import EditableContainer from "../../../components/EditableContainer";
 import Field from "../../../components/StandardTextField";
 import StatusChip from "./StatusChip";
-import PeopleField from "./PeopleField";
+import EditablePeopleField from "./EditablePeopleField";
 import RedactorField from "../../../components/RedactorField";
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
 import IssueComment from "./CommentsComponent";
@@ -33,7 +33,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
-import UserPickerField from "../../../components/UserPickerField";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -130,6 +129,14 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
     const onAddComment = (props, issue) => {
         return (e, value) => {
             return props.dispatch(issueActions.addComment(issueHelper.buildExternalKey(issue), value))
+        }
+    }
+
+    const onSaveAssignee = (props, issue) => {
+        return value => {
+            issue.assigneeId = value
+            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            location.reload()
         }
     }
 
@@ -234,13 +241,13 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                     Assignee:
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <PeopleField userId={issue.assigneeId} />
+                                    <EditablePeopleField userId={issue.assigneeId} handleFn={onSaveAssignee(props, issue)} clickable={true} />
                                 </Grid>
                                 <Grid item xs={6}>
                                     Reporter:
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <PeopleField userId={issue.createdByUserId} />
+                                    <EditablePeopleField userId={issue.createdByUserId} handleFn={() => {}} clickable={false}/>
                                 </Grid>
                             </Grid>
                         </Grid>
