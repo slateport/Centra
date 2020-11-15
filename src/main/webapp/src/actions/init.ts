@@ -1,12 +1,18 @@
 import { initConstants } from '../constants'
+import {authHeader} from "../helpers";
 
 export const initActions = {
   loadInit
 }
 
 function loadInit () {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', ...authHeader() }
+  }
+
   return async dispatch => {
-    const response = await fetch('/api/init')
+    const response = await fetch('/api/init', requestOptions)
     if (response.ok) {
       dispatch(success(await response.json()))
     } else {

@@ -9,7 +9,7 @@ import { spacing } from "@material-ui/system";
 import { darken } from "polished";
 import IssueMenu from "./header/IssueMenu";
 import MyProfileMenu from "./header/MyProfileMenu";
-import NewIssueButton from "./header/NewIssueButton";
+import { NewIssueButton } from "./header/NewIssueButton";
 import {isAuthenticated} from "../helpers";
 
 const useStyles = makeStyles((theme) => ({
