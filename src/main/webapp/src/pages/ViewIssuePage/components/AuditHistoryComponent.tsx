@@ -34,6 +34,46 @@ const blacklistedChanges = [
     'workflowState:isTerminus',
 ]
 
+const renderRight = (change) => {
+    switch(change.propertyNameWithPath) {
+        case 'title':
+            return parse(change.right)
+
+        case 'description':
+            return parse(change.right)
+
+        case 'workflowState:label':
+            return change.right;
+
+        case 'assigneeId':
+            return (
+                <EditablePeopleField userId={change.right} handleFn={() => {}} clickable={false}/>
+            )
+        default:
+            return change.right;
+    }
+}
+
+const renderLeft = (change) => {
+    switch(change.propertyNameWithPath) {
+        case 'title':
+            return parse(change.left)
+
+        case 'description':
+            return parse(change.left)
+
+        case 'workflowState:label':
+            return change.left;
+
+        case 'assigneeId':
+            return (
+                <EditablePeopleField userId={change.left} handleFn={() => {}} clickable={false}/>
+            )
+        default:
+            return change.left;
+    }
+}
+
 
 export default class AuditHistory extends Component<IAuditHistoryProps, any> {
 
@@ -75,8 +115,8 @@ export default class AuditHistory extends Component<IAuditHistoryProps, any> {
                                     <TableRow key={index}>
                                         <TableCell><EditablePeopleField userId={change.changeByUserId} handleFn={() => {}} clickable={false}/> <RoundTimeAgo date={new Date(change.changeDate)} /></TableCell>
                                         <TableCell>{normalisePropertyName(change.propertyNameWithPath)}</TableCell>
-                                        <TableCell>{parse(typeof change.left == 'string' ? change.left: '')}</TableCell>
-                                        <TableCell>{parse(typeof change.right == 'string' ? change.right: '')}</TableCell>
+                                        <TableCell>{renderRight(change)}</TableCell>
+                                        <TableCell>{renderLeft(change)}</TableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>
