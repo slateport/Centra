@@ -41,7 +41,7 @@ const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
 const GlobalStyleDropzone = createGlobalStyle`
   &&  .MuiDropzoneArea-root {
     max-height: 51px;
-  }f
+  }
 `
 
 const Card = styled(MuiCard)(spacing);
