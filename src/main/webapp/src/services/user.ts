@@ -1,5 +1,5 @@
 import { authHeader } from '../helpers'
-import UserLite from "../entities/UserLite";
+import UserLite from "../domain/UserLite";
 
 export const user = {
   login,

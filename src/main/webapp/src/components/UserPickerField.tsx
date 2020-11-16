@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import UserLite from "../entities/UserLite";
+import UserLite from "../domain/UserLite";
 import { user as userService } from '../services'
 
 interface IUserFieldPickerProps {
