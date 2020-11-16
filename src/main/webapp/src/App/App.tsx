@@ -24,6 +24,7 @@ import { ApplicationLayout } from "../layouts/ApplicationLayout";
 
 import $ from 'jquery'
 import {PrimarySearchAppBar} from "../components/Header";
+import {RegistrationPage} from "../pages/RegistrationPage";
 
 $.fn.draggable = () => {}
 $.fn.droppable = () => {}
@@ -79,6 +80,7 @@ class App extends React.Component<any, any> {
                                 }
                                 <ApplicationLayout props={this.props}>
                                         <Switch>
+                                            <Route path="/register" component={RegistrationPage} />
                                             <Route path="/login" component={LoginPage} />
                                             <Route path="/install" component={InstallationPage} />
                                             <Routing path="/browse/:externalId" component={ViewIssuePage} />
