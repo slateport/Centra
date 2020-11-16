@@ -4,7 +4,7 @@ import dev.conductor.centra.dto.UserLiteDTO;
 import dev.conductor.centra.entities.ApplicationUser;
 import dev.conductor.centra.repository.ApplicationUserRepository;
 import dev.conductor.centra.service.ApplicationUserService;
-import dev.conductor.centra.service.exceptions.UsernameAlreadyExistsException;
+import dev.conductor.centra.service.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,11 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     @Override
     public ApplicationUser findByUsername(String username) {
         return repository.findByUsername(username);
+    }
+
+    @Override
+    public ApplicationUser findByEmailAddress(String emailAddress) {
+        return repository.findByEmailAddress(emailAddress);
     }
 
     @Override
@@ -48,7 +53,11 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     public ApplicationUser createUser(ApplicationUser user) {
 
         if (findByUsername(user.getUsername()) != null) {
-            throw new UsernameAlreadyExistsException("Account with username already exists");
+            throw new UserAlreadyExistsException("Account with username already exists");
+        }
+
+        if (findByEmailAddress(user.getEmailAddress()) != null) {
+            throw new UserAlreadyExistsException("Account with email already exists");
         }
 
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));

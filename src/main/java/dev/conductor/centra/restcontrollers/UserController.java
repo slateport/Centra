@@ -4,7 +4,7 @@ import dev.conductor.centra.dto.ApplicationUserPassword;
 import dev.conductor.centra.dto.UserLiteDTO;
 import dev.conductor.centra.entities.ApplicationUser;
 import dev.conductor.centra.service.ApplicationUserService;
-import dev.conductor.centra.service.exceptions.UsernameAlreadyExistsException;
+import dev.conductor.centra.service.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,10 +39,10 @@ public class UserController extends BaseController {
 
         try{
             userService.createUser(user);
-        } catch (UsernameAlreadyExistsException e) {
+        } catch (UserAlreadyExistsException e) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
-                    "Username already taken"
+                    e.getMessage()
             );
         }
 

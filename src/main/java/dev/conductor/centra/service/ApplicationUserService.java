@@ -12,6 +12,7 @@ public interface ApplicationUserService {
     ApplicationUser save(ApplicationUser user);
     public long count();
     ApplicationUser findByUsername(String username);
+    ApplicationUser findByEmailAddress(String emailAddress);
     ApplicationUser findById(String id);
     ApplicationUser createUser(ApplicationUser user);
     Boolean isAdmin(Principal principal);
