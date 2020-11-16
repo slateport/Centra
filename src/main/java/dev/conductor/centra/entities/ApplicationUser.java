@@ -21,8 +21,8 @@ public class ApplicationUser implements Serializable {
         this.emailAddress = emailAddress;
         this.password = password;
         this.displayName = displayName;
-        this.admin = admin;
-        this.enabled = enabled;
+        this.admin = admin != null ? admin : false;
+        this.enabled = enabled != null ? enabled : true;
     }
 
     public String getId() {

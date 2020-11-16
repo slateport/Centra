@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { userActions } from '../../actions';
-import { Link } from 'react-router-dom'
 import styled from "styled-components";
 import AuthLayout from "../../layouts/Auth";
 
 import {
+    Link,
     Checkbox,
     FormControl,
     FormControlLabel,
@@ -67,8 +67,8 @@ class LoginPage extends React.Component<any, any> {
         const { username, password} = this.state;
         const createNewAccountBtn = this.props.init.instancePrivate ? "" :
             <Button
-                component={Link}
-                to="/auth/create-account"
+                component={Button}
+                href={"/register"}
                 fullWidth
                 color="primary"
             >

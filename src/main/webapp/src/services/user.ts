@@ -6,7 +6,8 @@ export const user = {
   logout,
   getAll,
   getUser,
-  getAllLite
+  getAllLite,
+  registerUser
 }
 
 function login (username: string, password: string) {
@@ -64,6 +65,24 @@ function getAllLite() : Promise<UserLite[]> {
   }
 
   return fetch(`/api/users/lite`, requestOptions).then(
+      response => {
+        if (response.ok){
+          return Promise.resolve(response.json());
+        } else {
+          return Promise.reject(response.json());
+        }
+      }
+  )
+}
+
+function registerUser(username: string, password: string, displayName: string, emailAddress: string) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password, displayName, emailAddress })
+  }
+
+  return fetch('/api/users', requestOptions).then (
       response => {
         if (response.ok){
           return Promise.resolve(response.json());
