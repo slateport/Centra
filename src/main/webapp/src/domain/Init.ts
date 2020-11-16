@@ -5,7 +5,7 @@ interface Init {
     instancePrivate: boolean,
     installationComplete: boolean,
     publicName: string,
-    user: UserLite
+    user?: UserLite
 }
 
 export default Init
