@@ -98,22 +98,12 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public ApplicationUser updateUser(@PathVariable String id, Principal principal) {
+    public ApplicationUser getUser(@PathVariable String id) {
 
         ApplicationUser user = userService.findById(id);
 
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        if (this.getAuthenticatedUser(principal) == null
-                || (!this.getAuthenticatedUser(principal).getAdmin()
-                && !user.getUsername().equals(principal.getName())
-        )) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNPROCESSABLE_ENTITY,
-                    "Not authenticated to update user"
-            );
         }
 
         userService.save(user);

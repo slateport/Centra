@@ -67,13 +67,14 @@ class RegistrationPage extends React.Component<RegistrationPageProps, any> {
             userService.registerUser(username, password, displayName, emailAddress)
                 .then(
                     () => dispatch(alertActions.success("Registration successful. You can now login")),
-                    (json) => dispatch(alertActions.error("Registration failed. Please check your details are correct" + json.message))
+                    (json) => dispatch(alertActions.error(
+                        "Registration failed. Please check your details are correct. " + json.message
+                    ))
                 )
         }
     }
 
     render() {
-
         if (isAuthenticated()){
             return (
                 <Redirect to={'/'} />
