@@ -1,6 +1,7 @@
 package dev.conductor.centra.entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -9,7 +10,9 @@ import java.io.Serializable;
 public class ApplicationUser implements Serializable {
 
     @Id private String id;
+    @Indexed(unique=true)
     private String username;
+    @Indexed(unique=true)
     private String emailAddress;
     private String password;
     private String displayName;
