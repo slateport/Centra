@@ -5,7 +5,7 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import dev.conductor.centra.config.SettingsEnum;
 import dev.conductor.centra.data.defualt.DefaultInstall;
 import dev.conductor.centra.entities.Settings;
-import dev.conductor.centra.service.IssueTypeService;
+import dev.conductor.centra.service.IssueTypeSchemaService;
 import dev.conductor.centra.service.SettingsService;
 
 import java.util.EnumSet;
@@ -16,10 +16,10 @@ public class DatabaseChangelog {
     @ChangeSet(order = "001", id = "databaseInitialisation", author = "CSF")
     public void databaseInitialisation(
             SettingsService settingsService,
-            IssueTypeService issueTypeService
+            IssueTypeSchemaService issueTypeSchemaService
     ) {
         updateSettings(settingsService);
-        DefaultInstall install = new DefaultInstall(issueTypeService);
+        DefaultInstall install = new DefaultInstall(issueTypeSchemaService);
         install.createDefaultEntities();
     }
 
@@ -28,7 +28,7 @@ public class DatabaseChangelog {
 
         for (SettingsEnum settings: definitions) {
             Settings retrievedValue = settingsService.getSettingsByName(settings);
-
+    
             if (retrievedValue == null){
                 Settings entity = new Settings(
                         settings.name(),
