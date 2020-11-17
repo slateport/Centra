@@ -9,7 +9,8 @@ export const issue = {
   addComment,
   getAllLabels,
   createIssue,
-  getAuditChanges
+  getAuditChanges,
+  getIssueTypeById
 }
 
 function getIssue (externalId: string) {
@@ -83,9 +84,9 @@ function getAllLabels () {
   return fetch(`/api/issues/labels?labelValue=`, requestOptions)
 }
 
-function createIssue(title, description, projectKey, labels, assigneeId) {
+function createIssue(title, description, projectKey, labels, assigneeId, issueTypeId) {
   const body = {
-    title, description, projectKey, labels, assigneeId
+    title, description, projectKey, labels, assigneeId, issueTypeId
   }
 
   const requestOptions = {
@@ -104,4 +105,13 @@ function getAuditChanges(externalId: string) {
   }
 
   return fetch(`/api/issues/${externalId}/changes`, requestOptions)
+}
+
+function getIssueTypeById(id: string) {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', ...authHeader() }
+  }
+
+  return fetch(`/api/issues/types/${id}`, requestOptions)
 }

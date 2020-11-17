@@ -38,6 +38,9 @@ public class IssueController {
     @Autowired
     LabelService labelService;
 
+    @Autowired
+    IssueTypeSchemaService issueTypeSchemaService;
+
     @GetMapping(value = "/{id}")
     public IssueDTO findById(@PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
@@ -195,6 +198,11 @@ public class IssueController {
     public List<IssueChangeDTO> getAuditForIssue(@PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
         return issueService.getAuditLogsForIssue(issue);
+    }
+
+    @GetMapping("/types/{id}")
+    public IssueType getIssueTypeById(@PathVariable String id) {
+        return issueTypeSchemaService.findTypeById(id);
     }
 
     private Issue getIssueByExternalId(String id) {

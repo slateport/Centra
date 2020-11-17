@@ -29,10 +29,12 @@ class NewIssueButton extends React.Component<any, any> {
         this.state = {
             open: false,
             projectList: [],
+            issueTypeList: [],
             labelsList: [],
             projectId: '',
             title: '',
             description: '',
+            issueTypeId: '',
             labels: [],
             assigneeId: null,
         }
@@ -43,6 +45,19 @@ class NewIssueButton extends React.Component<any, any> {
         this.handleClose = this.handleClose.bind(this)
         this.handleChange = this.handleChange.bind(this);
         this.createIssueAndReturn = this.createIssueAndReturn.bind(this)
+        this.onChangeProject = this.onChangeProject.bind(this)
+    }
+
+    onChangeProject (e) {
+        const { name, value } = e.target;
+        // value is the project key
+
+        projectService.getIssueTypesForProject(value)
+            .then(r => r.json().then(
+                data => this.setState({issueTypeList: data})
+            ))
+
+        this.handleChange(e)
     }
 
     handleClickOpen() {
@@ -65,21 +80,26 @@ class NewIssueButton extends React.Component<any, any> {
     }
 
     createIssueAndReturn() {
-        issueService.createIssue(this.state.title, this.state.description, this.state.projectId, this.state.labels, this.state.assigneeId)
-            .then(response => {
+        issueService.createIssue(
+            this.state.title,
+            this.state.description,
+            this.state.projectId,
+            this.state.labels,
+            this.state.assigneeId,
+            this.state.issueTypeId
+        ).then(response => {
+            if (!response.ok) {
+                this.props.dispatch(alertActions.error("Failed to create issue"))
+                return;
+            }
 
-                if (!response.ok) {
-                    this.props.dispatch(alertActions.error("Failed to create issue"))
-                    return;
-                }
-
-                response.json()
-                    .then(data => {
-                        const externalId = issueHelper.buildExternalKey(data);
-                        history.push("/browse/" + externalId)
-                        location.reload()
-                    })
-            })
+            response.json()
+                .then(data => {
+                    const externalId = issueHelper.buildExternalKey(data);
+                    history.push("/browse/" + externalId)
+                    location.reload()
+                })
+        })
     }
 
     render() {
@@ -98,12 +118,26 @@ class NewIssueButton extends React.Component<any, any> {
                                     <Select
                                         id="project"
                                         name ="projectId"
-                                        onChange={this.handleChange}
+                                        onChange={this.onChangeProject}
                                         variant="outlined"
                                         fullWidth
                                     >
                                         {this.state.projectList.map((project) =>
                                             <MenuItem value={project.projectKey} key={project.id}>{project.projectName}</MenuItem>
+                                        )}
+                                    </Select>
+                                </Grid>
+                                <Grid item xs={3} p={2}>Issue Type</Grid>
+                                <Grid item xs={9} p={2}>
+                                    <Select
+                                        id="issueTypeId"
+                                        name ="issueTypeId"
+                                        onChange={this.handleChange}
+                                        variant="outlined"
+                                        fullWidth
+                                    >
+                                        {this.state.issueTypeList.map((issueType) =>
+                                            <MenuItem value={issueType.id} key={issueType.id}>{issueType.label}</MenuItem>
                                         )}
                                     </Select>
                                 </Grid>

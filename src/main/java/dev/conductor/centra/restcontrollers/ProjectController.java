@@ -47,19 +47,25 @@ public class ProjectController {
 
     @GetMapping("/{id}/issueTypes")
     public List<IssueType> getIssueTypesForProject(@PathVariable String id) {
+        Project project = null;
         Optional<Project> optionalProject = projectService.findById(id);
 
         if (optionalProject.isEmpty()){
+            project = projectService.findByKey(id);
+        }
+
+        if (optionalProject.isEmpty() && project == null){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "Project was not found"
             );
         }
 
-
+        String issueTypeSchemaId = (project != null) ? project.getIssueTypeSchemaId()
+                : optionalProject.get().getIssueTypeSchemaId();
 
         return issueTypeSchemaService.findTypeBySchema(
-                issueTypeSchemaService.findSchemaById(optionalProject.get().getIssueTypeSchemaId())
+                issueTypeSchemaService.findSchemaById(issueTypeSchemaId)
         );
     }
 }
