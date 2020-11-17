@@ -8,7 +8,9 @@ import dev.conductor.centra.service.IssueTypeSchemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IssueTypeSchemaServiceImpl implements IssueTypeSchemaService {
@@ -47,5 +49,23 @@ public class IssueTypeSchemaServiceImpl implements IssueTypeSchemaService {
     @Override
     public IssueTypeSchema findSchemaByName(String name) {
         return schemaRepository.findByName(name);
+    }
+
+    @Override
+    public IssueTypeSchema findSchemaById(String id) {
+        Optional<IssueTypeSchema> optional = schemaRepository.findById(id);
+
+        return (optional.isEmpty()) ? null : optional.get();
+    }
+
+    @Override
+    public List<IssueType> findTypeBySchema(IssueTypeSchema schema) {
+        List<IssueType> results = new ArrayList<>();
+
+        for (String issueTypeId : schema.getIssueTypeIds()){
+            results.add(findTypeById(issueTypeId));
+        }
+
+        return results;
     }
 }

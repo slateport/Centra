@@ -82,7 +82,8 @@ public class IssueController {
                 issue.getAssigneeId(),
                 user.getId(),
                 (issue.getIssuePriority() != null ? issue.getIssuePriority() : Issue.DEFAULT_PRIORITY),
-                    issueTypeId, (issue.getLabels() != null) ? issue.getLabels() : new ArrayList<>()
+                issue.getIssueTypeId(),
+                (issue.getLabels() != null) ? issue.getLabels() : new ArrayList<>()
             );
 
             issueService.save(entity);
@@ -168,7 +169,8 @@ public class IssueController {
                 issue.getAssigneeId(),
                 user.getId(),
                 issue.getIssuePriority(),
-                    issueTypeId, issue.getLabels()
+                issue.getIssueTypeId(),
+                issue.getLabels()
             );
 
             Issue entity = Issue.fromIssueDto(issueDTO);

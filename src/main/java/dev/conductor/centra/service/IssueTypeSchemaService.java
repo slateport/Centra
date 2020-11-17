@@ -13,4 +13,6 @@ public interface IssueTypeSchemaService {
     IssueType createType(IssueType issueType);
     IssueTypeSchema createSchema(IssueTypeSchema schema);
     IssueTypeSchema findSchemaByName(String name);
+    IssueTypeSchema findSchemaById(String id);
+    List<IssueType> findTypeBySchema(IssueTypeSchema schema);
 }
