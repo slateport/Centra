@@ -10,5 +10,4 @@ public interface IssueTypeRepository extends MongoRepository<IssueType, String> 
 
     IssueType findByLabel(String label);
     Optional<IssueType> findById(String id);
-    List<IssueType> findByIssueTypeSchemaId(String id);
 }

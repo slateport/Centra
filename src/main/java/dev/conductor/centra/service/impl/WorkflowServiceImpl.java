@@ -35,6 +35,11 @@ public class WorkflowServiceImpl implements WorkflowService {
     }
 
     @Override
+    public Workflow findByName(String name) {
+        return repository.findByName(name);
+    }
+
+    @Override
     public WorkflowState getInitialState(Workflow workflow) {
         return workflow.getStates().stream()
                 .filter(WorkflowState::isEntry)
@@ -65,6 +70,6 @@ public class WorkflowServiceImpl implements WorkflowService {
         return workflow.getStates().stream()
                 .filter(e -> e.getLabel().equals(transition.getToNode()))
                 .findFirst()
-                .orElse(new WorkflowState());
+                .orElse(new WorkflowState(true, false, "DEFUALT"));
     }
 }

@@ -5,7 +5,6 @@ import dev.conductor.centra.dto.IssueCommentDTO;
 import dev.conductor.centra.dto.IssueDTO;
 import dev.conductor.centra.entities.*;
 import dev.conductor.centra.service.*;
-import org.javers.core.Changes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -83,7 +82,7 @@ public class IssueController {
                 issue.getAssigneeId(),
                 user.getId(),
                 (issue.getIssuePriority() != null ? issue.getIssuePriority() : Issue.DEFAULT_PRIORITY),
-                (issue.getLabels() != null) ? issue.getLabels() : new ArrayList<>()
+                    issueTypeId, (issue.getLabels() != null) ? issue.getLabels() : new ArrayList<>()
             );
 
             issueService.save(entity);
@@ -169,7 +168,7 @@ public class IssueController {
                 issue.getAssigneeId(),
                 user.getId(),
                 issue.getIssuePriority(),
-                issue.getLabels()
+                    issueTypeId, issue.getLabels()
             );
 
             Issue entity = Issue.fromIssueDto(issueDTO);

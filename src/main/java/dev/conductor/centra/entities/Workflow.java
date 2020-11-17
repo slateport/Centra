@@ -12,13 +12,11 @@ public class Workflow {
     @Id private String id;
     @Indexed(unique = true)
     private final String name;
-    private final String issueTypeId;
     private final List<WorkflowState> states;
     private final List<WorkflowTransition> transitions;
 
-    public Workflow(String name, String issueTypeId, List<WorkflowState> states, List<WorkflowTransition> transitions) {
+    public Workflow(String name, List<WorkflowState> states, List<WorkflowTransition> transitions) {
         this.name = name;
-        this.issueTypeId = issueTypeId;
         this.states = states;
         this.transitions = transitions;
     }
@@ -29,10 +27,6 @@ public class Workflow {
 
     public String getName() {
         return name;
-    }
-
-    public String getIssueTypeId() {
-        return issueTypeId;
     }
 
     public List<WorkflowState> getStates() {

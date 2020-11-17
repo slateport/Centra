@@ -8,4 +8,5 @@ import java.util.List;
 public interface WorkflowRepository extends MongoRepository<Workflow, String> {
 
     List<Workflow> findAll();
+    Workflow findByName(String name);
 }

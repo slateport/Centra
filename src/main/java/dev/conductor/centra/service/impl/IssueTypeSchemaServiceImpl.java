@@ -45,7 +45,7 @@ public class IssueTypeSchemaServiceImpl implements IssueTypeSchemaService {
     }
 
     @Override
-    public List<IssueType> findTypesBySchemaId(String id) {
-        return typeRepository.findByIssueTypeSchemaId(id);
+    public IssueTypeSchema findSchemaByName(String name) {
+        return schemaRepository.findByName(name);
     }
 }

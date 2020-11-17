@@ -64,7 +64,7 @@ public class SearchController {
                         issue.getAssigneeId(),
                         issue.getLastModifiedByUserId(),
                         issue.getIssuePriority(),
-                        issue.getLabels()
+                        issueTypeId, issue.getLabels()
                 ));
             } catch (RuntimeException e) {
                 System.out.println(issue.getId() + " encountered an issue");

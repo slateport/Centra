@@ -7,6 +7,7 @@ import dev.conductor.centra.data.defualt.DefaultInstall;
 import dev.conductor.centra.entities.Settings;
 import dev.conductor.centra.service.IssueTypeSchemaService;
 import dev.conductor.centra.service.SettingsService;
+import dev.conductor.centra.service.WorkflowService;
 
 import java.util.EnumSet;
 
@@ -16,10 +17,11 @@ public class DatabaseChangelog {
     @ChangeSet(order = "001", id = "databaseInitialisation", author = "CSF")
     public void databaseInitialisation(
             SettingsService settingsService,
-            IssueTypeSchemaService issueTypeSchemaService
+            IssueTypeSchemaService issueTypeSchemaService,
+            WorkflowService workflowService
     ) {
         updateSettings(settingsService);
-        DefaultInstall install = new DefaultInstall(issueTypeSchemaService);
+        DefaultInstall install = new DefaultInstall(issueTypeSchemaService, workflowService);
         install.createDefaultEntities();
     }
 
@@ -28,7 +30,7 @@ public class DatabaseChangelog {
 
         for (SettingsEnum settings: definitions) {
             Settings retrievedValue = settingsService.getSettingsByName(settings);
-    
+
             if (retrievedValue == null){
                 Settings entity = new Settings(
                         settings.name(),

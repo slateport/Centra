@@ -36,6 +36,6 @@ public class ProjectController {
             );
         }
 
-        return projectService.save(project);
+        return projectService.create(project);
     }
 }

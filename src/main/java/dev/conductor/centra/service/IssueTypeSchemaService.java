@@ -12,5 +12,5 @@ public interface IssueTypeSchemaService {
     IssueType findTypeByLabel(String label);
     IssueType createType(IssueType issueType);
     IssueTypeSchema createSchema(IssueTypeSchema schema);
-    List<IssueType> findTypesBySchemaId(String id);
+    IssueTypeSchema findSchemaByName(String name);
 }
