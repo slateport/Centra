@@ -32,3 +32,12 @@ function getIssueTypesForProject(internalId: string) {
 
     return fetch(`/api/projects/${internalId}/issueTypes`, requestOptions)
 }
+
+function getIssueTypeById(internalId: string) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', ...authHeader() }
+    }
+
+    return fetch(`/api/projects/issueTypes/${internalId}`, requestOptions)
+}

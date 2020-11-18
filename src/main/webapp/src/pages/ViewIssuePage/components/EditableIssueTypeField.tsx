@@ -1,10 +1,11 @@
 import {issue} from "../../../services";
 import React, {useEffect, useState} from "react";
 import UserPickerField from "../../../components/UserPickerField";
+import ProjectIssueTypePickerField from "../../../components/ProjectIssueTypePickerField";
 
-const userPromise = (id) => issue.getIssueTypeById(id).then(r => r.json())
+const typePromise = (id) => issue.getIssueTypeById(id).then(r => r.json())
 
-const EditableIssueTypeField = ({id, handleFn, clickable}) => {
+const EditableIssueTypeField = ({id, handleFn, clickable, projectKey}) => {
     if(id == null){
         return (<span>Unknown</span>)
     }
@@ -31,7 +32,7 @@ const EditableIssueTypeField = ({id, handleFn, clickable}) => {
 
 
     useEffect(() => {
-        userPromise(id).then(data => setIssueType(data))
+        typePromise(id).then(data => setIssueType(data))
     }, []);
 
     const wrappedHandleFn = (val) => {
@@ -42,7 +43,7 @@ const EditableIssueTypeField = ({id, handleFn, clickable}) => {
 
     if (edit) {
         return (
-            <UserPickerField handleFn={wrappedHandleFn} userId={issueType.id} />
+            <ProjectIssueTypePickerField selectedId={id} projectKey={projectKey} handleFn={(val) => wrappedHandleFn(val)}/>
         )
     } else {
         return (issueType == null) ? (<span>Unknown</span>) : (
