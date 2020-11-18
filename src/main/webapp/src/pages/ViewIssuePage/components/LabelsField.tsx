@@ -129,8 +129,8 @@ const LabelsField = ({currentLabels, onLabelChange, ...rest}) => {
         onLabelChange(newLables)
     }
 
-    const [labels, setLabels] = React.useState<string[]>([]);
-    const loadingLabels = labels && labels.length === 0;
+    const [labels, setLabels] = React.useState<string[]>(null);
+    const loadingLabels = labels == null;
 
     const {
         getRootProps,

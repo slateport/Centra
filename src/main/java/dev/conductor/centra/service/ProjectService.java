@@ -11,6 +11,6 @@ public interface ProjectService {
     Project findByKey(String key);
     Project findByName(String name);
     Optional<Project> findById(String id);
-    Project save(Project project);
+    Project create(Project project);
     List<Project> listAll();
 }

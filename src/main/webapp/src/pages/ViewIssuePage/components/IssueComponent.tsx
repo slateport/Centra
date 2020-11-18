@@ -33,6 +33,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
+import EditableIssueTypeField from "./EditableIssueTypeField";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -140,6 +141,14 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
         }
     }
 
+    const onSaveIssueType = (props, issue) => {
+        return value => {
+            issue.issueTypeId = value
+            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            location.reload()
+        }
+    }
+
     return (
         <React.Fragment>
             <GlobalStyleDropzone />
@@ -205,7 +214,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 Type
                             </Grid>
                             <Grid item xs={4}>
-                                Feature Request
+                                <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} />
                             </Grid>
                             <Grid item xs={2}>Status</Grid>
                             <Grid item xs={4}>

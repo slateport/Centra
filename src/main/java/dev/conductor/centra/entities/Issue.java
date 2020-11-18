@@ -28,6 +28,7 @@ public class Issue {
     @DiffInclude private final String assigneeId;
     @DiffInclude private final String lastModifiedByUserId;
     @DiffInclude private IssuePriority issuePriority = DEFAULT_PRIORITY;
+    @DiffInclude private String issueTypeId;
     @DiffInclude private final List<String> labels;
 
     public Issue(
@@ -43,7 +44,7 @@ public class Issue {
             String assigneeId,
             String lastModifiedByUserId,
             IssuePriority issuePriority,
-            List<String> labels
+            String issueTypeId, List<String> labels
     ) {
         this.externalId = externalId;
         this.title = title;
@@ -57,6 +58,7 @@ public class Issue {
         this.assigneeId = assigneeId;
         this.lastModifiedByUserId = lastModifiedByUserId;
         this.issuePriority = issuePriority;
+        this.issueTypeId = issueTypeId;
         this.labels = labels;
     }
 
@@ -75,6 +77,7 @@ public class Issue {
             String assigneeId,
             String lastModifiedByUserId,
             IssuePriority issuePriority,
+            String issueTypeId,
             List<String> labels
     ) {
         this.id = id;
@@ -90,6 +93,7 @@ public class Issue {
         this.assigneeId = assigneeId;
         this.lastModifiedByUserId = lastModifiedByUserId;
         this.issuePriority = issuePriority;
+        this.issueTypeId = issueTypeId;
         this.labels = labels;
     }
 
@@ -108,6 +112,7 @@ public class Issue {
             issueDTO.getAssigneeId(),
             issueDTO.getCreatedByUserId(),
             issueDTO.getIssuePriority(),
+            issueDTO.getIssueTypeId(),
             issueDTO.getLabels()
         );
     }
@@ -168,5 +173,7 @@ public class Issue {
         return labels;
     }
 
-
+    public String getIssueTypeId() {
+        return issueTypeId;
+    }
 }

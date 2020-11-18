@@ -6,6 +6,12 @@ public class WorkflowState {
     private boolean isTerminus;
     private String label;
 
+    public WorkflowState(boolean isEntry, boolean isTerminus, String label) {
+        this.isEntry = isEntry;
+        this.isTerminus = isTerminus;
+        this.label = label;
+    }
+
     public boolean isEntry() {
         return isEntry;
     }

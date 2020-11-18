@@ -5,7 +5,6 @@ import dev.conductor.centra.dto.IssueCommentDTO;
 import dev.conductor.centra.dto.IssueDTO;
 import dev.conductor.centra.entities.*;
 import dev.conductor.centra.service.*;
-import org.javers.core.Changes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +37,9 @@ public class IssueController {
 
     @Autowired
     LabelService labelService;
+
+    @Autowired
+    IssueTypeSchemaService issueTypeSchemaService;
 
     @GetMapping(value = "/{id}")
     public IssueDTO findById(@PathVariable String id) {
@@ -83,6 +85,7 @@ public class IssueController {
                 issue.getAssigneeId(),
                 user.getId(),
                 (issue.getIssuePriority() != null ? issue.getIssuePriority() : Issue.DEFAULT_PRIORITY),
+                issue.getIssueTypeId(),
                 (issue.getLabels() != null) ? issue.getLabels() : new ArrayList<>()
             );
 
@@ -169,6 +172,7 @@ public class IssueController {
                 issue.getAssigneeId(),
                 user.getId(),
                 issue.getIssuePriority(),
+                issue.getIssueTypeId(),
                 issue.getLabels()
             );
 
@@ -194,6 +198,11 @@ public class IssueController {
     public List<IssueChangeDTO> getAuditForIssue(@PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
         return issueService.getAuditLogsForIssue(issue);
+    }
+
+    @GetMapping("/types/{id}")
+    public IssueType getIssueTypeById(@PathVariable String id) {
+        return issueTypeSchemaService.findTypeById(id);
     }
 
     private Issue getIssueByExternalId(String id) {

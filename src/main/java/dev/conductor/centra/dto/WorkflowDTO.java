@@ -8,7 +8,6 @@ import java.util.List;
 public class WorkflowDTO {
 
     private String projectId;
-    private String issueTypeId;
     private String name;
     private String id;
     private List<WorkflowState> states;
@@ -16,10 +15,6 @@ public class WorkflowDTO {
 
     public String getProjectId() {
         return projectId;
-    }
-
-    public String getIssueTypeId() {
-        return issueTypeId;
     }
 
     public String getName() {

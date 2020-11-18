@@ -56,7 +56,6 @@ public class WorkflowController {
 
         Workflow workflow = new Workflow(
                 dto.getName(),
-                dto.getIssueTypeId(),
                 dto.getStates(),
                 dto.getTransitions()
         );
