@@ -1,6 +1,5 @@
 import React from "react";
 import {project} from "../services";
-import UserLite from "../domain/UserLite";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import IssueType from "../domain/IssueType";
