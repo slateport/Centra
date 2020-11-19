@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import {issue as issueServices} from '../../../services'
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
 import EditablePeopleField from "./EditablePeopleField";
+import EditableIssueTypeField from "./EditableIssueTypeField";
 
 
 interface IAuditHistoryProps {
@@ -23,6 +24,9 @@ const normalisePropertyName = (propertyName) => {
 
         case 'assigneeId':
             return "Assignee"
+
+        case 'issueTypeId':
+            return "Issue type"
 
         default:
             return propertyName.charAt(0).toUpperCase() + propertyName.slice(1)
@@ -49,6 +53,12 @@ const renderRight = (change) => {
             return (
                 <EditablePeopleField userId={change.right} handleFn={() => {}} clickable={false}/>
             )
+
+        case 'issueTypeId':
+            return (
+                <EditableIssueTypeField id={change.right} handleFn={() => {}} clickable={false} projectKey={null}/>
+            )
+
         default:
             return change.right;
     }
@@ -69,6 +79,12 @@ const renderLeft = (change) => {
             return (
                 <EditablePeopleField userId={change.left} handleFn={() => {}} clickable={false}/>
             )
+
+        case 'issueTypeId':
+            return (
+                <EditableIssueTypeField id={change.left} handleFn={() => {}} clickable={false} projectKey={null}/>
+            )
+
         default:
             return change.left;
     }
@@ -114,8 +130,8 @@ export default class AuditHistory extends Component<IAuditHistoryProps, any> {
                                     <TableRow key={index}>
                                         <TableCell><EditablePeopleField userId={change.changeByUserId} handleFn={() => {}} clickable={false}/> <RoundTimeAgo date={new Date(change.changeDate)} /></TableCell>
                                         <TableCell>{normalisePropertyName(change.propertyNameWithPath)}</TableCell>
-                                        <TableCell>{renderRight(change)}</TableCell>
                                         <TableCell>{renderLeft(change)}</TableCell>
+                                        <TableCell>{renderRight(change)}</TableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>
