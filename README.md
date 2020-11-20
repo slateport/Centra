@@ -1,9 +1,9 @@
-# Conductor
+# Centra
 
 ## How to run
 
 ### Requirements
-* MongoDB
+* MongoDB 4.x
 * Gradle 6.7
 
 ### Running the app
