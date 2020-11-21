@@ -14,12 +14,14 @@ public class Project {
     @Indexed(unique=true)
     private final String projectKey;
     private final String projectName;
+    private final String description;
     private String workflowId;
     private String issueTypeSchemaId;
 
-    public Project(String projectKey, String projectName, String workflowId, String issueTypeSchemaId) {
+    public Project(String projectKey, String projectName, String description, String workflowId, String issueTypeSchemaId) {
         this.projectKey = projectKey;
         this.projectName = projectName;
+        this.description = description;
         this.workflowId = workflowId;
         this.issueTypeSchemaId = issueTypeSchemaId;
         validateProjectKey(projectKey);
@@ -35,6 +37,10 @@ public class Project {
 
     public String getProjectName() {
         return projectName;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getWorkflowId() {

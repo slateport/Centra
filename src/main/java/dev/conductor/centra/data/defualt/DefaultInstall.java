@@ -2,6 +2,7 @@ package dev.conductor.centra.data.defualt;
 
 import dev.conductor.centra.entities.*;
 import dev.conductor.centra.service.IssueTypeSchemaService;
+import dev.conductor.centra.service.ProjectService;
 import dev.conductor.centra.service.WorkflowService;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +14,16 @@ public class DefaultInstall {
 
     private final IssueTypeSchemaService issueTypeSchemaService;
     private final WorkflowService workflowService;
+    private final ProjectService projectService;
 
-    public DefaultInstall(IssueTypeSchemaService issueTypeSchemaService, WorkflowService workflowService) {
+    public DefaultInstall(
+            IssueTypeSchemaService issueTypeSchemaService,
+            WorkflowService workflowService,
+            ProjectService projectService
+            ) {
         this.issueTypeSchemaService = issueTypeSchemaService;
         this.workflowService = workflowService;
+        this.projectService = projectService;
     }
 
     public void createDefaultEntities(){
@@ -57,5 +64,9 @@ public class DefaultInstall {
         Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions);
 
         workflowService.save(wfl);
+
+        Project demoProject = new Project("DEMO", "Demo", "Project to demo features", wfl.getId(), schema.getId());
+        projectService.create(demoProject);
+
     }
 }
