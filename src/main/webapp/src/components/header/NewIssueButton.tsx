@@ -133,7 +133,7 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
                                         onChange={this.onChangeProject}
                                         variant="outlined"
                                         fullWidth
-                                        value={(typeof this.props.projectId == 'string') ? this.props.projectId : ''}
+                                        defaultValue={(typeof this.props.projectId == 'string') ? this.props.projectId : ''}
                                     >
                                         {this.state.projectList.map((project) =>
                                             <MenuItem value={project.projectKey} key={project.id}>{project.projectName}</MenuItem>

@@ -28,7 +28,7 @@ export default class UserPickerField extends React.Component<IUserFieldPickerPro
                 id="user-picker-field"
                 options={this.state.users}
                 getOptionLabel={(option: UserLite) => option.displayName}
-                // value={this.state.users.find(u => (this.props.userId) ? u.id == this.props.userId : {}) || {}}
+                defaultValue={this.state.users.find(u => (this.props.userId) ? u.id == this.props.userId : {}) || {}}
                 getOptionSelected={(option, value) => option.id == value.id}
                 renderInput={(params) => <TextField {...params} variant="outlined" />}
                 onChange={(_, value: UserLite) => this.props.handleFn(value.id)}
