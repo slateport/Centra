@@ -17,10 +17,17 @@ import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 import UserPickerField from "../UserPickerField";
 import {connect} from "react-redux";
+import Init from "../../domain/Init";
 
 const Grid = styled(MuiGrid)(spacing)
 
-class NewIssueButton extends React.Component<any, any> {
+interface INewIssueButtonProps {
+    projectId?: string,
+    dispatch: Function,
+    init? : Init
+}
+
+class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
     private id: string;
 
     constructor(props) {
@@ -49,7 +56,7 @@ class NewIssueButton extends React.Component<any, any> {
     }
 
     onChangeProject (e) {
-        const { name, value } = e.target;
+        const { value } = e.target;
         // value is the project key
 
         projectService.getIssueTypesForProject(value)
@@ -72,6 +79,11 @@ class NewIssueButton extends React.Component<any, any> {
         projectService.getAllProjects().then(
             r => r.json().then(data => this.setState({projectList: data}))
         )
+
+        if (this.props.projectId) {
+            this.onChangeProject({target: {value: this.props.projectId }})
+            this.setState({projectId: this.props.projectId})
+        }
     }
 
     handleChange(e) {
@@ -121,6 +133,7 @@ class NewIssueButton extends React.Component<any, any> {
                                         onChange={this.onChangeProject}
                                         variant="outlined"
                                         fullWidth
+                                        value={(typeof this.props.projectId == 'string') ? this.props.projectId : ''}
                                     >
                                         {this.state.projectList.map((project) =>
                                             <MenuItem value={project.projectKey} key={project.id}>{project.projectName}</MenuItem>
@@ -168,7 +181,7 @@ class NewIssueButton extends React.Component<any, any> {
                                 </Grid>
                                 <Grid item xs={3} p={2}>Assignee</Grid>
                                 <Grid item xs={9} p={2}>
-                                    <UserPickerField userId={this.props?.init?.user?.id} handleFn={(assigneeId) => this.setState({assigneeId})}/>
+                                    <UserPickerField userId={this.props.init?.user?.id} handleFn={(assigneeId) => this.setState({assigneeId})}/>
                                 </Grid>
                             </Grid>
                         </React.Fragment>
