@@ -47,7 +47,7 @@ export default class EditableContainer extends React.Component<any, any> {
 
     handleOnChange = (event, value, callback) => {
         this.setState({
-            children: value || event.target.value
+            children: value || event.target?.value
         },callback)
 
     }
