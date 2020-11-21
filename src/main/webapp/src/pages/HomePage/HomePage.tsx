@@ -105,7 +105,7 @@ const Project: React.FC<ProjectPropsType> = ({ image, title, description, id }) 
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" href={"/search?cql=projectKey="+id}>
                     View Issues
                 </Button>
                 <NewIssueButton projectId={id}/>

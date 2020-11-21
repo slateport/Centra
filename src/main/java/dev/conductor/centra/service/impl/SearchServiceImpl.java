@@ -71,6 +71,10 @@ public class SearchServiceImpl implements SearchService {
                 Project project = projectService.findByName(condition.getLhs());
                 return new AndCondition("projectId", Operator.EQUALS, (project != null) ? project.getId() : null);
 
+            case "projectkey":
+                Project projectByKey = projectService.findByKey(condition.getLhs().toUpperCase());
+                return new AndCondition("projectId", Operator.EQUALS, (projectByKey != null) ? projectByKey.getId() : null);
+
             case "status":
                 return new AndCondition("workflowState.label", Operator.EQUALS, condition.getLhs());
 
