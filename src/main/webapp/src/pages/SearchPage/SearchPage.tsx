@@ -23,6 +23,7 @@ import {searchActions} from "../../actions/search";
 import {projectActions} from "../../actions/project";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {issue} from "../../services";
+import { useLocation } from "react-router-dom"
 
 const Button = styled(MuiButton)<MuiButtonSpacingType>(spacing);
 const Card = styled(MuiCard)(spacing);
@@ -45,6 +46,7 @@ const Divider = styled(MuiDivider)(spacing);
 
 class SearchPage extends React.Component<any, any>{
     private transitions = [];
+    private urlCql;
     constructor(props) {
         super(props);
 
@@ -55,6 +57,13 @@ class SearchPage extends React.Component<any, any>{
         this.handleChange = this.handleChange.bind(this);
         this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
         this.loadIssue.bind(this)
+
+        this.urlCql = new URLSearchParams(this.props.location.search).get('cql')
+
+        if (this.urlCql) {
+            this.setState({cql: this.urlCql})
+            this.props.dispatch(searchActions.searchIssue(this.urlCql));
+        }
     }
 
     handleChange(e) {
@@ -62,7 +71,7 @@ class SearchPage extends React.Component<any, any>{
         this.setState({ [name]: value });
     }
 
-    handleSearchSubmit(e){
+    handleSearchSubmit(){
         const { cql } = this.state
         this.props.dispatch(searchActions.searchIssue(cql));
     }
@@ -104,6 +113,8 @@ class SearchPage extends React.Component<any, any>{
                                                     multiline
                                                     type="text"
                                                     name={"cql"}
+                                                    aria-valuetext={this.urlCql}
+                                                    defaultValue={this.urlCql}
                                                     onChange={this.handleChange}
                                                 />
                                             </Grid>
