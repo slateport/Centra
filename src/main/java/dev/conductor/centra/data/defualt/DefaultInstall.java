@@ -32,13 +32,13 @@ public class DefaultInstall {
 
     protected void createIssueTypeAndSchema(){
 
-        IssueType bug = issueTypeSchemaService.createType(new IssueType("Bug"));
-        IssueType epic = issueTypeSchemaService.createType(new IssueType("Epic"));
-        IssueType improvement = issueTypeSchemaService.createType(new IssueType("Improvement"));
-        IssueType newFeature = issueTypeSchemaService.createType(new IssueType("New Feature"));
-        IssueType story = issueTypeSchemaService.createType(new IssueType("Story"));
-        IssueType subTask = issueTypeSchemaService.createType(new IssueType("Sub-task"));
-        IssueType task = issueTypeSchemaService.createType(new IssueType("Task"));
+        IssueType bug = issueTypeSchemaService.createType(new IssueType( "Bug", "AlertTriangle"));
+        IssueType epic = issueTypeSchemaService.createType(new IssueType( "Epic", "Zap"));
+        IssueType improvement = issueTypeSchemaService.createType(new IssueType( "Improvement", "ArrowUp"));
+        IssueType newFeature = issueTypeSchemaService.createType(new IssueType( "New Feature", "Plus"));
+        IssueType story = issueTypeSchemaService.createType(new IssueType("Story", "FileText"));
+        IssueType subTask = issueTypeSchemaService.createType(new IssueType( "Sub-task", "Copy"));
+        IssueType task = issueTypeSchemaService.createType(new IssueType( "Task", "CheckSquare"));
 
         IssueTypeSchema schema = new IssueTypeSchema(Project.DEFAULT_ISSUE_TYPE_SCHEMA_NAME);
         schema.addIssueType(bug);

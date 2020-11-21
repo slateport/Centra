@@ -171,38 +171,52 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             {isAuthenticated() &&
             <Card mb={6}>
                 <CardContent>
-                    <React.Fragment>
-                        <Button
-                            aria-controls="transition-menu"
-                            aria-haspopup="true"
-                            color="primary"
-                            onClick={handleClick}
-                            disabled={workflowTransitions.length == 0}
-                        >
-                            Status
-                            { issue.workflowState &&
-                            <StatusChip issue={issue} />
-                            }
-                        </Button>
-                        <Menu
-                            id="transition-menu"
-                            anchorEl={anchorElTransitionMenu}
-                            keepMounted
-                            getContentAnchorEl={null}
-                            anchorOrigin={{vertical: "bottom", horizontal: "center"}}
-                            transformOrigin={{vertical: "top", horizontal: "center"}}
-                            open={Boolean(anchorElTransitionMenu)}
-                            onClose={handleClose}
-                            color={"primary"}
-                        >
-                            {workflowTransitions.map(transition =>
-                                <MenuItem
-                                    onClick={onTransitionIssue(props, issue, transition)}
-                                >{transition.label}</MenuItem>
-                            )}
-                        </Menu>
-                    </React.Fragment>
+                    <Grid container>
+                        <Grid item xs={3}>
+                            <React.Fragment>
+                                <Button
+                                    aria-controls="transition-menu"
+                                    aria-haspopup="true"
+                                    color="primary"
+                                    onClick={handleClick}
+                                    disabled={workflowTransitions.length == 0}
+                                >
+                                    Status:
+                                    { issue.workflowState &&
+                                    <StatusChip issue={issue} />
+                                    }
+                                </Button>
+                                <Menu
+                                    id="transition-menu"
+                                    anchorEl={anchorElTransitionMenu}
+                                    keepMounted
+                                    getContentAnchorEl={null}
+                                    anchorOrigin={{vertical: "bottom", horizontal: "center"}}
+                                    transformOrigin={{vertical: "top", horizontal: "center"}}
+                                    open={Boolean(anchorElTransitionMenu)}
+                                    onClose={handleClose}
+                                    color={"primary"}
+                                >
+                                    {workflowTransitions.map(transition =>
+                                        <MenuItem
+                                            onClick={onTransitionIssue(props, issue, transition)}
+                                        >{transition.label}</MenuItem>
+                                    )}
+                                </Menu>
+                            </React.Fragment>
+                        </Grid>
+                        <Grid item xs={1} />
+                        <Grid item xs={3}>
+                            <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} /></Grid>
+                        <Grid item xs={1} />
+                        <Grid item xs={3}>
+                            Priority: {issue.issuePriority}
+                        </Grid>
+                        <Grid item xs={1} />
+                    </Grid>
+
                 </CardContent>
+
             </Card>
             }
             <Card mb={6}>
@@ -237,15 +251,6 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         <Grid container xs={1} />
                         <Grid container xs={3}>
                             <Grid container xs={12}>
-                                <Grid item xs={6}>
-                                    Type
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} />
-                                </Grid>
-                                <Grid item xs={6}>Priority</Grid>
-                                <Grid item xs={6}><Typography>{issue.issuePriority}</Typography></Grid>
-
                                 <Grid item xs={6}>
                                     Assignee:
                                 </Grid>

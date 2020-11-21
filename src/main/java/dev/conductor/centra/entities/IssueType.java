@@ -10,9 +10,11 @@ public class IssueType {
     @Id private String id;
     @Indexed(unique=true)
     private final String label;
+    private final String icon;
 
-    public IssueType(String label) {
+    public IssueType(String label, String icon) {
         this.label = label;
+        this.icon = icon;
     }
 
     public String getId() {
@@ -21,5 +23,9 @@ public class IssueType {
 
     public String getLabel() {
         return label;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 }

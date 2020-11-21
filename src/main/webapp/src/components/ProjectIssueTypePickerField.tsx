@@ -14,6 +14,7 @@ interface IProjectIssueTypePickerFieldState {
     issueTypes: IssueType[]
 }
 
+
 class ProjectIssueTypePickerField extends React.Component<IProjectIssueTypePickerFieldProps, IProjectIssueTypePickerFieldState> {
 
     constructor(props) {
@@ -40,6 +41,7 @@ class ProjectIssueTypePickerField extends React.Component<IProjectIssueTypePicke
                     getOptionSelected={(option: IssueType, value: IssueType) => option.id == value.id}
                     renderInput={(params) => <TextField {...params} variant="outlined" />}
                     onChange={(_, value: IssueType) => this.props.handleFn(value.id)}
+                    style={{ width: 300 }}
                 />
             </React.Fragment>
         );

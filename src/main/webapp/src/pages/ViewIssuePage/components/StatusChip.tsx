@@ -11,7 +11,7 @@ const GreenChip = styled(Chip)`
   border-radius: 5px;
   color: ${props => props.theme.palette.common.white};
   font-size: 60%;
-  height: 20px;
+  height: 25px;
   margin-left: 2px;
   margin-bottom: 1px;
   padding: 4px 0;
@@ -29,7 +29,7 @@ const YellowChip = styled(Chip)`
   border-radius: 5px;
   color: ${props => props.theme.palette.common.white};
   font-size: 60%;
-  height: 20px;
+  height: 25px;
   margin-left: 2px;
   margin-bottom: 1px;
   padding: 4px 0;
@@ -47,7 +47,7 @@ const BlueChip = styled(Chip)`
   border-radius: 5px;
   color: ${props => props.theme.palette.common.white};
   font-size: 60%;
-  height: 20px;
+  height: 25px;
   margin-left: 2px;
   margin-bottom: 1px;
   padding: 4px 0;
