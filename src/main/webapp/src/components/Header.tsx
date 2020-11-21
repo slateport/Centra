@@ -164,7 +164,7 @@ function PrimarySearchAppBar () {
     const init = useSelector(stateFn)
 
     return (
-        <Box display="flex" bgcolor={'#232f3e'} p={2} alignItems="center">
+        <Box display="flex" bgcolor={'#1B2430'} p={2} alignItems="center">
             <Typography className={classes.title} noWrap color={"secondary"}>
                 <Brand button>
                     <BrandIcon /> <Box ml={1}><Link href={"/"}>{init.publicName}</Link> </Box>

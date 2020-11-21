@@ -6,6 +6,7 @@ import dev.conductor.centra.config.SettingsEnum;
 import dev.conductor.centra.data.defualt.DefaultInstall;
 import dev.conductor.centra.entities.Settings;
 import dev.conductor.centra.service.IssueTypeSchemaService;
+import dev.conductor.centra.service.ProjectService;
 import dev.conductor.centra.service.SettingsService;
 import dev.conductor.centra.service.WorkflowService;
 
@@ -18,10 +19,11 @@ public class DatabaseChangelog {
     public void databaseInitialisation(
             SettingsService settingsService,
             IssueTypeSchemaService issueTypeSchemaService,
-            WorkflowService workflowService
+            WorkflowService workflowService,
+            ProjectService projectService
     ) {
         updateSettings(settingsService);
-        DefaultInstall install = new DefaultInstall(issueTypeSchemaService, workflowService);
+        DefaultInstall install = new DefaultInstall(issueTypeSchemaService, workflowService, projectService);
         install.createDefaultEntities();
     }
 
