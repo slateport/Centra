@@ -34,6 +34,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import EditableIssueTypeField from "./EditableIssueTypeField";
+import EditablePriorityField from "./EditablePriorityField";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -149,6 +150,13 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
         }
     }
 
+    const onSavePriority = (props, issue) => {
+        return value => {
+            issue.issuePriority = value.target.value
+            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+        }
+    }
+
     return (
         <React.Fragment>
             <GlobalStyleDropzone />
@@ -210,7 +218,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                             <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} /></Grid>
                         <Grid item xs={1} />
                         <Grid item xs={3}>
-                            Priority: {issue.issuePriority}
+                            <EditablePriorityField clickable={true} handleFn={onSavePriority(props, issue)} priorityEnum={issue.issuePriority} />
                         </Grid>
                         <Grid item xs={1} />
                     </Grid>
