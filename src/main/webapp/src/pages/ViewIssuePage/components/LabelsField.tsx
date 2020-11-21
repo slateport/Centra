@@ -21,13 +21,12 @@ const Tag = styled(({ label, onDelete, ...props }) => {
   height: 24px;
   margin: 2px;
   line-height: 22px;
-  background-color: #fafafa;
-  border: 1px solid #e8e8e8;
-  border-radius: 2px;
+  background-color: rgba(25, 118, 210, 0.04);
   box-sizing: content-box;
   padding: 0 4px 0 10px;
   outline: 0;
   overflow: hidden;
+  color: #1976d2;
 
   &:focus {
     border-color: #40a9ff;
