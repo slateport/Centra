@@ -180,7 +180,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             <Card mb={6}>
                 <CardContent>
                     <Grid container>
-                        <Grid item xs={3}>
+                        <Grid item xs={1}>
                             <React.Fragment>
                                 <Button
                                     aria-controls="transition-menu"
@@ -214,10 +214,10 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                             </React.Fragment>
                         </Grid>
                         <Grid item xs={1} />
-                        <Grid item xs={3}>
+                        <Grid item xs={1}>
                             <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} /></Grid>
                         <Grid item xs={1} />
-                        <Grid item xs={3}>
+                        <Grid item xs={1}>
                             <EditablePriorityField clickable={true} handleFn={onSavePriority(props, issue)} priorityEnum={issue.issuePriority} />
                         </Grid>
                         <Grid item xs={1} />
@@ -225,6 +225,24 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
 
                 </CardContent>
 
+            </Card>
+            }
+
+            {!isAuthenticated() &&
+            <Card mb={6}>
+                <CardContent>
+                    <Grid container>
+                        <Grid item xs={1}>Status <StatusChip issue={issue} /></Grid>
+                        <Grid item xs={1}/>
+                        <Grid item xs={1}>
+                            <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} />
+                        </Grid>
+                        <Grid item xs={1} />
+                        <Grid item xs={1}>
+                            <EditablePriorityField clickable={false} handleFn={() => {}} priorityEnum={issue.issuePriority} />
+                        </Grid>
+                    </Grid>
+                </CardContent>
             </Card>
             }
             <Card mb={6}>
