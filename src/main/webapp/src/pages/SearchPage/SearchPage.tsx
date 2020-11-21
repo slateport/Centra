@@ -23,7 +23,6 @@ import {searchActions} from "../../actions/search";
 import {projectActions} from "../../actions/project";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {issue} from "../../services";
-import { useLocation } from "react-router-dom"
 
 const Button = styled(MuiButton)<MuiButtonSpacingType>(spacing);
 const Card = styled(MuiCard)(spacing);
