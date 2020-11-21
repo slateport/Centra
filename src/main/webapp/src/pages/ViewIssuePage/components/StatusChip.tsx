@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { green, blue, yellow } from "@material-ui/core/colors";
+import { green, yellow, blueGrey } from "@material-ui/core/colors";
 
 import {
     Chip,
@@ -43,7 +43,7 @@ const YellowChip = styled(Chip)`
 `;
 
 const BlueChip = styled(Chip)`
-  background-color: ${yellow[700]};
+  background-color: ${blueGrey[700]};
   border-radius: 5px;
   color: ${props => props.theme.palette.common.white};
   font-size: 60%;
@@ -64,19 +64,19 @@ const StatusChip = ({issue}) => {
     if (issue.workflowState.isTerminus){
         return (
             <React.Fragment>
-                <GreenChip label={issue.workflowState.label}/> (View Workflow)
+                <GreenChip label={issue.workflowState.label}/>
             </React.Fragment>
         )
     } else if (!issue.workflowState.isTerminus && !issue.workflowState.entry){
         return (
             <React.Fragment>
-            <YellowChip label={issue.workflowState.label}/> (View Workflow)
+                <YellowChip label={issue.workflowState.label}/>
             </React.Fragment>
         )
     } else {
         return (
             <React.Fragment>
-            <BlueChip label={issue.workflowState.label}/> (View Workflow)
+                <BlueChip label={issue.workflowState.label}/>
             </React.Fragment>
         )
     }

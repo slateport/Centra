@@ -179,7 +179,10 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                             onClick={handleClick}
                             disabled={workflowTransitions.length == 0}
                         >
-                            Transition
+                            Status
+                            { issue.workflowState &&
+                            <StatusChip issue={issue} />
+                            }
                         </Button>
                         <Menu
                             id="transition-menu"
@@ -210,30 +213,18 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     <br />
                     <Grid container>
                         <Grid container xs={8}>
-                            <Grid item xs={2}>
-                                Type
+                            <Grid item xs={12}>
+                                <EditableContainer Component={RedactorField} handlefn={onSaveDescription(props, issue)}>
+                                    {issue.description}
+                                </EditableContainer>
                             </Grid>
-                            <Grid item xs={4}>
-                                <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} />
+                            <Grid item xs={12}>
+                                <Divider my={8} />
                             </Grid>
-                            <Grid item xs={2}>Status</Grid>
-                            <Grid item xs={4}>
-                                { issue.workflowState &&
-                                <StatusChip issue={issue} />
-                                }
-                            </Grid>
-                            <Grid item xs={2}>Priority</Grid>
-                            <Grid item xs={4}><Typography>{issue.issuePriority}</Typography></Grid>
-                            <Grid item xs={2}>
-                                Resolution
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography>Unresolved</Typography>
-                            </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={1}>
                                 Labels
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={11}>
                                 <LabelsField
                                     currentLabels={issue.labels}
                                     onLabelChange={(values) => {
@@ -247,6 +238,15 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         <Grid container xs={3}>
                             <Grid container xs={12}>
                                 <Grid item xs={6}>
+                                    Type
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} />
+                                </Grid>
+                                <Grid item xs={6}>Priority</Grid>
+                                <Grid item xs={6}><Typography>{issue.issuePriority}</Typography></Grid>
+
+                                <Grid item xs={6}>
                                     Assignee:
                                 </Grid>
                                 <Grid item xs={6}>
@@ -258,42 +258,27 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 <Grid item xs={6}>
                                     <EditablePeopleField userId={issue.createdByUserId} handleFn={() => {}} clickable={false}/>
                                 </Grid>
+                                {issue.createdDate &&
+                                <React.Fragment>
+                                    <Grid item xs={6}>
+                                        Date created:
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <RoundTimeAgo date={new Date(issue.createdDate)} />
+                                    </Grid>
+                                </React.Fragment>
+                                }
+                                {issue.lastModifiedDate &&
+                                <React.Fragment>
+                                    <Grid item xs={6}>
+                                        Last modified:
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <RoundTimeAgo date={new Date(issue.lastModifiedDate)} />
+                                    </Grid>
+                                </React.Fragment>
+                                }
                             </Grid>
-                        </Grid>
-                        <Divider my={8} />
-                        <Grid container xs={8}>
-                            <Typography variant="h6">
-                                Description
-                            </Typography>
-                            <Grid item xs={12}>
-                                <EditableContainer Component={RedactorField} handlefn={onSaveDescription(props, issue)}>
-                                    {issue.description}
-                                </EditableContainer>
-                            </Grid>
-                        </Grid>
-                        <Grid container xs={1} />
-                        <Grid container xs={3}>
-                            {issue.createdDate &&
-                            <React.Fragment>
-                                <Grid item xs={6}>
-                                    Date created:
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <RoundTimeAgo date={new Date(issue.createdDate)} />
-                                </Grid>
-                            </React.Fragment>
-                            }
-
-                            {issue.lastModifiedDate &&
-                            <React.Fragment>
-                                <Grid item xs={6}>
-                                    Last modified:
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <RoundTimeAgo date={new Date(issue.lastModifiedDate)} />
-                                </Grid>
-                            </React.Fragment>
-                            }
                         </Grid>
                     </Grid>
                 </CardContent>

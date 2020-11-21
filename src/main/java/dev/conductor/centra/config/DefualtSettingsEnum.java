@@ -2,7 +2,7 @@ package dev.conductor.centra.config;
 
 public enum DefualtSettingsEnum {
     INSTALLATION_COMPLETE("false"),
-    INSTANCE_NAME("Conductor"),
+    INSTANCE_NAME("Centra"),
     PRIVATE_INSTANCE("true"),
     ALLOW_REGISTRATION("true"),
     LICENSE_KEY("");

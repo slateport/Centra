@@ -1,4 +1,4 @@
-import { blue, green, grey } from '@material-ui/core/colors'
+import { blue, grey } from '@material-ui/core/colors'
 
 const darkVariant = {
   name: 'Dark',
@@ -14,7 +14,7 @@ const darkVariant = {
   },
   header: {
     color: grey[500],
-    background: '#232f3e',
+    background: '#1B2430',
     search: {
       color: '#FFFFFF'
     },
