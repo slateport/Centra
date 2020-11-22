@@ -28,11 +28,8 @@ jobs:
             **/.gradle
           key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
       - name: Build with Gradle
-        run: ./gradlew bootBuildImage
+        run: |
+              echo "${DOCKER_PWD}" | docker login --username "$DOCKER_USER" --password-stdin
+            ./gradlew bootBuildImage -t conductorsoftwarefactory/centra
       - name: Push to GitHub Packages
       - name: Publish Docker Image
-        if: ${{ env.DOCKER_USER != null && env.DOCKER_PWD != null }}
-        run: |
-          echo "${DOCKER_PWD}" | docker login --username "$DOCKER_USER" --password-stdin
-          imageTag=${GITHUB_REF}
-          docker push ConductorSoftwareFactory:"$imageTag"
