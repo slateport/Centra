@@ -1,6 +1,6 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack')
-const { ESBuildPlugin, ESBuildMinifyPlugin } = require('esbuild-loader')
+// const { ESBuildPlugin, ESBuildMinifyPlugin } = require('esbuild-loader')
 
 module.exports = {
     mode: 'development',
@@ -9,13 +9,19 @@ module.exports = {
     },
     module: {
         rules: [
+            // {
+            //     test: /\.tsx?$/,
+            //     loader: 'esbuild-loader',
+            //     options: {
+            //         loader: 'tsx', // Or 'ts' if you don't need tsx
+            //         target: 'es2015'
+            //     }
+            // },
             {
-                test: /\.tsx?$/,
-                loader: 'esbuild-loader',
-                options: {
-                    loader: 'tsx', // Or 'ts' if you don't need tsx
-                    target: 'es2015'
-                }
+                test: /.tsx?$/,
+                use: [
+                    { loader: 'ts-loader', options: { transpileOnly: true } }
+                ]
             },
             {
                 test: /\.css$/i,
@@ -42,14 +48,14 @@ module.exports = {
             'window.jQuery': 'jquery',
             'jQuery': 'jquery'
         }),
-        new ESBuildPlugin(),
+        // new ESBuildPlugin(),
     ],
-    optimization :{
-      minimize: true,
-        minimizer: [
-            new ESBuildMinifyPlugin({target: 'es2015'})
-        ]
-    },
+    // optimization :{
+    //   minimize: true,
+    //     minimizer: [
+    //         new ESBuildMinifyPlugin({target: 'es2015'})
+    //     ]
+    // },
     devServer: {
         historyApiFallback: true,
         compress: true,
