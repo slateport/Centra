@@ -58,7 +58,7 @@ module.exports = {
             'jQuery': 'jquery'
         }),
         // new ESBuildPlugin(),
-        new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
+        new ForkTsCheckerWebpackPlugin(),
     ],
     // optimization :{
     //   minimize: true,
