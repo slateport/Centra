@@ -10,6 +10,7 @@ import {issue as issueServices} from '../../../services'
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
 import EditablePeopleField from "./EditablePeopleField";
 import EditableIssueTypeField from "./EditableIssueTypeField";
+import EditablePriorityField from "./EditablePriorityField";
 
 
 interface IAuditHistoryProps {
@@ -27,6 +28,9 @@ const normalisePropertyName = (propertyName) => {
 
         case 'issueTypeId':
             return "Issue type"
+
+        case 'issuePriorityId':
+            return "Priority"
 
         default:
             return propertyName.charAt(0).toUpperCase() + propertyName.slice(1)
@@ -59,6 +63,11 @@ const renderRight = (change) => {
                 <EditableIssueTypeField id={change.right} handleFn={() => {}} clickable={false} projectKey={null}/>
             )
 
+        case 'issuePriorityId':
+            return (
+                <EditablePriorityField priorityId={change.right} clickable={false} handleFn={() => {}} projectKey={null} />
+            )
+
         default:
             return change.right;
     }
@@ -83,6 +92,11 @@ const renderLeft = (change) => {
         case 'issueTypeId':
             return (
                 <EditableIssueTypeField id={change.left} handleFn={() => {}} clickable={false} projectKey={null}/>
+            )
+
+        case 'issuePriorityId':
+            return (
+                <EditablePriorityField priorityId={change.left} clickable={false} handleFn={() => {}} projectKey={null} />
             )
 
         default:
