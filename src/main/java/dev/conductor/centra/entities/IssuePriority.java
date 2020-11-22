@@ -1,5 +1,29 @@
 package dev.conductor.centra.entities;
 
-public enum IssuePriority {
-    HIGHEST, HIGH, MEDIUM, LOW, LOWEST
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "issue_priority")
+public class IssuePriority {
+    private String id;
+    @Indexed(unique=true)
+    private final String label;
+    private final String icon;
+
+    public IssuePriority(String label, String icon) {
+        this.label = label;
+        this.icon = icon;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
 }

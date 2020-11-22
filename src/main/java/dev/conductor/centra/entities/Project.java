@@ -9,6 +9,7 @@ public class Project {
 
     public static String DEFAULT_ISSUE_TYPE_SCHEMA_NAME = "Default Issue Type Schema";
     public static String DEFAULT_WORKFLOW_NAME = "Default Workflow";
+    public static String DEFAULT_PRIORITY_SCHEMA_NAME = "Default Priority Schema";
 
     @Id private java.lang.String id;
     @Indexed(unique=true)
@@ -17,13 +18,15 @@ public class Project {
     private final String description;
     private String workflowId;
     private String issueTypeSchemaId;
+    private String prioritySchemaId;
 
-    public Project(String projectKey, String projectName, String description, String workflowId, String issueTypeSchemaId) {
+    public Project(String projectKey, String projectName, String description, String workflowId, String issueTypeSchemaId, String prioritySchemaId) {
         this.projectKey = projectKey;
         this.projectName = projectName;
         this.description = description;
         this.workflowId = workflowId;
         this.issueTypeSchemaId = issueTypeSchemaId;
+        this.prioritySchemaId = prioritySchemaId;
         validateProjectKey(projectKey);
     }
 
@@ -57,6 +60,14 @@ public class Project {
 
     public void setIssueTypeSchemaId(String issueTypeSchemaId) {
         this.issueTypeSchemaId = issueTypeSchemaId;
+    }
+
+    public String getPrioritySchemaId() {
+        return prioritySchemaId;
+    }
+
+    public void setPrioritySchemaId(String prioritySchemaId) {
+        this.prioritySchemaId = prioritySchemaId;
     }
 
     protected void validateProjectKey(String projectKey) {

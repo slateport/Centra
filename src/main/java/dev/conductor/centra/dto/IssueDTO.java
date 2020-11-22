@@ -20,7 +20,7 @@ public class IssueDTO {
     private final String createdByUserId;
     private final String assigneeId;
     private final String lastModifiedByUserId;
-    private final IssuePriority issuePriority;
+    private final String issuePriorityId;
     private final String issueTypeId;
     private final List<String> labels;
 
@@ -38,7 +38,7 @@ public class IssueDTO {
             String createdByUserId,
             String assigneeId,
             String lastModifiedByUserId,
-            IssuePriority issuePriority,
+            String issuePriorityId,
             String issueTypeId, List<String> labels
     ) {
         this.id = id;
@@ -54,7 +54,7 @@ public class IssueDTO {
         this.createdByUserId = createdByUserId;
         this.assigneeId = assigneeId;
         this.lastModifiedByUserId = lastModifiedByUserId;
-        this.issuePriority = issuePriority;
+        this.issuePriorityId = issuePriorityId;
         this.issueTypeId = issueTypeId;
         this.labels = labels;
     }
@@ -74,7 +74,7 @@ public class IssueDTO {
             issue.getCreatedByUserId(),
             issue.getAssigneeId(),
             issue.getLastModifiedByUserId(),
-            issue.getIssuePriority(),
+            issue.getIssuePriorityId(),
             issue.getIssueTypeId(),
             issue.getLabels()
         );
@@ -132,8 +132,8 @@ public class IssueDTO {
         return lastModifiedByUserId;
     }
 
-    public IssuePriority getIssuePriority() {
-        return issuePriority;
+    public String getIssuePriorityId() {
+        return issuePriorityId;
     }
 
     public List<String> getLabels() {

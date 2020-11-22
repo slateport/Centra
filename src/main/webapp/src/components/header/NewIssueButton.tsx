@@ -38,10 +38,12 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
             projectList: [],
             issueTypeList: [],
             labelsList: [],
+            priorityList: [],
             projectId: '',
             title: '',
             description: '',
             issueTypeId: '',
+            issuePriorityId: '',
             labels: [],
             assigneeId: null,
         }
@@ -61,7 +63,12 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
 
         projectService.getIssueTypesForProject(value)
             .then(r => r.json().then(
-                data => this.setState({issueTypeList: data})
+                issueTypeList => this.setState({issueTypeList})
+            ))
+
+        projectService.getPrioritiesForProject(value)
+            .then(r => r.json().then(
+                priorityList => this.setState({priorityList})
             ))
 
         this.handleChange(e)
@@ -98,7 +105,8 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
             this.state.projectId,
             this.state.labels,
             this.state.assigneeId,
-            this.state.issueTypeId
+            this.state.issueTypeId,
+            this.state.issuePriorityId
         ).then(response => {
             if (!response.ok) {
                 this.props.dispatch(alertActions.error("Failed to create issue"))
@@ -164,6 +172,20 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
                                         onChange={this.handleChange}
                                         variant="outlined"
                                     />
+                                </Grid>
+                                <Grid item xs={3} p={2}>Priority</Grid>
+                                <Grid item xs={9} p={2}>
+                                    <Select
+                                        id="issuePriorityId"
+                                        name ="issuePriorityId"
+                                        onChange={this.handleChange}
+                                        variant="outlined"
+                                        fullWidth
+                                    >
+                                        {this.state.priorityList.map((priority) =>
+                                            <MenuItem value={priority.id} key={priority.id}>{priority.label}</MenuItem>
+                                        )}
+                                    </Select>
                                 </Grid>
                                 <Grid item xs={3} p={2}>Description</Grid>
                                 <Grid item xs={9} p={2}>

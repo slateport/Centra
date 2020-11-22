@@ -1,28 +1,40 @@
 import React from "react";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import {project} from "../services";
 
 interface IIssuePriorityEnumPickerFieldProps {
-    selectedEnum: string
+    projectKey: string
+    selectedPriorityId: string
     handleFn: any
 }
 
 class IssuePriorityEnumPickerField extends React.Component<IIssuePriorityEnumPickerFieldProps, any> {
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            priorityList: [],
+        }
+    }
+
+    componentDidMount() {
+        project.getPrioritiesForProject(this.props.projectKey)
+            .then(r => r.json().then(priorityList => this.setState({ priorityList })))
+    }
 
     render() {
         return (
             <Select
-                labelId="demo-customized-select-label"
-                id="demo-customized-select"
+                labelId="priority-picker"
+                id="priority-picker"
                 onChange={this.props.handleFn}
-                value={this.props.selectedEnum}
+                defaultValue={this.props.selectedPriorityId}
             >
-                <MenuItem value={"HIGHEST"}>Highest</MenuItem>
-                <MenuItem value={"HIGH"}>High</MenuItem>
-                <MenuItem value={"MEDIUM"}>Medium</MenuItem>
-                <MenuItem value={"LOW"}>Low</MenuItem>
-                <MenuItem value={"LOWEST"}>Lowest</MenuItem>
+
+            {this.state.priorityList.map((priority) =>
+                <MenuItem value={priority.id} key={priority.id}>{priority.label}</MenuItem>
+            )}
             </Select>
         )
     }
