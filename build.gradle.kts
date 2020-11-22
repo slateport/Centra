@@ -82,11 +82,5 @@ tasks.register<Copy>("copyWebApp") {
 }
 
 node {
-    download = true
-    version = "12.13.1"
-    npmVersion = "6.12.1"
-//    // Set the work directory for unpacking node
-//    workDir = file("${project.buildDir}/nodejs")
-//    // Set the work directory for NPM
-//    npmWorkDir = file("${project.buildDir}/npm")
+    download = false
 }
