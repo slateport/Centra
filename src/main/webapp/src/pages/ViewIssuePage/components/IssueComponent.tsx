@@ -316,16 +316,16 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     </Grid>
                 </CardContent>
             </Card>
-            {isAuthenticated() &&
-            <Card mb={6}>
-                <CardContent>
-                    <Typography variant="h6">
-                        Attachments
-                    </Typography>
-                    <DropzoneArea showFileNamesInPreview={true} showFileNames={true}/>
-                </CardContent>
-            </Card>
-            }
+            {/*{isAuthenticated() &&*/}
+            {/*<Card mb={6}>*/}
+            {/*    <CardContent>*/}
+            {/*        <Typography variant="h6">*/}
+            {/*            Attachments*/}
+            {/*        </Typography>*/}
+            {/*        <DropzoneArea showFileNamesInPreview={true} showFileNames={true}/>*/}
+            {/*    </CardContent>*/}
+            {/*</Card>*/}
+            {/*}*/}
             <Card mb={6}>
                 <CardContent>
                     <Typography variant="h6">
