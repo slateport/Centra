@@ -1,0 +1,38 @@
+name: Build Docker image on tag
+
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  tag_iamge:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.15
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/cache
+            !~/cache/exclude
+            **/node_modules
+            **/.gradle
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+      - name: Build with Gradle
+        run: ./gradlew bootBuildImage
+      - name: Push to GitHub Packages
+      - name: Publish Docker Image
+        if: ${{ env.DOCKER_USER != null && env.DOCKER_PWD != null }}
+        run: |
+          echo "${DOCKER_PWD}" | docker login --username "$DOCKER_USER" --password-stdin
+          imageTag=${GITHUB_REF}
+          docker push ConductorSoftwareFactory:"$imageTag"
