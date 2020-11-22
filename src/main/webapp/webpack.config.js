@@ -41,6 +41,14 @@ module.exports = {
         }),
     ],
     devServer: {
-        historyApiFallback: true
+        historyApiFallback: true,
+        compress: true,
+        port: 9000,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8080/',
+                secure: false
+            }
+        }
     }
 }
