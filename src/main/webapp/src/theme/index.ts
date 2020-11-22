@@ -1,6 +1,6 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import {createMuiTheme} from '@material-ui/core/styles'
 
-import variants, { VariantType } from './variants'
+import variants, {VariantType} from './variants'
 import typography from './typography'
 import overrides from './overrides'
 import breakpoints from './breakpoints'

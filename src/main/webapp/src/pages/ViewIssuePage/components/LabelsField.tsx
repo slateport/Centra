@@ -4,8 +4,6 @@ import React from "react";
 import {useAutocomplete} from "@material-ui/lab";
 import {issue as issueService} from "../../../services";
 import CheckIcon from "@material-ui/icons/Check";
-import {issueActions} from "../../../actions";
-import {issueHelper} from "../../../helpers";
 
 
 const Tag = styled(({ label, onDelete, ...props }) => {

@@ -4,7 +4,7 @@ import ProjectIssueTypePickerField from "../../../components/ProjectIssueTypePic
 import {Button, Chip} from "@material-ui/core";
 import * as Icon from "react-feather";
 import styled from "styled-components";
-import {red, green, yellow} from "@material-ui/core/colors";
+import {green, red, yellow} from "@material-ui/core/colors";
 
 const typePromise = (id) => issue.getIssueTypeById(id).then(r => r.json())
 

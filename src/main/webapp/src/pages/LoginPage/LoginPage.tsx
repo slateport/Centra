@@ -1,24 +1,23 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import { userActions } from '../../actions';
+import {connect} from 'react-redux';
+import {Helmet} from 'react-helmet';
+import {userActions} from '../../actions';
 import styled from "styled-components";
 import AuthLayout from "../../layouts/Auth";
 
 import {
-    Link,
+    Button as MuiButton,
     Checkbox,
     FormControl,
     FormControlLabel,
     Input,
     InputLabel,
-    Button as MuiButton,
+    Link,
     Paper,
     Typography
 } from "@material-ui/core";
-import { spacing } from "@material-ui/system";
-import { MuiButtonSpacingType } from "../../types/types";
-import {authentication} from "../../reducers/authentication";
+import {spacing} from "@material-ui/system";
+import {MuiButtonSpacingType} from "../../types/types";
 
 const Button = styled(MuiButton)<MuiButtonSpacingType>(spacing);
 

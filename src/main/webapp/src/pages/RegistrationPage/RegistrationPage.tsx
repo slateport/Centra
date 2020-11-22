@@ -2,19 +2,11 @@ import React from "react";
 import {connect} from "react-redux";
 import Init from "../../domain/Init";
 import styled from "styled-components";
-import {
-    Button as MuiButton, Checkbox,
-    FormControl,
-    FormControlLabel,
-    Input,
-    InputLabel,
-    Paper,
-    Typography
-} from "@material-ui/core";
+import {Button as MuiButton, FormControl, Input, InputLabel, Paper, Typography} from "@material-ui/core";
 import {MuiButtonSpacingType} from "../../types/types";
 import {spacing} from "@material-ui/system";
 import {Helmet} from "react-helmet";
-import { Redirect } from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import AuthLayout from "../../layouts/Auth";
 import {user as userService} from "../../services";
 import {isAuthenticated} from "../../helpers";

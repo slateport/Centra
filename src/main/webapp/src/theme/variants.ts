@@ -1,4 +1,4 @@
-import { blue, grey } from '@material-ui/core/colors'
+import {blue, grey} from '@material-ui/core/colors'
 
 const darkVariant = {
   name: 'Dark',

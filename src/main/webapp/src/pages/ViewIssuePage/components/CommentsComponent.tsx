@@ -1,12 +1,8 @@
 import React, {useEffect, useState} from "react";
 import parse from 'html-react-parser';
 
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary, Divider as MuiDivider, Typography,
-} from "@material-ui/core";
-import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
+import {Accordion, AccordionDetails, AccordionSummary, Divider as MuiDivider, Typography,} from "@material-ui/core";
+import {ExpandMore as ExpandMoreIcon} from "@material-ui/icons";
 import {user} from "../../../services";
 import {Link} from "react-router-dom";
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";

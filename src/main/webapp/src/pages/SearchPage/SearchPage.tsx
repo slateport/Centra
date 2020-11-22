@@ -3,14 +3,14 @@ import React from "react"
 import {
     Button as MuiButton,
     Card as MuiCard,
-    Grid,
-    TextField,
-    Typography,
     CardContent,
+    Divider as MuiDivider,
+    Grid,
     List as MuiList,
     ListItem,
     ListItemText,
-    Divider as MuiDivider,
+    TextField,
+    Typography,
 } from "@material-ui/core";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
@@ -18,7 +18,7 @@ import IssueComponent from "../ViewIssuePage/components/IssueComponent";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 import {MuiButtonSpacingType} from "../../types/types";
-import {alertActions, issueActions, userActions} from "../../actions";
+import {alertActions, issueActions} from "../../actions";
 import {searchActions} from "../../actions/search";
 import {projectActions} from "../../actions/project";
 import PerfectScrollbar from "react-perfect-scrollbar";

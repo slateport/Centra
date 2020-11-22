@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
+import {connect} from 'react-redux';
+import {Helmet} from 'react-helmet';
 import Init from "../../domain/Init";
 import styled from "styled-components";
 import {
@@ -13,9 +13,9 @@ import {
     Grid,
     Typography as MuiTypography,
 } from "@material-ui/core";
-import { spacing, SpacingProps } from "@material-ui/system";
+import {spacing, SpacingProps} from "@material-ui/system";
 
-import { project as projectService } from '../../services'
+import {project as projectService} from '../../services'
 import {NewIssueButton} from "../../components/header/NewIssueButton";
 
 interface TypographyPropsType extends SpacingProps {

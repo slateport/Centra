@@ -2,16 +2,7 @@ import React from "react";
 import {Helmet} from "react-helmet";
 import AuthLayout from "../../layouts/Auth";
 import styled from "styled-components";
-import {
-    Avatar,
-    Button as MuiButton,
-    FormControl,
-    Input,
-    InputLabel,
-    Paper,
-    TextField,
-    Typography
-} from "@material-ui/core";
+import {Button as MuiButton, FormControl, Input, InputLabel, Paper, TextField, Typography} from "@material-ui/core";
 import {MuiButtonSpacingType} from "../../types/types";
 import {spacing} from "@material-ui/system";
 import {installActions} from "../../actions/install";
