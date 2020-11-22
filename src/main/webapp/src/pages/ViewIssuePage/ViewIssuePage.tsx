@@ -1,11 +1,11 @@
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {alertActions, issueActions} from "../../actions";
-import { Grid, Typography } from "@material-ui/core";
-import { createGlobalStyle } from "styled-components";
+import {Grid, Typography} from "@material-ui/core";
+import {createGlobalStyle} from "styled-components";
 import {projectActions} from "../../actions/project";
 import IssueComponent from "./components/IssueComponent";
-import { issue } from "../../services";
+import {issue} from "../../services";
 
 const GlobalStyleDropzone = createGlobalStyle`
   [class^="DropzoneArea-dropZone"] {

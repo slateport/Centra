@@ -1,10 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { green, yellow, blueGrey } from "@material-ui/core/colors";
+import {blueGrey, green, yellow} from "@material-ui/core/colors";
 
-import {
-    Chip,
-} from "@material-ui/core";
+import {Chip,} from "@material-ui/core";
 
 const GreenChip = styled(Chip)`
   background-color: ${green[700]};

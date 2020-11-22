@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, {useEffect, useState} from "react"
 import {Helmet} from "react-helmet";
 import {
-    Breadcrumbs as MuiBreadcrumbs, Button,
+    Breadcrumbs as MuiBreadcrumbs,
+    Button,
     Card as MuiCard,
     CardContent,
     Divider as MuiDivider,
@@ -12,7 +13,7 @@ import {
     Typography
 } from "@material-ui/core";
 import {DropzoneArea} from "material-ui-dropzone";
-import styled, { createGlobalStyle }  from "styled-components";
+import styled, {createGlobalStyle} from "styled-components";
 import {spacing} from "@material-ui/system";
 import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import EditableContainer from "../../../components/EditableContainer";
@@ -23,10 +24,10 @@ import RedactorField from "../../../components/RedactorField";
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
 import IssueComment from "./CommentsComponent";
 import {issueActions} from "../../../actions";
-import { issue as issueService} from '../../../services'
+import {issue as issueService} from '../../../services'
 import WorkflowApplication from '../../../components/workflow/WorkflowApplication';
 import LabelsField from "./LabelsField";
-import {issueHelper, isAuthenticated} from "../../../helpers";
+import {isAuthenticated, issueHelper} from "../../../helpers";
 import AuditHistory from "./AuditHistoryComponent";
 
 import Tabs from '@material-ui/core/Tabs';
