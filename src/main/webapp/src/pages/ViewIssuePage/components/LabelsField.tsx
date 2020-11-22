@@ -52,6 +52,8 @@ const InputWrapper = styled('div')`
   display: flex;
   flex-wrap: wrap;
   margin-left: -5px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
 
   &:hover {
     border-color: #40a9ff;
