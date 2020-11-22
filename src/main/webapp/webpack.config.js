@@ -21,7 +21,15 @@ module.exports = {
             {
                 test: /.tsx?$/,
                 use: [
-                    { loader: 'ts-loader', options: { transpileOnly: true } }
+                    { loader: 'cache-loader' },
+                    {
+                        loader: 'thread-loader',
+                        options: {
+                            // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+                            workers: require('os').cpus().length - 1,
+                        },
+                    },
+                    { loader: 'ts-loader', options: { transpileOnly: true, happyPackMode: true } }
                 ]
             },
             {
