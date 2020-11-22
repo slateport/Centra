@@ -62,6 +62,7 @@ tasks.withType<JavaCompile>() {
 }
 
 tasks.register<NpmTask>("appNpmInstall") {
+    this.onlyIf { !file("${project.projectDir}/src/main/webapp/node_modules").exists() }
     description = "Installs all dependencies from package.json"
     workingDir = file("${project.projectDir}/src/main/webapp")
     args = listOf("install")
