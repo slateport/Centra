@@ -10,10 +10,10 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                use: 'ts-loader',
-                include: path.resolve(__dirname, 'src'),
-                exclude: /node_modules/,
+                test: /.tsx?$/,
+                use: [
+                    { loader: 'ts-loader', options: { transpileOnly: true } }
+                ]
             },
             {
                 test: /\.css$/i,
