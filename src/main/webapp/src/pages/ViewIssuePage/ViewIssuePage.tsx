@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import {alertActions, issueActions} from "../../actions";
-import { Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { createGlobalStyle } from "styled-components";
 import {projectActions} from "../../actions/project";
 import IssueComponent from "./components/IssueComponent";
@@ -63,12 +63,18 @@ class ViewIssuePage extends React.Component<any, any> {
         return (
             <React.Fragment>
                 <GlobalStyleDropzone />
-                <IssueComponent
-                    issue={issue}
-                    project={project}
-                    initialWorkflowTransitions={this.state.transitions}
-                    props={this.props}
-                />
+                <Grid container>
+                    <Grid item xs={1} />
+                    <Grid item xs={10}>
+                        <IssueComponent
+                            issue={issue}
+                            project={project}
+                            initialWorkflowTransitions={this.state.transitions}
+                            props={this.props}
+                        />
+                    </Grid>
+                    <Grid item xs={1} />
+                </Grid>
             </React.Fragment>
         )
     }
