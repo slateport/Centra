@@ -1,7 +1,9 @@
 package dev.conductor.centra.restcontrollers;
 
+import dev.conductor.centra.entities.IssuePriority;
 import dev.conductor.centra.entities.IssueType;
 import dev.conductor.centra.entities.Project;
+import dev.conductor.centra.service.IssuePrioritySchemaService;
 import dev.conductor.centra.service.IssueTypeSchemaService;
 import dev.conductor.centra.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class ProjectController {
 
     @Autowired
     IssueTypeSchemaService issueTypeSchemaService;
+
+    @Autowired
+    IssuePrioritySchemaService prioritySchemaService;
 
     @GetMapping
     public List<Project> listAll() {
@@ -67,5 +72,34 @@ public class ProjectController {
         return issueTypeSchemaService.findTypeBySchema(
                 issueTypeSchemaService.findSchemaById(issueTypeSchemaId)
         );
+    }
+
+    @GetMapping("/{id}/priorities")
+    public List<IssuePriority> getPrioritiesForProject(@PathVariable String id) {
+        Project project = null;
+        Optional<Project> optionalProject = projectService.findById(id);
+
+        if (optionalProject.isEmpty()){
+            project = projectService.findByKey(id);
+        }
+
+        if (optionalProject.isEmpty() && project == null){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Project was not found"
+            );
+        }
+
+        String prioritySchemaId = (project != null) ? project.getPrioritySchemaId()
+                : optionalProject.get().getPrioritySchemaId();
+
+        return prioritySchemaService.findPriorityBySchema(
+                prioritySchemaService.findSchemaById(prioritySchemaId)
+        );
+    }
+
+    @GetMapping("/priorities/{id}")
+    public IssuePriority getPriorityById(@PathVariable String id) {
+        return prioritySchemaService.findPriorityById(id);
     }
 }

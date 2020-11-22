@@ -3,7 +3,9 @@ import { authHeader } from '../helpers'
 export const project = {
     getProject,
     getAllProjects,
-    getIssueTypesForProject
+    getIssueTypesForProject,
+    getPrioritiesForProject,
+    getPriorityById
 }
 
 function getProject (internalId: string) {
@@ -33,11 +35,20 @@ function getIssueTypesForProject(internalId: string) {
     return fetch(`/api/projects/${internalId}/issueTypes`, requestOptions)
 }
 
-function getIssueTypeById(internalId: string) {
+function getPrioritiesForProject(projectKey: string) {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', ...authHeader() }
     }
 
-    return fetch(`/api/projects/issueTypes/${internalId}`, requestOptions)
+    return fetch(`/api/projects/${projectKey}/priorities`, requestOptions)
+}
+
+function getPriorityById(internalId: string) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', ...authHeader() }
+    }
+
+    return fetch(`/api/projects/priorities/${internalId}`, requestOptions)
 }

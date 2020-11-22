@@ -84,7 +84,7 @@ public class IssueController {
                 user.getId(),
                 issue.getAssigneeId(),
                 user.getId(),
-                (issue.getIssuePriority() != null ? issue.getIssuePriority() : Issue.DEFAULT_PRIORITY),
+                issue.getIssuePriorityId(),
                 issue.getIssueTypeId(),
                 (issue.getLabels() != null) ? issue.getLabels() : new ArrayList<>()
             );
@@ -171,7 +171,7 @@ public class IssueController {
                 issue.getCreatedByUserId(),
                 issue.getAssigneeId(),
                 user.getId(),
-                issue.getIssuePriority(),
+                issue.getIssuePriorityId(),
                 issue.getIssueTypeId(),
                 issue.getLabels()
             );

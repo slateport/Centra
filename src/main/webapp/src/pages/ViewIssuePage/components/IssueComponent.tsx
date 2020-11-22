@@ -152,8 +152,9 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
 
     const onSavePriority = (props, issue) => {
         return value => {
-            issue.issuePriority = value.target.value
+            issue.issuePriorityId = value.target.value
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            location.reload()
         }
     }
 
@@ -218,7 +219,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                             <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} /></Grid>
                         <Grid item xs={1} />
                         <Grid item xs={3}>
-                            <EditablePriorityField clickable={true} handleFn={onSavePriority(props, issue)} priorityEnum={issue.issuePriority} />
+                            <EditablePriorityField clickable={true} handleFn={onSavePriority(props, issue)} priorityId={issue.issuePriorityId} projectKey={issue.projectKey} />
                         </Grid>
                         <Grid item xs={1} />
                     </Grid>
@@ -239,7 +240,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         </Grid>
                         <Grid item xs={1} />
                         <Grid item xs={1}>
-                            <EditablePriorityField clickable={false} handleFn={() => {}} priorityEnum={issue.issuePriority} />
+                            <EditablePriorityField clickable={false} handleFn={() => {}} priorityId={issue.issuePriorityId} projectKey={issue.projectKey}/>
                         </Grid>
                     </Grid>
                 </CardContent>

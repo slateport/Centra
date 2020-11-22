@@ -13,8 +13,6 @@ import java.util.List;
 @Document(collection = "issues")
 public class Issue {
 
-    public static final IssuePriority DEFAULT_PRIORITY = IssuePriority.MEDIUM;
-
     @Id private String id;
     @DiffInclude private final long externalId;
     @DiffInclude private final String projectId;
@@ -27,7 +25,7 @@ public class Issue {
     @DiffInclude private final String createdByUserId;
     @DiffInclude private final String assigneeId;
     @DiffInclude private final String lastModifiedByUserId;
-    @DiffInclude private IssuePriority issuePriority = DEFAULT_PRIORITY;
+    @DiffInclude private String issuePriorityId;
     @DiffInclude private String issueTypeId;
     @DiffInclude private final List<String> labels;
 
@@ -43,7 +41,7 @@ public class Issue {
             String createdByUserId,
             String assigneeId,
             String lastModifiedByUserId,
-            IssuePriority issuePriority,
+            String issuePriorityId,
             String issueTypeId, List<String> labels
     ) {
         this.externalId = externalId;
@@ -57,7 +55,7 @@ public class Issue {
         this.createdByUserId = createdByUserId;
         this.assigneeId = assigneeId;
         this.lastModifiedByUserId = lastModifiedByUserId;
-        this.issuePriority = issuePriority;
+        this.issuePriorityId = issuePriorityId;
         this.issueTypeId = issueTypeId;
         this.labels = labels;
     }
@@ -76,7 +74,7 @@ public class Issue {
             String createdByUserId,
             String assigneeId,
             String lastModifiedByUserId,
-            IssuePriority issuePriority,
+            String issuePriorityId,
             String issueTypeId,
             List<String> labels
     ) {
@@ -92,7 +90,7 @@ public class Issue {
         this.createdByUserId = createdByUserId;
         this.assigneeId = assigneeId;
         this.lastModifiedByUserId = lastModifiedByUserId;
-        this.issuePriority = issuePriority;
+        this.issuePriorityId = issuePriorityId;
         this.issueTypeId = issueTypeId;
         this.labels = labels;
     }
@@ -111,7 +109,7 @@ public class Issue {
             issueDTO.getLastModifiedByUserId(),
             issueDTO.getAssigneeId(),
             issueDTO.getCreatedByUserId(),
-            issueDTO.getIssuePriority(),
+            issueDTO.getIssuePriorityId(),
             issueDTO.getIssueTypeId(),
             issueDTO.getLabels()
         );
@@ -165,8 +163,8 @@ public class Issue {
         return lastModifiedByUserId;
     }
 
-    public IssuePriority getIssuePriority() {
-        return issuePriority;
+    public String getIssuePriorityId() {
+        return issuePriorityId;
     }
 
     public List<String> getLabels() {

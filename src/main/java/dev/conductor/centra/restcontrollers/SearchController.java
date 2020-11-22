@@ -63,7 +63,7 @@ public class SearchController {
                         issue.getCreatedByUserId(),
                         issue.getAssigneeId(),
                         issue.getLastModifiedByUserId(),
-                        issue.getIssuePriority(),
+                        issue.getIssuePriorityId(),
                         issue.getIssueTypeId(),
                         issue.getLabels()
                 ));

@@ -1,6 +1,7 @@
 package dev.conductor.centra.data.defualt;
 
 import dev.conductor.centra.entities.*;
+import dev.conductor.centra.service.IssuePrioritySchemaService;
 import dev.conductor.centra.service.IssueTypeSchemaService;
 import dev.conductor.centra.service.ProjectService;
 import dev.conductor.centra.service.WorkflowService;
@@ -15,15 +16,18 @@ public class DefaultInstall {
     private final IssueTypeSchemaService issueTypeSchemaService;
     private final WorkflowService workflowService;
     private final ProjectService projectService;
+    private final IssuePrioritySchemaService prioritySchemaService;
 
     public DefaultInstall(
             IssueTypeSchemaService issueTypeSchemaService,
             WorkflowService workflowService,
-            ProjectService projectService
-            ) {
+            ProjectService projectService,
+            IssuePrioritySchemaService prioritySchemaService
+    ) {
         this.issueTypeSchemaService = issueTypeSchemaService;
         this.workflowService = workflowService;
         this.projectService = projectService;
+        this.prioritySchemaService = prioritySchemaService;
     }
 
     public void createDefaultEntities(){
@@ -65,8 +69,29 @@ public class DefaultInstall {
 
         workflowService.save(wfl);
 
-        Project demoProject = new Project("DEMO", "Demo", "Project to demo features", wfl.getId(), schema.getId());
-        projectService.create(demoProject);
+        IssuePriority lowest = prioritySchemaService.createPriority(new IssuePriority("Lowest", "ChevronsDown"));
+        IssuePriority low = prioritySchemaService.createPriority(new IssuePriority("Low", "ChevronDown"));
+        IssuePriority medium = prioritySchemaService.createPriority(new IssuePriority("Medium", "Code"));
+        IssuePriority high = prioritySchemaService.createPriority(new IssuePriority("High", "ChevronUp"));
+        IssuePriority highest = prioritySchemaService.createPriority(new IssuePriority("Highest", "ChevronsUp"));
 
+        IssuePrioritySchema prioritySchema = new IssuePrioritySchema(Project.DEFAULT_PRIORITY_SCHEMA_NAME);
+
+        prioritySchema.addPriority(lowest);
+        prioritySchema.addPriority(low);
+        prioritySchema.addPriority(medium);
+        prioritySchema.addPriority(high);
+        prioritySchema.addPriority(highest);
+
+        prioritySchemaService.createSchema(prioritySchema);
+
+        projectService.create(new Project(
+                "DEMO",
+                "Demo",
+                "Project to demo features",
+                wfl.getId(),
+                schema.getId(),
+                prioritySchema.getId()
+        ));
     }
 }
