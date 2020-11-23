@@ -55,13 +55,13 @@ const MainContent = styled(Paper)`
   }
 `;
 
-const ApplicationLayout = ({ props, children }) => {
+const ApplicationLayout = ({ props, init, children }) => {
     return (
         <Root>
             <CssBaseline />
             <GlobalStyle />
             <AppContent>
-                <PrimarySearchAppBar />
+                <PrimarySearchAppBar initData={init} />
                 <MainContent>
                     {children}
                 </MainContent>

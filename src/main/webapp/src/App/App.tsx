@@ -76,7 +76,7 @@ class App extends React.Component<any, any> {
                                 {alert.message &&
                                 <Alert variant="filled" mb={4} severity={alert.type}>{alert.message}</Alert>
                                 }
-                                <ApplicationLayout props={this.props}>
+                                <ApplicationLayout props={this.props} init={init}>
                                         <Switch>
                                             <Route path="/register" component={RegistrationPage} />
                                             <Route path="/login" component={LoginPage} />

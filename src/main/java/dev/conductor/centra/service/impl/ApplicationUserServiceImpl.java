@@ -88,7 +88,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         List<UserLiteDTO> results = new ArrayList<>();
 
         findAll().forEach(user -> {
-            results.add(new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername()));
+            results.add(new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), user.getAdmin()));
         });
 
         return results;
