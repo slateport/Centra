@@ -45,7 +45,7 @@ springBoot {
 }
 
 group = "dev.conductor"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0/ALPHA20201123"
 description = "centra"
 java.sourceCompatibility = JavaVersion.VERSION_15
 java.targetCompatibility = JavaVersion.VERSION_15
