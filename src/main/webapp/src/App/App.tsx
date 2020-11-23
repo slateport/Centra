@@ -65,8 +65,7 @@ class App extends React.Component<any, any> {
 
       )
     } else {
-        const Routing = (init.privateInstance) ? PrivateRoute : Route;
-
+        const Routing = (!init.instancePrivate) ? Route: PrivateRoute;
       return (
                 <React.Fragment>
                     <Helmet titleTemplate="%s | Centra" defaultTitle="Centra"/>
