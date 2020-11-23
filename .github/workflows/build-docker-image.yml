@@ -27,6 +27,9 @@ jobs:
             **/node_modules
             **/.gradle
           key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Build Docker Image
         run: ./gradlew bootBuildImage --imageName=conductorsoftwarefactory/centra
       - name: Login to DockerHub
@@ -34,8 +37,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and push
+      - name: Push
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: conductorsoftwarefactory/centra:${GITHUB_REF#refs/tags/}
+          tags: conductorsoftwarefactory/centra:${{ steps.get_version.outputs.VERSION }}
