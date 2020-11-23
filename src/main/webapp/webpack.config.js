@@ -1,6 +1,7 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack')
 // const { ESBuildPlugin, ESBuildMinifyPlugin } = require('esbuild-loader')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -20,7 +21,15 @@ module.exports = {
             {
                 test: /.tsx?$/,
                 use: [
-                    { loader: 'ts-loader', options: { transpileOnly: true } }
+                    { loader: 'cache-loader' },
+                    {
+                        loader: 'thread-loader',
+                        options: {
+                            // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+                            workers: require('os').cpus().length - 1,
+                        },
+                    },
+                    { loader: 'ts-loader', options: { transpileOnly: true, happyPackMode: true } }
                 ]
             },
             {
@@ -49,6 +58,7 @@ module.exports = {
             'jQuery': 'jquery'
         }),
         // new ESBuildPlugin(),
+        new ForkTsCheckerWebpackPlugin(),
     ],
     // optimization :{
     //   minimize: true,
