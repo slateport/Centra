@@ -12,3 +12,7 @@ export function authHeader () {
 export function isAuthenticated(): boolean {
   return (localStorage.getItem('user') != null)
 }
+
+export function isAdmin(): boolean {
+  return true;
+}

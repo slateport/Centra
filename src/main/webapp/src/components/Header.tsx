@@ -10,7 +10,8 @@ import { darken } from "polished";
 import IssueMenu from "./header/IssueMenu";
 import MyProfileMenu from "./header/MyProfileMenu";
 import { NewIssueButton } from "./header/NewIssueButton";
-import {isAuthenticated} from "../helpers";
+import {isAdmin, isAuthenticated} from "../helpers";
+import AdminMenu from "./header/AdminMenu";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -157,7 +158,7 @@ const Input = styled(InputBase)`
 `;
 
 
-function PrimarySearchAppBar () {
+function PrimarySearchAppBar ({initData}) {
     const classes = useStyles()
 
     const stateFn = state => state.init
@@ -185,6 +186,9 @@ function PrimarySearchAppBar () {
             }
             <Box flexGrow={1} textAlign="right">
                 <IssueMenu />
+                { initData.user?.admin &&
+                <AdminMenu />
+                }
                 <MyProfileMenu />
             </Box>
         </Box>

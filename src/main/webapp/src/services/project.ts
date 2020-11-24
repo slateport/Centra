@@ -5,7 +5,8 @@ export const project = {
     getAllProjects,
     getIssueTypesForProject,
     getPrioritiesForProject,
-    getPriorityById
+    getPriorityById,
+    createNewProject
 }
 
 function getProject (internalId: string) {
@@ -51,4 +52,18 @@ function getPriorityById(internalId: string) {
     }
 
     return fetch(`/api/projects/priorities/${internalId}`, requestOptions)
+}
+
+function createNewProject(projectKey: string, projectName: string, description: string) {
+    const body = {
+        projectName, description, projectKey
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', ...authHeader()},
+        body: JSON.stringify(body)
+    }
+
+    return fetch(`/api/projects`, requestOptions)
 }

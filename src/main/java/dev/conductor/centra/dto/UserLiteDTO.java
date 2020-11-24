@@ -5,11 +5,13 @@ public class UserLiteDTO {
     private final String id;
     private final String displayName;
     private final String username;
+    private final Boolean admin;
 
-    public UserLiteDTO(String id, String displayName, String username) {
+    public UserLiteDTO(String id, String displayName, String username, Boolean admin) {
         this.id = id;
         this.displayName = displayName;
         this.username = username;
+        this.admin = admin;
     }
 
     public String getId() {
@@ -22,5 +24,9 @@ public class UserLiteDTO {
 
     public String getUsername() {
         return username;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
     }
 }

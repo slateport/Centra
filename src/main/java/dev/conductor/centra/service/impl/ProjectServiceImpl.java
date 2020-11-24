@@ -2,6 +2,7 @@ package dev.conductor.centra.service.impl;
 
 import dev.conductor.centra.entities.Project;
 import dev.conductor.centra.repository.ProjectRepository;
+import dev.conductor.centra.service.IssuePrioritySchemaService;
 import dev.conductor.centra.service.IssueTypeSchemaService;
 import dev.conductor.centra.service.ProjectService;
 import dev.conductor.centra.service.WorkflowService;
@@ -23,6 +24,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     WorkflowService workflowService;
 
+    @Autowired
+    IssuePrioritySchemaService issuePrioritySchemaService;
+
     @Override
     public Project findByKey(String key) {
         return projectRepository.findByProjectKey(key);
@@ -40,6 +44,12 @@ public class ProjectServiceImpl implements ProjectService {
         if (project.getWorkflowId() == null) {
             project.setWorkflowId(
                 workflowService.findByName(Project.DEFAULT_WORKFLOW_NAME).getId()
+            );
+        }
+
+        if (project.getPrioritySchemaId() == null) {
+            project.setPrioritySchemaId(
+                    issuePrioritySchemaService.findSchemaByName(Project.DEFAULT_PRIORITY_SCHEMA_NAME).getId()
             );
         }
 

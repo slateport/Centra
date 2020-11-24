@@ -114,11 +114,6 @@ const Project: React.FC<ProjectPropsType> = ({ image, title, description, id }) 
     );
 }
 
+export { HomePage }
 
-function mapStateToProps(state) {
-    const { init } = state
-    return { init };
-}
 
-const connectedHomePage = connect(mapStateToProps)(HomePage);
-export { connectedHomePage as HomePage };
