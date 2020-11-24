@@ -8,6 +8,7 @@ import {Helmet} from 'react-helmet'
 import {history} from '../helpers'
 import {PrivateRoute} from '../components'
 import {HomePage} from '../pages/HomePage'
+import {ProjectsPage} from '../pages/Admin/ProjectsPage'
 import {LoginPage} from '../pages/LoginPage'
 import {StylesProvider} from '@material-ui/styles'
 import {ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles'
@@ -83,7 +84,9 @@ class App extends React.Component<any, any> {
                                             <Route path="/install" component={InstallationPage} />
                                             <Routing path="/browse/:externalId" component={ViewIssuePage} />
                                             <Routing path="/search" component={SearchPage} />
-                                            <Routing path="/" component={HomePage} />
+                                            <Routing exact path="/" component={HomePage} />
+                                            <Routing exact path="/admin/projects" component={ProjectsPage} />
+
                                             <Route component={NoMatch} />
                                         </Switch>
                                 </ApplicationLayout>

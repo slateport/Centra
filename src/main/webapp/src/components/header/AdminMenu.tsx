@@ -28,7 +28,7 @@ export default function AdminMenu() {
             >
                 <MenuItem onClick={() => {
                     handleClose()
-                }} component={"a"} href={"/admin/newProject"}>Add new project</MenuItem>
+                }} component={"a"} href={"/admin/projects"}>Add new project</MenuItem>
             </Menu>
         </React.Fragment>
     );
