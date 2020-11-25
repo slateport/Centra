@@ -24,4 +24,18 @@ abstract class BaseController {
 
         return user;
     }
+
+    protected Boolean isAdmin(Principal principal) {
+        if (principal == null) {
+            return false;
+        }
+
+        ApplicationUser user = applicationUserService.findByUsername(principal.getName());
+
+        if (user == null || !user.getEnabled()) {
+            return false;
+        }
+
+        return user.getAdmin();
+    }
 }

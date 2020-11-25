@@ -73,10 +73,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void delete(Project project) {
-        issueService.findByProjectId(project.getId()).stream().map(
+        issueService.findByProjectId(project.getId()).stream().forEach(
                 issue -> {
                     issueService.deleteIssue(issue);
-                    return issue;
                 }
         );
 
