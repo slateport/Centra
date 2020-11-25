@@ -28,9 +28,6 @@ public class ProjectController {
     @Autowired
     IssuePrioritySchemaService prioritySchemaService;
 
-    @Autowired
-    IssueService issueService;
-
     @GetMapping
     public List<Project> listAll() {
         return projectService.listAll();
@@ -117,13 +114,6 @@ public class ProjectController {
                     "Project was not found"
             );
         }
-
-        issueService.findByProjectId(id).stream().map(
-                issue -> {
-                    issueService.deleteIssue(issue);
-                    return issue;
-                }
-        );
 
         this.projectService.delete(optionalProject.get());
     }

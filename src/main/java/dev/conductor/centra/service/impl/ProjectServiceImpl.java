@@ -2,10 +2,7 @@ package dev.conductor.centra.service.impl;
 
 import dev.conductor.centra.entities.Project;
 import dev.conductor.centra.repository.ProjectRepository;
-import dev.conductor.centra.service.IssuePrioritySchemaService;
-import dev.conductor.centra.service.IssueTypeSchemaService;
-import dev.conductor.centra.service.ProjectService;
-import dev.conductor.centra.service.WorkflowService;
+import dev.conductor.centra.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +23,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     IssuePrioritySchemaService issuePrioritySchemaService;
+
+    @Autowired
+    IssueService issueService;
 
     @Override
     public Project findByKey(String key) {
@@ -73,6 +73,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void delete(Project project) {
+        issueService.findByProjectId(project.getId()).stream().map(
+                issue -> {
+                    issueService.deleteIssue(issue);
+                    return issue;
+                }
+        );
+
         projectRepository.delete(project);
     }
 }
