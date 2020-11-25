@@ -6,7 +6,8 @@ export const project = {
     getIssueTypesForProject,
     getPrioritiesForProject,
     getPriorityById,
-    createNewProject
+    createNewProject,
+    deleteProject
 }
 
 function getProject (internalId: string) {
@@ -66,4 +67,13 @@ function createNewProject(projectKey: string, projectName: string, description: 
     }
 
     return fetch(`/api/projects`, requestOptions)
+}
+
+function deleteProject(internalId: string) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', ...authHeader() }
+    }
+
+    return fetch(`/api/projects/${internalId}`, requestOptions)
 }

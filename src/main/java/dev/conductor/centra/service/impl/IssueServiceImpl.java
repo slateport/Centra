@@ -81,6 +81,11 @@ public class IssueServiceImpl implements IssueService {
         return results;
     }
 
+    @Override
+    public void deleteIssue(Issue issue) {
+        issueRepository.delete(issue);
+    }
+
     private String getPropertyNameWithPath(Change change) {
         if (change instanceof PropertyChange) {
             return ((PropertyChange) change).getPropertyNameWithPath().replace(".", ":");

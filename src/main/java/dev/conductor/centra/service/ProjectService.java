@@ -13,4 +13,5 @@ public interface ProjectService {
     Optional<Project> findById(String id);
     Project create(Project project);
     List<Project> listAll();
+    void delete(Project project);
 }

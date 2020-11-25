@@ -12,4 +12,5 @@ public interface IssueService {
     Issue save(Issue issue);
     long getNextExternalIdByProject(String projectId);
     List<IssueChangeDTO> getAuditLogsForIssue(Issue issue);
+    void deleteIssue(Issue issue);
 }
