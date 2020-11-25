@@ -12,12 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/projects")
-public class ProjectController {
+public class ProjectController extends BaseController {
 
     @Autowired
     ProjectService projectService;
@@ -39,7 +40,14 @@ public class ProjectController {
     }
 
     @PostMapping
-    public Project createProject (@RequestBody Project project) {
+    public Project createProject (@RequestBody Project project, Principal principal) {
+        if (!this.isAdmin(principal)){
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Not an administrator"
+            );
+        }
+
 
         if (projectService.findByKey(project.getProjectKey()) != null) {
             throw new ResponseStatusException(
@@ -105,7 +113,13 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteIssuesAndProject(@PathVariable String id) {
+    public void deleteIssuesAndProject(@PathVariable String id, Principal principal) {
+        if (!this.isAdmin(principal)){
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Not an administrator"
+            );
+        }
         Optional<Project> optionalProject = projectService.findById(id);
 
         if (optionalProject.isEmpty()){
