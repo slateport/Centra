@@ -70,4 +70,9 @@ public class ProjectServiceImpl implements ProjectService {
     public Project findByName(String name) {
         return projectRepository.findByProjectName(name);
     }
+
+    @Override
+    public void delete(Project project) {
+        projectRepository.delete(project);
+    }
 }

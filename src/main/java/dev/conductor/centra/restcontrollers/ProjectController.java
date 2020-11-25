@@ -4,6 +4,7 @@ import dev.conductor.centra.entities.IssuePriority;
 import dev.conductor.centra.entities.IssueType;
 import dev.conductor.centra.entities.Project;
 import dev.conductor.centra.service.IssuePrioritySchemaService;
+import dev.conductor.centra.service.IssueService;
 import dev.conductor.centra.service.IssueTypeSchemaService;
 import dev.conductor.centra.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class ProjectController {
 
     @Autowired
     IssuePrioritySchemaService prioritySchemaService;
+
+    @Autowired
+    IssueService issueService;
 
     @GetMapping
     public List<Project> listAll() {
@@ -101,5 +105,26 @@ public class ProjectController {
     @GetMapping("/priorities/{id}")
     public IssuePriority getPriorityById(@PathVariable String id) {
         return prioritySchemaService.findPriorityById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteIssuesAndProject(@PathVariable String id) {
+        Optional<Project> optionalProject = projectService.findById(id);
+
+        if (optionalProject.isEmpty()){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Project was not found"
+            );
+        }
+
+        issueService.findByProjectId(id).stream().map(
+                issue -> {
+                    issueService.deleteIssue(issue);
+                    return issue;
+                }
+        );
+
+        this.projectService.delete(optionalProject.get());
     }
 }

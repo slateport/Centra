@@ -19,6 +19,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import {NewProjectButton} from "./NewProjectButton";
+import {DeleteProjectLink} from "./DeleteProjectLink";
 
 interface IProjectsPageProps {
     init: Init
@@ -78,7 +79,9 @@ class ProjectsPage extends React.Component<IProjectsPageProps, any> {
                                         <TableCell>{project.projectKey}</TableCell>
                                         <TableCell>{project.projectName}</TableCell>
                                         <TableCell>{project.description}</TableCell>
-                                         <TableCell>Delete</TableCell>
+                                         <TableCell>
+                                             <DeleteProjectLink project={project} />
+                                         </TableCell>
                                      </TableRow>
                                     ))}
                                 </TableBody>
