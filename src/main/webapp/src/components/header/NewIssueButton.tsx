@@ -125,7 +125,7 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
     render() {
         return (
             <React.Fragment>
-                <Button variant="outlined" color="primary" size={"small"} onClick={this.handleClickOpen}>
+                <Button variant="contained" color="primary" size={"small"} onClick={this.handleClickOpen}>
                     New Issue
                 </Button>
                 <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">

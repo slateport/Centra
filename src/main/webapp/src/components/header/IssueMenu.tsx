@@ -1,7 +1,11 @@
 import React from 'react';
-import { Button, Menu, MenuItem } from '@material-ui/core';
-import { history } from '../../helpers'
-import {Link} from "react-router-dom";
+import {Button as MuiButton, Menu, MenuItem} from '@material-ui/core';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import styled from "styled-components";
+
+const Button = styled(MuiButton)`
+    color : ${props=> props.theme.header.color}
+`;
 
 export default function IssueMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -16,8 +20,8 @@ export default function IssueMenu() {
 
     return (
         <React.Fragment>
-            <Button color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        Issues
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                <PostAddIcon />
             </Button>
             <Menu
             id="simple-menu"

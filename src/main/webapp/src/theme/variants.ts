@@ -13,8 +13,8 @@ const darkVariant = {
     }
   },
   header: {
-    color: grey[500],
-    background: '#1B2430',
+    color: grey[100],
+    background: blue[900],
     search: {
       color: '#FFFFFF'
     },
@@ -22,7 +22,7 @@ const darkVariant = {
       background: blue[600]
     },
     brand: {
-      color: blue[500]
+      color: grey[100]
     }
   },
   body: {

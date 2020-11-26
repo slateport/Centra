@@ -1,7 +1,12 @@
 import React from 'react';
-import { Button, Menu, MenuItem } from '@material-ui/core';
-import { history } from '../../helpers'
-import {Link} from "react-router-dom";
+import {Button as MuiButton, Menu, MenuItem} from '@material-ui/core';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import styled from "styled-components";
+
+const Button = styled(MuiButton)`
+    color : ${props=> props.theme.header.color}
+`;
+
 
 export default function AdminMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -16,8 +21,8 @@ export default function AdminMenu() {
 
     return (
         <React.Fragment>
-            <Button color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                Admin
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                <SupervisorAccountIcon />
             </Button>
             <Menu
                 id="simple-menu"
