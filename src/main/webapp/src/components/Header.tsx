@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
-import {ListItem, Box as MuiBox, Typography, Button, InputBase, Link} from '@material-ui/core'
+import {ListItem, Box as MuiBox, Typography, InputBase, Link as MuiLink} from '@material-ui/core'
 import { Layers } from "react-feather"
 import { spacing } from "@material-ui/system";
 import { darken } from "polished";
@@ -12,6 +12,7 @@ import MyProfileMenu from "./header/MyProfileMenu";
 import { NewIssueButton } from "./header/NewIssueButton";
 import {isAdmin, isAuthenticated} from "../helpers";
 import AdminMenu from "./header/AdminMenu";
+import {blue} from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -128,6 +129,10 @@ const BrandIcon = styled(Layers)`
   color: ${props => props.theme.header.brand.color};
 `;
 
+const Link = styled(MuiLink)`
+  color: ${props => props.theme.header.brand.color};
+`;
+
 const SearchIconWrapper = styled.div`
   width: 50px;
   height: 100%;
@@ -165,10 +170,10 @@ function PrimarySearchAppBar ({initData}) {
     const init = useSelector(stateFn)
 
     return (
-        <Box display="flex" bgcolor={'#1B2430'} p={2} alignItems="center">
+        <Box display="flex" bgcolor={blue[900]} p={2} alignItems="center">
             <Typography className={classes.title} noWrap color={"secondary"}>
                 <Brand button>
-                    <BrandIcon /> <Box ml={1}><Link href={"/"}>{init.publicName}</Link> </Box>
+                    <BrandIcon /> <Box ml={1}><Link href={"/"}>{init.publicName}</Link></Box>
                 </Brand>
             </Typography>
             <Box>

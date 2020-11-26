@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import {Button as MuiButton, Menu, MenuItem} from '@material-ui/core';
 import {AccountCircle} from "@material-ui/icons";
-import {history, isAuthenticated} from '../../helpers'
+import {isAuthenticated} from '../../helpers'
 
 const Button = styled(MuiButton)`
     color : ${props=> props.theme.header.color}
