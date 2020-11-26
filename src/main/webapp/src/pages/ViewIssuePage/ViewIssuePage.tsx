@@ -25,15 +25,15 @@ class ViewIssuePage extends React.Component<any, any> {
         this.state = {
             transitions: []
         }
-
-        this.loadState();
     }
 
     loadState(){
         const { match: { params } } = this.props;
         this.props.dispatch(issueActions.getIssue(params.externalId))
             .then(() => {
-                this.props.dispatch(projectActions.getProject(this.props.issue.projectId))
+                if (this.props.issue.projectId) {
+                    this.props.dispatch(projectActions.getProject(this.props.issue.projectId))
+                }
                 this.props.dispatch(issueActions.getIssueComments(params.externalId))
                 issue.getWorkflowTransitions(params.externalId)
                     .then((resp) => {
@@ -45,6 +45,10 @@ class ViewIssuePage extends React.Component<any, any> {
                             this.props.dispatcj(alertActions.error("ffailed to fetch transitions"))
                         });
             })
+    }
+
+    componentDidMount() {
+        this.loadState();
     }
 
     render() {
