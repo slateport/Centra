@@ -68,17 +68,16 @@ class HomePage extends React.Component<IHomePageProps, any> {
                 <Divider my={6} />
 
                 <Grid container spacing={6}>
-                    <Grid item xs={12} lg={6} xl={3}>
                         {this.state.projectList.map(project =>
+                            <Grid item xs={12} lg={6} xl={3}>
                             <Project
                                 key={project.id}
                                 id={project.projectKey}
                                 title={project.projectName}
                                 description={project.description}
                             />
+                            </Grid>
                         )}
-
-                    </Grid>
                 </Grid>
             </React.Fragment>
         );
