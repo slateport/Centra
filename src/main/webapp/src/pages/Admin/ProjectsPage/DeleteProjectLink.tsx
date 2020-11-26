@@ -1,7 +1,8 @@
 import React from "react"
 import {project as projectService } from '../../../services'
 import {alertActions} from "../../../actions";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle   , Typography} from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 interface IDeleteProjectLinkProps {
@@ -48,7 +49,7 @@ class DeleteProjectLink extends React.Component<IDeleteProjectLinkProps, any> {
         return (
             <React.Fragment>
                 <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-                    Delete
+                    <DeleteIcon />  
                 </Button>
                 <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Create a new project</DialogTitle>
