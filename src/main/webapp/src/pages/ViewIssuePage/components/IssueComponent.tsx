@@ -119,11 +119,9 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
     const onTransitionIssue = (props, issue, transition) => {
         return e => {
             issueService.postWorkflowTransitions(issueHelper.buildExternalKey(issue), transition)
-                .then(() => issueService.getWorkflowTransitions(issueHelper.buildExternalKey(issue)).then(
-                    (response) => response.json().then(
-                        json => setWorkflowTransitions(previousValue => json)
-                    )
-                ))
+                .then(() => issueService.getWorkflowTransitions(issueHelper.buildExternalKey(issue))
+                    .then(response => setWorkflowTransitions(response))
+                )
                 .then(() => handleClose())
                 .then(() => props.dispatch(issueActions.getIssue(issueHelper.buildExternalKey(issue))))
         }

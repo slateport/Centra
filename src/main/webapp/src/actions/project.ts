@@ -8,13 +8,13 @@ export const projectActions = {
 
 function getProject (externalId: string) {
     return async dispatch => {
-        const response = await project.getProject(externalId)
-        if (response.ok) {
-            dispatch(success(await response.json()))
-        } else {
-            dispatch(error(response))
-            dispatch(alertActions.error('Failed to fetch project.'))
-        }
+        await project.getProject(externalId)
+            .then(response => dispatch(success(response)))
+            .catch(e => {
+                dispatch(error(e))
+                dispatch(alertActions.error('Failed to fetch project.'))
+            })
+
     }
 
     function success (projectDto) { return { type: projectConstants.GET_SUCCESS, projectDto } }

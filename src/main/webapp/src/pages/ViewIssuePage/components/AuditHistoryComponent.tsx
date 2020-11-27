@@ -11,6 +11,7 @@ import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
 import EditablePeopleField from "./EditablePeopleField";
 import EditableIssueTypeField from "./EditableIssueTypeField";
 import EditablePriorityField from "./EditablePriorityField";
+import {alertActions} from "../../../actions";
 
 
 interface IAuditHistoryProps {
@@ -117,11 +118,12 @@ export default class AuditHistory extends Component<IAuditHistoryProps, any> {
 
     componentDidMount() {
         issueServices.getAuditChanges(this.props.externalId)
-            .then(
-                response => response.json()
-                    .then(changes => this.setState({changes}))
-
-            )
+            .then(changes => {
+                console.log(changes)
+                return changes
+            })
+            .then(changes => this.setState({ changes }))
+            .catch(e => alertActions.error("Failed to fetch history."))
     }
 
     render() {

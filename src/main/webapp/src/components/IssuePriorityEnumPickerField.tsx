@@ -20,7 +20,7 @@ class IssuePriorityEnumPickerField extends React.Component<IIssuePriorityEnumPic
 
     componentDidMount() {
         project.getPrioritiesForProject(this.props.projectKey)
-            .then(r => r.json().then(priorityList => this.setState({ priorityList })))
+            .then(priorityList => this.setState({ priorityList }))
     }
 
     render() {

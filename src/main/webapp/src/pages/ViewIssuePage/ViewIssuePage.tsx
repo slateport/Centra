@@ -36,14 +36,8 @@ class ViewIssuePage extends React.Component<any, any> {
                 }
                 this.props.dispatch(issueActions.getIssueComments(params.externalId))
                 issue.getWorkflowTransitions(params.externalId)
-                    .then((resp) => {
-                            resp.json()
-                                .then(data => this.setState({transitions:data}));
-                            return Promise.resolve();
-                        },
-                        (error) => {
-                            this.props.dispatcj(alertActions.error("ffailed to fetch transitions"))
-                        });
+                    .then(transitions => this.setState({ transitions }))
+                    .catch(e => this.props.dispatch(alertActions.error("Failed to fetch transitions")))
             })
     }
 

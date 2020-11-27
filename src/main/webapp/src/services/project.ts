@@ -1,4 +1,4 @@
-import { authHeader } from '../helpers'
+import httpClient from "../HttpClient";
 
 export const project = {
     getProject,
@@ -11,48 +11,28 @@ export const project = {
 }
 
 function getProject (internalId: string) {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', ...authHeader() }
-    }
-
-    return fetch(`/api/projects/${internalId}`, requestOptions)
+  return httpClient.get(`/api/projects/${internalId}`)
+      .then(response => response.data)
 }
 
 function getAllProjects() {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', ...authHeader() }
-    }
-
-    return fetch(`/api/projects/`, requestOptions)
+    return httpClient.get(`/api/projects/`)
+        .then(response => response.data)
 }
 
 function getIssueTypesForProject(internalId: string) {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', ...authHeader() }
-    }
-
-    return fetch(`/api/projects/${internalId}/issueTypes`, requestOptions)
+   return httpClient.get(`/api/projects/${internalId}/issueTypes`)
+       .then(response => response.data)
 }
 
 function getPrioritiesForProject(projectKey: string) {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', ...authHeader() }
-    }
-
-    return fetch(`/api/projects/${projectKey}/priorities`, requestOptions)
+    return httpClient.get(`/api/projects/${projectKey}/priorities`)
+        .then(response => response.data)
 }
 
 function getPriorityById(internalId: string) {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', ...authHeader() }
-    }
-
-    return fetch(`/api/projects/priorities/${internalId}`, requestOptions)
+    return httpClient.get(`/api/projects/priorities/${internalId}`)
+        .then(response => response.data)
 }
 
 function createNewProject(projectKey: string, projectName: string, description: string) {
@@ -60,20 +40,11 @@ function createNewProject(projectKey: string, projectName: string, description: 
         projectName, description, projectKey
     }
 
-    const requestOptions = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', ...authHeader()},
-        body: JSON.stringify(body)
-    }
-
-    return fetch(`/api/projects`, requestOptions)
+    return httpClient.post(`/api/projects`, body)
+        .then(response => response.data)
 }
 
 function deleteProject(internalId: string) {
-    const requestOptions = {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json', ...authHeader() }
-    }
-
-    return fetch(`/api/projects/${internalId}`, requestOptions)
+    return httpClient.delete(`/api/projects/${internalId}`)
+        .then(response => response.data)
 }

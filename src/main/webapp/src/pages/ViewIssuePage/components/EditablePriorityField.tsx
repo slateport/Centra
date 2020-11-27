@@ -6,7 +6,7 @@ import {blueGrey, red, yellow} from "@material-ui/core/colors";
 import IssuePriorityEnumPickerField from "../../../components/IssuePriorityEnumPickerField";
 import {project} from "../../../services";
 
-const priorityPromise = (id) => project.getPriorityById(id).then(r => r.json())
+const priorityPromise = (id) => project.getPriorityById(id)
 
 const BlueChip = styled(Chip)`
   background-color: ${blueGrey[700]};

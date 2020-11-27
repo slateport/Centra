@@ -6,7 +6,7 @@ import * as Icon from "react-feather";
 import styled from "styled-components";
 import {green, red, yellow} from "@material-ui/core/colors";
 
-const typePromise = (id) => issue.getIssueTypeById(id).then(r => r.json())
+const typePromise = (id) => issue.getIssueTypeById(id)
 
 const GreenChip = styled(Chip)`
   background-color: ${green[700]};

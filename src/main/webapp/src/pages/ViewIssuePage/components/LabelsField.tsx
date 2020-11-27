@@ -159,9 +159,8 @@ const LabelsField = ({currentLabels, onLabelChange, ...rest}) => {
             return undefined
         }
         (async () => {
-            const response = await issueService.getAllLabels();
-            const labels = await response.json();
-            setLabels(labels)
+            await issueService.getAllLabels()
+                .then(response => setLabels(response.data))
         })();
     })
 

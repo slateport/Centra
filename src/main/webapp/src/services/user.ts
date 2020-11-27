@@ -1,112 +1,38 @@
-import { authHeader } from '../helpers'
 import UserLite from "../domain/UserLite";
+import httpClient from "../HttpClient";
 
 export const user = {
   login,
   logout,
-  getAll,
   getUser,
   getAllLite,
   registerUser
 }
 
 function login (username: string, password: string) {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password })
-  }
-
-  return fetch('/api/login', requestOptions)
-    .then(handleResponse)
-    .then(user => {
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
-      localStorage.setItem('user', user )
-
-      return user
-    })
+    return httpClient.post('/api/login', { username, password })
+        .then((response) => {
+            const token = response.headers['authorization'].replace('Bearer ', '')
+            localStorage.setItem('user', token)
+        })
+        .then(() => location.href="/")
 }
 
 function logout () {
-  // remove user from local storage to log user out
   localStorage.removeItem('user')
 }
 
-function getAll () {
-  const requestOptions = {
-    method: 'GET',
-    headers: authHeader()
-  }
-
-  return fetch('/api/users', requestOptions).then(handleResponse)
-}
-
 function getUser(userId: string) {
-  const requestOptions = {
-    method: 'GET',
-    headers: authHeader()
-  }
-
-  return fetch(`/api/users/${userId}`, requestOptions).then(
-      response => {
-        if (response.ok){
-          return Promise.resolve(response.json());
-        } else {
-          return Promise.reject(response.json());
-        }
-      }
-  )
+    return httpClient.get(`/api/users/${userId}`)
+        .then(response => response.data)
 }
 
 function getAllLite() : Promise<UserLite[]> {
-  const requestOptions = {
-    method: 'GET',
-    headers: authHeader()
-  }
-
-  return fetch(`/api/users/lite`, requestOptions).then(
-      response => {
-        if (response.ok){
-          return Promise.resolve(response.json());
-        } else {
-          return Promise.reject(response.json());
-        }
-      }
-  )
+    return httpClient.get<UserLite[]>('/api/users/lite')
+        .then(response => response.data)
 }
 
 function registerUser(username: string, password: string, displayName: string, emailAddress: string) {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password, displayName, emailAddress })
-  }
-
-  return fetch('/api/users', requestOptions).then (
-      response => {
-        if (response.ok){
-          return Promise.resolve(response.json());
-        } else {
-          return Promise.reject(response.json());
-        }
-      }
-  )
-}
-
-function handleResponse (response: Response) {
-  return response.text().then(text => {
-    const data = text && JSON.parse(text)
-    if (!response.ok) {
-      if (response.status === 401) {
-        // auto logout if 401 response returned from api
-        logout()
-        location.reload(true)
-      }
-
-      const error = (data && data.message) || response.statusText
-      return Promise.reject(error)
-    }
-
-    return response.headers.get('Authorization').replace('Bearer ', '')
-  })
+    return httpClient.post('/api/users', { username, password, displayName, emailAddress })
+        .then(response => response.data)
 }

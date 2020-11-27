@@ -1,8 +1,10 @@
+import httpClient from "../HttpClient";
+
 export const workflow = {
     getWorkflow
 }
 
 function getWorkflow (workflowId) {
-    return fetch(`api/workflow/${workflowId}`)
-        .then(data => data.json())
+    return httpClient.get(`api/workflow/${workflowId}`)
+        .then(response => response.data)
 }

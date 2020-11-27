@@ -8,13 +8,14 @@ export const searchActions = {
 
 function searchIssue (cql: string) {
     return async dispatch => {
-        const response = await search.searchIssues(cql)
-        if (response.ok) {
-            dispatch(success(await response.json()))
-        } else {
-            dispatch(error(response))
-            dispatch(alertActions.error("Search Failed"))
-        }
+        await search.searchIssues(cql)
+            .then(response => {
+                dispatch(success(response))
+            })
+            .catch(e => {
+                dispatch(error(e))
+                dispatch(alertActions.error("Search Failed"))
+            })
     }
 
     function success (searchResults) { return { type: searchConstants.SEARCH_ISSUES_SUCCESS, searchResults } }

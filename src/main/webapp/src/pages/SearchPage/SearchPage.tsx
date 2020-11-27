@@ -81,13 +81,8 @@ class SearchPage extends React.Component<any, any>{
                 this.props.dispatch(projectActions.getProject(this.props.issue.projectId))
                 this.props.dispatch(issueActions.getIssueComments(externalId))
                 issue.getWorkflowTransitions(externalId)
-                    .then(async (resp) => {
-                            this.transitions = await resp.json();
-                            return Promise.resolve();
-                        },
-                        (error) => {
-                            this.props.dispatch(alertActions.error("Failed to fetch transitions"))
-                        });
+                    .then(transitions => {this.transitions = transitions})
+                    .catch(e => this.props.dispatch(alertActions.error("Failed to fetch transitions")))
             })
     }
 
