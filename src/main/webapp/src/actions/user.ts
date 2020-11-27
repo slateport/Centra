@@ -22,6 +22,7 @@ function login (username, password) {
         error => {
           dispatch(alertActions.error('Login failed!'))
           dispatch(failure(error))
+          console.log(error)
         }
       )
   }

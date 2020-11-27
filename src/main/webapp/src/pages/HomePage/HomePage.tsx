@@ -50,10 +50,7 @@ class HomePage extends React.Component<IHomePageProps, any> {
     }
 
     componentDidMount() {
-        projectService.getAllProjects().then(
-            r => r.json()
-                .then(projectList => this.setState({ projectList }))
-        )
+        projectService.getAllProjects().then(projectList => this.setState({ projectList }))
     }
 
     render() {

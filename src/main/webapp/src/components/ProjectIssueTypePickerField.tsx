@@ -27,7 +27,7 @@ class ProjectIssueTypePickerField extends React.Component<IProjectIssueTypePicke
 
     componentDidMount() {
         project.getIssueTypesForProject(this.props.projectKey)
-            .then(r => r.json().then(issueTypes => this.setState({ issueTypes })))
+            .then(issueTypes => this.setState({ issueTypes }))
     }
 
     render() {

@@ -1,15 +1,10 @@
-import {authHeader} from "../helpers";
+import httpClient from "../HttpClient";
+import Init from "../domain/Init";
 
 export const init = {
   getInit
 }
 
-function getInit () {
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', ...authHeader() }
-  }
-
-  return fetch('/api/init', requestOptions)
-    .then(initData => initData.json())
+function getInit (): Promise<any>  {
+  return httpClient.get<Init>('/api/init')
 }

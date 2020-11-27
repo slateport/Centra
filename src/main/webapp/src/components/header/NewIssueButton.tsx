@@ -62,14 +62,10 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
         // value is the project key
 
         projectService.getIssueTypesForProject(value)
-            .then(r => r.json().then(
-                issueTypeList => this.setState({issueTypeList})
-            ))
+            .then(issueTypeList => this.setState({issueTypeList}))
 
         projectService.getPrioritiesForProject(value)
-            .then(r => r.json().then(
-                priorityList => this.setState({priorityList})
-            ))
+            .then(priorityList => this.setState({priorityList}))
 
         this.handleChange(e)
     }
@@ -83,9 +79,7 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
     }
 
     componentDidMount() {
-        projectService.getAllProjects().then(
-            r => r.json().then(data => this.setState({projectList: data}))
-        )
+        projectService.getAllProjects().then(projectList => this.setState({ projectList }))
 
         if (this.props.projectId) {
             this.onChangeProject({target: {value: this.props.projectId }})
@@ -107,19 +101,13 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
             this.state.assigneeId,
             this.state.issueTypeId,
             this.state.issuePriorityId
-        ).then(response => {
-            if (!response.ok) {
-                this.props.dispatch(alertActions.error("Failed to create issue"))
-                return;
-            }
-
-            response.json()
-                .then(data => {
-                    const externalId = issueHelper.buildExternalKey(data);
-                    history.push("/browse/" + externalId)
-                    location.reload()
-                })
-        })
+        )
+            .then(response => {
+                const externalId = issueHelper.buildExternalKey(response.data);
+                history.push("/browse/" + externalId)
+                location.reload()
+            })
+            .catch(e => this.props.dispatch(alertActions.error("Failed to create issue")))
     }
 
     render() {

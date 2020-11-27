@@ -35,14 +35,7 @@ class DeleteProjectLink extends React.Component<IDeleteProjectLinkProps, any> {
 
     deleteProjectAndIssues() {
         projectService.deleteProject(this.props.project.id)
-            .then(r => {
-                if (r.ok) {
-                    location.reload()
-                } else {
-                    this.handleClose()
-                    alertActions.error("Failed to delete project")
-                }
-            })
+            .then(r => location.reload())
     }
 
     render() {

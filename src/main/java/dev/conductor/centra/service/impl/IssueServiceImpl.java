@@ -105,8 +105,14 @@ public class IssueServiceImpl implements IssueService {
 
         if (change instanceof ListChange) {
             ContainerElementChange ce = ((ListChange) change).getChanges().get(0);
-            return (ce instanceof ValueAdded) ? "added: " + ((ValueAdded) ce).getValue()
-                    : "removed: " + ((ValueRemoved) ce).getValue();
+
+            if (ce instanceof ValueAdded) {
+                return "Added: " + ((ValueAdded) ce).getValue();
+            } else if (ce instanceof ValueRemoved) {
+                return "Removed: " + ((ValueRemoved) ce).getValue();
+            } else if (ce instanceof ElementValueChange) {
+                return "Changed: " + ((ElementValueChange) ce).getRightValue();
+            }
         }
 
         return null;

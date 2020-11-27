@@ -46,13 +46,7 @@ class NewProjectButton extends React.Component<any, any> {
 
     createProjectAndReturn(e) {
         projectService.createNewProject(this.state.projectKey, this.state.projectName, this.state.description)
-            .then(r => {
-                if (r.ok) {
-                    location.reload();
-                } else {
-                    r.json().then(data => alert(data.message))
-                }
-            })
+            .then(r => location.reload())
     }
 
     render() {

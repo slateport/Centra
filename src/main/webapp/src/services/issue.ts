@@ -1,4 +1,4 @@
-import { authHeader } from '../helpers'
+import httpClient from "../HttpClient";
 
 export const issue = {
   getIssue,
@@ -14,74 +14,35 @@ export const issue = {
 }
 
 function getIssue (externalId: string) {
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', ...authHeader() }
-  }
-
-  return fetch(`/api/issues/${externalId}`, requestOptions)
+ return httpClient.get(`/api/issues/${externalId}`)
+     .then(response => response.data)
 }
 
 function getIssueComments (externalId: string) {
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', ...authHeader() }
-  }
-
-  return fetch(`/api/issues/${externalId}/comments`, requestOptions)
+  return httpClient.get(`/api/issues/${externalId}/comments`)
+      .then(response => response.data)
 }
 
 function putIssue(externalId: string, issueDto) {
-  const requestOptions = {
-    method: 'PUT',
-    headers: {'Content-Type': 'application/json', ...authHeader()},
-    body: JSON.stringify(issueDto)
-  }
-
-    return fetch(`/api/issues/${externalId}`, requestOptions)
+  return httpClient.put(`/api/issues/${externalId}`, issueDto)
 }
 
-function getWorkflowTransitions(externalId: string) {
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', ...authHeader() }
-  }
-
-  return fetch(`/api/issues/${externalId}/transitions`, requestOptions)
+function
+getWorkflowTransitions(externalId: string) {
+  return httpClient.get(`/api/issues/${externalId}/transitions`)
+      .then(response => response.data)
 }
 
 function postWorkflowTransitions(externalId: string, transitionDto) {
-  const requestOptions = {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', ...authHeader()},
-    body: JSON.stringify(transitionDto)
-  }
-
-
-  return fetch(`/api/issues/${externalId}/transitions`, requestOptions)
+  return httpClient.post(`/api/issues/${externalId}/transitions`, transitionDto)
 }
 
 function addComment (externalId: string, comment:string) {
-  const body = {
-    text: comment
-  }
-
-  const requestOptions = {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', ...authHeader()},
-    body: JSON.stringify(body)
-  }
-
-  return fetch(`/api/issues/${externalId}/comments`, requestOptions)
+  return httpClient.post(`/api/issues/${externalId}/comments`, { text: comment })
 }
 
 function getAllLabels () {
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', ...authHeader() }
-  }
-
-  return fetch(`/api/issues/labels?labelValue=`, requestOptions)
+  return httpClient.get(`/api/issues/labels?labelValue=`)
 }
 
 function createIssue(title, description, projectKey, labels, assigneeId, issueTypeId, issuePriorityId) {
@@ -89,29 +50,16 @@ function createIssue(title, description, projectKey, labels, assigneeId, issueTy
     title, description, projectKey, labels, assigneeId, issueTypeId, issuePriorityId
   }
 
-  const requestOptions = {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', ...authHeader()},
-    body: JSON.stringify(body)
-  }
-
-  return fetch(`/api/issues/`, requestOptions)
+  return httpClient.post(`/api/issues/`, body)
 }
 
 function getAuditChanges(externalId: string) {
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', ...authHeader() }
-  }
-
-  return fetch(`/api/issues/${externalId}/changes`, requestOptions)
+  return httpClient.get(`/api/issues/${externalId}/changes`)
+      .then(response => response.data
+      )
 }
 
 function getIssueTypeById(id: string) {
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', ...authHeader() }
-  }
-
-  return fetch(`/api/issues/types/${id}`, requestOptions)
+  return httpClient.get(`/api/issues/types/${id}`)
+      .then(response => response.data)
 }
