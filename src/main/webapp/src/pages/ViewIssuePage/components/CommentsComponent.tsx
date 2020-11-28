@@ -13,6 +13,12 @@ const userPromise = (userId) => user.getUser(userId)
 const Divider = styled(MuiDivider)(spacing);
 const IssueComment = ({comment: commentDto}) => {
     const [user, setUser] = useState(null);
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
     useEffect(() => {
         userPromise(commentDto.createdByUserId).then(data => setUser(data))
     }, []);
@@ -20,7 +26,7 @@ const IssueComment = ({comment: commentDto}) => {
 
     return (user == null) ? (<span>User Data unfilled</span>) : (
         <React.Fragment>
-            <Accordion expanded={true} id={commentDto.id}>
+            <Accordion expanded={expanded === commentDto.id} onChange={handleChange(commentDto.id)} id={commentDto.id}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>
                         <Link to={`/users/${user.id}`}>{user.displayName}</Link> added a comment &nbsp;
