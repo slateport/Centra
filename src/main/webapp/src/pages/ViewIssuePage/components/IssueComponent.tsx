@@ -300,9 +300,9 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                             <ListItemIcon>
                                                 <StatusChip issue={link.issue} />
                                             </ListItemIcon>
-                                            <IconButton>
+                                            <ListItemIcon>
                                                 <EditableIssueTypeField handleFn={() => {}} id={link.issue.issueTypeId} clickable={false} projectKey={link.issue.projectKey} preText={""}/>
-                                            </IconButton>
+                                            </ListItemIcon>
                                              <Link href={"/browse/" + issueHelper.buildExternalKey(link.issue)}>{issueHelper.buildExternalKey(link.issue)}: {link.issue.title}</Link>
                                         </ListItem>
                                     ))}
