@@ -150,7 +150,7 @@ public class IssueServiceImpl implements IssueService {
 
     private Object getLeft(Change change) {
         if (change instanceof ValueChange){
-            return ((ValueChange) change).getRight();
+            return ((ValueChange) change).getLeft();
         }
 
         if (change instanceof ListChange) {
