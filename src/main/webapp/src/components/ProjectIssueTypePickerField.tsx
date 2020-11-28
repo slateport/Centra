@@ -1,8 +1,8 @@
-import React from "react";
-import {project} from "../services";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import IssueType from "../domain/IssueType";
+import React from 'react'
+import { project } from '../services'
+import TextField from '@material-ui/core/TextField'
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import IssueType from '../domain/IssueType'
 
 interface IProjectIssueTypePickerFieldProps {
     projectKey: string,
@@ -14,24 +14,22 @@ interface IProjectIssueTypePickerFieldState {
     issueTypes: IssueType[]
 }
 
-
 class ProjectIssueTypePickerField extends React.Component<IProjectIssueTypePickerFieldProps, IProjectIssueTypePickerFieldState> {
+  constructor (props) {
+    super(props)
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            issueTypes: [],
-        }
+    this.state = {
+      issueTypes: []
     }
+  }
 
-    componentDidMount() {
-        project.getIssueTypesForProject(this.props.projectKey)
-            .then(issueTypes => this.setState({ issueTypes }))
-    }
+  componentDidMount () {
+    project.getIssueTypesForProject(this.props.projectKey)
+      .then(issueTypes => this.setState({ issueTypes }))
+  }
 
-    render() {
-        return (
+  render () {
+    return (
             <React.Fragment>
                 <Autocomplete
                     id="issuetype-picker-field"
@@ -43,8 +41,8 @@ class ProjectIssueTypePickerField extends React.Component<IProjectIssueTypePicke
                     onChange={(_, value: IssueType) => this.props.handleFn(value.id)}
                 />
             </React.Fragment>
-        );
-    }
+    )
+  }
 }
 
 export default ProjectIssueTypePickerField

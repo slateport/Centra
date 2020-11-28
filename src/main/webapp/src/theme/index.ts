@@ -1,6 +1,6 @@
-import {createMuiTheme} from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
 
-import variants, {VariantType} from './variants'
+import variants, { VariantType } from './variants'
 import typography from './typography'
 import overrides from './overrides'
 import breakpoints from './breakpoints'
@@ -21,7 +21,7 @@ const theme = (variant: VariantType) => {
     {
       name: variant.name,
       body: variant.body,
-      header: variant.header,
+      header: variant.header
     }
   )
 }

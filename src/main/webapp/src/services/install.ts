@@ -1,4 +1,4 @@
-import httpClient from "../HttpClient";
+import httpClient from '../HttpClient'
 
 export const install = {
   completeInstallation

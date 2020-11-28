@@ -1,4 +1,4 @@
-import UserLite from "./UserLite"
+import UserLite from './UserLite'
 
 interface Init {
     registrationEnabled: boolean,
