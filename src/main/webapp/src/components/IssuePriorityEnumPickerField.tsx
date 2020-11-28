@@ -1,7 +1,7 @@
-import React from "react";
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import {project} from "../services";
+import React from 'react'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import { project } from '../services'
 
 interface IIssuePriorityEnumPickerFieldProps {
     projectKey: string
@@ -10,21 +10,21 @@ interface IIssuePriorityEnumPickerFieldProps {
 }
 
 class IssuePriorityEnumPickerField extends React.Component<IIssuePriorityEnumPickerFieldProps, any> {
-    constructor(props) {
-        super(props);
+  constructor (props) {
+    super(props)
 
-        this.state = {
-            priorityList: [],
-        }
+    this.state = {
+      priorityList: []
     }
+  }
 
-    componentDidMount() {
-        project.getPrioritiesForProject(this.props.projectKey)
-            .then(priorityList => this.setState({ priorityList }))
-    }
+  componentDidMount () {
+    project.getPrioritiesForProject(this.props.projectKey)
+      .then(priorityList => this.setState({ priorityList }))
+  }
 
-    render() {
-        return (
+  render () {
+    return (
             <Select
                 labelId="priority-picker"
                 id="priority-picker"
@@ -36,8 +36,8 @@ class IssuePriorityEnumPickerField extends React.Component<IIssuePriorityEnumPic
                 <MenuItem value={priority.id} key={priority.id}>{priority.label}</MenuItem>
             )}
             </Select>
-        )
-    }
+    )
+  }
 }
 
 export default IssuePriorityEnumPickerField

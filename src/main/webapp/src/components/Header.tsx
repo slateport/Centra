@@ -3,16 +3,16 @@ import { useSelector } from 'react-redux'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
-import {ListItem, Box as MuiBox, Typography, InputBase, Link as MuiLink} from '@material-ui/core'
-import { Layers } from "react-feather"
-import { spacing } from "@material-ui/system";
-import { darken } from "polished";
-import IssueMenu from "./header/IssueMenu";
-import MyProfileMenu from "./header/MyProfileMenu";
-import { NewIssueButton } from "./header/NewIssueButton";
-import {isAdmin, isAuthenticated} from "../helpers";
-import AdminMenu from "./header/AdminMenu";
-import {blue} from "@material-ui/core/colors";
+import { ListItem, Box as MuiBox, Typography, InputBase, Link as MuiLink } from '@material-ui/core'
+import { Layers } from 'react-feather'
+import { spacing } from '@material-ui/system'
+import { darken } from 'polished'
+import IssueMenu from './header/IssueMenu'
+import MyProfileMenu from './header/MyProfileMenu'
+import { NewIssueButton } from './header/NewIssueButton'
+import { isAdmin, isAuthenticated } from '../helpers'
+import AdminMenu from './header/AdminMenu'
+import { blue } from '@material-ui/core/colors'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -93,16 +93,16 @@ const Search = styled.div`
     background-color: ${props => darken(0.05, props.theme.header.background)};
   }
 
-  ${props => props.theme.breakpoints.up("md")} {
+  ${props => props.theme.breakpoints.up('md')} {
     display: block;
   }
 `
 
 const WhiteSearchIcon = styled(SearchIcon)`
     color: ${props => props.theme.header.search.color}
-`;
+`
 
-const Box = styled(MuiBox)(spacing);
+const Box = styled(MuiBox)(spacing)
 
 const Brand = styled(ListItem)<{button?: boolean}>`
   font-size: ${props => props.theme.typography.h5.fontSize};
@@ -117,16 +117,16 @@ const Brand = styled(ListItem)<{button?: boolean}>`
   &:hover {
     background-color: ${props => props.theme.header.background};
   }
-`;
+`
 
 const BrandIcon = styled(Layers)`
   margin-right: ${props => props.theme.spacing(2)}px;
   color: ${props => props.theme.header.brand.color};
-`;
+`
 
 const Link = styled(MuiLink)`
   color: ${props => props.theme.header.brand.color};
-`;
+`
 
 const SearchIconWrapper = styled.div`
   width: 50px;
@@ -141,7 +141,7 @@ const SearchIconWrapper = styled.div`
     width: 22px;
     height: 22px;
   }
-`;
+`
 
 const Input = styled(InputBase)`
   color: inherit;
@@ -155,20 +155,19 @@ const Input = styled(InputBase)`
     padding-left: ${props => props.theme.spacing(12)}px;
     width: 160px;
   }
-`;
+`
 
+function PrimarySearchAppBar ({ initData }) {
+  const classes = useStyles()
 
-function PrimarySearchAppBar ({initData}) {
-    const classes = useStyles()
+  const stateFn = state => state.init
+  const init = useSelector(stateFn)
 
-    const stateFn = state => state.init
-    const init = useSelector(stateFn)
-
-    return (
+  return (
         <Box display="flex" bgcolor={blue[900]} p={2} alignItems="center">
-            <Typography className={classes.title} noWrap color={"secondary"}>
+            <Typography className={classes.title} noWrap color={'secondary'}>
                 <Brand button>
-                    <BrandIcon /> <Box ml={1}><Link href={"/"}>{init.publicName}</Link></Box>
+                    <BrandIcon /> <Box ml={1}><Link href={'/'}>{init.publicName}</Link></Box>
                 </Brand>
             </Typography>
             <Box>
@@ -192,7 +191,7 @@ function PrimarySearchAppBar ({initData}) {
                 <MyProfileMenu />
             </Box>
         </Box>
-    )
+  )
 }
 
 export { PrimarySearchAppBar }

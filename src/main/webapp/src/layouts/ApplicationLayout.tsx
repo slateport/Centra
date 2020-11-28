@@ -1,14 +1,13 @@
-import React from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import React from 'react'
+import styled, { createGlobalStyle } from 'styled-components'
 import { GlobalStyleProps } from '../types/types'
-import { PrimarySearchAppBar } from "../components/Header";
+import { PrimarySearchAppBar } from '../components/Header'
 
-import { spacing } from "@material-ui/system";
+import { spacing } from '@material-ui/system'
 import {
-    CssBaseline,
-    Paper as MuiPaper,
-} from "@material-ui/core";
-
+  CssBaseline,
+  Paper as MuiPaper
+} from '@material-ui/core'
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   html,
@@ -26,20 +25,20 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     width: 28px;
     height: 28px;
   }
-`;
+`
 
 const Root = styled.div`
   display: flex;
   min-height: 100vh;
-`;
+`
 
 const AppContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-`;
+`
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 const MainContent = styled(Paper)`
   flex: 1;
@@ -53,10 +52,10 @@ const MainContent = styled(Paper)`
   .MuiPaper-root .MuiPaper-root {
     box-shadow: none;
   }
-`;
+`
 
 const ApplicationLayout = ({ props, init, children }) => {
-    return (
+  return (
         <Root>
             <CssBaseline />
             <GlobalStyle />
@@ -68,6 +67,6 @@ const ApplicationLayout = ({ props, init, children }) => {
             </AppContent>
 
         </Root>
-    )
+  )
 }
-export { ApplicationLayout };
+export { ApplicationLayout }

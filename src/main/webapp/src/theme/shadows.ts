@@ -1,4 +1,4 @@
-import {Shadows} from '@material-ui/core/styles/shadows'
+import { Shadows } from '@material-ui/core/styles/shadows'
 
 function createShadow (px: number) {
   return `0 0 ${px}px 0 rgba(53,64,82,.05)`

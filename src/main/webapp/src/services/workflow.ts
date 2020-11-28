@@ -1,10 +1,10 @@
-import httpClient from "../HttpClient";
+import httpClient from '../HttpClient'
 
 export const workflow = {
-    getWorkflow
+  getWorkflow
 }
 
 function getWorkflow (workflowId) {
-    return httpClient.get(`api/workflow/${workflowId}`)
-        .then(response => response.data)
+  return httpClient.get(`api/workflow/${workflowId}`)
+    .then(response => response.data)
 }

@@ -1,7 +1,7 @@
 export const issueHelper = {
-    buildExternalKey,
+  buildExternalKey
 }
 
 function buildExternalKey (issue) {
-    return issue.projectKey +'-'+ issue.externalId
+  return issue.projectKey + '-' + issue.externalId
 }

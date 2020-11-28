@@ -1,7 +1,7 @@
-import React from "react";
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import UserLite from "../domain/UserLite";
+import React from 'react'
+import TextField from '@material-ui/core/TextField'
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import UserLite from '../domain/UserLite'
 import { user as userService } from '../services'
 
 interface IUserFieldPickerProps {
@@ -10,20 +10,20 @@ interface IUserFieldPickerProps {
 }
 
 export default class UserPickerField extends React.Component<IUserFieldPickerProps, any> {
-    constructor(props) {
-        super(props);
+  constructor (props) {
+    super(props)
 
-        this.state = {
-            users: []
-        }
+    this.state = {
+      users: []
     }
+  }
 
-    componentDidMount() {
-        userService.getAllLite().then(users => this.setState({users}))
-    }
+  componentDidMount () {
+    userService.getAllLite().then(users => this.setState({ users }))
+  }
 
-    render() {
-        return (
+  render () {
+    return (
             <Autocomplete
                 id="user-picker-field"
                 options={this.state.users}
@@ -33,6 +33,6 @@ export default class UserPickerField extends React.Component<IUserFieldPickerPro
                 renderInput={(params) => <TextField {...params} variant="outlined" />}
                 onChange={(_, value: UserLite) => this.props.handleFn(value.id)}
             />
-        )
-    }
+    )
+  }
 }

@@ -11,10 +11,10 @@ export function issue (state = {}, action: any) {
         error: action.error
       }
     case issueConstants.GET_COMMENTS_SUCCESS:
-    return {
-      ...state,
-      comments: action.comments
-    }
+      return {
+        ...state,
+        comments: action.comments
+      }
     case issueConstants.GET_COMMENTS_FAILURE:
       return {
         ...state

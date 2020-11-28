@@ -1,5 +1,5 @@
 import { initConstants } from '../constants'
-import {authHeader} from "../helpers";
+import { authHeader } from '../helpers'
 
 export const initActions = {
   loadInit
