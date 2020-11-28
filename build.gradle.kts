@@ -56,32 +56,32 @@ publishing {
     }
 }
 
-//tasks.withType<JavaCompile>() {
-//    options.encoding = "UTF-8"
-//    dependsOn("copyWebApp")
-//}
-//
-//tasks.register<NpmTask>("appNpmInstall") {
-////    this.onlyIf { !file("${project.projectDir}/src/main/webapp/node_modules").exists() }
-//    description = "Installs all dependencies from package.json"
-//    workingDir = file("${project.projectDir}/src/main/webapp")
-//    args = listOf("install")
-//}
-//
-//tasks.register<NpmTask>("appNpmBuild") {
-//    dependsOn("appNpmInstall")
-//    description = "Builds project"
-//    workingDir = file("${project.projectDir}/src/main/webapp")
-//    args = listOf("run", "build")
-//}
-//
-//tasks.register<Copy>("copyWebApp") {
-//    dependsOn("appNpmBuild")
-//    description = "Copies built project to where it will be served"
-//    from("src/main/webapp/dist")
-//    into("build/resources/main/static/.")
-//}
-//
-//node {
-//    download = false
-//}
+tasks.withType<JavaCompile>() {
+    options.encoding = "UTF-8"
+    dependsOn("copyWebApp")
+}
+
+tasks.register<NpmTask>("appNpmInstall") {
+//    this.onlyIf { !file("${project.projectDir}/src/main/webapp/node_modules").exists() }
+    description = "Installs all dependencies from package.json"
+    workingDir = file("${project.projectDir}/src/main/webapp")
+    args = listOf("install")
+}
+
+tasks.register<NpmTask>("appNpmBuild") {
+    dependsOn("appNpmInstall")
+    description = "Builds project"
+    workingDir = file("${project.projectDir}/src/main/webapp")
+    args = listOf("run", "build")
+}
+
+tasks.register<Copy>("copyWebApp") {
+    dependsOn("appNpmBuild")
+    description = "Copies built project to where it will be served"
+    from("src/main/webapp/dist")
+    into("build/resources/main/static/.")
+}
+
+node {
+    download = false
+}
