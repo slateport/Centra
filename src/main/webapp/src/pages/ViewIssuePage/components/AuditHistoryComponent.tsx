@@ -61,7 +61,7 @@ const renderRight = (change) => {
 
         case 'issueTypeId':
             return (
-                <EditableIssueTypeField id={change.right} handleFn={() => {}} clickable={false} projectKey={null}/>
+                <EditableIssueTypeField id={change.right} handleFn={() => {}} clickable={false} projectKey={null} preText={""}/>
             )
 
         case 'issuePriorityId':
@@ -92,7 +92,7 @@ const renderLeft = (change) => {
 
         case 'issueTypeId':
             return (
-                <EditableIssueTypeField id={change.left} handleFn={() => {}} clickable={false} projectKey={null}/>
+                <EditableIssueTypeField id={change.left} handleFn={() => {}} clickable={false} projectKey={null} preText={""}/>
             )
 
         case 'issuePriorityId':
@@ -133,6 +133,7 @@ export default class AuditHistory extends Component<IAuditHistoryProps, any> {
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <TableCell>Who</TableCell>
                                 <TableCell>When</TableCell>
                                 <TableCell>Field</TableCell>
                                 <TableCell>Original Value</TableCell>
@@ -144,7 +145,8 @@ export default class AuditHistory extends Component<IAuditHistoryProps, any> {
                                 .filter((change) => blacklistedChanges.indexOf(change.propertyNameWithPath) == -1)
                                 .map((change, index) => (
                                     <TableRow key={index}>
-                                        <TableCell><EditablePeopleField userId={change.changeByUserId} handleFn={() => {}} clickable={false}/> <RoundTimeAgo date={new Date(change.changeDate)} /></TableCell>
+                                        <TableCell component="th" scope="row"><EditablePeopleField userId={change.changeByUserId} handleFn={() => {}} clickable={false}/></TableCell>
+                                        <TableCell><RoundTimeAgo date={new Date(change.changeDate)} /></TableCell>
                                         <TableCell>{normalisePropertyName(change.propertyNameWithPath)}</TableCell>
                                         <TableCell>{renderLeft(change)}</TableCell>
                                         <TableCell>{renderRight(change)}</TableCell>

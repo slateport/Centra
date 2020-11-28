@@ -2,6 +2,7 @@ package dev.conductor.centra.service;
 
 import dev.conductor.centra.dto.IssueChangeDTO;
 import dev.conductor.centra.entities.Issue;
+import dev.conductor.centra.entities.IssueLinks;
 
 import java.util.List;
 
@@ -13,4 +14,8 @@ public interface IssueService {
     long getNextExternalIdByProject(String projectId);
     List<IssueChangeDTO> getAuditLogsForIssue(Issue issue);
     void deleteIssue(Issue issue);
+    IssueLinks saveIssueLinks(IssueLinks issueLinks);
+    List<IssueLinks> getLinksForIssueByExternalId(String externalId);
+    IssueLinks findLinkById(String id);
+    void deleteIssueLink(IssueLinks issueLinks);
 }

@@ -15,7 +15,7 @@ httpClient.interceptors.response.use(response => {
     if (error.response.status === 401) {
         alert("Your session has expired or you are not currently logged in")
     }
-    return error
+    throw error
 })
 
 export default httpClient;

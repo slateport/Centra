@@ -110,14 +110,9 @@ const Brand = styled(ListItem)<{button?: boolean}>`
   color: ${props => props.theme.color};
   background-color: ${props => props.theme.header.background};
   font-family: ${props => props.theme.typography.fontFamily};
-  min-height: 56px; 
   padding-left: ${props => props.theme.spacing(6)}px;
   padding-right: ${props => props.theme.spacing(6)}px;
   cursor: default;
-
-  ${props => props.theme.breakpoints.up("sm")} {
-    min-height: 64px;
-  }
 
   &:hover {
     background-color: ${props => props.theme.header.background};

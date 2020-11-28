@@ -72,7 +72,7 @@ const iconMap = {
     "CheckSquare": (text) => <YellowChip icon={<Icon.CheckSquare color={"white"} size={16} />} label={text} />,
 }
 
-const EditableIssueTypeField = ({id, handleFn, clickable, projectKey}) => {
+const EditableIssueTypeField = ({id, handleFn, clickable, projectKey, preText}) => {
     if(id == null){
         return (<span>Unknown</span>)
     }
@@ -114,7 +114,7 @@ const EditableIssueTypeField = ({id, handleFn, clickable, projectKey}) => {
         )
     } else {
         return (issueType == null) ? (<span>Unknown</span>) : (
-            <Button color="primary" onClick={clickable ? handleClick : (e) => {}}>Type: {iconMap[issueType.icon](issueType.label)}</Button>
+            <Button color="primary" onClick={clickable ? handleClick : (e) => {}}>{preText} {iconMap[issueType.icon](issueType.label)}</Button>
         )
     }
 }

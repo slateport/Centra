@@ -200,6 +200,35 @@ public class IssueController {
         return issueService.getAuditLogsForIssue(issue);
     }
 
+    @GetMapping("/{id}/links")
+    public List<IssueLinks> getLinksForIssue(@PathVariable String id) {
+        Issue issue = getIssueByExternalId(id);
+        return issueService.getLinksForIssueByExternalId(buildExternalKeyFromIssue(issue));
+    }
+
+    @PostMapping("/links")
+    public IssueLinks createIssueLink(@RequestBody IssueLinks link) {
+        getIssueByExternalId(link.getLinkPublicId());
+        getIssueByExternalId(link.getNodePublicId());
+
+        if (link.getLinkPublicId().equals(link.getNodePublicId())){
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "You cannot link an issue to itself.");
+        }
+
+        return issueService.saveIssueLinks(link);
+    }
+
+    @DeleteMapping("/links/{id}")
+    public void deleteIssueLink(@PathVariable String id){
+        IssueLinks link = issueService.findLinkById(id);
+
+        if (link != null){
+            issueService.deleteIssueLink(link);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Issue Link not found");
+        }
+    }
+
     @GetMapping("/types/{id}")
     public IssueType getIssueTypeById(@PathVariable String id) {
         return issueTypeSchemaService.findTypeById(id);
@@ -222,5 +251,11 @@ public class IssueController {
         }
 
         return issue;
+    }
+
+    private String buildExternalKeyFromIssue(Issue issue){
+        String projectKey = projectService.findById(issue.getProjectId()).get().getProjectKey();
+        long externalId = issue.getExternalId();
+        return projectKey + "-" + externalId;
     }
 }

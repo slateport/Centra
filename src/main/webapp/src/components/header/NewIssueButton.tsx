@@ -152,14 +152,8 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
                                 </Grid>
                                 <Grid item xs={3} p={2}>Title</Grid>
                                 <Grid item xs={9} p={2}>
-                                    <TextField
-                                        id={"title"}
-                                        name={"title"}
-                                        fullWidth
-                                        required
-                                        onChange={this.handleChange}
-                                        variant="outlined"
-                                    />
+
+
                                 </Grid>
                                 <Grid item xs={3} p={2}>Priority</Grid>
                                 <Grid item xs={9} p={2}>
