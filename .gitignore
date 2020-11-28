@@ -4,6 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .gradle/
+app/
+bin/
 
 ### STS ###
 .apt_generated
@@ -37,3 +39,9 @@ build/
 **/src/main/**/build/*
 !**/src/test/**/build/
 **/.temp_cache/*
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
