@@ -20,6 +20,7 @@ import org.javers.repository.jql.QueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IssueServiceImpl implements IssueService {
@@ -102,6 +103,17 @@ public class IssueServiceImpl implements IssueService {
         links.addAll(issueLinksRepository.findByNodePublicId(externalId));
 
         return links;
+    }
+
+    @Override
+    public IssueLinks findLinkById(String id) {
+        Optional<IssueLinks> optionalLink = issueLinksRepository.findById(id);
+        return (optionalLink.isEmpty()) ? null : optionalLink.get();
+    }
+
+    @Override
+    public void deleteIssueLink(IssueLinks issueLinks) {
+        issueLinksRepository.delete(issueLinks);
     }
 
     private String getPropertyNameWithPath(Change change) {

@@ -16,4 +16,6 @@ public interface IssueService {
     void deleteIssue(Issue issue);
     IssueLinks saveIssueLinks(IssueLinks issueLinks);
     List<IssueLinks> getLinksForIssueByExternalId(String externalId);
+    IssueLinks findLinkById(String id);
+    void deleteIssueLink(IssueLinks issueLinks);
 }

@@ -214,6 +214,17 @@ public class IssueController {
         return issueService.saveIssueLinks(link);
     }
 
+    @DeleteMapping("/links/{id}")
+    public void deleteIssueLink(@PathVariable String id){
+        IssueLinks link = issueService.findLinkById(id);
+
+        if (link != null){
+            issueService.deleteIssueLink(link);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Issue Link not found");
+        }
+    }
+
     @GetMapping("/types/{id}")
     public IssueType getIssueTypeById(@PathVariable String id) {
         return issueTypeSchemaService.findTypeById(id);

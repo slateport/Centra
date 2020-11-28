@@ -11,7 +11,9 @@ export const issue = {
   createIssue,
   getAuditChanges,
   getIssueTypeById,
-  getLinks
+  getLinks,
+  deleteLink,
+  createLink
 }
 
 function getIssue (externalId: string) {
@@ -56,8 +58,7 @@ function createIssue(title, description, projectKey, labels, assigneeId, issueTy
 
 function getAuditChanges(externalId: string) {
   return httpClient.get(`/api/issues/${externalId}/changes`)
-      .then(response => response.data
-      )
+      .then(response => response.data)
 }
 
 function getIssueTypeById(id: string) {
@@ -68,4 +69,12 @@ function getIssueTypeById(id: string) {
 function getLinks(externalId: string) {
   return httpClient.get(`/api/issues/${externalId}/links`)
       .then(response => response.data)
+}
+
+function deleteLink(id: string) {
+  return httpClient.delete(`/api/issues/links/${id}`)
+}
+
+function createLink(nodePublicId, linkPublicId) {
+  return httpClient.post('/api/issues/links', {nodePublicId, linkPublicId})
 }

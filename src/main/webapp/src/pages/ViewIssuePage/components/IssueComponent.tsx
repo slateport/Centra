@@ -7,8 +7,7 @@ import {
     CardContent,
     Divider as MuiDivider,
     Grid,
-    IconButton,
-    Link, List, ListItem, ListItemIcon,
+    Link,
     Menu,
     MenuItem,
     Typography
@@ -38,6 +37,8 @@ import AddIcon from '@material-ui/icons/Add';
 import Paper from '@material-ui/core/Paper';
 import EditableIssueTypeField from "./EditableIssueTypeField";
 import EditablePriorityField from "./EditablePriorityField";
+import RelatedIssuesComponent from "./RelatedIssuesComponent";
+import NewIssueLinkDialog from "./NewIssueLinkDialog";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -83,20 +84,6 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
     const [anchorElTransitionMenu, setAnchorElTransitionMenu] = React.useState<null | HTMLElement>(null);
     const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions);
     const [tabValue, setTabValue] = React.useState(0);
-    const [links, setLinks] = React.useState([]);
-
-    useEffect(() => {
-        issueService.getLinks(issueHelper.buildExternalKey(issue))
-            .then((links) => links.map(async (link) => {
-                    const currentIssue = issueHelper.buildExternalKey(issue)
-                    const fetchId =  (link.nodePublicId == currentIssue) ? link.linkPublicId : link.nodePublicId
-
-                    link.issue = await issueService.getIssue(fetchId)
-
-                    return link
-            }))
-            .then(linkPromises => Promise.all(linkPromises).then(link => setLinks(link)))
-    }, [])
 
     useEffect(() => {
         setWorkflowTransitions(initialWorkflowTransitions)
@@ -170,8 +157,6 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             location.reload()
         }
     }
-
-    console.log(links)
 
     return (
         <React.Fragment>
@@ -291,23 +276,10 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                             </Grid>
                             <Grid item xs={2}>
                                 Related Issues
-                                <Button color={"primary"} size={"small"}><AddIcon /></Button>
+                                <NewIssueLinkDialog issueId={issueHelper.buildExternalKey(issue)}/>
                             </Grid>
                             <Grid item xs={10}>
-                                <List dense={true}>
-                                    {links.map((link, index) => (
-                                        <ListItem key={index} disableGutters={true}>
-                                            <ListItemIcon>
-                                                <StatusChip issue={link.issue} />
-                                            </ListItemIcon>
-                                            <ListItemIcon>
-                                                <EditableIssueTypeField handleFn={() => {}} id={link.issue.issueTypeId} clickable={false} projectKey={link.issue.projectKey} preText={""}/>
-                                            </ListItemIcon>
-                                             <Link href={"/browse/" + issueHelper.buildExternalKey(link.issue)}>{issueHelper.buildExternalKey(link.issue)}: {link.issue.title}</Link>
-                                        </ListItem>
-                                    ))}
-                                </List>
-
+                                <RelatedIssuesComponent issue={issue}/>
                             </Grid>
                         </Grid>
                         <Grid container xs={1} />
