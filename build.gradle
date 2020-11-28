@@ -60,3 +60,7 @@ task copyWebApp(type: Copy) {
     from 'src/main/webapp/build'
     into 'build/resources/main/static/.'
 }
+
+appNpmBuild.dependsOn appNpmInstall
+copyWebApp.dependsOn appNpmBuild
+compileJava.dependsOn copyWebApp
