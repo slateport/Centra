@@ -7,6 +7,7 @@ import {
     CardContent,
     Divider as MuiDivider,
     Grid,
+    IconButton,
     Link, List, ListItem, ListItemIcon,
     Menu,
     MenuItem,
@@ -33,15 +34,10 @@ import AuditHistory from "./AuditHistoryComponent";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import AddIcon from '@material-ui/icons/Add';
 import Paper from '@material-ui/core/Paper';
 import EditableIssueTypeField from "./EditableIssueTypeField";
 import EditablePriorityField from "./EditablePriorityField";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableBody from "@material-ui/core/TableBody";
-import TableContainer from "@material-ui/core/TableContainer";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -255,7 +251,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         <Grid item xs={1}>Status <StatusChip issue={issue} /></Grid>
                         <Grid item xs={1}/>
                         <Grid item xs={1}>
-                            <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} />
+                            <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={"Type: "}/>
                         </Grid>
                         <Grid item xs={1} />
                         <Grid item xs={1}>
@@ -295,6 +291,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                             </Grid>
                             <Grid item xs={2}>
                                 Related Issues
+                                <Button color={"primary"} size={"small"}><AddIcon /></Button>
                             </Grid>
                             <Grid item xs={10}>
                                 <List dense={true}>
@@ -303,7 +300,9 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                             <ListItemIcon>
                                                 <StatusChip issue={link.issue} />
                                             </ListItemIcon>
-
+                                            <IconButton>
+                                                <EditableIssueTypeField handleFn={() => {}} id={link.issue.issueTypeId} clickable={false} projectKey={link.issue.projectKey} preText={""}/>
+                                            </IconButton>
                                              <Link href={"/browse/" + issueHelper.buildExternalKey(link.issue)}>{issueHelper.buildExternalKey(link.issue)}: {link.issue.title}</Link>
                                         </ListItem>
                                     ))}
