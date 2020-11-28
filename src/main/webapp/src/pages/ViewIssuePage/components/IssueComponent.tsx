@@ -38,7 +38,7 @@ import Paper from '@material-ui/core/Paper';
 import EditableIssueTypeField from "./EditableIssueTypeField";
 import EditablePriorityField from "./EditablePriorityField";
 import RelatedIssuesComponent from "./RelatedIssuesComponent";
-import NewIssueLinkDialog from "./NewIssueLinkDialog";
+import { NewIssueLinkDialog } from "./NewIssueLinkDialog";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (

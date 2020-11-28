@@ -211,6 +211,10 @@ public class IssueController {
         getIssueByExternalId(link.getLinkPublicId());
         getIssueByExternalId(link.getNodePublicId());
 
+        if (link.getLinkPublicId().equals(link.getNodePublicId())){
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "You cannot link an issue to itself.");
+        }
+
         return issueService.saveIssueLinks(link);
     }
 

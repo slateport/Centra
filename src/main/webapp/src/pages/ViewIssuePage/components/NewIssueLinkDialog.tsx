@@ -5,14 +5,18 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
-    Grid,
-    TextField
+    DialogTitle, Grid as MuiGrid,
+    TextField, Typography
 } from "@material-ui/core";
 import {issue as issueService} from "../../../services";
 import {alertActions} from "../../../actions";
+import styled from "styled-components";
+import {spacing} from "@material-ui/system";
+import {connect} from "react-redux";
 
-class NewIssueLinkDialog extends React.Component<{ issueId },any> {
+const Grid = styled(MuiGrid)(spacing)
+
+class NewIssueLinkDialog extends React.Component<any,any> {
 
     constructor(props) {
         super(props);
@@ -45,11 +49,12 @@ class NewIssueLinkDialog extends React.Component<{ issueId },any> {
     linkIssueAndReturn (e) {
         issueService.createLink(this.state.nodePublicId, this.state.linkPublicId)
             .then(response => {
-                if (response.data.id) {
+                if (response.data) {
                     location.reload()
-                } else {
-                    alertActions.error("Failed to link issues: " + response.data.message)
                 }
+            })
+            .catch(error => {
+                this.props.dispatch(alertActions.error("Failed to link issues: " + error.response.data.message))
             })
     }
 
@@ -77,6 +82,9 @@ class NewIssueLinkDialog extends React.Component<{ issueId },any> {
                                     />
                                 </Grid>
                             </Grid>
+                            {this.props.alert.message &&
+                            <Typography color={"error"}>{this.props.alert.message}</Typography>
+                            }
                         </React.Fragment>
                     </DialogContent>
                     <DialogActions>
@@ -95,4 +103,12 @@ class NewIssueLinkDialog extends React.Component<{ issueId },any> {
 
 }
 
-export default NewIssueLinkDialog
+function mapStateToProps (state) {
+    const { alert } = state
+    return {
+        alert
+    }
+}
+
+const connectedNewIssueLinkDialog = connect(mapStateToProps)(NewIssueLinkDialog)
+export { connectedNewIssueLinkDialog as NewIssueLinkDialog }
