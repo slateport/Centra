@@ -10,7 +10,8 @@ export const issue = {
   getAllLabels,
   createIssue,
   getAuditChanges,
-  getIssueTypeById
+  getIssueTypeById,
+  getLinks
 }
 
 function getIssue (externalId: string) {
@@ -61,5 +62,10 @@ function getAuditChanges(externalId: string) {
 
 function getIssueTypeById(id: string) {
   return httpClient.get(`/api/issues/types/${id}`)
+      .then(response => response.data)
+}
+
+function getLinks(externalId: string) {
+  return httpClient.get(`/api/issues/${externalId}/links`)
       .then(response => response.data)
 }

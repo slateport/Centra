@@ -200,6 +200,20 @@ public class IssueController {
         return issueService.getAuditLogsForIssue(issue);
     }
 
+    @GetMapping("/{id}/links")
+    public List<IssueLinks> getLinksForIssue(@PathVariable String id) {
+        Issue issue = getIssueByExternalId(id);
+        return issueService.getLinksForIssueByExternalId(buildExternalKeyFromIssue(issue));
+    }
+
+    @PostMapping("/links")
+    public IssueLinks createIssueLink(@RequestBody IssueLinks link) {
+        getIssueByExternalId(link.getLinkPublicId());
+        getIssueByExternalId(link.getNodePublicId());
+
+        return issueService.saveIssueLinks(link);
+    }
+
     @GetMapping("/types/{id}")
     public IssueType getIssueTypeById(@PathVariable String id) {
         return issueTypeSchemaService.findTypeById(id);
@@ -222,5 +236,11 @@ public class IssueController {
         }
 
         return issue;
+    }
+
+    private String buildExternalKeyFromIssue(Issue issue){
+        String projectKey = projectService.findById(issue.getProjectId()).get().getProjectKey();
+        long externalId = issue.getExternalId();
+        return projectKey + "-" + externalId;
     }
 }

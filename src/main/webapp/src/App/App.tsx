@@ -42,8 +42,9 @@ class App extends React.Component<any, any> {
     dispatch(initActions.loadInit())
 
     history.listen(({location, action}) => {
-      dispatch(alertActions.clear())
+        dispatch(alertActions.clear())
     })
+
   }
 
   render () {

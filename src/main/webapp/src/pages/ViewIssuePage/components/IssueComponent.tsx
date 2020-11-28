@@ -7,7 +7,7 @@ import {
     CardContent,
     Divider as MuiDivider,
     Grid,
-    Link,
+    Link, List, ListItem, ListItemIcon,
     Menu,
     MenuItem,
     Typography
@@ -36,6 +36,12 @@ import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import EditableIssueTypeField from "./EditableIssueTypeField";
 import EditablePriorityField from "./EditablePriorityField";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+import TableContainer from "@material-ui/core/TableContainer";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -77,12 +83,24 @@ function TabPanel(props) {
     );
 }
 
-
 const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
     const [anchorElTransitionMenu, setAnchorElTransitionMenu] = React.useState<null | HTMLElement>(null);
     const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions);
     const [tabValue, setTabValue] = React.useState(0);
+    const [links, setLinks] = React.useState([]);
 
+    useEffect(() => {
+        issueService.getLinks(issueHelper.buildExternalKey(issue))
+            .then((links) => links.map(async (link) => {
+                    const currentIssue = issueHelper.buildExternalKey(issue)
+                    const fetchId =  (link.nodePublicId == currentIssue) ? link.linkPublicId : link.nodePublicId
+
+                    link.issue = await issueService.getIssue(fetchId)
+
+                    return link
+            }))
+            .then(linkPromises => Promise.all(linkPromises).then(link => setLinks(link)))
+    }, [])
 
     useEffect(() => {
         setWorkflowTransitions(initialWorkflowTransitions)
@@ -110,14 +128,14 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
     }
 
     const onSaveDescription = (props, issue) => {
-        return   (e) => {
+        return (e) => {
             issue.description = e.children;
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
         }
     }
 
     const onTransitionIssue = (props, issue, transition) => {
-        return e => {
+        return _ => {
             issueService.postWorkflowTransitions(issueHelper.buildExternalKey(issue), transition)
                 .then(() => issueService.getWorkflowTransitions(issueHelper.buildExternalKey(issue))
                     .then(response => setWorkflowTransitions(response))
@@ -156,6 +174,8 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             location.reload()
         }
     }
+
+    console.log(links)
 
     return (
         <React.Fragment>
@@ -215,7 +235,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         </Grid>
                         <Grid item xs={1} />
                         <Grid item xs={3}>
-                            <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} /></Grid>
+                            <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} preText={"Type: "}/></Grid>
                         <Grid item xs={1} />
                         <Grid item xs={3}>
                             <EditablePriorityField clickable={true} handleFn={onSavePriority(props, issue)} priorityId={issue.issuePriorityId} projectKey={issue.projectKey} />
@@ -261,10 +281,10 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                             <Grid item xs={12}>
                                 <Divider my={8} />
                             </Grid>
-                            <Grid item xs={1}>
+                            <Grid item xs={2}>
                                 Labels
                             </Grid>
-                            <Grid item xs={11}>
+                            <Grid item xs={10}>
                                 <LabelsField
                                     currentLabels={issue.labels}
                                     onLabelChange={(values) => {
@@ -272,6 +292,23 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                         props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
                                     }}
                                 />
+                            </Grid>
+                            <Grid item xs={2}>
+                                Related Issues
+                            </Grid>
+                            <Grid item xs={10}>
+                                <List dense={true}>
+                                    {links.map((link, index) => (
+                                        <ListItem key={index} disableGutters={true}>
+                                            <ListItemIcon>
+                                                <StatusChip issue={link.issue} />
+                                            </ListItemIcon>
+
+                                             <Link href={"/browse/" + issueHelper.buildExternalKey(link.issue)}>{issueHelper.buildExternalKey(link.issue)}: {link.issue.title}</Link>
+                                        </ListItem>
+                                    ))}
+                                </List>
+
                             </Grid>
                         </Grid>
                         <Grid container xs={1} />

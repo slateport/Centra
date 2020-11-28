@@ -3,6 +3,8 @@ package dev.conductor.centra.service.impl;
 import dev.conductor.centra.dto.IssueChangeDTO;
 import dev.conductor.centra.entities.ApplicationUser;
 import dev.conductor.centra.entities.Issue;
+import dev.conductor.centra.entities.IssueLinks;
+import dev.conductor.centra.repository.IssueLinksRepository;
 import dev.conductor.centra.repository.IssueRepository;
 import dev.conductor.centra.service.ApplicationUserService;
 import dev.conductor.centra.service.IssueService;
@@ -27,6 +29,9 @@ public class IssueServiceImpl implements IssueService {
 
     @Autowired
     ApplicationUserService userService;
+
+    @Autowired
+    IssueLinksRepository issueLinksRepository;
 
     @Autowired
     private Javers javers;
@@ -86,6 +91,19 @@ public class IssueServiceImpl implements IssueService {
         issueRepository.delete(issue);
     }
 
+    @Override
+    public IssueLinks saveIssueLinks(IssueLinks issueLinks) {
+        return issueLinksRepository.save(issueLinks);
+    }
+
+    @Override
+    public List<IssueLinks> getLinksForIssueByExternalId(String externalId) {
+        List<IssueLinks> links = issueLinksRepository.findByLinkPublicId(externalId);
+        links.addAll(issueLinksRepository.findByNodePublicId(externalId));
+
+        return links;
+    }
+
     private String getPropertyNameWithPath(Change change) {
         if (change instanceof PropertyChange) {
             return ((PropertyChange) change).getPropertyNameWithPath().replace(".", ":");
@@ -120,10 +138,21 @@ public class IssueServiceImpl implements IssueService {
 
     private Object getLeft(Change change) {
         if (change instanceof ValueChange){
-            return ((ValueChange) change).getLeft();
+            return ((ValueChange) change).getRight();
         }
+
+        if (change instanceof ListChange) {
+            ContainerElementChange ce = ((ListChange) change).getChanges().get(0);
+
+            if (ce instanceof ValueAdded) {
+                return "Added: " + ((ValueAdded) ce).getValue();
+            } else if (ce instanceof ValueRemoved) {
+                return "Removed: " + ((ValueRemoved) ce).getValue();
+            } else if (ce instanceof ElementValueChange) {
+                return "Changed: " + ((ElementValueChange) ce).getLeftValue();
+            }
+        }
+
         return null;
     }
-
-
 }
