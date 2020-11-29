@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styled, { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components'
 import { Route, Router, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
@@ -12,9 +12,8 @@ import { ProjectsPage } from '../pages/Admin/ProjectsPage'
 import { LoginPage } from '../pages/LoginPage'
 import { StylesProvider } from '@material-ui/styles'
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
-import { Alert as MuiAlert } from '@material-ui/lab'
+import { Alert } from '@material-ui/lab'
 
-import { spacing } from '@material-ui/system'
 import { alertActions, initActions } from '../actions'
 
 import theme from '../theme'
@@ -29,7 +28,6 @@ import { RegistrationPage } from '../pages/RegistrationPage'
 $.fn.draggable = () => {}
 $.fn.droppable = () => {}
 
-const Alert = styled(MuiAlert)(spacing)
 const NoMatch = ({ location }) => (
     <h3>No match for <code>{location.pathname}</code></h3>
 )
@@ -56,7 +54,7 @@ class App extends React.Component<any, any> {
                         <MuiThemeProvider theme={theme[0]}>
                             <ThemeProvider theme={theme[0]}>
                                 {alert.message &&
-                                <Alert variant="filled" mb={4} severity={alert.type}>{alert.message}</Alert>
+                                <Alert variant="filled" severity={alert.type}>{alert.message}</Alert>
                                 }
                                 <InstallationPage />
                             </ThemeProvider>
@@ -75,7 +73,7 @@ class App extends React.Component<any, any> {
                         <MuiThemeProvider theme={theme[0]}>
                             <ThemeProvider theme={theme[0]}>
                                 {alert.message &&
-                                <Alert variant="filled" mb={4} severity={alert.type}>{alert.message}</Alert>
+                                <Alert variant="filled" severity={alert.type}>{alert.message}</Alert>
                                 }
                                 <ApplicationLayout props={this.props} init={init}>
                                         <Switch>
