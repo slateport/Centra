@@ -4,7 +4,6 @@ import dev.conductor.centra.application.api.ApplicationUserService;
 import dev.conductor.centra.domain.applicationUser.dto.UserLiteDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.applicationUser.spi.ApplicationUserPersistencePort;
-import dev.conductor.centra.infrastructure.persistence.mongodb.ApplicationUserRepository;
 import dev.conductor.centra.domain.applicationUser.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,32 +18,32 @@ import java.util.Optional;
 public class ApplicationUserServiceAdapter implements ApplicationUserService {
 
     @Autowired
-    private ApplicationUserPersistencePort repository;
+    private ApplicationUserPersistencePort persistence;
 
     @Override
     public ApplicationUser findByUsername(String username) {
-        return repository.findByUsername(username);
+        return persistence.findByUsername(username);
     }
 
     @Override
     public ApplicationUser findByEmailAddress(String emailAddress) {
-        return repository.findByEmailAddress(emailAddress);
+        return persistence.findByEmailAddress(emailAddress);
     }
 
     @Override
     public ApplicationUser findById(String id) {
-        Optional<ApplicationUser> optionalApplicationUser = repository.findById(id);
+        Optional<ApplicationUser> optionalApplicationUser = persistence.findById(id);
         return optionalApplicationUser.isEmpty() ? null : optionalApplicationUser.get();
     }
 
     @Override
     public List<ApplicationUser> findAll() {
-        return repository.findAll();
+        return persistence.findAll();
     }
 
     @Override
     public ApplicationUser save(ApplicationUser user) {
-        return repository.save(user);
+        return persistence.save(user);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
         }
 
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        repository.save(user);
+        persistence.save(user);
 
         return user;
     }

@@ -1,4 +1,4 @@
-package dev.conductor.centra.infrastructure.rest.controllers;
+package dev.conductor.centra.application.controllers;
 
 import dev.conductor.centra.application.api.InstallService;
 import dev.conductor.centra.domain.installation.dto.InstallationDTO;

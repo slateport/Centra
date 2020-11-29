@@ -1,4 +1,4 @@
-package dev.conductor.centra.infrastructure.rest.controllers;
+package dev.conductor.centra.application.controllers;
 
 import dev.conductor.centra.domain.workflow.dto.WorkflowDTO;
 import dev.conductor.centra.domain.project.entity.Project;
