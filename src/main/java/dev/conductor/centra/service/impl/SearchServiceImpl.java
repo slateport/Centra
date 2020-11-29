@@ -39,25 +39,30 @@ public class SearchServiceImpl implements SearchService {
             condition = normalizeCondition(condition);
 
             switch (condition.getOperator()) {
-                case EQUALS -> query.addCriteria(
-                        Criteria.where(condition.getRhs()).is(condition.getLhs())
-                );
-                case NOT_EQUALS -> query.addCriteria(
-                        Criteria.where(condition.getRhs()).ne(condition.getLhs())
-                );
-                case GREATER_THAN -> query.addCriteria(
-                        Criteria.where(condition.getRhs()).gt(condition.getLhs())
-                );
-                case LESS_THAN -> query.addCriteria(
-                        Criteria.where(condition.getRhs()).lt(condition.getLhs())
-                );
-                case LIKE -> query.addCriteria(
-                        Criteria.where(condition.getRhs()).
-                                regex(condition.getLhs(), "i")
-                );
-                case IN ->  query.addCriteria(
-                        Criteria.where(condition.getRhs()).in(Collections.singletonList(condition.getLhs()))
-                );
+                case EQUALS : 
+                    query.addCriteria(Criteria.where(condition.getRhs()).is(condition.getLhs()));
+                    break;
+
+                case NOT_EQUALS: 
+                    query.addCriteria(Criteria.where(condition.getRhs()).ne(condition.getLhs()));
+                    break;
+
+                case GREATER_THAN:
+                    query.addCriteria(Criteria.where(condition.getRhs()).gt(condition.getLhs()));
+                    break;
+
+                case LESS_THAN:
+                    query.addCriteria(Criteria.where(condition.getRhs()).lt(condition.getLhs()));
+                    break;
+
+                case LIKE:
+                    query.addCriteria(Criteria.where(condition.getRhs()).regex(condition.getLhs(), "i"));
+                    break;
+
+                case IN:
+                    query.addCriteria(Criteria.where(condition.getRhs()).in(Collections.singletonList(condition.getLhs())));
+                    break;
+                    
             }
         }
 
