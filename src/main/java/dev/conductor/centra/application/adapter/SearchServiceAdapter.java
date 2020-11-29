@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class SearchServiceImpl implements SearchService {
+public class SearchServiceAdapter implements SearchService {
 
     @Autowired
     private MongoOperations mongoOps;

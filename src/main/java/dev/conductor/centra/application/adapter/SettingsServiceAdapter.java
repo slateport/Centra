@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SettingsServiceImpl implements SettingsService {
+public class SettingsServiceAdapter implements SettingsService {
 
     @Autowired private SettingsRepository settingsRepository;
 

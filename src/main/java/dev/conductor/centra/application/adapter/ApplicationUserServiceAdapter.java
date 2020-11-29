@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ApplicationUserServiceImpl implements ApplicationUserService {
+public class ApplicationUserServiceAdapter implements ApplicationUserService {
 
     @Autowired
     private ApplicationUserPersistencePort repository;

@@ -14,7 +14,7 @@ import java.security.Principal;
 import java.util.Optional;
 
 @Service
-public class InitServiceImpl implements InitService {
+public class InitServiceAdapter implements InitService {
 
     @Autowired
     private SettingsService settingsService;

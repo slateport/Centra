@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class WorkflowServiceImpl implements WorkflowService {
+public class WorkflowServiceAdapter implements WorkflowService {
 
     @Autowired
     private WorkflowRepository repository;

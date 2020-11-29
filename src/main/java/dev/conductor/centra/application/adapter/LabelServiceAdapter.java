@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LabelServiceImpl implements LabelService {
+public class LabelServiceAdapter implements LabelService {
 
     @Autowired
     private MongoTemplate mongoTemplate;

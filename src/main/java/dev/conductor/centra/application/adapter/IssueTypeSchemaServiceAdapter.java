@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class IssueTypeSchemaServiceImpl implements IssueTypeSchemaService {
+public class IssueTypeSchemaServiceAdapter implements IssueTypeSchemaService {
 
     @Autowired
     private IssueTypeRepository typeRepository;

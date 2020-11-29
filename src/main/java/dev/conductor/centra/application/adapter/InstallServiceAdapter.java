@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class InstallServiceImpl implements InstallService {
+public class InstallServiceAdapter implements InstallService {
 
     @Autowired
     SettingsService settingsService;

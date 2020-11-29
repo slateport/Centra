@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class IssueCommentServiceImpl implements IssueCommentService {
+public class IssueCommentServiceAdapter implements IssueCommentService {
 
     @Autowired
     private IssueCommentRepository issueCommentRepository;

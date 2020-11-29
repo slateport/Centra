@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class IssueServiceImpl implements IssueService {
+public class IssueServiceAdapter implements IssueService {
 
     @Autowired
     private IssueRepository issueRepository;
