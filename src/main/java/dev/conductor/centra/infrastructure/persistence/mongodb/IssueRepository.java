@@ -1,6 +1,6 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb;
 
-import dev.conductor.centra.entities.Issue;
+import dev.conductor.centra.domain.issue.entity.Issue;
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

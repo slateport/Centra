@@ -1,6 +1,6 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb;
 
-import dev.conductor.centra.entities.IssuePriority;
+import dev.conductor.centra.domain.issue.entity.IssuePriority;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

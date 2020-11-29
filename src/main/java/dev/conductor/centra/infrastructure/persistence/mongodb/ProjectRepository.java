@@ -1,6 +1,6 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb;
 
-import dev.conductor.centra.entities.Project;
+import dev.conductor.centra.domain.project.entity.Project;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

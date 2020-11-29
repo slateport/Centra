@@ -1,6 +1,6 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb;
 
-import dev.conductor.centra.entities.Settings;
+import dev.conductor.centra.domain.settings.entity.Settings;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface SettingsRepository extends MongoRepository<Settings, String> {

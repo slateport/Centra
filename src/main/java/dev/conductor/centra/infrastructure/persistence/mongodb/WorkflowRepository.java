@@ -1,6 +1,6 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb;
 
-import dev.conductor.centra.entities.Workflow;
+import dev.conductor.centra.domain.workflow.entities.Workflow;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

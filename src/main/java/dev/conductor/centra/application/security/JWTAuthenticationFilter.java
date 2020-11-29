@@ -2,7 +2,7 @@ package dev.conductor.centra.application.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.conductor.centra.dto.AuthenticationDTO;
+import dev.conductor.centra.domain.applicationUser.dto.AuthenticationDTO;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

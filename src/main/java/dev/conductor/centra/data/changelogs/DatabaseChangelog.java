@@ -2,10 +2,14 @@ package dev.conductor.centra.data.changelogs;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
-import dev.conductor.centra.config.SettingsEnum;
+import dev.conductor.centra.domain.settings.SettingsEnum;
 import dev.conductor.centra.data.defualt.DefaultInstall;
-import dev.conductor.centra.entities.Settings;
-import dev.conductor.centra.service.*;
+import dev.conductor.centra.domain.issue.IssuePrioritySchemaService;
+import dev.conductor.centra.domain.issue.IssueTypeSchemaService;
+import dev.conductor.centra.domain.project.ProjectService;
+import dev.conductor.centra.domain.settings.SettingsService;
+import dev.conductor.centra.domain.settings.entity.Settings;
+import dev.conductor.centra.domain.workflow.WorkflowService;
 
 import java.util.EnumSet;
 

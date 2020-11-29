@@ -1,10 +1,15 @@
 package dev.conductor.centra.data.defualt;
 
-import dev.conductor.centra.entities.*;
-import dev.conductor.centra.service.IssuePrioritySchemaService;
-import dev.conductor.centra.service.IssueTypeSchemaService;
-import dev.conductor.centra.service.ProjectService;
-import dev.conductor.centra.service.WorkflowService;
+import dev.conductor.centra.domain.issue.entity.IssuePriority;
+import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;
+import dev.conductor.centra.domain.issue.entity.IssueType;
+import dev.conductor.centra.domain.issue.entity.IssueTypeSchema;
+import dev.conductor.centra.domain.project.entity.Project;
+import dev.conductor.centra.domain.workflow.entities.*;
+import dev.conductor.centra.domain.issue.IssuePrioritySchemaService;
+import dev.conductor.centra.domain.issue.IssueTypeSchemaService;
+import dev.conductor.centra.domain.project.ProjectService;
+import dev.conductor.centra.domain.workflow.WorkflowService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
