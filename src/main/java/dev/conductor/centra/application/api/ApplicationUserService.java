@@ -10,7 +10,6 @@ public interface ApplicationUserService {
 
     List<ApplicationUser> findAll();
     ApplicationUser save(ApplicationUser user);
-    public long count();
     ApplicationUser findByUsername(String username);
     ApplicationUser findByEmailAddress(String emailAddress);
     ApplicationUser findById(String id);

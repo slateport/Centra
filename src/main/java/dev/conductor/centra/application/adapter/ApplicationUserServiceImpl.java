@@ -3,6 +3,7 @@ package dev.conductor.centra.application.adapter;
 import dev.conductor.centra.application.api.ApplicationUserService;
 import dev.conductor.centra.domain.applicationUser.dto.UserLiteDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
+import dev.conductor.centra.domain.applicationUser.spi.ApplicationUserPersistencePort;
 import dev.conductor.centra.infrastructure.persistence.mongodb.ApplicationUserRepository;
 import dev.conductor.centra.domain.applicationUser.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     @Autowired
-    private ApplicationUserRepository repository;
+    private ApplicationUserPersistencePort repository;
 
     @Override
     public ApplicationUser findByUsername(String username) {
@@ -44,11 +45,6 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     @Override
     public ApplicationUser save(ApplicationUser user) {
         return repository.save(user);
-    }
-
-    @Override
-    public long count() {
-        return repository.count();
     }
 
     @Override
