@@ -1,6 +1,6 @@
 package dev.conductor.centra.application.controllers;
 
-import dev.conductor.centra.application.api.InstallService;
+import dev.conductor.centra.domain.installation.api.InstallService;
 import dev.conductor.centra.domain.installation.dto.InstallationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -6,10 +6,10 @@ import dev.conductor.centra.domain.issue.entity.IssueType;
 import dev.conductor.centra.domain.issue.entity.IssueTypeSchema;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.workflow.entities.*;
-import dev.conductor.centra.application.api.IssuePrioritySchemaService;
-import dev.conductor.centra.application.api.IssueTypeSchemaService;
-import dev.conductor.centra.application.api.ProjectService;
-import dev.conductor.centra.application.api.WorkflowService;
+import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
+import dev.conductor.centra.domain.issue.api.IssueTypeSchemaService;
+import dev.conductor.centra.domain.project.api.ProjectService;
+import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

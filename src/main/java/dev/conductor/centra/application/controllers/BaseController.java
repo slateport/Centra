@@ -1,7 +1,7 @@
 package dev.conductor.centra.application.controllers;
 
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
-import dev.conductor.centra.application.api.ApplicationUserService;
+import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.security.Principal;

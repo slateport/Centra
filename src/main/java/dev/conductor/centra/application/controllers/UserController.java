@@ -3,7 +3,7 @@ package dev.conductor.centra.application.controllers;
 import dev.conductor.centra.domain.applicationUser.dto.ApplicationUserPasswordDTO;
 import dev.conductor.centra.domain.applicationUser.dto.UserLiteDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
-import dev.conductor.centra.application.api.ApplicationUserService;
+import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.applicationUser.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
