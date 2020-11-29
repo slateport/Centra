@@ -20,6 +20,8 @@ import java.util.Optional;
 @RequestMapping("/api/issues")
 public class IssueController {
 
+    private String PROJECT_NOT_FOUND_ERROR_MESSAGE = "Project not found";
+
     @Autowired
     private IssueService issueService;
 
@@ -46,6 +48,12 @@ public class IssueController {
         Issue issue = getIssueByExternalId(id);
         Optional<Project> project = projectService.findById(issue.getProjectId());
 
+        if (project.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    PROJECT_NOT_FOUND_ERROR_MESSAGE
+            );
+        }
         return IssueDTO.fromIssue(issue, project.get());
     }
 
@@ -56,7 +64,7 @@ public class IssueController {
         if (project == null) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
-                    "Project not found"
+                    PROJECT_NOT_FOUND_ERROR_MESSAGE
             );
         }
 
@@ -105,6 +113,13 @@ public class IssueController {
         Issue issue = getIssueByExternalId(id);
         Optional<Project> project = projectService.findById(issue.getProjectId());
 
+        if (project.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    PROJECT_NOT_FOUND_ERROR_MESSAGE
+            );
+        }
+
         Issue entityToSave = Issue.fromIssueDto(issueDto);
         issueService.save(entityToSave);
 
@@ -140,6 +155,13 @@ public class IssueController {
         Issue issue = getIssueByExternalId(id);
         Optional<Workflow> workflow = workflowService.findById(issue.getWorkflowId());
 
+        if (workflow.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Workflow not found."
+            );
+        }
+
         return workflowService.getAvailableTransitions(workflow.get(), issue.getWorkflowState());
     }
 
@@ -156,6 +178,12 @@ public class IssueController {
             WorkflowState newState = workflowService.transitionIssue(issue, transition);
             ApplicationUser user = applicationUserService.findByUsername(principal.getName());
 
+            if (project.isEmpty()) {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        PROJECT_NOT_FOUND_ERROR_MESSAGE
+                );
+            }
 
             IssueDTO issueDTO = new IssueDTO(
                 issue.getId(),
@@ -241,7 +269,7 @@ public class IssueController {
         Project project = projectService.findByKey(projectKey);
 
         if (project == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, PROJECT_NOT_FOUND_ERROR_MESSAGE);
         }
 
         Issue issue = issueService.findByProjectIdAndExternalId(project.getId(), externalId);
@@ -254,7 +282,13 @@ public class IssueController {
     }
 
     private String buildExternalKeyFromIssue(Issue issue){
-        String projectKey = projectService.findById(issue.getProjectId()).get().getProjectKey();
+        Optional<Project> projectOptional = projectService.findById(issue.getProjectId());
+
+        if (projectOptional.isEmpty()) {
+            throw new RuntimeException(PROJECT_NOT_FOUND_ERROR_MESSAGE);
+        }
+
+        String projectKey = projectOptional.get().getProjectKey();
         long externalId = issue.getExternalId();
         return projectKey + "-" + externalId;
     }

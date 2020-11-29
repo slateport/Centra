@@ -1,4 +1,4 @@
-package dev.conductor.centra.repository;
+package dev.conductor.centra.infrastructure.persistence.mongodb;
 
 import dev.conductor.centra.entities.IssueLinks;
 import org.springframework.data.mongodb.repository.MongoRepository;

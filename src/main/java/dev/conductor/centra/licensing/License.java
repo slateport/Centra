@@ -8,7 +8,13 @@ public class License {
     private final boolean isEvaluation;
     private final String licenseString;
 
-    public License(int numberOfUser, String licenseEdition, String licenseId, boolean isEvaluation, String licenseString) {
+    public License(
+            int numberOfUser,
+            String licenseEdition,
+            String licenseId,
+            boolean isEvaluation,
+            String licenseString
+    ) {
         this.numberOfUser = numberOfUser;
         this.licenseEdition = licenseEdition;
         this.licenseId = licenseId;

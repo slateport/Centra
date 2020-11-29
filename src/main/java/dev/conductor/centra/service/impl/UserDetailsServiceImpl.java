@@ -1,7 +1,7 @@
 package dev.conductor.centra.service.impl;
 
 import dev.conductor.centra.entities.ApplicationUser;
-import dev.conductor.centra.repository.ApplicationUserRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired ApplicationUserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         ApplicationUser applicationUser = userRepository.findByUsername(username);
         if (applicationUser == null) {
             throw new UsernameNotFoundException(username);

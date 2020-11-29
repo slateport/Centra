@@ -2,8 +2,8 @@ package dev.conductor.centra.service.impl;
 
 import dev.conductor.centra.entities.IssueType;
 import dev.conductor.centra.entities.IssueTypeSchema;
-import dev.conductor.centra.repository.IssueTypeRepository;
-import dev.conductor.centra.repository.IssueTypeSchemaRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.IssueTypeRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.IssueTypeSchemaRepository;
 import dev.conductor.centra.service.IssueTypeSchemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

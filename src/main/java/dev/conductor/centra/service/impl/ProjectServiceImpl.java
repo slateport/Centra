@@ -1,7 +1,7 @@
 package dev.conductor.centra.service.impl;
 
 import dev.conductor.centra.entities.Project;
-import dev.conductor.centra.repository.ProjectRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.ProjectRepository;
 import dev.conductor.centra.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

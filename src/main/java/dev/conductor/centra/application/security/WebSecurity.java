@@ -1,4 +1,4 @@
-package dev.conductor.centra.security;
+package dev.conductor.centra.application.security;
 
 import dev.conductor.centra.config.SettingsEnum;
 import dev.conductor.centra.entities.Settings;

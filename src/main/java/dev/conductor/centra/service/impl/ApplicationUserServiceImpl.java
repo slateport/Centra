@@ -2,7 +2,7 @@ package dev.conductor.centra.service.impl;
 
 import dev.conductor.centra.dto.UserLiteDTO;
 import dev.conductor.centra.entities.ApplicationUser;
-import dev.conductor.centra.repository.ApplicationUserRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.ApplicationUserRepository;
 import dev.conductor.centra.service.ApplicationUserService;
 import dev.conductor.centra.service.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ApplicationUserServiceImpl implements ApplicationUserService {
@@ -31,7 +32,8 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     @Override
     public ApplicationUser findById(String id) {
-        return repository.findById(id).get();
+        Optional<ApplicationUser> optionalApplicationUser = repository.findById(id);
+        return optionalApplicationUser.isEmpty() ? null : optionalApplicationUser.get();
     }
 
     @Override
@@ -87,9 +89,9 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     public List<UserLiteDTO> findAllLite() {
         List<UserLiteDTO> results = new ArrayList<>();
 
-        findAll().forEach(user -> {
+        for (ApplicationUser user : findAll()) {
             results.add(new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), user.getAdmin()));
-        });
+        }
 
         return results;
     }

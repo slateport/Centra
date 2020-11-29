@@ -1,4 +1,4 @@
-package dev.conductor.centra.security;
+package dev.conductor.centra.application.security;
 
 public class SecurityConstants {
     public static final String SECRET = "SecretKeyToGenJWTs";

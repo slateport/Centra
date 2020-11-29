@@ -1,4 +1,6 @@
-package dev.conductor.centra.dto;
+package dev.conductor.centra.init;
+
+import dev.conductor.centra.dto.UserLiteDTO;
 
 public class InitDTO {
     private final Boolean registrationEnabled;

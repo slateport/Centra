@@ -1,4 +1,4 @@
-package dev.conductor.centra.security;
+package dev.conductor.centra.application.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

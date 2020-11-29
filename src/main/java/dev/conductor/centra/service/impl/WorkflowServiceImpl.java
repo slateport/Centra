@@ -4,7 +4,7 @@ import dev.conductor.centra.entities.Issue;
 import dev.conductor.centra.entities.Workflow;
 import dev.conductor.centra.entities.WorkflowState;
 import dev.conductor.centra.entities.WorkflowTransition;
-import dev.conductor.centra.repository.WorkflowRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.WorkflowRepository;
 import dev.conductor.centra.service.WorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -22,7 +22,6 @@ repositories {
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-security:2.3.5.RELEASE')
     implementation('org.springframework.boot:spring-boot-starter-data-mongodb:2.3.5.RELEASE')
-    implementation('org.springframework.boot:spring-boot-starter-web:2.3.5.RELEASE')
     implementation('com.github.cloudyrock.mongock:mongock-bom:4.1.17')
     implementation('org.mongodb:mongodb-driver-sync:4.1.1')
     implementation('org.springframework.data:spring-data-mongodb:3.0.5.RELEASE')

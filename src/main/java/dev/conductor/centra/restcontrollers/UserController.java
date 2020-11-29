@@ -1,6 +1,6 @@
 package dev.conductor.centra.restcontrollers;
 
-import dev.conductor.centra.dto.ApplicationUserPassword;
+import dev.conductor.centra.dto.ApplicationUserPasswordDTO;
 import dev.conductor.centra.dto.UserLiteDTO;
 import dev.conductor.centra.entities.ApplicationUser;
 import dev.conductor.centra.service.ApplicationUserService;
@@ -76,7 +76,7 @@ public class UserController extends BaseController {
 
     @PostMapping("/{id}/password")
     public void updateUser(
-            @RequestBody ApplicationUserPassword password,
+            @RequestBody ApplicationUserPasswordDTO password,
             @PathVariable String id,
             Principal principal
     ) {
