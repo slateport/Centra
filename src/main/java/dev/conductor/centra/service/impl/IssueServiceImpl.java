@@ -8,7 +8,6 @@ import dev.conductor.centra.repository.IssueLinksRepository;
 import dev.conductor.centra.repository.IssueRepository;
 import dev.conductor.centra.service.ApplicationUserService;
 import dev.conductor.centra.service.IssueService;
-import org.javers.core.Changes;
 import org.javers.core.diff.Change;
 import org.javers.core.diff.changetype.PropertyChange;
 import org.javers.core.diff.changetype.ValueChange;

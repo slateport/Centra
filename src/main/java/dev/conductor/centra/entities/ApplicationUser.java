@@ -9,7 +9,9 @@ import java.io.Serializable;
 @Document(collection = "users")
 public class ApplicationUser implements Serializable {
 
-    @Id private String id;
+    private static final long serialVersionUID = 1L;
+    @Id
+    private String id;
     @Indexed(unique=true)
     private String username;
     @Indexed(unique=true)

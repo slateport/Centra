@@ -2,7 +2,6 @@ package dev.conductor.centra.service;
 
 import dev.conductor.centra.entities.IssuePriority;
 import dev.conductor.centra.entities.IssuePrioritySchema;
-import dev.conductor.centra.entities.IssueTypeSchema;
 
 import java.util.List;
 

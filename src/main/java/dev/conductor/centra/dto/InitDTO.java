@@ -1,7 +1,5 @@
 package dev.conductor.centra.dto;
 
-import java.util.Optional;
-
 public class InitDTO {
     private final Boolean registrationEnabled;
     private final Boolean instancePrivate;
