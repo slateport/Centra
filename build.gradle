@@ -33,7 +33,6 @@ dependencies {
     implementation('com.github.cloudyrock.mongock:mongock-spring-v5:4.1.17')
     implementation('com.github.cloudyrock.mongock:mongodb-springdata-v3-driver:4.1.17')
     implementation('io.springfox:springfox-boot-starter:3.0.0')
-    implementation ('org.springframework.boot:spring-boot-starter-thymeleaf:2.4.0')
     implementation ('org.springframework.boot:spring-boot-starter-web:2.4.0')
     implementation('org.javers:javers-spring-boot-starter-mongo:5.13.2')
     testImplementation('org.springframework.boot:spring-boot-starter-test:2.3.5.RELEASE')
@@ -41,6 +40,11 @@ dependencies {
 
 node {
     download = false
+}
+
+task copyWebApp(type: Copy) {
+    from 'src/main/webapp/dist'
+    into 'build/resources/main/static/.'
 }
 
 task appNpmInstall(type: NpmTask) {
@@ -53,11 +57,6 @@ task appNpmBuild(type: NpmTask) {
     description = "Builds production version of the webapp"
     workingDir = file("${project.projectDir}/src/main/webapp")
     args = ["run", "build"]
-}
-
-task copyWebApp(type: Copy) {
-    from 'src/main/webapp/build'
-    into 'build/resources/main/static/.'
 }
 
 appNpmBuild.dependsOn appNpmInstall
