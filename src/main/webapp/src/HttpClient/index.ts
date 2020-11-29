@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { authHeader } from '../helpers'
+import { authHeader, isAuthenticated } from '../helpers'
+import { user as userService } from '../services'
 
 const httpClient = axios.create()
 
@@ -12,8 +13,10 @@ httpClient.interceptors.request.use((config) => {
 httpClient.interceptors.response.use(response => {
   return response
 }, error => {
-  if (error.response.status === 401) {
+  if (error.response.status === 401 && isAuthenticated()) {
     alert('Your session has expired or you are not currently logged in')
+    userService.logout();
+    location.reload();
   }
   throw error
 })
