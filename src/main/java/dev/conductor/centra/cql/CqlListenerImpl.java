@@ -28,20 +28,22 @@ public class CqlListenerImpl extends CqlBaseListener {
     }
 
     @Override
-    public void enterOrdering_term(CqlParser.Ordering_termContext ctx) {
-        int one = 1;
-    }
-
-    @Override
     public void enterOperator(CqlParser.OperatorContext ctx) {
-        Operator operator = switch (ctx.getStop().getText()) {
-            case "=" -> Operator.EQUALS;
-            case "~" -> Operator.LIKE;
-            case ">" -> Operator.GREATER_THAN;
-            case "<" -> Operator.LESS_THAN;
-            case "IN" -> Operator.IN;
-            default -> throw new IllegalStateException("Unexpected value: " + ctx.getStop().getText());
-        };
+        Operator operator;
+
+        switch(ctx.getStop().getText()){
+            case "=":
+                operator = Operator.EQUALS;
+                break;
+
+            case "~":
+                operator = Operator.LIKE;
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + ctx.getStop().getText());
+
+        }
 
         this.currentCondition.setOperator(operator);
     }
