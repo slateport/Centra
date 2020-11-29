@@ -2,9 +2,14 @@ package dev.conductor.centra.domain.issue.api.impl;
 
 import dev.conductor.centra.domain.issue.api.IssueService;
 import dev.conductor.centra.domain.issue.dto.IssueChangeDTO;
+import dev.conductor.centra.domain.issue.dto.IssueDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.issue.entity.IssueLinks;
+import dev.conductor.centra.domain.project.api.ProjectService;
+import dev.conductor.centra.domain.project.entity.Project;
+import dev.conductor.centra.domain.workflow.api.WorkflowService;
+import dev.conductor.centra.domain.workflow.entities.Workflow;
 import dev.conductor.centra.infrastructure.persistence.mongodb.IssueLinksRepository;
 import dev.conductor.centra.infrastructure.persistence.mongodb.IssueRepository;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
@@ -18,6 +23,7 @@ import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +38,12 @@ public class IssueServiceAdapter implements IssueService {
 
     @Autowired
     IssueLinksRepository issueLinksRepository;
+
+    @Autowired
+    ProjectService projectService;
+
+    @Autowired
+    WorkflowService workflowService;
 
     @Autowired
     private Javers javers;
@@ -113,6 +125,44 @@ public class IssueServiceAdapter implements IssueService {
     @Override
     public void deleteIssueLink(IssueLinks issueLinks) {
         issueLinksRepository.delete(issueLinks);
+    }
+
+    @Override
+    public Issue createIssue(IssueDTO issueDTO, ApplicationUser user) {
+        Project project = projectService.findByKey(issueDTO.getProjectKey());
+
+        if (project == null) {
+            throw new RuntimeException("Project not found to create issue");
+        }
+
+        Optional<Workflow> workflow = workflowService.findById(project.getWorkflowId());
+
+        if (workflow.isEmpty()) {
+            throw new RuntimeException(
+                    "Workflow not found or belongs to a different project"
+            );
+        }
+
+        Issue entity = new Issue(
+                getNextExternalIdByProject(project.getId()),
+                issueDTO.getTitle(),
+                issueDTO.getDescription(),
+                project.getId(),
+                new Date(),
+                new Date(),
+                workflowService.getInitialState(workflow.get()),
+                project.getWorkflowId(),
+                user.getId(),
+                issueDTO.getAssigneeId(),
+                user.getId(),
+                issueDTO.getIssuePriorityId(),
+                issueDTO.getIssueTypeId(),
+                (issueDTO.getLabels() != null) ? issueDTO.getLabels() : new ArrayList<>()
+            );
+
+        save(entity);
+
+        return entity;
     }
 
     private String getPropertyNameWithPath(Change change) {

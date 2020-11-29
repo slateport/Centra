@@ -15,20 +15,20 @@ import java.util.List;
 public class Issue {
 
     @Id private String id;
-    @DiffInclude private final long externalId;
-    @DiffInclude private final String projectId;
-    @DiffInclude private final String title;
-    @DiffInclude private final String description;
-    @DiffInclude private final Date createdDate;
-    @DiffIgnore private final Date lastModifiedDate;
-    @DiffInclude private final String workflowId;
-    @DiffInclude private final WorkflowState workflowState;
-    @DiffInclude private final String createdByUserId;
-    @DiffInclude private final String assigneeId;
-    @DiffInclude private final String lastModifiedByUserId;
+    @DiffInclude private long externalId;
+    @DiffInclude private String projectId;
+    @DiffInclude private String title;
+    @DiffInclude private String description;
+    @DiffInclude private Date createdDate;
+    @DiffIgnore private Date lastModifiedDate;
+    @DiffInclude private String workflowId;
+    @DiffInclude private WorkflowState workflowState;
+    @DiffInclude private String createdByUserId;
+    @DiffInclude private String assigneeId;
+    @DiffInclude private String lastModifiedByUserId;
     @DiffInclude private String issuePriorityId;
     @DiffInclude private String issueTypeId;
-    @DiffInclude private final List<String> labels;
+    @DiffInclude private List<String> labels;
 
     public Issue(
             long externalId,
@@ -174,5 +174,61 @@ public class Issue {
 
     public String getIssueTypeId() {
         return issueTypeId;
+    }
+
+    public void setExternalId(long externalId) {
+        this.externalId = externalId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
+    }
+
+    public void setWorkflowState(WorkflowState workflowState) {
+        this.workflowState = workflowState;
+    }
+
+    public void setCreatedByUserId(String createdByUserId) {
+        this.createdByUserId = createdByUserId;
+    }
+
+    public void setAssigneeId(String assigneeId) {
+        this.assigneeId = assigneeId;
+    }
+
+    public void setLastModifiedByUserId(String lastModifiedByUserId) {
+        this.lastModifiedByUserId = lastModifiedByUserId;
+    }
+
+    public void setIssuePriorityId(String issuePriorityId) {
+        this.issuePriorityId = issuePriorityId;
+    }
+
+    public void setIssueTypeId(String issueTypeId) {
+        this.issueTypeId = issueTypeId;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }

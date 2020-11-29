@@ -1,5 +1,6 @@
 package dev.conductor.centra.domain.workflow.api;
 
+import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
 import dev.conductor.centra.domain.workflow.entities.WorkflowState;
@@ -16,5 +17,5 @@ public interface WorkflowService {
     void save(Workflow workflow);
     WorkflowState getInitialState(Workflow workflow);
     List<WorkflowTransition> getAvailableTransitions(Workflow workflow, WorkflowState currentState);
-    WorkflowState transitionIssue(Issue issue, WorkflowTransition transition);
+    Issue transitionIssue(Issue issue, WorkflowTransition transition, ApplicationUser user);
 }

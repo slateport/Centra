@@ -1,6 +1,8 @@
 package dev.conductor.centra.domain.issue.api;
 
+import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.dto.IssueChangeDTO;
+import dev.conductor.centra.domain.issue.dto.IssueDTO;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.issue.entity.IssueLinks;
 
@@ -18,4 +20,5 @@ public interface IssueService {
     List<IssueLinks> getLinksForIssueByExternalId(String externalId);
     IssueLinks findLinkById(String id);
     void deleteIssueLink(IssueLinks issueLinks);
+    Issue createIssue(IssueDTO issueDTO, ApplicationUser user);
 }

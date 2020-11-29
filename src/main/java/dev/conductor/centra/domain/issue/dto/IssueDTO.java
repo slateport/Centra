@@ -9,22 +9,22 @@ import java.util.List;
 
 public class IssueDTO {
 
-    private final String id;
-    private final long externalId;
-    private final String projectKey;
-    private final String title;
-    private final String description;
-    private final Date createdDate;
-    private final Date lastModifiedDate;
-    private final String projectId;
-    private final WorkflowState workflowState;
-    private final String workflowId;
-    private final String createdByUserId;
-    private final String assigneeId;
-    private final String lastModifiedByUserId;
-    private final String issuePriorityId;
-    private final String issueTypeId;
-    private final List<String> labels;
+    private String id;
+    private long externalId;
+    private String projectKey;
+    private String title;
+    private String description;
+    private Date createdDate;
+    private Date lastModifiedDate;
+    private String projectId;
+    private WorkflowState workflowState;
+    private String workflowId;
+    private String createdByUserId;
+    private String assigneeId;
+    private String lastModifiedByUserId;
+    private String issuePriorityId;
+    private String issueTypeId;
+    private List<String> labels;
 
     public IssueDTO(
             String id,
@@ -59,27 +59,6 @@ public class IssueDTO {
         this.issuePriorityId = issuePriorityId;
         this.issueTypeId = issueTypeId;
         this.labels = labels;
-    }
-
-    public static IssueDTO fromIssue (Issue issue, Project project) {
-        return new IssueDTO(
-            issue.getId(),
-            issue.getExternalId(),
-            project.getProjectKey(),
-            issue.getTitle(),
-            issue.getDescription(),
-            issue.getCreatedDate(),
-            issue.getLastModifiedDate(),
-            project.getId(),
-            issue.getWorkflowState(),
-            issue.getWorkflowId(),
-            issue.getCreatedByUserId(),
-            issue.getAssigneeId(),
-            issue.getLastModifiedByUserId(),
-            issue.getIssuePriorityId(),
-            issue.getIssueTypeId(),
-            issue.getLabels()
-        );
     }
 
     public String getId() {
@@ -144,5 +123,69 @@ public class IssueDTO {
 
     public String getIssueTypeId() {
         return issueTypeId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setExternalId(long externalId) {
+        this.externalId = externalId;
+    }
+
+    public void setProjectKey(String projectKey) {
+        this.projectKey = projectKey;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public void setWorkflowState(WorkflowState workflowState) {
+        this.workflowState = workflowState;
+    }
+
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
+    }
+
+    public void setCreatedByUserId(String createdByUserId) {
+        this.createdByUserId = createdByUserId;
+    }
+
+    public void setAssigneeId(String assigneeId) {
+        this.assigneeId = assigneeId;
+    }
+
+    public void setLastModifiedByUserId(String lastModifiedByUserId) {
+        this.lastModifiedByUserId = lastModifiedByUserId;
+    }
+
+    public void setIssuePriorityId(String issuePriorityId) {
+        this.issuePriorityId = issuePriorityId;
+    }
+
+    public void setIssueTypeId(String issueTypeId) {
+        this.issueTypeId = issueTypeId;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }

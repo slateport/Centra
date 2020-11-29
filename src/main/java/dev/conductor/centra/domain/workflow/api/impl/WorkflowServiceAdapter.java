@@ -1,5 +1,7 @@
 package dev.conductor.centra.domain.workflow.api.impl;
 
+import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
+import dev.conductor.centra.domain.issue.api.IssueService;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
@@ -9,7 +11,9 @@ import dev.conductor.centra.infrastructure.persistence.mongodb.WorkflowRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,6 +23,9 @@ public class WorkflowServiceAdapter implements WorkflowService {
 
     @Autowired
     private WorkflowRepository repository;
+
+    @Autowired
+    private IssueService issueService;
 
     @Override
     public List<Workflow> findAll() {
@@ -58,18 +65,30 @@ public class WorkflowServiceAdapter implements WorkflowService {
     }
 
     @Override
-    public WorkflowState transitionIssue(
-            Issue issue, WorkflowTransition transition
-    ) {
-        Workflow workflow = findById(issue.getWorkflowId()).get();
+    public Issue transitionIssue(Issue issue, WorkflowTransition transition, ApplicationUser user) {
+        Optional<Workflow> workflowOptional = findById(issue.getWorkflowId());
+
+        if (workflowOptional.isEmpty()) {
+            throw new RuntimeException("Workflow doesn't exist");
+        }
+
+        Workflow workflow = workflowOptional.get();
 
         if(!getAvailableTransitions(workflow, issue.getWorkflowState()).contains(transition)){
             throw new RuntimeException("Transition not available or valid");
         }
 
-        return workflow.getStates().stream()
+        WorkflowState state = workflow.getStates().stream()
                 .filter(e -> e.getLabel().equals(transition.getToNode()))
                 .findFirst()
                 .orElse(new WorkflowState(true, false, "DEFUALT"));
+
+        issue.setWorkflowState(state);
+        issue.setLastModifiedDate(new Date());
+        issue.setLastModifiedByUserId(user.getId());
+
+        issueService.save(issue);
+
+        return issue;
     }
 }

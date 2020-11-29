@@ -17,6 +17,7 @@ import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.workflow.entities.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ import java.util.Optional;
 @RequestMapping("/api/issues")
 public class IssueController {
 
-    private String PROJECT_NOT_FOUND_ERROR_MESSAGE = "Project not found";
+    private final String PROJECT_NOT_FOUND_ERROR_MESSAGE = "Project not found";
 
     @Autowired
     private IssueService issueService;
@@ -50,10 +51,13 @@ public class IssueController {
     private ApplicationUserService applicationUserService;
 
     @Autowired
-    LabelService labelService;
+    private LabelService labelService;
 
     @Autowired
-    IssueTypeSchemaService issueTypeSchemaService;
+    private IssueTypeSchemaService issueTypeSchemaService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping(value = "/{id}")
     public IssueDTO findById(@PathVariable String id) {
@@ -66,7 +70,7 @@ public class IssueController {
                     PROJECT_NOT_FOUND_ERROR_MESSAGE
             );
         }
-        return IssueDTO.fromIssue(issue, project.get());
+        return convertToDTO(issue);
     }
 
     @PostMapping
@@ -74,44 +78,13 @@ public class IssueController {
         Project project = projectService.findByKey(issue.getProjectKey());
 
         if (project == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNPROCESSABLE_ENTITY,
-                    PROJECT_NOT_FOUND_ERROR_MESSAGE
-            );
-        }
-
-        Optional<Workflow> workflow = workflowService.findById(project.getWorkflowId());
-
-        if (workflow.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNPROCESSABLE_ENTITY,
-                    "Workflow not found or belongs to a different project"
-            );
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,PROJECT_NOT_FOUND_ERROR_MESSAGE);
         }
 
         ApplicationUser user = applicationUserService.findByUsername(principal.getName());
 
         try {
-            Issue entity = new Issue(
-                issueService.getNextExternalIdByProject(project.getId()),
-                issue.getTitle(),
-                issue.getDescription(),
-                project.getId(),
-                new Date(),
-                new Date(),
-                workflowService.getInitialState(workflow.get()),
-                project.getWorkflowId(),
-                user.getId(),
-                issue.getAssigneeId(),
-                user.getId(),
-                issue.getIssuePriorityId(),
-                issue.getIssueTypeId(),
-                (issue.getLabels() != null) ? issue.getLabels() : new ArrayList<>()
-            );
-
-            issueService.save(entity);
-
-            return IssueDTO.fromIssue(entity, project);
+            return convertToDTO(issueService.createIssue(issue, user));
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
@@ -121,7 +94,7 @@ public class IssueController {
     }
 
     @PutMapping("/{id}")
-    public IssueDTO createIssue (@RequestBody IssueDTO issueDto, @PathVariable String id) {
+    public IssueDTO updateIssue (@RequestBody IssueDTO issueDto, @PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
         Optional<Project> project = projectService.findById(issue.getProjectId());
 
@@ -135,7 +108,7 @@ public class IssueController {
         Issue entityToSave = Issue.fromIssueDto(issueDto);
         issueService.save(entityToSave);
 
-        return IssueDTO.fromIssue(entityToSave, project.get());
+        return convertToDTO(entityToSave);
     }
 
     @GetMapping(value = "/{id}/comments")
@@ -184,43 +157,12 @@ public class IssueController {
             Principal principal
     ) {
         Issue issue = getIssueByExternalId(id);
-        Optional<Project> project = projectService.findById(issue.getProjectId());
 
         try {
-            WorkflowState newState = workflowService.transitionIssue(issue, transition);
             ApplicationUser user = applicationUserService.findByUsername(principal.getName());
+            workflowService.transitionIssue(issue, transition, user);
 
-            if (project.isEmpty()) {
-                throw new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        PROJECT_NOT_FOUND_ERROR_MESSAGE
-                );
-            }
-
-            IssueDTO issueDTO = new IssueDTO(
-                issue.getId(),
-                issue.getExternalId(),
-                project.get().getProjectKey(),
-                issue.getTitle(),
-                issue.getDescription(),
-                issue.getCreatedDate(),
-                new Date(),
-                issue.getProjectId(),
-                newState,
-                issue.getWorkflowId(),
-                issue.getCreatedByUserId(),
-                issue.getAssigneeId(),
-                user.getId(),
-                issue.getIssuePriorityId(),
-                issue.getIssueTypeId(),
-                issue.getLabels()
-            );
-
-            Issue entity = Issue.fromIssueDto(issueDTO);
-
-            issueService.save(entity);
-
-            return issueDTO;
+            return convertToDTO(issue);
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
@@ -303,5 +245,12 @@ public class IssueController {
         String projectKey = projectOptional.get().getProjectKey();
         long externalId = issue.getExternalId();
         return projectKey + "-" + externalId;
+    }
+    
+    private IssueDTO convertToDTO(Issue issue) {
+        IssueDTO dto = modelMapper.map(issue, IssueDTO.class);
+        dto.setProjectKey(projectService.findById(issue.getProjectId()).get().getProjectKey());
+
+        return dto;
     }
 }
