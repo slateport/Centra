@@ -1,4 +1,4 @@
-package dev.conductor.centra.domain.init;
+package dev.conductor.centra.application.api;
 
 import dev.conductor.centra.domain.init.dto.InitDTO;
 

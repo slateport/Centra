@@ -1,5 +1,8 @@
-package dev.conductor.centra.domain.settings;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.SettingsService;
+import dev.conductor.centra.domain.settings.DefualtSettingsEnum;
+import dev.conductor.centra.domain.settings.SettingsEnum;
 import dev.conductor.centra.domain.settings.entity.Settings;
 import dev.conductor.centra.infrastructure.persistence.mongodb.SettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;

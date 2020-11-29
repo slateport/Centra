@@ -1,12 +1,13 @@
-package dev.conductor.centra.domain.installation;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.InstallService;
 import dev.conductor.centra.domain.settings.SettingsEnum;
-import dev.conductor.centra.domain.applicationUser.ApplicationUserService;
+import dev.conductor.centra.application.api.ApplicationUserService;
 import dev.conductor.centra.domain.installation.dto.InstallationDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.settings.entity.Settings;
-import dev.conductor.centra.domain.licensing.LicenseService;
-import dev.conductor.centra.domain.settings.SettingsService;
+import dev.conductor.centra.application.api.LicenseService;
+import dev.conductor.centra.application.api.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

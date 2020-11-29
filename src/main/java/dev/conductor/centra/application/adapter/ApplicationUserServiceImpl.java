@@ -1,5 +1,6 @@
-package dev.conductor.centra.domain.applicationUser;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.ApplicationUserService;
 import dev.conductor.centra.domain.applicationUser.dto.UserLiteDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.infrastructure.persistence.mongodb.ApplicationUserRepository;

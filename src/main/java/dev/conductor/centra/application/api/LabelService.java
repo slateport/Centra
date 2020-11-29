@@ -1,4 +1,4 @@
-package dev.conductor.centra.domain.label;
+package dev.conductor.centra.application.api;
 
 import java.util.List;
 

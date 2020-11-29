@@ -1,5 +1,6 @@
-package dev.conductor.centra.domain.workflow;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.WorkflowService;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
 import dev.conductor.centra.domain.workflow.entities.WorkflowState;

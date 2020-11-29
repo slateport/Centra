@@ -1,12 +1,13 @@
-package dev.conductor.centra.domain.issue;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.IssueService;
 import dev.conductor.centra.domain.issue.dto.IssueChangeDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.issue.entity.IssueLinks;
 import dev.conductor.centra.infrastructure.persistence.mongodb.IssueLinksRepository;
 import dev.conductor.centra.infrastructure.persistence.mongodb.IssueRepository;
-import dev.conductor.centra.domain.applicationUser.ApplicationUserService;
+import dev.conductor.centra.application.api.ApplicationUserService;
 import org.javers.core.diff.Change;
 import org.javers.core.diff.changetype.PropertyChange;
 import org.javers.core.diff.changetype.ValueChange;

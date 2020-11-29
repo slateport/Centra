@@ -1,5 +1,6 @@
-package dev.conductor.centra.domain.issue;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.IssueCommentService;
 import dev.conductor.centra.domain.issue.entity.IssueComment;
 import dev.conductor.centra.infrastructure.persistence.mongodb.IssueCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;

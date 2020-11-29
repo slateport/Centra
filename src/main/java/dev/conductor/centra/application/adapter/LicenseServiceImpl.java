@@ -1,8 +1,11 @@
-package dev.conductor.centra.domain.licensing;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.LicenseService;
+import dev.conductor.centra.domain.licensing.License;
+import dev.conductor.centra.domain.licensing.LicenseDecoder;
 import dev.conductor.centra.domain.settings.SettingsEnum;
 import dev.conductor.centra.domain.settings.entity.Settings;
-import dev.conductor.centra.domain.settings.SettingsService;
+import dev.conductor.centra.application.api.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

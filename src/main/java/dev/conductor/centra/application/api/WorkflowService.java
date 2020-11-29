@@ -1,4 +1,4 @@
-package dev.conductor.centra.domain.workflow;
+package dev.conductor.centra.application.api;
 
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.workflow.entities.Workflow;

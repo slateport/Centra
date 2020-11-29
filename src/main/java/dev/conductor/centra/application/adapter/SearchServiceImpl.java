@@ -1,5 +1,6 @@
-package dev.conductor.centra.domain.search;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.SearchService;
 import dev.conductor.centra.domain.search.cql.AndCondition;
 import dev.conductor.centra.domain.search.cql.Condition;
 import dev.conductor.centra.domain.search.cql.CqlQuery;
@@ -7,9 +8,8 @@ import dev.conductor.centra.domain.search.cql.Operator;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.project.entity.Project;
-import dev.conductor.centra.domain.applicationUser.ApplicationUserService;
-import dev.conductor.centra.domain.project.ProjectService;
-import dev.conductor.centra.domain.search.SearchService;
+import dev.conductor.centra.application.api.ApplicationUserService;
+import dev.conductor.centra.application.api.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;

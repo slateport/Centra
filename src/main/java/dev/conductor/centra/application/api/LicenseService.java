@@ -1,4 +1,6 @@
-package dev.conductor.centra.domain.licensing;
+package dev.conductor.centra.application.api;
+
+import dev.conductor.centra.domain.licensing.License;
 
 public interface LicenseService {
 

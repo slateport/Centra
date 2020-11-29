@@ -1,5 +1,6 @@
-package dev.conductor.centra.domain.issue;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.IssueTypeSchemaService;
 import dev.conductor.centra.domain.issue.entity.IssueType;
 import dev.conductor.centra.domain.issue.entity.IssueTypeSchema;
 import dev.conductor.centra.infrastructure.persistence.mongodb.IssueTypeRepository;

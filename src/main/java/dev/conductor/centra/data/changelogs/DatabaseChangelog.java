@@ -4,12 +4,12 @@ import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import dev.conductor.centra.domain.settings.SettingsEnum;
 import dev.conductor.centra.data.defualt.DefaultInstall;
-import dev.conductor.centra.domain.issue.IssuePrioritySchemaService;
-import dev.conductor.centra.domain.issue.IssueTypeSchemaService;
-import dev.conductor.centra.domain.project.ProjectService;
-import dev.conductor.centra.domain.settings.SettingsService;
+import dev.conductor.centra.application.api.IssuePrioritySchemaService;
+import dev.conductor.centra.application.api.IssueTypeSchemaService;
+import dev.conductor.centra.application.api.ProjectService;
+import dev.conductor.centra.application.api.SettingsService;
 import dev.conductor.centra.domain.settings.entity.Settings;
-import dev.conductor.centra.domain.workflow.WorkflowService;
+import dev.conductor.centra.application.api.WorkflowService;
 
 import java.util.EnumSet;
 

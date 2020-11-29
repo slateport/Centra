@@ -2,7 +2,7 @@ package dev.conductor.centra.application.security;
 
 import dev.conductor.centra.domain.settings.SettingsEnum;
 import dev.conductor.centra.domain.settings.entity.Settings;
-import dev.conductor.centra.domain.settings.SettingsService;
+import dev.conductor.centra.application.api.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

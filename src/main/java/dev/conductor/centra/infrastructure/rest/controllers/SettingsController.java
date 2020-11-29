@@ -2,8 +2,8 @@ package dev.conductor.centra.infrastructure.rest.controllers;
 
 import dev.conductor.centra.domain.settings.SettingsEnum;
 import dev.conductor.centra.domain.settings.entity.Settings;
-import dev.conductor.centra.domain.applicationUser.ApplicationUserService;
-import dev.conductor.centra.domain.settings.SettingsService;
+import dev.conductor.centra.application.api.ApplicationUserService;
+import dev.conductor.centra.application.api.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

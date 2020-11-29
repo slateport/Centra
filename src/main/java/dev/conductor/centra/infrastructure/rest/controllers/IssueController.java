@@ -1,10 +1,10 @@
 package dev.conductor.centra.infrastructure.rest.controllers;
 
-import dev.conductor.centra.domain.applicationUser.ApplicationUserService;
+import dev.conductor.centra.application.api.ApplicationUserService;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
-import dev.conductor.centra.domain.issue.IssueCommentService;
-import dev.conductor.centra.domain.issue.IssueService;
-import dev.conductor.centra.domain.issue.IssueTypeSchemaService;
+import dev.conductor.centra.application.api.IssueCommentService;
+import dev.conductor.centra.application.api.IssueService;
+import dev.conductor.centra.application.api.IssueTypeSchemaService;
 import dev.conductor.centra.domain.issue.dto.IssueChangeDTO;
 import dev.conductor.centra.domain.issue.dto.IssueCommentDTO;
 import dev.conductor.centra.domain.issue.dto.IssueDTO;
@@ -12,10 +12,10 @@ import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.issue.entity.IssueComment;
 import dev.conductor.centra.domain.issue.entity.IssueLinks;
 import dev.conductor.centra.domain.issue.entity.IssueType;
-import dev.conductor.centra.domain.label.LabelService;
-import dev.conductor.centra.domain.project.ProjectService;
+import dev.conductor.centra.application.api.LabelService;
+import dev.conductor.centra.application.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
-import dev.conductor.centra.domain.workflow.WorkflowService;
+import dev.conductor.centra.application.api.WorkflowService;
 import dev.conductor.centra.domain.workflow.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

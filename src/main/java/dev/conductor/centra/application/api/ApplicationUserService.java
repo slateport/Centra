@@ -1,4 +1,4 @@
-package dev.conductor.centra.domain.applicationUser;
+package dev.conductor.centra.application.api;
 
 import dev.conductor.centra.domain.applicationUser.dto.UserLiteDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;

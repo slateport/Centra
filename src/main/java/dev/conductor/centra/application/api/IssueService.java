@@ -1,4 +1,4 @@
-package dev.conductor.centra.domain.issue;
+package dev.conductor.centra.application.api;
 
 import dev.conductor.centra.domain.issue.dto.IssueChangeDTO;
 import dev.conductor.centra.domain.issue.entity.Issue;

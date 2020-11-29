@@ -1,5 +1,6 @@
-package dev.conductor.centra.domain.issue;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.IssuePrioritySchemaService;
 import dev.conductor.centra.domain.issue.entity.IssuePriority;
 import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;
 import dev.conductor.centra.infrastructure.persistence.mongodb.IssuePriorityRepository;

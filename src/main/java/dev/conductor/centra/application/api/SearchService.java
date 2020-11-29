@@ -1,4 +1,4 @@
-package dev.conductor.centra.domain.search;
+package dev.conductor.centra.application.api;
 
 import dev.conductor.centra.domain.search.cql.CqlQuery;
 import dev.conductor.centra.domain.issue.entity.Issue;

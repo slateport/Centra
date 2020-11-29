@@ -1,10 +1,11 @@
-package dev.conductor.centra.domain.project;
+package dev.conductor.centra.application.adapter;
 
-import dev.conductor.centra.domain.issue.IssuePrioritySchemaService;
-import dev.conductor.centra.domain.issue.IssueService;
-import dev.conductor.centra.domain.issue.IssueTypeSchemaService;
+import dev.conductor.centra.application.api.IssuePrioritySchemaService;
+import dev.conductor.centra.application.api.IssueService;
+import dev.conductor.centra.application.api.IssueTypeSchemaService;
+import dev.conductor.centra.application.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
-import dev.conductor.centra.domain.workflow.WorkflowService;
+import dev.conductor.centra.application.api.WorkflowService;
 import dev.conductor.centra.infrastructure.persistence.mongodb.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

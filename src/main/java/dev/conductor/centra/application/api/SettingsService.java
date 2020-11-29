@@ -1,5 +1,6 @@
-package dev.conductor.centra.domain.settings;
+package dev.conductor.centra.application.api;
 
+import dev.conductor.centra.domain.settings.SettingsEnum;
 import dev.conductor.centra.domain.settings.entity.Settings;
 
 import java.util.List;

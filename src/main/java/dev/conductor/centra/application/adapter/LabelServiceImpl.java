@@ -1,5 +1,6 @@
-package dev.conductor.centra.domain.label;
+package dev.conductor.centra.application.adapter;
 
+import dev.conductor.centra.application.api.LabelService;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

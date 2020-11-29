@@ -1,7 +1,7 @@
 package dev.conductor.centra.infrastructure.rest.controllers;
 
 import dev.conductor.centra.domain.init.dto.InitDTO;
-import dev.conductor.centra.domain.init.InitService;
+import dev.conductor.centra.application.api.InitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

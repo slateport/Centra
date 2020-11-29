@@ -1,4 +1,4 @@
-package dev.conductor.centra.domain.project;
+package dev.conductor.centra.application.api;
 
 
 import dev.conductor.centra.domain.project.entity.Project;
