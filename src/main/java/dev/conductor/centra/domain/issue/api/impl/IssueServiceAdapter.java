@@ -10,6 +10,7 @@ import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
+import dev.conductor.centra.infrastructure.persistence.mongodb.adapter.IssuePersistenceAdapter;
 import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueLinksRepository;
 import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueRepository;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
@@ -31,19 +32,19 @@ import java.util.Optional;
 public class IssueServiceAdapter implements IssueService {
 
     @Autowired
-    private IssueRepository issueRepository;
+    private IssuePersistenceAdapter issueRepository;
 
     @Autowired
-    ApplicationUserService userService;
+    private ApplicationUserService userService;
 
     @Autowired
-    IssueLinksRepository issueLinksRepository;
+    private IssueLinksRepository issueLinksRepository;
 
     @Autowired
-    ProjectService projectService;
+    private ProjectService projectService;
 
     @Autowired
-    WorkflowService workflowService;
+    private WorkflowService workflowService;
 
     @Autowired
     private Javers javers;
