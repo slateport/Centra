@@ -104,7 +104,6 @@ public class UserController extends BaseController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        userService.save(user);
         user.setPassword(null);
 
         return user;

@@ -3,13 +3,10 @@ package dev.conductor.centra.domain.applicationUser.entiity;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
-public class ApplicationUser implements Serializable {
+public class ApplicationUser {
 
-    private static final long serialVersionUID = 1L;
     private String id;
     private String username;
     private String emailAddress;

@@ -58,11 +58,10 @@ public class ApplicationUserPersistenceAdapter implements ApplicationUserPersist
     public ApplicationUser findById(String id) {
         Optional<ApplicationUserEntity> entity = repository.findById(id);
 
-        if (entity.isPresent()) {
-            return modelMapper.map(entity, ApplicationUser.class);
-        }
+        return entity.map(
+                    applicationUserEntity -> modelMapper.map(applicationUserEntity, ApplicationUser.class)
+                ).orElse(null);
 
-        return null;
     }
 
     @Override
