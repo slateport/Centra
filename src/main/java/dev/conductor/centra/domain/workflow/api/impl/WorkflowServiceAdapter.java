@@ -7,7 +7,7 @@ import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
 import dev.conductor.centra.domain.workflow.entities.WorkflowState;
 import dev.conductor.centra.domain.workflow.entities.WorkflowTransition;
-import dev.conductor.centra.infrastructure.persistence.mongodb.repository.WorkflowRepository;
+import dev.conductor.centra.domain.workflow.spi.WorkflowPersistencePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,28 +21,28 @@ import java.util.stream.Collectors;
 public class WorkflowServiceAdapter implements WorkflowService {
 
     @Autowired
-    private WorkflowRepository repository;
+    private WorkflowPersistencePort persistencePort;
 
     @Autowired
     private IssueService issueService;
 
     @Override
     public List<Workflow> findAll() {
-        return repository.findAll();
+        return persistencePort.findAll();
     }
 
-    public void save(Workflow workflow) {
-        repository.save(workflow);
+    public Workflow create(Workflow workflow) {
+        return persistencePort.create(workflow);
     }
 
     @Override
-    public Optional<Workflow> findById(String id) {
-        return repository.findById(id);
+    public Workflow findById(String id) {
+        return persistencePort.findById(id);
     }
 
     @Override
     public Workflow findByName(String name) {
-        return repository.findByName(name);
+        return persistencePort.findByName(name);
     }
 
     @Override
@@ -65,13 +65,11 @@ public class WorkflowServiceAdapter implements WorkflowService {
 
     @Override
     public Issue transitionIssue(Issue issue, WorkflowTransition transition, ApplicationUser user) {
-        Optional<Workflow> workflowOptional = findById(issue.getWorkflowId());
+        Workflow workflow = findById(issue.getWorkflowId());
 
-        if (workflowOptional.isEmpty()) {
+        if (workflow == null) {
             throw new RuntimeException("Workflow doesn't exist");
         }
-
-        Workflow workflow = workflowOptional.get();
 
         if(!getAvailableTransitions(workflow, issue.getWorkflowState()).contains(transition)){
             throw new RuntimeException("Transition not available or valid");
@@ -80,7 +78,7 @@ public class WorkflowServiceAdapter implements WorkflowService {
         WorkflowState state = workflow.getStates().stream()
                 .filter(e -> e.getLabel().equals(transition.getToNode()))
                 .findFirst()
-                .orElse(new WorkflowState(true, false, "DEFUALT"));
+                .orElse(new WorkflowState(true, false, "DEFAULT"));
 
         issue.setWorkflowState(state);
         issue.setLastModifiedDate(new Date());

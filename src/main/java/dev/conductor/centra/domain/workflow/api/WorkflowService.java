@@ -12,9 +12,9 @@ import java.util.Optional;
 public interface WorkflowService {
 
     List<Workflow> findAll();
-    Optional<Workflow> findById(String id);
+    Workflow findById(String id);
     Workflow findByName(String name);
-    void save(Workflow workflow);
+    Workflow create(Workflow workflow);
     WorkflowState getInitialState(Workflow workflow);
     List<WorkflowTransition> getAvailableTransitions(Workflow workflow, WorkflowState currentState);
     Issue transitionIssue(Issue issue, WorkflowTransition transition, ApplicationUser user);

@@ -72,7 +72,7 @@ public class DefaultInstall {
 
         Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions);
 
-        workflowService.save(wfl);
+        workflowService.create(wfl);
 
         IssuePriority lowest = prioritySchemaService.createPriority(new IssuePriority("Lowest", "ChevronsDown"));
         IssuePriority low = prioritySchemaService.createPriority(new IssuePriority("Low", "ChevronDown"));

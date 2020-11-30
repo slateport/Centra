@@ -126,16 +126,16 @@ public class IssueController {
     @GetMapping("/{id}/transitions")
     public List<WorkflowTransition> getAvailableIssueTransitions(@PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
-        Optional<Workflow> workflow = workflowService.findById(issue.getWorkflowId());
+        Workflow workflow = workflowService.findById(issue.getWorkflowId());
 
-        if (workflow.isEmpty()) {
+        if (workflow == null) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "Workflow not found."
             );
         }
 
-        return workflowService.getAvailableTransitions(workflow.get(), issue.getWorkflowState());
+        return workflowService.getAvailableTransitions(workflow, issue.getWorkflowState());
     }
 
     @PostMapping("/{id}/transitions")

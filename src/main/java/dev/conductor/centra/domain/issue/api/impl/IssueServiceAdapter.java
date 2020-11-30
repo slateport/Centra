@@ -135,9 +135,9 @@ public class IssueServiceAdapter implements IssueService {
             throw new RuntimeException("Project not found to create issue");
         }
 
-        Optional<Workflow> workflow = workflowService.findById(project.getWorkflowId());
+        Workflow workflow = workflowService.findById(project.getWorkflowId());
 
-        if (workflow.isEmpty()) {
+        if (workflow == null) {
             throw new RuntimeException(
                     "Workflow not found or belongs to a different project"
             );
@@ -150,7 +150,7 @@ public class IssueServiceAdapter implements IssueService {
                 project.getId(),
                 new Date(),
                 new Date(),
-                workflowService.getInitialState(workflow.get()),
+                workflowService.getInitialState(workflow),
                 project.getWorkflowId(),
                 user.getId(),
                 issueDTO.getAssigneeId(),

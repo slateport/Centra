@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/workflow")
@@ -61,13 +60,13 @@ public class WorkflowController {
                 dto.getTransitions()
         );
 
-        workflowService.save(workflow);
+        workflowService.create(workflow);
 
         return workflow;
     }
 
     @GetMapping("/{id}")
     Workflow getById(@PathVariable String id){
-        return workflowService.findById(id).get();
+        return workflowService.findById(id);
     }
 }
