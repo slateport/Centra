@@ -1,9 +1,11 @@
 package dev.conductor.centra;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.github.cloudyrock.spring.v5.EnableMongock;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -39,5 +41,10 @@ public class CentraApplication {
 			registry.addViewController("/{x:^(?!api$).*$}/**/{y:[\\w\\-]+}")
 					.setViewName("forward:/index.html");
 		}
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 }

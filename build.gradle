@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'org.springframework.boot' version '2.4.0'
     id 'com.github.node-gradle.node' version '2.2.2'
+    id "io.freefair.lombok" version "5.3.0"
 }
 
 group = 'dev.conductor'
@@ -22,7 +23,6 @@ repositories {
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-security:2.3.5.RELEASE')
     implementation('org.springframework.boot:spring-boot-starter-data-mongodb:2.3.5.RELEASE')
-    implementation('org.springframework.boot:spring-boot-starter-web:2.3.5.RELEASE')
     implementation('com.github.cloudyrock.mongock:mongock-bom:4.1.17')
     implementation('org.mongodb:mongodb-driver-sync:4.1.1')
     implementation('org.springframework.data:spring-data-mongodb:3.0.5.RELEASE')
@@ -34,14 +34,19 @@ dependencies {
     implementation('com.github.cloudyrock.mongock:mongock-spring-v5:4.1.17')
     implementation('com.github.cloudyrock.mongock:mongodb-springdata-v3-driver:4.1.17')
     implementation('io.springfox:springfox-boot-starter:3.0.0')
-    implementation ('org.springframework.boot:spring-boot-starter-thymeleaf:2.4.0')
     implementation ('org.springframework.boot:spring-boot-starter-web:2.4.0')
     implementation('org.javers:javers-spring-boot-starter-mongo:5.13.2')
+    implementation 'org.modelmapper:modelmapper:2.3.9'
     testImplementation('org.springframework.boot:spring-boot-starter-test:2.3.5.RELEASE')
 }
 
 node {
     download = false
+}
+
+task copyWebApp(type: Copy) {
+    from 'src/main/webapp/dist'
+    into 'build/resources/main/static/.'
 }
 
 task appNpmInstall(type: NpmTask) {
@@ -54,11 +59,6 @@ task appNpmBuild(type: NpmTask) {
     description = "Builds production version of the webapp"
     workingDir = file("${project.projectDir}/src/main/webapp")
     args = ["run", "build"]
-}
-
-task copyWebApp(type: Copy) {
-    from 'src/main/webapp/build'
-    into 'build/resources/main/static/.'
 }
 
 appNpmBuild.dependsOn appNpmInstall

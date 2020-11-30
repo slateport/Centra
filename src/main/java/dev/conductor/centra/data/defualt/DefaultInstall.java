@@ -1,10 +1,15 @@
 package dev.conductor.centra.data.defualt;
 
-import dev.conductor.centra.entities.*;
-import dev.conductor.centra.service.IssuePrioritySchemaService;
-import dev.conductor.centra.service.IssueTypeSchemaService;
-import dev.conductor.centra.service.ProjectService;
-import dev.conductor.centra.service.WorkflowService;
+import dev.conductor.centra.domain.issue.entity.IssuePriority;
+import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;
+import dev.conductor.centra.domain.issue.entity.IssueType;
+import dev.conductor.centra.domain.issue.entity.IssueTypeSchema;
+import dev.conductor.centra.domain.project.entity.Project;
+import dev.conductor.centra.domain.workflow.entities.*;
+import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
+import dev.conductor.centra.domain.issue.api.IssueTypeSchemaService;
+import dev.conductor.centra.domain.project.api.ProjectService;
+import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -67,7 +72,7 @@ public class DefaultInstall {
 
         Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions);
 
-        workflowService.save(wfl);
+        workflowService.create(wfl);
 
         IssuePriority lowest = prioritySchemaService.createPriority(new IssuePriority("Lowest", "ChevronsDown"));
         IssuePriority low = prioritySchemaService.createPriority(new IssuePriority("Low", "ChevronDown"));
@@ -75,7 +80,8 @@ public class DefaultInstall {
         IssuePriority high = prioritySchemaService.createPriority(new IssuePriority("High", "ChevronUp"));
         IssuePriority highest = prioritySchemaService.createPriority(new IssuePriority("Highest", "ChevronsUp"));
 
-        IssuePrioritySchema prioritySchema = new IssuePrioritySchema(Project.DEFAULT_PRIORITY_SCHEMA_NAME);
+        IssuePrioritySchema prioritySchema = new IssuePrioritySchema();
+        prioritySchema.setName(Project.DEFAULT_PRIORITY_SCHEMA_NAME);
 
         prioritySchema.addPriority(lowest);
         prioritySchema.addPriority(low);
