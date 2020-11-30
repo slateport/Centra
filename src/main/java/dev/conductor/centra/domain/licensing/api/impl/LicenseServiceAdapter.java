@@ -33,12 +33,9 @@ public class LicenseServiceAdapter implements LicenseService {
     public License saveLicense(String licenseKey) {
         License decoded = licenseDecoder.decode(licenseKey);
         Settings licenseKeySettings = settingsService.getSettingsByName(SettingsEnum.LICENSE_KEY);
+        licenseKeySettings.setValue(licenseKey);
 
-        settingsService.save(new Settings(
-                licenseKeySettings.getId(),
-                licenseKeySettings.getKey(),
-                licenseKey
-        ));
+        settingsService.save(licenseKeySettings);
 
         return decoded;
     }

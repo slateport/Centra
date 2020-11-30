@@ -53,10 +53,7 @@ public class InstallServiceAdapter implements InstallService {
 
         userService.createUser(user);
 
-        settingsService.save(new Settings(
-                installComplete.getId(),
-                installComplete.getKey(),
-                "true"
-        ));
+        installComplete.setValue("true");
+        settingsService.save(installComplete);
     }
 }
