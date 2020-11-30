@@ -3,21 +3,19 @@ package dev.conductor.centra.domain.issue.api.impl;
 import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
 import dev.conductor.centra.domain.issue.entity.IssuePriority;
 import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;
+import dev.conductor.centra.domain.issue.spi.IssuePriorityPersistencePort;
 import dev.conductor.centra.domain.issue.spi.IssuePrioritySchemaPersistencePort;
-import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssuePriorityRepository;
-import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssuePrioritySchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class IssuePrioritySchemaServiceAdapter implements IssuePrioritySchemaService {
 
     @Autowired
-    private IssuePriorityRepository priorityRepository;
+    private IssuePriorityPersistencePort priorityPersistencePort;
 
     @Autowired
     private IssuePrioritySchemaPersistencePort schemaPersistencePort;
@@ -25,23 +23,22 @@ public class IssuePrioritySchemaServiceAdapter implements IssuePrioritySchemaSer
 
     @Override
     public List<IssuePriority> findAllPriorities() {
-        return priorityRepository.findAll();
+        return priorityPersistencePort.findAll();
     }
 
     @Override
     public IssuePriority findPriorityById(String id) {
-        Optional<IssuePriority> priorityOptional = priorityRepository.findById(id);
-        return (priorityOptional.isEmpty()) ? null : priorityOptional.get();
+        return priorityPersistencePort.findById(id);
     }
 
     @Override
     public IssuePriority findPriorityByLabel(String label) {
-        return priorityRepository.findByLabel(label);
+        return priorityPersistencePort.findByLabel(label);
     }
 
     @Override
     public IssuePriority createPriority(IssuePriority issuePriority) {
-        return priorityRepository.save(issuePriority);
+        return priorityPersistencePort.create(issuePriority);
     }
 
     @Override
