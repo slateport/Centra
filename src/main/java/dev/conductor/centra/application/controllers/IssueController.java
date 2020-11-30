@@ -124,12 +124,11 @@ public class IssueController {
 
         ApplicationUser user = applicationUserService.findByUsername(principal.getName());
 
-        IssueComment comment = new IssueComment(
-                issue.getId(),
-                commentDto.getText(),
-                new Date(),
-                user.getId()
-        );
+        IssueComment comment = new IssueComment();
+        comment.setIssueId(issue.getId());
+        comment.setText(commentDto.getText());
+        comment.setCreatedDate(new Date());
+        comment.setCreatedByUserId(user.getId());
 
         issueCommentService.save(comment);
         return comment;
