@@ -1,43 +1,24 @@
 package dev.conductor.centra.domain.issue.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "issue_type_schemas")
+@Getter
+@Setter
 public class IssueTypeSchema {
 
-    @Id
     private String id;
-    @Indexed(unique = true)
-    private final String name;
+    private String name;
     private List<String> issueTypeIds;
+
+    public IssueTypeSchema(){}
 
     public IssueTypeSchema(String name){
         this.name = name;
         this.issueTypeIds = new ArrayList<>();
-    }
-
-    @PersistenceConstructor
-    public IssueTypeSchema(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getIssueTypeIds() {
-        return issueTypeIds;
     }
 
     public void addIssueType(IssueType issueType) {
