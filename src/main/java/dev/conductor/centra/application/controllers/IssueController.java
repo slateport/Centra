@@ -60,9 +60,9 @@ public class IssueController {
     @GetMapping(value = "/{id}")
     public IssueDTO findById(@PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
-        Optional<Project> project = projectService.findById(issue.getProjectId());
+        Project project = projectService.findById(issue.getProjectId());
 
-        if (project.isEmpty()) {
+        if (project == null) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     PROJECT_NOT_FOUND_ERROR_MESSAGE
@@ -94,9 +94,9 @@ public class IssueController {
     @PutMapping("/{id}")
     public IssueDTO updateIssue (@RequestBody IssueDTO issueDto, @PathVariable String id) {
         Issue issue = getIssueByExternalId(id);
-        Optional<Project> project = projectService.findById(issue.getProjectId());
+        Project project = projectService.findById(issue.getProjectId());
 
-        if (project.isEmpty()) {
+        if (project == null) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     PROJECT_NOT_FOUND_ERROR_MESSAGE
@@ -224,20 +224,20 @@ public class IssueController {
     }
 
     private String buildExternalKeyFromIssue(Issue issue){
-        Optional<Project> projectOptional = projectService.findById(issue.getProjectId());
+        Project projectOptional = projectService.findById(issue.getProjectId());
 
-        if (projectOptional.isEmpty()) {
+        if (projectOptional == null) {
             throw new RuntimeException(PROJECT_NOT_FOUND_ERROR_MESSAGE);
         }
 
-        String projectKey = projectOptional.get().getProjectKey();
+        String projectKey = projectOptional.getProjectKey();
         long externalId = issue.getExternalId();
         return projectKey + "-" + externalId;
     }
     
     private IssueDTO convertToDTO(Issue issue) {
         IssueDTO dto = modelMapper.map(issue, IssueDTO.class);
-        dto.setProjectKey(projectService.findById(issue.getProjectId()).get().getProjectKey());
+        dto.setProjectKey(projectService.findById(issue.getProjectId()).getProjectKey());
 
         return dto;
     }

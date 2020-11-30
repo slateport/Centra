@@ -3,21 +3,21 @@ package dev.conductor.centra.domain.project.api.impl;
 import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
 import dev.conductor.centra.domain.issue.api.IssueService;
 import dev.conductor.centra.domain.issue.api.IssueTypeSchemaService;
+import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
+import dev.conductor.centra.domain.project.spi.ProjectPersistencePort;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
-import dev.conductor.centra.infrastructure.persistence.mongodb.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProjectServiceAdapter implements ProjectService {
 
     @Autowired
-    private ProjectRepository projectRepository;
+    private ProjectPersistencePort persistencePort;
 
     @Autowired
     IssueTypeSchemaService issueTypeSchemaService;
@@ -33,7 +33,7 @@ public class ProjectServiceAdapter implements ProjectService {
 
     @Override
     public Project findByKey(String key) {
-        return projectRepository.findByProjectKey(key);
+        return persistencePort.findByProjectKey(key);
     }
 
     @Override
@@ -57,32 +57,30 @@ public class ProjectServiceAdapter implements ProjectService {
             );
         }
 
-        return projectRepository.save(project);
+        return persistencePort.create(project);
     }
 
     @Override
     public List<Project> listAll() {
-        return projectRepository.findAll();
+        return persistencePort.findAll();
     }
 
     @Override
-    public Optional<Project> findById(String id) {
-        return projectRepository.findById(id);
+    public Project findById(String id) {
+        return persistencePort.findById(id);
     }
 
     @Override
     public Project findByName(String name) {
-        return projectRepository.findByProjectName(name);
+        return persistencePort.findByProjectName(name);
     }
 
     @Override
     public void delete(Project project) {
-        issueService.findByProjectId(project.getId()).stream().forEach(
-                issue -> {
-                    issueService.deleteIssue(issue);
-                }
-        );
+        for (Issue issue : issueService.findByProjectId(project.getId())) {
+            issueService.deleteIssue(issue);
+        }
 
-        projectRepository.delete(project);
+        persistencePort.delete(project);
     }
 }

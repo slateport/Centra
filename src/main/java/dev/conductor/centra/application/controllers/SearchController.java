@@ -18,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/search")
@@ -50,11 +49,11 @@ public class SearchController {
         final List<IssueDTO> dtoList = new ArrayList<>();
 
         for (Issue issue: searchService.search(query)) {
-            Optional<Project> project = projectService.findById(issue.getProjectId());
+            Project project = projectService.findById(issue.getProjectId());
 
             try {
                 IssueDTO issueDTO = modelMapper.map(issue, IssueDTO.class);
-                issueDTO.setProjectKey(project.get().getProjectKey());
+                issueDTO.setProjectKey(project.getProjectKey());
 
                 dtoList.add(issueDTO);
             } catch (RuntimeException e) {

@@ -35,7 +35,7 @@ public class ProjectController extends BaseController {
 
     @GetMapping("/{id}")
     public Project getProject(@PathVariable String id) {
-        return projectService.findById(id).get();
+        return projectService.findById(id);
     }
 
     @PostMapping
@@ -61,13 +61,13 @@ public class ProjectController extends BaseController {
     @GetMapping("/{id}/issueTypes")
     public List<IssueType> getIssueTypesForProject(@PathVariable String id) {
         Project project = null;
-        Optional<Project> optionalProject = projectService.findById(id);
+        Project optionalProject = projectService.findById(id);
 
-        if (optionalProject.isEmpty()){
+        if (optionalProject == null){
             project = projectService.findByKey(id);
         }
 
-        if (optionalProject.isEmpty() && project == null){
+        if (optionalProject == null && project == null){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "Project was not found"
@@ -75,7 +75,7 @@ public class ProjectController extends BaseController {
         }
 
         String issueTypeSchemaId = (project != null) ? project.getIssueTypeSchemaId()
-                : optionalProject.get().getIssueTypeSchemaId();
+                : optionalProject.getIssueTypeSchemaId();
 
         return issueTypeSchemaService.findTypeBySchema(
                 issueTypeSchemaService.findSchemaById(issueTypeSchemaId)
@@ -85,13 +85,13 @@ public class ProjectController extends BaseController {
     @GetMapping("/{id}/priorities")
     public List<IssuePriority> getPrioritiesForProject(@PathVariable String id) {
         Project project = null;
-        Optional<Project> optionalProject = projectService.findById(id);
+        Project optionalProject = projectService.findById(id);
 
-        if (optionalProject.isEmpty()){
+        if (optionalProject == null){
             project = projectService.findByKey(id);
         }
 
-        if (optionalProject.isEmpty() && project == null){
+        if (optionalProject == null && project == null){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "Project was not found"
@@ -99,7 +99,7 @@ public class ProjectController extends BaseController {
         }
 
         String prioritySchemaId = (project != null) ? project.getPrioritySchemaId()
-                : optionalProject.get().getPrioritySchemaId();
+                : optionalProject.getPrioritySchemaId();
 
         return prioritySchemaService.findPriorityBySchema(
                 prioritySchemaService.findSchemaById(prioritySchemaId)
@@ -119,15 +119,15 @@ public class ProjectController extends BaseController {
                     "Not an administrator"
             );
         }
-        Optional<Project> optionalProject = projectService.findById(id);
+        Project optionalProject = projectService.findById(id);
 
-        if (optionalProject.isEmpty()){
+        if (optionalProject == null){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "Project was not found"
             );
         }
 
-        this.projectService.delete(optionalProject.get());
+        this.projectService.delete(optionalProject);
     }
 }

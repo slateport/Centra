@@ -1,13 +1,13 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb.repository;
 
-import dev.conductor.centra.domain.project.entity.Project;
+import dev.conductor.centra.infrastructure.persistence.mongodb.entity.ProjectEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface ProjectRepository extends MongoRepository<Project, String> {
+public interface ProjectRepository extends MongoRepository<ProjectEntity, String> {
 
-    Project findByProjectKey(String key);
-    Project findByProjectName(String name);
-    Optional<Project> findById(String id);
+    ProjectEntity findByProjectKey(String key);
+    ProjectEntity findByProjectName(String name);
+    Optional<ProjectEntity> findById(String id);
 }

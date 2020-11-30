@@ -31,9 +31,10 @@ public class WorkflowController {
     @PostMapping
     Workflow save(@RequestBody EntityModel<WorkflowDTO> workflowDto) {
         WorkflowDTO dto = workflowDto.getContent();
-        Optional<Project> project = projectService.findById(dto.getProjectId());
+        assert dto != null;
+        Project project = projectService.findById(dto.getProjectId());
 
-        if (project.isEmpty()) {
+        if (project == null) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
                     "No such project exists"
