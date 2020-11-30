@@ -9,4 +9,11 @@ public class IssuePriority {
     private String id;
     private String label;
     private String icon;
+
+    public IssuePriority() {}
+
+    public IssuePriority(String label, String icon) {
+        this.label = label;
+        this.icon = icon;
+    }
 }
