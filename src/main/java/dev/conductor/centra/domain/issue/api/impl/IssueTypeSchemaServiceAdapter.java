@@ -3,7 +3,7 @@ package dev.conductor.centra.domain.issue.api.impl;
 import dev.conductor.centra.domain.issue.api.IssueTypeSchemaService;
 import dev.conductor.centra.domain.issue.entity.IssueType;
 import dev.conductor.centra.domain.issue.entity.IssueTypeSchema;
-import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueTypeRepository;
+import dev.conductor.centra.domain.issue.spi.IssueTypePersistencePort;
 import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueTypeSchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,29 +16,29 @@ import java.util.Optional;
 public class IssueTypeSchemaServiceAdapter implements IssueTypeSchemaService {
 
     @Autowired
-    private IssueTypeRepository typeRepository;
+    private IssueTypePersistencePort typePersistencePort;
 
     @Autowired
     private IssueTypeSchemaRepository schemaRepository;
 
     @Override
     public List<IssueType> findAllTypes() {
-        return typeRepository.findAll();
+        return typePersistencePort.findAll();
     }
 
     @Override
     public IssueType findTypeById(String id) {
-        return typeRepository.findById(id).get();
+        return typePersistencePort.findById(id);
     }
 
     @Override
     public IssueType findTypeByLabel(String label) {
-        return typeRepository.findByLabel(label);
+        return typePersistencePort.findByLabel(label);
     }
 
     @Override
     public IssueType createType(IssueType issueType) {
-        return typeRepository.save(issueType);
+        return typePersistencePort.create(issueType);
     }
 
     @Override
