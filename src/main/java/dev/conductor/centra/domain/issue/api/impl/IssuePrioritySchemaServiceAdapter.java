@@ -3,6 +3,7 @@ package dev.conductor.centra.domain.issue.api.impl;
 import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
 import dev.conductor.centra.domain.issue.entity.IssuePriority;
 import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;
+import dev.conductor.centra.domain.issue.spi.IssuePrioritySchemaPersistencePort;
 import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssuePriorityRepository;
 import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssuePrioritySchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class IssuePrioritySchemaServiceAdapter implements IssuePrioritySchemaSer
     private IssuePriorityRepository priorityRepository;
 
     @Autowired
-    private IssuePrioritySchemaRepository schemaRepository;
+    private IssuePrioritySchemaPersistencePort schemaPersistencePort;
 
 
     @Override
@@ -45,18 +46,17 @@ public class IssuePrioritySchemaServiceAdapter implements IssuePrioritySchemaSer
 
     @Override
     public IssuePrioritySchema createSchema(IssuePrioritySchema schema) {
-        return schemaRepository.save(schema);
+        return schemaPersistencePort.create(schema);
     }
 
     @Override
     public IssuePrioritySchema findSchemaByName(String name) {
-        return schemaRepository.findByName(name);
+        return schemaPersistencePort.findByName(name);
     }
 
     @Override
     public IssuePrioritySchema findSchemaById(String id) {
-        Optional<IssuePrioritySchema> priorityOptional = schemaRepository.findById(id);
-        return (priorityOptional.isEmpty()) ? null : priorityOptional.get();
+        return schemaPersistencePort.findById(id);
     }
 
     @Override

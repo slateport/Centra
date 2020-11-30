@@ -80,7 +80,8 @@ public class DefaultInstall {
         IssuePriority high = prioritySchemaService.createPriority(new IssuePriority("High", "ChevronUp"));
         IssuePriority highest = prioritySchemaService.createPriority(new IssuePriority("Highest", "ChevronsUp"));
 
-        IssuePrioritySchema prioritySchema = new IssuePrioritySchema(Project.DEFAULT_PRIORITY_SCHEMA_NAME);
+        IssuePrioritySchema prioritySchema = new IssuePrioritySchema();
+        prioritySchema.setName(Project.DEFAULT_PRIORITY_SCHEMA_NAME);
 
         prioritySchema.addPriority(lowest);
         prioritySchema.addPriority(low);
