@@ -10,6 +10,7 @@ import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.project.api.ProjectService;
+import dev.conductor.centra.domain.search.spi.SearchPersistencePort;
 import dev.conductor.centra.infrastructure.persistence.mongodb.entity.IssueEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class SearchServiceAdapter implements SearchService {
     private ApplicationUserService applicationUserService;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private SearchPersistencePort persistencePort;
 
     @Override
     public List<Issue>  search(CqlQuery cqlQuery) {
@@ -72,9 +73,7 @@ public class SearchServiceAdapter implements SearchService {
             }
         }
 
-        return mongoOps.find(query, IssueEntity.class).stream().map(
-                issueEntity -> modelMapper.map(issueEntity, Issue.class)
-        ).collect(Collectors.toList());
+        return persistencePort.find(query);
     }
 
     private Condition normalizeCondition(Condition condition) {
