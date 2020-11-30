@@ -4,35 +4,29 @@ import dev.conductor.centra.domain.issue.dto.IssueDTO;
 import dev.conductor.centra.domain.workflow.entities.WorkflowState;
 import lombok.Getter;
 import lombok.Setter;
-import org.javers.core.metamodel.annotation.DiffIgnore;
-import org.javers.core.metamodel.annotation.DiffInclude;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
-@Document(collection = "issues")
 public class Issue {
 
-    @Id private String id;
-    @DiffInclude private long externalId;
-    @DiffInclude private String projectId;
-    @DiffInclude private String title;
-    @DiffInclude private String description;
-    @DiffInclude private Date createdDate;
-    @DiffIgnore private Date lastModifiedDate;
-    @DiffInclude private String workflowId;
-    @DiffInclude private WorkflowState workflowState;
-    @DiffInclude private String createdByUserId;
-    @DiffInclude private String assigneeId;
-    @DiffInclude private String lastModifiedByUserId;
-    @DiffInclude private String issuePriorityId;
-    @DiffInclude private String issueTypeId;
-    @DiffInclude private List<String> labels;
+    private String id;
+    private long externalId;
+    private String projectId;
+    private String title;
+    private String description;
+    private Date createdDate;
+    private Date lastModifiedDate;
+    private String workflowId;
+    private WorkflowState workflowState;
+    private String createdByUserId;
+    private String assigneeId;
+    private String lastModifiedByUserId;
+    private String issuePriorityId;
+    private String issueTypeId;
+    private List<String> labels;
 
     public Issue() {}
 
@@ -67,7 +61,6 @@ public class Issue {
         this.labels = labels;
     }
 
-    @PersistenceConstructor
     protected Issue(
             String id,
             long externalId,

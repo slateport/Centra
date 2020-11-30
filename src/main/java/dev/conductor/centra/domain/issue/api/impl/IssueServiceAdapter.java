@@ -12,6 +12,7 @@ import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
+import dev.conductor.centra.infrastructure.persistence.mongodb.entity.IssueEntity;
 import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueLinksRepository;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import org.javers.core.diff.Change;
@@ -79,7 +80,7 @@ public class IssueServiceAdapter implements IssueService {
 
         javers.findChanges(
             QueryBuilder
-                    .byInstance(issue)
+                    .byInstanceId(issue.getId(), IssueEntity.class)
                     .withChildValueObjects()
                     .build()
         ).forEach(change -> {
