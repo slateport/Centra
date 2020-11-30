@@ -14,11 +14,14 @@ import java.util.List;
 @Repository
 public class IssuePersistenceAdapter implements IssuePersistencePort {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final IssueRepository repository;
 
     @Autowired
-    IssueRepository repository;
+    public IssuePersistenceAdapter(ModelMapper modelMapper, IssueRepository repository) {
+        this.modelMapper = modelMapper;
+        this.repository = repository;
+    }
 
     @Override
     public List<Issue> findByProjectId(String projectId) {

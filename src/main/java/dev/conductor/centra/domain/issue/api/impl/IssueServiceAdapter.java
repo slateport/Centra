@@ -6,13 +6,12 @@ import dev.conductor.centra.domain.issue.dto.IssueDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.issue.entity.IssueLinks;
+import dev.conductor.centra.domain.issue.spi.IssuePersistencePort;
 import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
-import dev.conductor.centra.infrastructure.persistence.mongodb.adapter.IssuePersistenceAdapter;
 import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueLinksRepository;
-import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueRepository;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import org.javers.core.diff.Change;
 import org.javers.core.diff.changetype.PropertyChange;
@@ -32,7 +31,7 @@ import java.util.Optional;
 public class IssueServiceAdapter implements IssueService {
 
     @Autowired
-    private IssuePersistenceAdapter issueRepository;
+    private IssuePersistencePort persistencePort;
 
     @Autowired
     private ApplicationUserService userService;
@@ -51,22 +50,22 @@ public class IssueServiceAdapter implements IssueService {
 
     @Override
     public List<Issue> findByProjectId(String project) {
-        return issueRepository.findByProjectId(project);
+        return persistencePort.findByProjectId(project);
     }
 
     @Override
     public Issue findByProjectIdAndExternalId(String projectId, long externalId) {
-        return issueRepository.findByProjectIdAndExternalId(projectId, externalId);
+        return persistencePort.findByProjectIdAndExternalId(projectId, externalId);
     }
 
     @Override
     public Issue save(Issue issue) {
-        return issueRepository.save(issue);
+        return persistencePort.save(issue);
     }
 
     @Override
     public synchronized long getNextExternalIdByProject(String projectId) {
-        Issue issue = issueRepository.findFirstByProjectIdOrderByCreatedDateDesc(projectId);
+        Issue issue = persistencePort.findFirstByProjectIdOrderByCreatedDateDesc(projectId);
         if (issue == null) {
             return 1;
         } else {
@@ -101,7 +100,7 @@ public class IssueServiceAdapter implements IssueService {
 
     @Override
     public void deleteIssue(Issue issue) {
-        issueRepository.delete(issue);
+        persistencePort.delete(issue);
     }
 
     @Override
