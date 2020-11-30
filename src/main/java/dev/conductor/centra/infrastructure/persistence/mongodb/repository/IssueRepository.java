@@ -1,4 +1,4 @@
-package dev.conductor.centra.infrastructure.persistence.mongodb;
+package dev.conductor.centra.infrastructure.persistence.mongodb.repository;
 
 import dev.conductor.centra.domain.issue.entity.Issue;
 import org.javers.spring.annotation.JaversSpringDataAuditable;

@@ -7,6 +7,7 @@ import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.settings.entity.Settings;
 import dev.conductor.centra.domain.licensing.api.LicenseService;
 import dev.conductor.centra.domain.settings.api.SettingsService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class InstallServiceAdapter implements InstallService {
     @Autowired
     LicenseService licenseService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public void install(InstallationDTO installationDTO) {
         Settings installComplete = settingsService.getSettingsByName(SettingsEnum.INSTALLATION_COMPLETE);
@@ -39,14 +43,15 @@ public class InstallServiceAdapter implements InstallService {
             licenseService.saveLicense(installationDTO.getLicenseKey());
         }
 
-        userService.createUser(new ApplicationUser(
-                installationDTO.getUsername(),
-                "",
-                installationDTO.getPassword(),
-                installationDTO.getUsername(),
-                true,
-                true
-        ));
+        ApplicationUser user = new ApplicationUser();
+        user.setAdmin(true);
+        user.setDisplayName(installationDTO.getUsername());
+        user.setEnabled(true);
+        user.setEmailAddress("");
+        user.setPassword(installationDTO.getPassword());
+        user.setUsername(installationDTO.getUsername());
+
+        userService.createUser(user);
 
         settingsService.save(new Settings(
                 installComplete.getId(),

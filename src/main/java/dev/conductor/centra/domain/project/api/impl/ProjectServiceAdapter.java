@@ -6,7 +6,7 @@ import dev.conductor.centra.domain.issue.api.IssueTypeSchemaService;
 import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
-import dev.conductor.centra.infrastructure.persistence.mongodb.ProjectRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

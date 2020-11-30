@@ -2,7 +2,7 @@ package dev.conductor.centra.domain.issue.api.impl;
 
 import dev.conductor.centra.domain.issue.api.IssueCommentService;
 import dev.conductor.centra.domain.issue.entity.IssueComment;
-import dev.conductor.centra.infrastructure.persistence.mongodb.IssueCommentRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

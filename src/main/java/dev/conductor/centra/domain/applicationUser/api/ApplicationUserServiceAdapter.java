@@ -31,8 +31,7 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
 
     @Override
     public ApplicationUser findById(String id) {
-        Optional<ApplicationUser> optionalApplicationUser = persistence.findById(id);
-        return optionalApplicationUser.isEmpty() ? null : optionalApplicationUser.get();
+        return persistence.findById(id);
     }
 
     @Override

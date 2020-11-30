@@ -1,7 +1,7 @@
-package dev.conductor.centra.infrastructure.persistence.mongodb.impl;
+package dev.conductor.centra.infrastructure.persistence.mongodb.repository.impl;
 
 import dev.conductor.centra.domain.issue.entity.Issue;
-import dev.conductor.centra.infrastructure.persistence.mongodb.LabelRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.repository.LabelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;

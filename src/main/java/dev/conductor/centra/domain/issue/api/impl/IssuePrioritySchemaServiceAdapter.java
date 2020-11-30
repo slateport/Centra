@@ -3,8 +3,8 @@ package dev.conductor.centra.domain.issue.api.impl;
 import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
 import dev.conductor.centra.domain.issue.entity.IssuePriority;
 import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;
-import dev.conductor.centra.infrastructure.persistence.mongodb.IssuePriorityRepository;
-import dev.conductor.centra.infrastructure.persistence.mongodb.IssuePrioritySchemaRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssuePriorityRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssuePrioritySchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

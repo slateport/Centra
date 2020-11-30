@@ -3,8 +3,8 @@ package dev.conductor.centra.domain.issue.api.impl;
 import dev.conductor.centra.domain.issue.api.IssueTypeSchemaService;
 import dev.conductor.centra.domain.issue.entity.IssueType;
 import dev.conductor.centra.domain.issue.entity.IssueTypeSchema;
-import dev.conductor.centra.infrastructure.persistence.mongodb.IssueTypeRepository;
-import dev.conductor.centra.infrastructure.persistence.mongodb.IssueTypeSchemaRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueTypeRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueTypeSchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

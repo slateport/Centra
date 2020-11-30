@@ -10,7 +10,7 @@ public interface ApplicationUserPersistencePort {
     ApplicationUser findByUsername(String username);
     List<ApplicationUser> findAll();
     ApplicationUser findByEmailAddress(String emailAddress);
-    Optional<ApplicationUser> findById(String id);
+    ApplicationUser findById(String id);
     ApplicationUser save(ApplicationUser user);
 
 }

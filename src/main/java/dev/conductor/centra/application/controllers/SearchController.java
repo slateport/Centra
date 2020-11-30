@@ -7,6 +7,7 @@ import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.search.api.SearchService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,9 @@ public class SearchController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @GetMapping
     public List<IssueDTO> searchByCql(@RequestParam String cql){
         CqlQuery query = parser.parse(cql);
@@ -49,24 +53,10 @@ public class SearchController {
             Optional<Project> project = projectService.findById(issue.getProjectId());
 
             try {
-                dtoList.add(new IssueDTO(
-                        issue.getId(),
-                        issue.getExternalId(),
-                        project.get().getProjectKey(),
-                        issue.getTitle(),
-                        issue.getDescription(),
-                        issue.getCreatedDate(),
-                        issue.getLastModifiedDate(),
-                        issue.getProjectId(),
-                        issue.getWorkflowState(),
-                        issue.getWorkflowId(),
-                        issue.getCreatedByUserId(),
-                        issue.getAssigneeId(),
-                        issue.getLastModifiedByUserId(),
-                        issue.getIssuePriorityId(),
-                        issue.getIssueTypeId(),
-                        issue.getLabels()
-                ));
+                IssueDTO issueDTO = modelMapper.map(issue, IssueDTO.class);
+                issueDTO.setProjectKey(project.get().getProjectKey());
+
+                dtoList.add(issueDTO);
             } catch (RuntimeException e) {
                 System.out.println(issue.getId() + " encountered an issue");
             }

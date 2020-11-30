@@ -4,7 +4,7 @@ import dev.conductor.centra.domain.settings.api.SettingsService;
 import dev.conductor.centra.domain.settings.DefualtSettingsEnum;
 import dev.conductor.centra.domain.settings.SettingsEnum;
 import dev.conductor.centra.domain.settings.entity.Settings;
-import dev.conductor.centra.infrastructure.persistence.mongodb.SettingsRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.repository.SettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
