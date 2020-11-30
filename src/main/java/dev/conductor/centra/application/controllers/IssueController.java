@@ -121,17 +121,8 @@ public class IssueController {
     @PostMapping(value = "/{id}/comments")
     public IssueComment addCommentByExternalId(@RequestBody IssueCommentDTO commentDto, @PathVariable String id, Principal principal) {
         Issue issue = getIssueByExternalId(id);
-
         ApplicationUser user = applicationUserService.findByUsername(principal.getName());
-
-        IssueComment comment = new IssueComment();
-        comment.setIssueId(issue.getId());
-        comment.setText(commentDto.getText());
-        comment.setCreatedDate(new Date());
-        comment.setCreatedByUserId(user.getId());
-
-        issueCommentService.save(comment);
-        return comment;
+        return issueCommentService.create(issue, user, commentDto.getText());
     }
 
     @GetMapping("/{id}/transitions")
