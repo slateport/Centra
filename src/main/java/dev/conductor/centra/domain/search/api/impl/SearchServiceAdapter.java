@@ -10,6 +10,8 @@ import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.project.api.ProjectService;
+import dev.conductor.centra.infrastructure.persistence.mongodb.entity.IssueEntity;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SearchServiceAdapter implements SearchService {
@@ -30,6 +33,9 @@ public class SearchServiceAdapter implements SearchService {
 
     @Autowired
     private ApplicationUserService applicationUserService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public List<Issue>  search(CqlQuery cqlQuery) {
@@ -66,7 +72,9 @@ public class SearchServiceAdapter implements SearchService {
             }
         }
 
-        return mongoOps.find(query, Issue.class);
+        return mongoOps.find(query, IssueEntity.class).stream().map(
+                issueEntity -> modelMapper.map(issueEntity, Issue.class)
+        ).collect(Collectors.toList());
     }
 
     private Condition normalizeCondition(Condition condition) {
