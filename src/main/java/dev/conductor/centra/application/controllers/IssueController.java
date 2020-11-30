@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -187,7 +185,7 @@ public class IssueController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "You cannot link an issue to itself.");
         }
 
-        return issueService.saveIssueLinks(link);
+        return issueService.createIssuelinks(link);
     }
 
     @DeleteMapping("/links/{id}")

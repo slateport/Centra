@@ -16,7 +16,7 @@ public interface IssueService {
     long getNextExternalIdByProject(String projectId);
     List<IssueChangeDTO> getAuditLogsForIssue(Issue issue);
     void deleteIssue(Issue issue);
-    IssueLinks saveIssueLinks(IssueLinks issueLinks);
+    IssueLinks createIssuelinks(IssueLinks issueLinks);
     List<IssueLinks> getLinksForIssueByExternalId(String externalId);
     IssueLinks findLinkById(String id);
     void deleteIssueLink(IssueLinks issueLinks);

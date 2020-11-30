@@ -6,6 +6,7 @@ import dev.conductor.centra.domain.issue.dto.IssueDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.issue.entity.IssueLinks;
+import dev.conductor.centra.domain.issue.spi.IssueLinksPersistencePort;
 import dev.conductor.centra.domain.issue.spi.IssuePersistencePort;
 import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
@@ -37,7 +38,7 @@ public class IssueServiceAdapter implements IssueService {
     private ApplicationUserService userService;
 
     @Autowired
-    private IssueLinksRepository issueLinksRepository;
+    private IssueLinksPersistencePort issueLinksPersistencePort;
 
     @Autowired
     private ProjectService projectService;
@@ -104,27 +105,26 @@ public class IssueServiceAdapter implements IssueService {
     }
 
     @Override
-    public IssueLinks saveIssueLinks(IssueLinks issueLinks) {
-        return issueLinksRepository.save(issueLinks);
+    public IssueLinks createIssuelinks(IssueLinks issueLinks) {
+        return issueLinksPersistencePort.create(issueLinks);
     }
 
     @Override
     public List<IssueLinks> getLinksForIssueByExternalId(String externalId) {
-        List<IssueLinks> links = issueLinksRepository.findByLinkPublicId(externalId);
-        links.addAll(issueLinksRepository.findByNodePublicId(externalId));
+        List<IssueLinks> links = issueLinksPersistencePort.findByLinkPublicId(externalId);
+        links.addAll(issueLinksPersistencePort.findByNodePublicId(externalId));
 
         return links;
     }
 
     @Override
     public IssueLinks findLinkById(String id) {
-        Optional<IssueLinks> optionalLink = issueLinksRepository.findById(id);
-        return (optionalLink.isEmpty()) ? null : optionalLink.get();
+        return issueLinksPersistencePort.findById(id);
     }
 
     @Override
     public void deleteIssueLink(IssueLinks issueLinks) {
-        issueLinksRepository.delete(issueLinks);
+        issueLinksPersistencePort.delete(issueLinks);
     }
 
     @Override

@@ -1,9 +1,13 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Getter
+@Setter
 @Document(collection = "issue_links")
 public class IssueLinksEntity {
 
@@ -15,16 +19,4 @@ public class IssueLinksEntity {
 
     @Indexed
     private String linkPublicId;
-
-    public String getId() {
-        return id;
-    }
-
-    public String getNodePublicId() {
-        return nodePublicId;
-    }
-
-    public String getLinkPublicId() {
-        return linkPublicId;
-    }
 }
