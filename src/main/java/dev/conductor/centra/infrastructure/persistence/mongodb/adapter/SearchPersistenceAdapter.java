@@ -1,8 +1,7 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb.adapter;
 
 import dev.conductor.centra.domain.issue.entity.Issue;
-import dev.conductor.centra.domain.search.cql.Condition;
-import dev.conductor.centra.domain.search.cql.CqlQuery;
+import dev.conductor.centra.domain.search.cql.conditions.Condition;
 import dev.conductor.centra.domain.search.spi.SearchPersistencePort;
 import dev.conductor.centra.infrastructure.persistence.mongodb.entity.IssueEntity;
 import org.modelmapper.ModelMapper;
@@ -37,27 +36,27 @@ public class SearchPersistenceAdapter implements SearchPersistencePort {
 
             switch (condition.getOperator()) {
                 case EQUALS :
-                    query.addCriteria(Criteria.where(condition.getRhs()).is(condition.getLhs()));
+                    query.addCriteria(Criteria.where(condition.key()).is(condition.getValue().get(0)));
                     break;
 
                 case NOT_EQUALS:
-                    query.addCriteria(Criteria.where(condition.getRhs()).ne(condition.getLhs()));
+                    query.addCriteria(Criteria.where(condition.key()).ne(condition.getValue().get(0)));
                     break;
 
                 case GREATER_THAN:
-                    query.addCriteria(Criteria.where(condition.getRhs()).gt(condition.getLhs()));
+                    query.addCriteria(Criteria.where(condition.key()).gt(condition.getValue().get(0)));
                     break;
 
                 case LESS_THAN:
-                    query.addCriteria(Criteria.where(condition.getRhs()).lt(condition.getLhs()));
+                    query.addCriteria(Criteria.where(condition.key()).lt(condition.getValue().get(0)));
                     break;
 
                 case LIKE:
-                    query.addCriteria(Criteria.where(condition.getRhs()).regex(condition.getLhs(), "i"));
+                    query.addCriteria(Criteria.where(condition.key()).regex(((String)condition.getValue().get(0)), "i"));
                     break;
 
                 case IN:
-                    query.addCriteria(Criteria.where(condition.getRhs()).in(Collections.singletonList(condition.getLhs())));
+                    query.addCriteria(Criteria.where(condition.key()).in(condition.getValue()));
                     break;
 
             }

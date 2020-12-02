@@ -1,25 +1,34 @@
 package dev.conductor.centra.domain.search.cql;
 
+import dev.conductor.centra.domain.search.cql.conditions.Condition;
+import dev.conductor.centra.domain.search.cql.conditions.ProjectKeys;
+import org.antlr.v4.runtime.RuleContext;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CqlListenerImpl extends CqlBaseListener {
 
-    private final List<Condition> conditions = new ArrayList<>();
+    private final List<Condition<String>> conditions = new ArrayList<Condition<String>>();
 
-    private Condition currentCondition;
+    private Condition<String> currentCondition;
 
-    public List<Condition> getConditions() {
+    public List<Condition<String>> getConditions() {
         return conditions;
     }
 
     @Override
     public void enterExpr(CqlParser.ExprContext ctx) {
-        this.currentCondition = new AndCondition(
-                stripQuotesFromString(ctx.getStart().getText()),
-                null,
-                stripQuotesFromString(ctx.getStop().getText())
-        );
+        switch(stripQuotesFromString(ctx.getStart().getText())) {
+            case "projectKey":
+                this.currentCondition = new ProjectKeys();
+                this.currentCondition.addValue(ctx.getStop().getText());
+                break;
+
+            default:
+                throw new IllegalArgumentException("Unknown parameter " + stripQuotesFromString(ctx.getStart().getText()));
+        }
     }
 
     @Override
@@ -40,6 +49,10 @@ public class CqlListenerImpl extends CqlBaseListener {
                 operator = Operator.LIKE;
                 break;
 
+            case "IN":
+                operator = Operator.IN;
+                break;
+
             default:
                 throw new IllegalStateException("Unexpected value: " + ctx.getStop().getText());
 
@@ -48,6 +61,10 @@ public class CqlListenerImpl extends CqlBaseListener {
         this.currentCondition.setOperator(operator);
     }
 
+    @Override public void enterLiteral_list(CqlParser.Literal_listContext ctx) {
+        List<String> items = ctx.literal_value().stream().map(RuleContext::getText).collect(Collectors.toList());
+        this.currentCondition.setValue(items);
+    }
     protected String stripQuotesFromString(String input) {
         return input
                 .replace("\"", "")

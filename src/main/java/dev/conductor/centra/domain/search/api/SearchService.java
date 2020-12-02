@@ -2,10 +2,11 @@ package dev.conductor.centra.domain.search.api;
 
 import dev.conductor.centra.domain.search.cql.CqlQuery;
 import dev.conductor.centra.domain.issue.entity.Issue;
+import dev.conductor.centra.domain.search.cql.conditions.Condition;
 
 import java.util.List;
 
 public interface SearchService {
 
-    List<Issue> search(CqlQuery cqlQuery);
+    List<Issue> search(List<Condition<String>> conditions);
 }
