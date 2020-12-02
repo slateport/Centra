@@ -1,11 +1,7 @@
 package dev.conductor.centra.domain.search.api.impl;
 
 import dev.conductor.centra.domain.search.api.SearchService;
-import dev.conductor.centra.domain.search.cql.conditions.AndCondition;
 import dev.conductor.centra.domain.search.cql.conditions.Condition;
-import dev.conductor.centra.domain.search.cql.CqlQuery;
-import dev.conductor.centra.domain.search.cql.Operator;
-import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
@@ -51,14 +47,6 @@ public class SearchServiceAdapter implements SearchService {
     private Condition enrichCondition(Condition condition) {
 
 //        switch (condition.getRhs().toLowerCase()){
-//            case "project":
-//                Project project = projectService.findByName(condition.getLhs());
-//                return new AndCondition("projectId", Operator.EQUALS, (project != null) ? project.getId() : null);
-//
-//            case "projectkey":
-//                Project projectByKey = projectService.findByKey(condition.getLhs().toUpperCase());
-//                return new AndCondition("projectId", Operator.EQUALS, (projectByKey != null) ? projectByKey.getId() : null);
-//
 //            case "status":
 //                return new AndCondition("workflowState.label", Operator.EQUALS, condition.getLhs());
 //
@@ -99,6 +87,8 @@ public class SearchServiceAdapter implements SearchService {
 
             return criteria;
         }
+
+
 
         return condition;
     }

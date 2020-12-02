@@ -1,6 +1,5 @@
 package dev.conductor.centra.application.controllers;
 
-import dev.conductor.centra.domain.search.cql.CqlQuery;
 import dev.conductor.centra.domain.search.cql.Parser;
 import dev.conductor.centra.domain.issue.dto.IssueDTO;
 import dev.conductor.centra.domain.issue.entity.Issue;
