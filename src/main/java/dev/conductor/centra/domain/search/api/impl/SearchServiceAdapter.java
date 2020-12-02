@@ -47,9 +47,6 @@ public class SearchServiceAdapter implements SearchService {
     private Condition enrichCondition(Condition condition) {
 
 //        switch (condition.getRhs().toLowerCase()){
-//            case "status":
-//                return new AndCondition("workflowState.label", Operator.EQUALS, condition.getLhs());
-//
 //            case "assignee":
 //                ApplicationUser user = applicationUserService.findByUsername(condition.getLhs());
 //                if (condition.getLhs().equals("Unassigned") || user == null){
@@ -69,13 +66,7 @@ public class SearchServiceAdapter implements SearchService {
         if (condition instanceof ProjectKeys) {
             List<Project> projects = (List<Project>) condition.getValue()
                     .stream()
-                    .map(key -> {
-                        try {
-                            return projectService.findByKey(((String) key).toUpperCase());
-                        } catch (RuntimeException e) {
-                            return null;
-                        }
-                    })
+                    .map(key -> projectService.findByKey(((String) key).toUpperCase()))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
 

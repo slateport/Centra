@@ -45,6 +45,17 @@ public class CentraApplication {
 
 	@Bean
 	public ModelMapper modelMapper() {
-		return new ModelMapper();
+		class NullModelMapper extends ModelMapper {
+			@Override
+			public <D> D map(Object source, Class<D> destinationType) {
+				if(source == null){
+					return null;
+				}
+
+				return super.map(source, destinationType);
+			}
+		}
+
+		return new NullModelMapper();
 	}
 }
