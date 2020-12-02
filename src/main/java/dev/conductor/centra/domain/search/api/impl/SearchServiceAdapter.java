@@ -11,8 +11,6 @@ import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.search.spi.SearchPersistencePort;
-import dev.conductor.centra.infrastructure.persistence.mongodb.entity.IssueEntity;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -26,57 +24,33 @@ import java.util.stream.Collectors;
 @Service
 public class SearchServiceAdapter implements SearchService {
 
-    @Autowired
-    private MongoOperations mongoOps;
+    private final ProjectService projectService;
+    private final ApplicationUserService applicationUserService;
+    private final SearchPersistencePort persistencePort;
 
     @Autowired
-    private ProjectService projectService;
-
-    @Autowired
-    private ApplicationUserService applicationUserService;
-
-    @Autowired
-    private SearchPersistencePort persistencePort;
-
-    @Override
-    public List<Issue>  search(CqlQuery cqlQuery) {
-        Query query = new Query();
-
-        for (Condition condition: cqlQuery.getWhere().getRoot()) {
-            condition = normalizeCondition(condition);
-
-            switch (condition.getOperator()) {
-                case EQUALS : 
-                    query.addCriteria(Criteria.where(condition.getRhs()).is(condition.getLhs()));
-                    break;
-
-                case NOT_EQUALS: 
-                    query.addCriteria(Criteria.where(condition.getRhs()).ne(condition.getLhs()));
-                    break;
-
-                case GREATER_THAN:
-                    query.addCriteria(Criteria.where(condition.getRhs()).gt(condition.getLhs()));
-                    break;
-
-                case LESS_THAN:
-                    query.addCriteria(Criteria.where(condition.getRhs()).lt(condition.getLhs()));
-                    break;
-
-                case LIKE:
-                    query.addCriteria(Criteria.where(condition.getRhs()).regex(condition.getLhs(), "i"));
-                    break;
-
-                case IN:
-                    query.addCriteria(Criteria.where(condition.getRhs()).in(Collections.singletonList(condition.getLhs())));
-                    break;
-                    
-            }
-        }
-
-        return persistencePort.find(query);
+    public SearchServiceAdapter(
+            ProjectService projectService,
+            ApplicationUserService applicationUserService,
+            SearchPersistencePort persistencePort
+    ) {
+        this.projectService = projectService;
+        this.applicationUserService = applicationUserService;
+        this.persistencePort = persistencePort;
     }
 
-    private Condition normalizeCondition(Condition condition) {
+    @Override
+    public List<Issue> search(CqlQuery cqlQuery) {
+
+        List<Condition> conditions = cqlQuery.getWhere().getRoot()
+                .stream()
+                .map(this::enrichCondition)
+                .collect(Collectors.toList());
+
+        return persistencePort.find(conditions);
+    }
+
+    private Condition enrichCondition(Condition condition) {
 
         switch (condition.getRhs().toLowerCase()){
             case "project":
