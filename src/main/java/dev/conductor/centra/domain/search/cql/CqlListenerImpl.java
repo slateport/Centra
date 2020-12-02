@@ -1,6 +1,7 @@
 package dev.conductor.centra.domain.search.cql;
 
 import dev.conductor.centra.domain.search.cql.conditions.Condition;
+import dev.conductor.centra.domain.search.cql.conditions.IssueStatus;
 import dev.conductor.centra.domain.search.cql.conditions.ProjectKeys;
 import org.antlr.v4.runtime.RuleContext;
 
@@ -23,6 +24,11 @@ public class CqlListenerImpl extends CqlBaseListener {
         switch(stripQuotesFromString(ctx.getStart().getText())) {
             case "projectKey":
                 this.currentCondition = new ProjectKeys();
+                this.currentCondition.addValue(ctx.getStop().getText());
+                break;
+
+            case "status":
+                this.currentCondition = new IssueStatus();
                 this.currentCondition.addValue(ctx.getStop().getText());
                 break;
 
