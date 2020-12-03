@@ -37,7 +37,7 @@ public class SearchController {
 
     @GetMapping
     public List<IssueDTO> searchByCql(@RequestParam String cql){
-        List<Condition<String>> conditions = parser.parse(cql);
+        List<Condition> conditions = parser.parse(cql);
 
         if (conditions.size() == 0){
             throw new ResponseStatusException(
