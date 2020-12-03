@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.javers.core.metamodel.annotation.DiffIgnore;
 import org.javers.core.metamodel.annotation.DiffInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -13,6 +15,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@CompoundIndexes({
+        @CompoundIndex(name = "issue_externalid_projectid", def = "{'externalId' : 1, 'projectId': 1}")
+})
 @Document(collection = "issues")
 public class IssueEntity {
 
