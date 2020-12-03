@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.javers.core.metamodel.annotation.DiffIgnore;
 import org.javers.core.metamodel.annotation.DiffInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
@@ -36,6 +37,6 @@ public class IssueEntity {
     @DiffInclude private String lastModifiedByUserId;
     @DiffInclude private String issuePriorityId;
     @DiffInclude private String issueTypeId;
-    @DiffInclude private List<String> labels;
+    @DiffInclude @Indexed private List<String> labels;
 
 }
