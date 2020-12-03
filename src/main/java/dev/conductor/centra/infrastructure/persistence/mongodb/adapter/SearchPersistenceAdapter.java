@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,32 +34,16 @@ public class SearchPersistenceAdapter implements SearchPersistencePort {
 
         for (Condition condition: conditions) {
 
-            switch (condition.getOperator()) {
-                case EQUALS :
-                    query.addCriteria(Criteria.where(condition.entityProperty()).is(condition.getValue().get(0)));
+            switch (condition.searchType()){
+                case CRITERIA:
+                    buildQueryForCriteriaField(query, condition);
                     break;
 
-                case NOT_EQUALS:
-                    query.addCriteria(Criteria.where(condition.entityProperty()).ne(condition.getValue().get(0)));
+                case TEXT:
+                    buildQueryForTextField(query, condition);
                     break;
-
-                case GREATER_THAN:
-                    query.addCriteria(Criteria.where(condition.entityProperty()).gt(condition.getValue().get(0)));
-                    break;
-
-                case LESS_THAN:
-                    query.addCriteria(Criteria.where(condition.entityProperty()).lt(condition.getValue().get(0)));
-                    break;
-
-                case LIKE:
-                    query.addCriteria(Criteria.where(condition.entityProperty()).regex(((String)condition.getValue().get(0)), "i"));
-                    break;
-
-                case IN:
-                    query.addCriteria(Criteria.where(condition.entityProperty()).in(condition.getValue()));
-                    break;
-
             }
+
         }
 
 
@@ -67,5 +52,38 @@ public class SearchPersistenceAdapter implements SearchPersistencePort {
         return mongoOperations.find(query, IssueEntity.class).stream().map(
                 issueEntity -> modelMapper.map(issueEntity, Issue.class)
         ).collect(Collectors.toList());
+    }
+
+    private void buildQueryForCriteriaField(Query query, Condition condition) {
+        switch (condition.getOperator()) {
+            case EQUALS :
+                query.addCriteria(Criteria.where(condition.entityProperty()).is(condition.getValue().get(0)));
+                break;
+
+            case NOT_EQUALS:
+                query.addCriteria(Criteria.where(condition.entityProperty()).ne(condition.getValue().get(0)));
+                break;
+
+            case GREATER_THAN:
+                query.addCriteria(Criteria.where(condition.entityProperty()).gt(condition.getValue().get(0)));
+                break;
+
+            case LESS_THAN:
+                query.addCriteria(Criteria.where(condition.entityProperty()).lt(condition.getValue().get(0)));
+                break;
+
+            case LIKE:
+                query.addCriteria(Criteria.where(condition.entityProperty()).regex(((String)condition.getValue().get(0)), "i"));
+                break;
+
+            case IN:
+                query.addCriteria(Criteria.where(condition.entityProperty()).in(condition.getValue()));
+                break;
+
+        }
+    }
+
+    private void buildQueryForTextField(Query query, Condition condition) {
+        query.addCriteria(TextCriteria.forDefaultLanguage().matchingAny(String.valueOf(condition.getValue())));
     }
 }

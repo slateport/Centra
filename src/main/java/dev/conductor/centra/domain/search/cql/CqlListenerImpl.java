@@ -1,9 +1,6 @@
 package dev.conductor.centra.domain.search.cql;
 
-import dev.conductor.centra.domain.search.cql.conditions.Assignee;
-import dev.conductor.centra.domain.search.cql.conditions.Condition;
-import dev.conductor.centra.domain.search.cql.conditions.IssueStatus;
-import dev.conductor.centra.domain.search.cql.conditions.ProjectKeys;
+import dev.conductor.centra.domain.search.cql.conditions.*;
 import org.antlr.v4.runtime.RuleContext;
 
 import java.util.ArrayList;
@@ -12,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class CqlListenerImpl extends CqlBaseListener {
 
-    private final List<Condition<String>> conditions = new ArrayList<Condition<String>>();
+    private final List<Condition<String>> conditions = new ArrayList<>();
 
     private Condition<String> currentCondition;
 
@@ -35,6 +32,12 @@ public class CqlListenerImpl extends CqlBaseListener {
 
             case "assignee":
                 this.currentCondition = new Assignee();
+                this.currentCondition.addValue(ctx.getStop().getText());
+                break;
+
+            case "text":
+            case "description":
+                this.currentCondition = new Description();
                 this.currentCondition.addValue(ctx.getStop().getText());
                 break;
 

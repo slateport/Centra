@@ -1,11 +1,9 @@
 package dev.conductor.centra.domain.search.cql.conditions;
 
-import dev.conductor.centra.domain.search.cql.Operator;
-
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class AbstractStringListValueCondition implements Condition<String> {
+public abstract class AbstractStringListValueCondition implements Condition<String> {
     private Operator operator;
     private List<String> value = new ArrayList<>();
 

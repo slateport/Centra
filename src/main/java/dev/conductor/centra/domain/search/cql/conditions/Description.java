@@ -1,15 +1,13 @@
 package dev.conductor.centra.domain.search.cql.conditions;
 
-
-public class IssueStatus extends AbstractStringListValueCondition {
-
+public class Description extends AbstractStringListValueCondition{
     @Override
     public String entityProperty() {
-        return "workflowState.label";
+        return "description";
     }
 
     @Override
     public SearchType searchType() {
-        return SearchType.CRITERIA;
+        return SearchType.TEXT;
     }
 }

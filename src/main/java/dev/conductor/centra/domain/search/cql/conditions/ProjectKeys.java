@@ -7,4 +7,9 @@ public class ProjectKeys extends AbstractStringListValueCondition {
     public String entityProperty() {
         return "projectId";
     }
+
+    @Override
+    public SearchType searchType() {
+        return SearchType.CRITERIA;
+    }
 }

@@ -6,4 +6,9 @@ public class Assignee extends AbstractStringListValueCondition {
     public String entityProperty() {
         return "assigneeId";
     }
+
+    @Override
+    public SearchType searchType() {
+        return SearchType.CRITERIA;
+    }
 }
