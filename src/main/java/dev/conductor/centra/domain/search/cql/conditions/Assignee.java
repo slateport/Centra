@@ -1,6 +1,6 @@
 package dev.conductor.centra.domain.search.cql.conditions;
 
-public class Assignee extends AbstractStringListValueCondition {
+public class Assignee extends AbstractCondition {
 
     @Override
     public String entityProperty() {

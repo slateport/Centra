@@ -2,13 +2,13 @@ package dev.conductor.centra.domain.search.cql.conditions;
 
 import java.util.List;
 
-public interface Condition<T> {
+public interface Condition {
     void setOperator(Operator operator);
     Operator getOperator();
     String entityProperty();
-    List<T> getValue();
-    void setValue(List<T> value);
-    void addValue(T value);
+    List<String> getValue();
+    void setValue(List<String> value);
+    void addValue(String value);
     SearchType searchType();
 
 }

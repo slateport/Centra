@@ -1,7 +1,7 @@
 package dev.conductor.centra.domain.search.cql.conditions;
 
 
-public class IssueStatus extends AbstractStringListValueCondition {
+public class IssueStatus extends AbstractCondition {
 
     @Override
     public String entityProperty() {

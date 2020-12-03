@@ -1,6 +1,6 @@
 package dev.conductor.centra.domain.search.cql.conditions;
 
-public class Labels extends AbstractStringListValueCondition {
+public class Labels extends AbstractCondition {
     @Override
     public String entityProperty() {
         return "labels";

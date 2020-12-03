@@ -38,7 +38,7 @@ public class SearchServiceAdapter implements SearchService {
     }
 
     @Override
-    public List<Issue> search(List<Condition<String>> conditions) {
+    public List<Issue> search(List<Condition> conditions) {
 
         List<Condition> conditionsEnriched = conditions
                 .stream()
@@ -51,9 +51,9 @@ public class SearchServiceAdapter implements SearchService {
     private Condition enrichCondition(Condition condition) {
 
         if (condition instanceof ProjectKeys) {
-            List<Project> projects = (List<Project>) condition.getValue()
+            List<Project> projects = condition.getValue()
                     .stream()
-                    .map(key -> projectService.findByKey(((String) key).toUpperCase()))
+                    .map(key -> projectService.findByKey(key.toUpperCase()))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
 
@@ -67,10 +67,10 @@ public class SearchServiceAdapter implements SearchService {
         }
 
         if (condition instanceof Assignee) {
-            List<String> users = (List<String>) condition.getValue()
+            List<String> users = condition.getValue()
                     .stream()
-                    .map(k -> applicationUserService.findByUsername((String) k))
-                    .map(k -> k == null ? null : ((ApplicationUser) k).getId())
+                    .map(applicationUserService::findByUsername)
+                    .map(k -> k == null ? null : k.getId())
                     .collect(Collectors.toList());
 
             Assignee criteria = new Assignee();
@@ -81,10 +81,10 @@ public class SearchServiceAdapter implements SearchService {
         }
 
         if (condition instanceof Reporter) {
-            List<String> users = (List<String>) condition.getValue()
+            List<String> users = condition.getValue()
                     .stream()
-                    .map(k -> applicationUserService.findByUsername((String) k))
-                    .map(k -> k == null ? null : ((ApplicationUser) k).getId())
+                    .map(applicationUserService::findByUsername)
+                    .map(k -> k == null ? null : k.getId())
                     .collect(Collectors.toList());
 
             Reporter criteria = new Reporter();

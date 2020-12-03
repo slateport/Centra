@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface SearchService {
 
-    List<Issue> search(List<Condition<String>> conditions);
+    List<Issue> search(List<Condition> conditions);
 }

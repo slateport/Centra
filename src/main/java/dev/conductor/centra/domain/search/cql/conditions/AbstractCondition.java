@@ -3,10 +3,10 @@ package dev.conductor.centra.domain.search.cql.conditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractStringListValueCondition implements Condition<String> {
+public abstract class AbstractCondition implements Condition {
 
-    private Operator operator;
-    private List<String> value = new ArrayList<>();
+    protected Operator operator;
+    protected List<String> value = new ArrayList<>();
 
     @Override
     public void setOperator(Operator operator) {
