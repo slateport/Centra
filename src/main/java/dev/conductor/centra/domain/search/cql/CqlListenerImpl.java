@@ -37,6 +37,8 @@ public class CqlListenerImpl extends CqlBaseListener {
 
             case "text":
             case "description":
+            case "summary":
+            case "title":
                 this.currentCondition = new Description();
                 this.currentCondition.addValue(ctx.getStop().getText());
                 break;
