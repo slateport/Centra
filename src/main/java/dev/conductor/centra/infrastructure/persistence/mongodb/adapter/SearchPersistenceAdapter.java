@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,27 +35,27 @@ public class SearchPersistenceAdapter implements SearchPersistencePort {
 
             switch (condition.getOperator()) {
                 case EQUALS :
-                    query.addCriteria(Criteria.where(condition.key()).is(condition.getValue().get(0)));
+                    query.addCriteria(Criteria.where(condition.entityProperty()).is(condition.getValue().get(0)));
                     break;
 
                 case NOT_EQUALS:
-                    query.addCriteria(Criteria.where(condition.key()).ne(condition.getValue().get(0)));
+                    query.addCriteria(Criteria.where(condition.entityProperty()).ne(condition.getValue().get(0)));
                     break;
 
                 case GREATER_THAN:
-                    query.addCriteria(Criteria.where(condition.key()).gt(condition.getValue().get(0)));
+                    query.addCriteria(Criteria.where(condition.entityProperty()).gt(condition.getValue().get(0)));
                     break;
 
                 case LESS_THAN:
-                    query.addCriteria(Criteria.where(condition.key()).lt(condition.getValue().get(0)));
+                    query.addCriteria(Criteria.where(condition.entityProperty()).lt(condition.getValue().get(0)));
                     break;
 
                 case LIKE:
-                    query.addCriteria(Criteria.where(condition.key()).regex(((String)condition.getValue().get(0)), "i"));
+                    query.addCriteria(Criteria.where(condition.entityProperty()).regex(((String)condition.getValue().get(0)), "i"));
                     break;
 
                 case IN:
-                    query.addCriteria(Criteria.where(condition.key()).in(condition.getValue()));
+                    query.addCriteria(Criteria.where(condition.entityProperty()).in(condition.getValue()));
                     break;
 
             }

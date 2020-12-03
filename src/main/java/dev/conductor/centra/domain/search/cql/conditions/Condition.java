@@ -7,7 +7,7 @@ import java.util.List;
 public interface Condition<T> {
     void setOperator(Operator operator);
     Operator getOperator();
-    String key();
+    String entityProperty();
     List<T> getValue();
     void setValue(List<T> value);
     void addValue(T value);

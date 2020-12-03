@@ -1,6 +1,8 @@
 package dev.conductor.centra.domain.search.api.impl;
 
+import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.search.api.SearchService;
+import dev.conductor.centra.domain.search.cql.conditions.Assignee;
 import dev.conductor.centra.domain.search.cql.conditions.Condition;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.project.entity.Project;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,6 +78,20 @@ public class SearchServiceAdapter implements SearchService {
             ProjectKeys criteria = new ProjectKeys();
             criteria.setValue(projectIds);
             criteria.setOperator(condition.getOperator());
+
+            return criteria;
+        }
+
+        if (condition instanceof Assignee) {
+            List<String> users = (List<String>) condition.getValue()
+                    .stream()
+                    .map(k -> applicationUserService.findByUsername((String) k))
+                    .map(k -> k == null ? null : ((ApplicationUser) k).getId())
+                    .collect(Collectors.toList());
+
+            Assignee criteria = new Assignee();
+            criteria.setOperator(condition.getOperator());
+            criteria.setValue(users);
 
             return criteria;
         }

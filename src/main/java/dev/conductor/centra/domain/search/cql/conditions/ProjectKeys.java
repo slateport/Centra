@@ -1,42 +1,10 @@
 package dev.conductor.centra.domain.search.cql.conditions;
 
-import dev.conductor.centra.domain.search.cql.Operator;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ProjectKeys implements Condition<String> {
-
-    private Operator operator;
-    private List<String> value = new ArrayList<>();
+public class ProjectKeys extends AbstractStringListValueCondition {
 
     @Override
-    public String key() {
+    public String entityProperty() {
         return "projectId";
-    }
-
-    @Override
-    public void setOperator(Operator operator) {
-        this.operator = operator;
-    }
-
-    @Override
-    public Operator getOperator() {
-        return this.operator;
-    }
-
-    @Override
-    public List<String> getValue() {
-        return this.value;
-    }
-
-    @Override
-    public void setValue(List<String> value) {
-        this.value = value;
-    }
-
-    @Override
-    public void addValue(String value) {
-        this.value.add(value);
     }
 }

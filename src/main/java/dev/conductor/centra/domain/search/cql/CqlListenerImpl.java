@@ -1,5 +1,6 @@
 package dev.conductor.centra.domain.search.cql;
 
+import dev.conductor.centra.domain.search.cql.conditions.Assignee;
 import dev.conductor.centra.domain.search.cql.conditions.Condition;
 import dev.conductor.centra.domain.search.cql.conditions.IssueStatus;
 import dev.conductor.centra.domain.search.cql.conditions.ProjectKeys;
@@ -29,6 +30,11 @@ public class CqlListenerImpl extends CqlBaseListener {
 
             case "status":
                 this.currentCondition = new IssueStatus();
+                this.currentCondition.addValue(ctx.getStop().getText());
+                break;
+
+            case "assignee":
+                this.currentCondition = new Assignee();
                 this.currentCondition.addValue(ctx.getStop().getText());
                 break;
 
