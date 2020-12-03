@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 
 public class CqlListenerImpl extends CqlBaseListener {
 
-    private final List<Condition<String>> conditions = new ArrayList<>();
+    private final List<Condition> conditions = new ArrayList<>();
 
-    private Condition<String> currentCondition;
+    private Condition currentCondition;
 
-    public List<Condition<String>> getConditions() {
+    public List<Condition> getConditions() {
         return conditions;
     }
 
