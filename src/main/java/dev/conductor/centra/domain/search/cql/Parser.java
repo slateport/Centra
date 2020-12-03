@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class Parser {
 
-    public List<Condition<String>> parse(String input) {
+    public List<Condition> parse(String input) {
         CqlParser cqlParser = new CqlParser(new CommonTokenStream(new CqlLexer(CharStreams.fromString(input))));
 
         ParseTreeWalker walker = new ParseTreeWalker();
