@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractStringListValueCondition implements Condition<String> {
+
     private Operator operator;
     private List<String> value = new ArrayList<>();
 
