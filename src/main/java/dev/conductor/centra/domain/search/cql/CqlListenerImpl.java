@@ -41,6 +41,12 @@ public class CqlListenerImpl extends CqlBaseListener {
                 this.currentCondition.addValue(ctx.getStop().getText());
                 break;
 
+            case "label":
+            case "labels":
+                this.currentCondition = new Labels();
+                this.currentCondition.addValue(ctx.getStop().getText());
+                break;
+
             default:
                 throw new IllegalArgumentException("Unknown parameter " + stripQuotesFromString(ctx.getStart().getText()));
         }

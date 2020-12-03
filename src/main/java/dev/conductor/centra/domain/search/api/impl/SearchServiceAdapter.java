@@ -49,23 +49,6 @@ public class SearchServiceAdapter implements SearchService {
 
     private Condition enrichCondition(Condition condition) {
 
-//        switch (condition.getRhs().toLowerCase()){
-//            case "assignee":
-//                ApplicationUser user = applicationUserService.findByUsername(condition.getLhs());
-//                if (condition.getLhs().equals("Unassigned") || user == null){
-//                    return new AndCondition("assigneeId", Operator.EQUALS, null);
-//                } else {
-//                    return new AndCondition("assigneeId", Operator.EQUALS, user.getId());
-//                }
-//
-//            case "label":
-//                return new AndCondition("labels", Operator.IN, condition.getLhs());
-//
-//            default:
-//                return condition;
-//
-//        }
-
         if (condition instanceof ProjectKeys) {
             List<Project> projects = (List<Project>) condition.getValue()
                     .stream()
@@ -95,8 +78,6 @@ public class SearchServiceAdapter implements SearchService {
 
             return criteria;
         }
-
-
 
         return condition;
     }

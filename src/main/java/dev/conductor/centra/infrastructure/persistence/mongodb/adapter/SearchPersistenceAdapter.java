@@ -44,9 +44,6 @@ public class SearchPersistenceAdapter implements SearchPersistencePort {
             }
         }
 
-
-
-
         return mongoOperations.find(query, IssueEntity.class).stream().map(
                 issueEntity -> modelMapper.map(issueEntity, Issue.class)
         ).collect(Collectors.toList());
