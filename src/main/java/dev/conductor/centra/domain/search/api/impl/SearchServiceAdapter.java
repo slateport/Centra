@@ -9,6 +9,7 @@ import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.search.cql.conditions.ProjectKeys;
+import dev.conductor.centra.domain.search.cql.conditions.Reporter;
 import dev.conductor.centra.domain.search.spi.SearchPersistencePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,20 @@ public class SearchServiceAdapter implements SearchService {
                     .collect(Collectors.toList());
 
             Assignee criteria = new Assignee();
+            criteria.setOperator(condition.getOperator());
+            criteria.setValue(users);
+
+            return criteria;
+        }
+
+        if (condition instanceof Reporter) {
+            List<String> users = (List<String>) condition.getValue()
+                    .stream()
+                    .map(k -> applicationUserService.findByUsername((String) k))
+                    .map(k -> k == null ? null : ((ApplicationUser) k).getId())
+                    .collect(Collectors.toList());
+
+            Reporter criteria = new Reporter();
             criteria.setOperator(condition.getOperator());
             criteria.setValue(users);
 

@@ -14,7 +14,7 @@ function searchIssue (cql: string) {
       })
       .catch(e => {
         dispatch(error(e))
-        dispatch(alertActions.error('Search Failed'))
+        dispatch(alertActions.error('Search Failed: ' + e.response.data.message))
       })
   }
 
