@@ -33,7 +33,6 @@ public class SearchPersistenceAdapter implements SearchPersistencePort {
         Query query = new Query();
 
         for (Condition condition: conditions) {
-
             switch (condition.searchType()){
                 case CRITERIA:
                     buildQueryForCriteriaField(query, condition);
@@ -43,7 +42,6 @@ public class SearchPersistenceAdapter implements SearchPersistencePort {
                     buildQueryForTextField(query, condition);
                     break;
             }
-
         }
 
 
@@ -55,6 +53,11 @@ public class SearchPersistenceAdapter implements SearchPersistencePort {
     }
 
     private void buildQueryForCriteriaField(Query query, Condition condition) {
+
+        if (condition.getValue().isEmpty()){
+            return;
+        }
+
         switch (condition.getOperator()) {
             case EQUALS :
                 query.addCriteria(Criteria.where(condition.entityProperty()).is(condition.getValue().get(0)));
