@@ -43,7 +43,7 @@ const Paper = styled(MuiPaper)(spacing)
 const MainContent = styled(Paper)`
   flex: 1;
   background: ${props => props.theme.body.background};
-  padding: 20px;
+  // padding: 20px;
 
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     flex: none;
@@ -61,7 +61,7 @@ const ApplicationLayout = ({ props, init, children }) => {
             <GlobalStyle />
             <AppContent>
                 <PrimarySearchAppBar initData={init} />
-                <MainContent>
+                <MainContent padding={(window.location.href.includes('admin')) ? '0' : '20px'}>
                     {children}
                 </MainContent>
             </AppContent>
