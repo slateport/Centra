@@ -46,7 +46,7 @@ class App extends React.Component<any, any> {
 
   render () {
     const { alert, init } = this.props
-    if (init && init.installationComplete == false && window.location.href != '/install') {
+    if (init && init.installationComplete === false && window.location.href !== '/install') {
       return (
                 <React.Fragment>
                     <Helmet titleTemplate="%s | Centra" defaultTitle="Centra"/>
