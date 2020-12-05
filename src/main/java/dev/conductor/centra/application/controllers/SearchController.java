@@ -1,12 +1,12 @@
 package dev.conductor.centra.application.controllers;
 
-import dev.conductor.centra.domain.search.cql.CqlQuery;
 import dev.conductor.centra.domain.search.cql.Parser;
 import dev.conductor.centra.domain.issue.dto.IssueDTO;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.search.api.SearchService;
+import dev.conductor.centra.domain.search.cql.conditions.Condition;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,9 +37,9 @@ public class SearchController {
 
     @GetMapping
     public List<IssueDTO> searchByCql(@RequestParam String cql){
-        CqlQuery query = parser.parse(cql);
+        List<Condition> conditions = parser.parse(cql);
 
-        if (query.getWhere().getRoot().size() == 0){
+        if (conditions.size() == 0){
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
                     "Search has no parameters"
@@ -48,7 +48,7 @@ public class SearchController {
 
         final List<IssueDTO> dtoList = new ArrayList<>();
 
-        for (Issue issue: searchService.search(query)) {
+        for (Issue issue: searchService.search(conditions)) {
             Project project = projectService.findById(issue.getProjectId());
 
             try {

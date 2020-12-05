@@ -46,6 +46,7 @@ const Divider = styled(MuiDivider)(spacing);
 class SearchPage extends React.Component<any, any>{
     private transitions = [];
     private urlCql;
+
     constructor(props) {
         super(props);
 
@@ -107,7 +108,6 @@ class SearchPage extends React.Component<any, any>{
                                                     multiline
                                                     type="text"
                                                     name={"cql"}
-                                                    aria-valuetext={this.urlCql}
                                                     defaultValue={this.urlCql}
                                                     onChange={this.handleChange}
                                                 />

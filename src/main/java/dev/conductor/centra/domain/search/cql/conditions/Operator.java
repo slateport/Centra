@@ -1,4 +1,4 @@
-package dev.conductor.centra.domain.search.cql;
+package dev.conductor.centra.domain.search.cql.conditions;
 
 public enum Operator {
     EQUALS("="),
