@@ -38,6 +38,6 @@ public class SettingsPersistenceAdapter implements SettingsPersistencePort {
 
     @Override
     public Settings save(Settings settings) {
-        return modelMapper.map(modelMapper.map(settings, SettingsEntity.class), Settings.class);
+        return modelMapper.map(repository.save(modelMapper.map(settings, SettingsEntity.class)), Settings.class);
     }
 }

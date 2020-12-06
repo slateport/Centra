@@ -25,12 +25,10 @@ public class InstallServiceAdapter implements InstallService {
     @Autowired
     LicenseService licenseService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     @Override
     public void install(InstallationDTO installationDTO) {
-        Settings installComplete = settingsService.getSettingsByName(SettingsEnum.INSTALLATION_COMPLETE);
+        Settings installComplete;
+        installComplete = settingsService.getSettingsByName(SettingsEnum.INSTALLATION_COMPLETE);
 
         if (!installComplete.getValue().equals("false")) {
             throw new ResponseStatusException(
@@ -39,9 +37,9 @@ public class InstallServiceAdapter implements InstallService {
             );
         }
 
-        if (installationDTO.getLicenseKey() != null) {
-            licenseService.saveLicense(installationDTO.getLicenseKey());
-        }
+//        if (installationDTO.getLicenseKey() != null) {
+//            licenseService.saveLicense(installationDTO.getLicenseKey());
+//        }
 
         ApplicationUser user = new ApplicationUser();
         user.setAdmin(true);
