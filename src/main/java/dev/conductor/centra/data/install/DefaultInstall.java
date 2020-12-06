@@ -1,4 +1,4 @@
-package dev.conductor.centra.data.defualt;
+package dev.conductor.centra.data.install;
 
 import dev.conductor.centra.domain.issue.entity.IssuePriority;
 import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;

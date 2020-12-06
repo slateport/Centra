@@ -1,42 +1,22 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb.entity;
 
-import org.springframework.data.annotation.PersistenceConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Document(collection = "issue_priority_schemas")
 public class IssuePrioritySchemaEntity {
 
     private String id;
     @Indexed(unique = true)
-    private final String name;
-    private List<String> priorityIds;
-
-    public IssuePrioritySchemaEntity(String name) {
-        this.name = name;
-        this.priorityIds = new ArrayList<>();
-    }
-
-    @PersistenceConstructor
-    public IssuePrioritySchemaEntity(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getPriorityIds() {
-        return priorityIds;
-    }
+    private String name;
+    private List<String> priorityIds = new ArrayList<>();
 
     public void addPriority(IssuePriorityEntity priority) {
         this.priorityIds.add(priority.getId());
