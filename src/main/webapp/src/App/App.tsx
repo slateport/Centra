@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { ThemeProvider } from 'styled-components'
-import { Route, Router, Switch } from 'react-router-dom'
+import {Redirect, Route, BrowserRouter as Router, Switch, useHistory} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 
@@ -24,13 +24,17 @@ import { ApplicationLayout } from '../layouts/ApplicationLayout'
 
 import $ from 'jquery'
 import { RegistrationPage } from '../pages/RegistrationPage'
+import {GeneralPage} from "../pages/Admin/GeneralPage";
 
 $.fn.draggable = () => {}
 $.fn.droppable = () => {}
 
-const NoMatch = ({ location }) => (
-    <h3>No match for <code>{location.pathname}</code></h3>
-)
+const NoMatch = ({ location }) => {
+    const pathName = location.pathname || location.location.pathname
+    return (
+        <h3>No match for <code>{pathName}</code></h3>
+    )
+}
 
 class App extends React.Component<any, any> {
   constructor (props) {
@@ -69,7 +73,7 @@ class App extends React.Component<any, any> {
                 <React.Fragment>
                     <Helmet titleTemplate="%s | Centra" defaultTitle="Centra"/>
                     <StylesProvider injectFirst>
-                        <Router history={history}>
+                        <Router>
                         <MuiThemeProvider theme={theme[0]}>
                             <ThemeProvider theme={theme[0]}>
                                 {alert.message &&
@@ -84,8 +88,10 @@ class App extends React.Component<any, any> {
                                             <Routing path="/search" component={SearchPage} />
                                             <Routing exact path="/" component={HomePage} />
                                             <Routing exact path="/admin/projects" component={ProjectsPage} />
+                                            <Routing path="/admin/" component={GeneralPage} />
 
                                             <Route component={NoMatch} />
+                                            <Redirect to="/page-not-found" />
                                         </Switch>
                                 </ApplicationLayout>
                             </ThemeProvider>

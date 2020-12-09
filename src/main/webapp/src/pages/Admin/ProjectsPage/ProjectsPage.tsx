@@ -54,9 +54,9 @@ class ProjectsPage extends React.Component<IProjectsPageProps, any> {
 
                 <Helmet title="Projects" />
                 <AdminMenu>
-                <Typography variant="h3" gutterBottom display="inline">
-                    Manage Projects
-                </Typography>
+                    <Typography variant="h3" gutterBottom display="inline">
+                        Manage Projects
+                    </Typography>
                     <Divider my={6} />
 
                     <Card>

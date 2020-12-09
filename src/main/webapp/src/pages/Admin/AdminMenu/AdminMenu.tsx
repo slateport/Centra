@@ -132,7 +132,7 @@ class AdminMenu extends React.Component<any, any> {
                 <Scrollbar>
                     <List disablePadding>
                         <Items>
-                            <Link button exact component={NavLink} to={'/admin/general'}>
+                            <Link button exact component={NavLink} to={'/admin'}>
                                 <LinkText>General Settings</LinkText>
                             </Link>
                             <Link button exact component={NavLink} to={'/admin/projects'}>

@@ -29,6 +29,9 @@ export default function IssueMenu() {
             keepMounted
             open={Boolean(anchorEl)}
             onClose={handleClose}
+            getContentAnchorEl={null}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            transformOrigin={{ vertical: "top", horizontal: "center" }}
             >
             <MenuItem onClick={() => {
                 handleClose()

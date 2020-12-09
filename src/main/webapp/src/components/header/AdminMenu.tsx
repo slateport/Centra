@@ -30,10 +30,18 @@ export default function AdminMenu() {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                getContentAnchorEl={null}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                transformOrigin={{ vertical: "top", horizontal: "center" }}
             >
                 <MenuItem onClick={() => {
                     handleClose()
-                }} component={"a"} href={"/admin/projects"}>Manage Projects</MenuItem>
+                }} component={"a"} href={"/admin"}>General Settings
+                </MenuItem>
+                <MenuItem onClick={() => {
+                    handleClose()
+                }} component={"a"} href={"/admin/projects"}>Manage Projects
+                </MenuItem>
             </Menu>
         </React.Fragment>
     );
