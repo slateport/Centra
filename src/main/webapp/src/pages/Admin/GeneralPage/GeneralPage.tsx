@@ -1,14 +1,32 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {Card, CardContent, Divider as MuiDivider, Typography} from '@material-ui/core'
+import {Card, CardContent, Divider as MuiDivider, Table, TableBody, TableContainer, Typography} from '@material-ui/core'
 import { Helmet } from 'react-helmet'
 import AdminMenu from "../AdminMenu/AdminMenu";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import Switcher from "../../../components/switcher";
+import {settings as settingsService } from './../../../services'
 
 const Divider = styled(MuiDivider)(spacing)
 
 class GeneralPage extends React.Component<any, any> {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            settings: []
+        }
+    }
+
+    componentDidMount() {
+        settingsService.getAllSettings().then(
+            settings => this.setState({settings})
+        )
+    }
 
     render() {
         if (!this.props.init.user?.admin) {
@@ -25,10 +43,24 @@ class GeneralPage extends React.Component<any, any> {
                         General Settings
                     </Typography>
                     <Divider my={6} />
-
                     <Card>
                         <CardContent>
-
+                            <TableContainer>
+                                <Table>
+                                    <TableBody>
+                                        <TableRow key="instance.name">
+                                            <TableCell>Instance name</TableCell>
+                                            <TableCell>{this.state.settings["instance.public_name"]}</TableCell>
+                                        </TableRow>
+                                        <TableRow key="instance.public">
+                                            <TableCell>Private Mode</TableCell>
+                                            <TableCell>
+                                                <Switcher checked={this.state.settings["instance.private"] == "true"}/>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </CardContent>
                     </Card>
                 </AdminMenu>
