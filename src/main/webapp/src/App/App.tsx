@@ -30,7 +30,6 @@ $.fn.draggable = () => {}
 $.fn.droppable = () => {}
 
 const NoMatch = ({ location }) => {
-    console.log(location)
     const pathName = location.pathname || location.location.pathname
     return (
         <h3>No match for <code>{pathName}</code></h3>

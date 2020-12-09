@@ -30,6 +30,9 @@ export default function MyProfileMenu() {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                getContentAnchorEl={null}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                transformOrigin={{ vertical: "top", horizontal: "center" }}
             >
                 {isAuthenticated() &&
                 <MenuItem onClick={() => {
