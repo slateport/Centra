@@ -9,6 +9,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Switcher from "../../../components/switcher";
 import {settings as settingsService } from './../../../services'
+import EditableContainer from "../../../components/EditableContainer";
+import Field from "../../../components/StandardTextField";
 
 const Divider = styled(MuiDivider)(spacing)
 
@@ -20,12 +22,27 @@ class GeneralPage extends React.Component<any, any> {
         this.state = {
             settings: []
         }
+
+        this.onToggleSwitch = this.onToggleSwitch.bind(this)
     }
 
     componentDidMount() {
         settingsService.getAllSettings().then(
             settings => this.setState({settings})
         )
+    }
+
+    onToggleSwitch(event: React.ChangeEvent<HTMLInputElement>) {
+        // get current state
+        const currentState = this.state.settings[event.target.name]
+
+        if (currentState == "true"){
+            this.setState({settings: {...this.state.settings, [event.target.name]: "false"}})
+            settingsService.saveSetting(event.target.name, "false")
+        } else {
+            this.setState({settings: {...this.state.settings, [event.target.name]: "true"}})
+            settingsService.saveSetting(event.target.name, "true")
+        }
     }
 
     render() {
@@ -50,12 +67,16 @@ class GeneralPage extends React.Component<any, any> {
                                     <TableBody>
                                         <TableRow key="instance.name">
                                             <TableCell>Instance name</TableCell>
-                                            <TableCell>{this.state.settings["instance.public_name"]}</TableCell>
+                                            <TableCell>
+                                                <EditableContainer handlefn={() => {}} Component={Field}>
+                                                    {this.state.settings["instance.public_name"] ?? ""}
+                                                </EditableContainer>
+                                                </TableCell>
                                         </TableRow>
-                                        <TableRow key="instance.public">
+                                        <TableRow key="instance.private">
                                             <TableCell>Private Mode</TableCell>
                                             <TableCell>
-                                                <Switcher checked={this.state.settings["instance.private"] == "true"}/>
+                                                <Switcher name='instance.private' onChange={this.onToggleSwitch} checked={this.state.settings["instance.private"] == "true"}/>
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>
