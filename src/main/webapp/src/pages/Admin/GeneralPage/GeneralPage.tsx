@@ -11,6 +11,7 @@ import Switcher from "../../../components/switcher";
 import {settings as settingsService } from './../../../services'
 import EditableContainer from "../../../components/EditableContainer";
 import Field from "../../../components/StandardTextField";
+import {initActions} from "../../../actions";
 
 const Divider = styled(MuiDivider)(spacing)
 
@@ -24,6 +25,7 @@ class GeneralPage extends React.Component<any, any> {
         }
 
         this.onToggleSwitch = this.onToggleSwitch.bind(this)
+        this.onChangeTextField = this.onChangeTextField.bind(this)
     }
 
     componentDidMount() {
@@ -33,7 +35,6 @@ class GeneralPage extends React.Component<any, any> {
     }
 
     onToggleSwitch(event: React.ChangeEvent<HTMLInputElement>) {
-        // get current state
         const currentState = this.state.settings[event.target.name]
 
         if (currentState == "true"){
@@ -42,6 +43,16 @@ class GeneralPage extends React.Component<any, any> {
         } else {
             this.setState({settings: {...this.state.settings, [event.target.name]: "true"}})
             settingsService.saveSetting(event.target.name, "true")
+        }
+        this.props.dispatch(initActions.loadInit())
+    }
+
+    onChangeTextField(fieldName) {
+        return e => {
+            // e.children is the value
+            this.setState({settings: {...this.state.settings, [fieldName]: e.children}})
+            settingsService.saveSetting(fieldName, e.children)
+            this.props.dispatch(initActions.loadInit())
         }
     }
 
@@ -68,7 +79,7 @@ class GeneralPage extends React.Component<any, any> {
                                         <TableRow key="instance.name">
                                             <TableCell>Instance name</TableCell>
                                             <TableCell>
-                                                <EditableContainer handlefn={() => {}} Component={Field}>
+                                                <EditableContainer handlefn={this.onChangeTextField('instance.public_name')} Component={Field}>
                                                     {this.state.settings["instance.public_name"] ?? ""}
                                                 </EditableContainer>
                                                 </TableCell>
