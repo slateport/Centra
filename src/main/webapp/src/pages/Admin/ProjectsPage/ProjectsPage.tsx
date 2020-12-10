@@ -51,14 +51,12 @@ class ProjectsPage extends React.Component<IProjectsPageProps, any> {
 
     return (
             <React.Fragment>
-
                 <Helmet title="Projects" />
                 <AdminMenu>
                     <Typography variant="h3" gutterBottom display="inline">
                         Manage Projects
                     </Typography>
                     <Divider my={6} />
-
                     <Card>
                         <CardContent>
                             <NewProjectButton />
