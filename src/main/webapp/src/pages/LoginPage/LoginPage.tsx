@@ -64,7 +64,7 @@ class LoginPage extends React.Component<any, any> {
 
   render () {
     const { username, password } = this.state
-    const createNewAccountBtn = this.props.init.registrationEnabled ? ''
+    const createNewAccountBtn = !this.props.init.registrationEnabled ? ''
       : <Button
                 component={Button}
                 href={'/register'}

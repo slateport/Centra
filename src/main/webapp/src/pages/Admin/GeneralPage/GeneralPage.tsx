@@ -8,7 +8,7 @@ import {spacing} from "@material-ui/system";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Switcher from "../../../components/switcher";
-import {settings as settingsService } from './../../../services'
+import { settings as settingsService } from './../../../services'
 import EditableContainer from "../../../components/EditableContainer";
 import Field from "../../../components/StandardTextField";
 import {initActions} from "../../../actions";
@@ -88,6 +88,12 @@ class GeneralPage extends React.Component<any, any> {
                                             <TableCell>Private Mode</TableCell>
                                             <TableCell>
                                                 <Switcher name='instance.private' onChange={this.onToggleSwitch} checked={this.state.settings["instance.private"] == "true"}/>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow key="instance.registration.enabled">
+                                            <TableCell>Registration Enabled</TableCell>
+                                            <TableCell>
+                                                <Switcher name='instance.registration.enabled' onChange={this.onToggleSwitch} checked={this.state.settings['instance.registration.enabled'] == 'true'}/>
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>
