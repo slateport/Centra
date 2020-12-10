@@ -53,7 +53,7 @@ class App extends React.Component<any, any> {
     if (init && init.installationComplete === false && window.location.href !== '/install') {
       return (
                 <React.Fragment>
-                    <Helmet titleTemplate="%s | Centra" defaultTitle="Centra"/>
+                    <Helmet titleTemplate={"%s | Centra"} defaultTitle={'Centra'}/>
                     <StylesProvider injectFirst>
                         <MuiThemeProvider theme={theme[0]}>
                             <ThemeProvider theme={theme[0]}>
@@ -69,9 +69,10 @@ class App extends React.Component<any, any> {
       )
     } else {
       const Routing = (!init.instancePrivate) ? Route : PrivateRoute
+      const siteName = (init) ? init?.publicName : "Centra"
       return (
                 <React.Fragment>
-                    <Helmet titleTemplate="%s | Centra" defaultTitle="Centra"/>
+                    <Helmet titleTemplate={"%s | " + siteName} defaultTitle={siteName}/>
                     <StylesProvider injectFirst>
                         <Router>
                         <MuiThemeProvider theme={theme[0]}>

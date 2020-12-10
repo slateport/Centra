@@ -15,6 +15,9 @@ import AdminMenu from './header/AdminMenu'
 import { blue } from '@material-ui/core/colors'
 
 const useStyles = makeStyles((theme) => ({
+  box: {
+    zIndex: 100
+  },
   grow: {
     flexGrow: 1
   },
@@ -113,7 +116,6 @@ const Brand = styled(ListItem)<{button?: boolean}>`
   padding-left: ${props => props.theme.spacing(6)}px;
   padding-right: ${props => props.theme.spacing(6)}px;
   cursor: default;
-
   &:hover {
     background-color: ${props => props.theme.header.background};
   }
@@ -164,7 +166,7 @@ function PrimarySearchAppBar ({ initData }) {
   const init = useSelector(stateFn)
 
   return (
-        <Box display="flex" bgcolor={blue[900]} p={2} alignItems="center">
+        <Box display="flex" bgcolor={blue[900]} p={2} alignItems="center" className={classes.box}>
             <Typography className={classes.title} noWrap color={'secondary'}>
                 <Brand button>
                     <BrandIcon /> <Box ml={1}><Link href={'/'}>{init.publicName}</Link></Box>
