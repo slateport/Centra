@@ -25,18 +25,17 @@ public class UserController extends BaseController {
             @RequestBody ApplicationUser user,
             Principal principal
     ) {
-        if (user.getAdmin()
-                && (this.getAuthenticatedUser(principal) == null
-                || !this.getAuthenticatedUser(principal).getAdmin())
-        ){
+
+        if (user.getAdmin() != null && user.getAdmin() && !this.isAdmin(principal)){
             throw new ResponseStatusException(
-                    HttpStatus.UNPROCESSABLE_ENTITY,
+                    HttpStatus.FORBIDDEN,
                     "Cannot create admin user whilst not being an admin"
             );
         }
 
         try{
             userService.createUser(user);
+            user.setPassword(null);
         } catch (UserAlreadyExistsException e) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
@@ -44,7 +43,6 @@ public class UserController extends BaseController {
             );
         }
 
-        user.setPassword(null);
         return user;
     }
 
