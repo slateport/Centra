@@ -25,6 +25,7 @@ import { ApplicationLayout } from '../layouts/ApplicationLayout'
 import $ from 'jquery'
 import { RegistrationPage } from '../pages/RegistrationPage'
 import {GeneralPage} from "../pages/Admin/GeneralPage";
+import {UsersPage} from "../pages/Admin/UsersPage";
 
 $.fn.draggable = () => {}
 $.fn.droppable = () => {}
@@ -89,7 +90,8 @@ class App extends React.Component<any, any> {
                                             <Routing path="/search" component={SearchPage} />
                                             <Routing exact path="/" component={HomePage} />
                                             <Routing exact path="/admin/projects" component={ProjectsPage} />
-                                            <Routing path="/admin/" component={GeneralPage} />
+                                            <Routing exact path="/admin/" component={GeneralPage} />
+                                            <Routing exact path="/admin/users" component={UsersPage} />
 
                                             <Route component={NoMatch} />
                                             <Redirect to="/page-not-found" />
