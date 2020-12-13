@@ -1,11 +1,10 @@
 import React from 'react'
 
 import styled, { ThemeProvider } from 'styled-components'
-import {Redirect, Route, BrowserRouter as Router, Switch, useHistory} from 'react-router-dom'
+import {Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 
-import { history } from '../helpers'
 import { PrivateRoute } from '../components'
 import { HomePage } from '../pages/HomePage'
 import { ProjectsPage } from '../pages/Admin/ProjectsPage'
@@ -50,10 +49,6 @@ class App extends React.Component<any, any> {
 
     const { dispatch } = this.props
     dispatch(initActions.loadInit())
-
-    history.listen(({ location, action }) => {
-      dispatch(alertActions.clear())
-    })
   }
 
   render () {
@@ -88,7 +83,7 @@ class App extends React.Component<any, any> {
                                 {alert.message &&
                                 <Alert variant="filled" severity={alert.type}>{alert.message}</Alert>
                                 }
-                                <ApplicationLayout props={this.props} init={init}>
+                                <ApplicationLayout dispatch={this.props.dispatch} init={init}>
                                         <Switch>
                                             <Route path="/register" component={RegistrationPage} />
                                             <Route path="/login" component={LoginPage} />
