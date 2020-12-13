@@ -1,41 +1,20 @@
 import React from 'react'
-
+import $ from 'jquery'
+import theme from '../theme'
+import { Routes } from "./Routes";
 import styled, { ThemeProvider } from 'styled-components'
-import {Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
-
-import { PrivateRoute } from '../components'
-import { HomePage } from '../pages/HomePage'
-import { ProjectsPage } from '../pages/Admin/ProjectsPage'
-import { LoginPage } from '../pages/LoginPage'
 import { StylesProvider } from '@material-ui/styles'
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import { Alert as MuiAlert } from '@material-ui/lab'
-
-import { alertActions, initActions } from '../actions'
-
-import theme from '../theme'
+import { initActions } from '../actions'
 import { InstallationPage } from '../pages/InstallationPage'
-import { ViewIssuePage } from '../pages/ViewIssuePage'
-import { SearchPage } from '../pages/SearchPage'
 import { ApplicationLayout } from '../layouts/ApplicationLayout'
-
-import $ from 'jquery'
-import { RegistrationPage } from '../pages/RegistrationPage'
-import {GeneralPage} from "../pages/Admin/GeneralPage";
-import {UsersPage} from "../pages/Admin/UsersPage";
-import {ModifyUserPage} from "../pages/Admin/ModifyUserPage";
 
 $.fn.draggable = () => {}
 $.fn.droppable = () => {}
-
-const NoMatch = ({ location }) => {
-    const pathName = location.pathname || location.location.pathname
-    return (
-        <h3>No match for <code>{pathName}</code></h3>
-    )
-}
 
 const Alert = styled(MuiAlert)`
 z-index: 100;
@@ -71,40 +50,25 @@ class App extends React.Component<any, any> {
 
       )
     } else {
-      const Routing = (!init.instancePrivate) ? Route : PrivateRoute
       const siteName = (init) ? init?.publicName : "Centra"
       return (
-                <React.Fragment>
-                    <Helmet titleTemplate={"%s | " + siteName} defaultTitle={siteName}/>
-                    <StylesProvider injectFirst>
-                        <Router>
-                        <MuiThemeProvider theme={theme[0]}>
-                            <ThemeProvider theme={theme[0]}>
-                                {alert.message &&
-                                <Alert variant="filled" severity={alert.type}>{alert.message}</Alert>
-                                }
-                                <ApplicationLayout dispatch={this.props.dispatch} init={init}>
-                                        <Switch>
-                                            <Route path="/register" component={RegistrationPage} />
-                                            <Route path="/login" component={LoginPage} />
-                                            <Route path="/install" component={InstallationPage} />
-                                            <Routing path="/browse/:externalId" component={ViewIssuePage} />
-                                            <Routing path="/search" component={SearchPage} />
-                                            <Routing exact path="/" component={HomePage} />
-                                            <Routing exact path="/admin/projects" component={ProjectsPage} />
-                                            <Routing exact path="/admin/users" component={UsersPage} />
-                                            <Routing exact path="/admin/users/:internalId" component={ModifyUserPage} />
-                                            <Routing exact path="/admin/" component={GeneralPage} />
-
-                                            <Route component={NoMatch} />
-                                            <Redirect to="/page-not-found" />
-                                        </Switch>
-                                </ApplicationLayout>
-                            </ThemeProvider>
-                        </MuiThemeProvider>
-                        </Router>
-                    </StylesProvider>
-                </React.Fragment>
+        <React.Fragment>
+            <Helmet titleTemplate={"%s | " + siteName} defaultTitle={siteName}/>
+            <StylesProvider injectFirst>
+                <Router>
+                <MuiThemeProvider theme={theme[0]}>
+                    <ThemeProvider theme={theme[0]}>
+                        {alert.message &&
+                        <Alert variant="filled" severity={alert.type}>{alert.message}</Alert>
+                        }
+                        <ApplicationLayout dispatch={this.props.dispatch} init={init}>
+                            <Routes init={init} />
+                        </ApplicationLayout>
+                    </ThemeProvider>
+                </MuiThemeProvider>
+                </Router>
+            </StylesProvider>
+        </React.Fragment>
       )
     }
   }
