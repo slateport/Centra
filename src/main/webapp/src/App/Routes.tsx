@@ -29,10 +29,10 @@ const Routes = (init) => {
             <Routing path="/browse/:externalId" component={ViewIssuePage} />
             <Routing path="/search" component={SearchPage} />
             <Routing exact path="/" component={HomePage} />
-            <Routing exact path="/admin/projects" component={ProjectsPage} />
-            <Routing exact path="/admin/users" component={UsersPage} />
-            <Routing exact path="/admin/users/:internalId" component={ModifyUserPage} />
-            <Routing exact path="/admin/" component={GeneralPage} />
+            <PrivateRoute exact path="/admin/projects" component={ProjectsPage} />
+            <PrivateRoute exact path="/admin/users" component={UsersPage} />
+            <PrivateRoute exact path="/admin/users/:internalId" component={ModifyUserPage} />
+            <PrivateRoute exact path="/admin/" component={GeneralPage} />
 
             <Route component={NoMatch} />
             <Redirect to="/page-not-found" />
