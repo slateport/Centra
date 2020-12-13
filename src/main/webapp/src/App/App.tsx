@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import {Redirect, Route, BrowserRouter as Router, Switch, useHistory} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
@@ -12,7 +12,7 @@ import { ProjectsPage } from '../pages/Admin/ProjectsPage'
 import { LoginPage } from '../pages/LoginPage'
 import { StylesProvider } from '@material-ui/styles'
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
-import { Alert } from '@material-ui/lab'
+import { Alert as MuiAlert } from '@material-ui/lab'
 
 import { alertActions, initActions } from '../actions'
 
@@ -26,6 +26,7 @@ import $ from 'jquery'
 import { RegistrationPage } from '../pages/RegistrationPage'
 import {GeneralPage} from "../pages/Admin/GeneralPage";
 import {UsersPage} from "../pages/Admin/UsersPage";
+import {ModifyUserPage} from "../pages/Admin/ModifyUserPage";
 
 $.fn.draggable = () => {}
 $.fn.droppable = () => {}
@@ -36,6 +37,12 @@ const NoMatch = ({ location }) => {
         <h3>No match for <code>{pathName}</code></h3>
     )
 }
+
+const Alert = styled(MuiAlert)`
+z-index: 100;
+position: relative;
+`
+
 
 class App extends React.Component<any, any> {
   constructor (props) {
@@ -90,8 +97,9 @@ class App extends React.Component<any, any> {
                                             <Routing path="/search" component={SearchPage} />
                                             <Routing exact path="/" component={HomePage} />
                                             <Routing exact path="/admin/projects" component={ProjectsPage} />
-                                            <Routing exact path="/admin/" component={GeneralPage} />
                                             <Routing exact path="/admin/users" component={UsersPage} />
+                                            <Routing exact path="/admin/users/:internalId" component={ModifyUserPage} />
+                                            <Routing exact path="/admin/" component={GeneralPage} />
 
                                             <Route component={NoMatch} />
                                             <Redirect to="/page-not-found" />

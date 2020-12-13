@@ -6,7 +6,8 @@ export const user = {
   logout,
   getUser,
   getAllLite,
-  registerUser
+  registerUser,
+  updateUser
 }
 
 function login (username: string, password: string) {
@@ -35,4 +36,8 @@ function getAllLite () : Promise<UserLite[]> {
 function registerUser (username: string, password: string, displayName: string, emailAddress: string) {
   return httpClient.post('/api/users', { username, password, displayName, emailAddress })
     .then(response => response.data)
+}
+
+function updateUser(user) {
+  return httpClient.put(`/api/users/${user.id}`, user)
 }
