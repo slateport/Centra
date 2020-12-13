@@ -46,13 +46,13 @@ public class UserController extends BaseController {
         return user;
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ApplicationUser updateUser(
             @RequestBody ApplicationUser user,
             Principal principal
     ) {
         if (this.getAuthenticatedUser(principal) == null
-                || (!this.getAuthenticatedUser(principal).getAdmin()
+                || (!this.isAdmin(principal)
                 && !user.getUsername().equals(principal.getName())
         )) {
             throw new ResponseStatusException(

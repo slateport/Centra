@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link as RouterLink } from 'react-router-dom'
 import {
     Button,
     Card,
     CardContent,
-    Divider as MuiDivider,
+    Divider as MuiDivider, Link,
     Typography
 } from "@material-ui/core";
 import {Helmet} from "react-helmet";
@@ -26,7 +27,7 @@ const columns: ColDef[] = [
         headerName: "Actions",
         disableClickEventBubbling: true,
         renderCell: (params: CellParams) => {
-            return <Button variant="outlined" color="primary" onClick={() => alert(params.row.id)}><EditIcon /></Button>;
+            return <Link component={RouterLink} to={`/admin/users/${params.row.id}`}><EditIcon /></Link>;
         }
     }
 ];

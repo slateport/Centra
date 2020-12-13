@@ -139,7 +139,7 @@ class AdminMenu extends React.Component<any, any> {
                             <Link button exact component={NavLink} to={'/admin/projects'}>
                                 <LinkText>Manage Projects</LinkText>
                             </Link>
-                            <Link button exact component={NavLink} to={'/admin/users'}>
+                            <Link button exact={false} component={NavLink} to={'/admin/users'}>
                                 <LinkText>Manage Users</LinkText>
                             </Link>
                         </Items>
