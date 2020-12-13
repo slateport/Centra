@@ -5,6 +5,7 @@ import {
     Card,
     CardContent,
     Divider as MuiDivider,
+    Grid,
     Table,
     TableBody,
     TableContainer, TextField,
@@ -93,14 +94,14 @@ class ModifyUserPage extends React.Component<any, any>{
                                                 <TextField name={'displayName'} defaultValue={this.state.user.displayName} onChange={this.handleUserValChange}/>
                                             </TableCell>
                                         </TableRow>
-                                        <TableRow key='form-submission'>
-                                            <Button variant="outlined" color="primary" onClick={this.updateUser}>
-                                                Save
-                                            </Button>
-                                        </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                            <Grid container justify="flex-end" style={{paddingTop: 20}}>
+                                <Button variant="outlined" color="primary" onClick={this.updateUser}>
+                                    Save
+                                </Button>
+                            </Grid>
                         </CardContent>
                     </Card>
                 </AdminMenu>
