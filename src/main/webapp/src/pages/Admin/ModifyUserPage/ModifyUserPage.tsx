@@ -85,7 +85,7 @@ class ModifyUserPage extends React.Component<any, any>{
                                         <TableRow key="username">
                                             <TableCell>Username</TableCell>
                                             <TableCell>
-                                                <TextField name={'username'} defaultValue={this.state.user.username} onChange={this.handleUserValChange}/>
+                                                {this.state.user.username}
                                             </TableCell>
                                         </TableRow>
                                         <TableRow key="displayName">
