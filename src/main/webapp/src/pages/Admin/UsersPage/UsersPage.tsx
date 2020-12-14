@@ -20,8 +20,8 @@ import EditIcon from '@material-ui/icons/Edit'
 const Divider = styled(MuiDivider)(spacing)
 
 const columns: ColDef[] = [
-    { field: 'username', headerName: 'Username', width: 150 },
-    { field: 'displayName', headerName: 'Display Name', width: 150 },
+    { field: 'username', headerName: 'Username', width: 200 },
+    { field: 'displayName', headerName: 'Display Name', width: 300 },
     {
         field: "",
         headerName: "Actions",
