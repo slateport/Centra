@@ -19,8 +19,9 @@ const NoMatch = ({ location }) => {
     )
 }
 
-const Routes = (init) => {
+const Routes = ({init}) => {
     const Routing = (!init.instancePrivate) ? Route : PrivateRoute
+    console.log(init)
     return (
         <Switch>
             <Route path="/register" component={RegistrationPage} />
