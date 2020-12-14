@@ -17,6 +17,7 @@ import {spacing, SpacingProps} from "@material-ui/system";
 
 import {project as projectService} from '../../services'
 import {NewIssueButton} from "../../components/header/NewIssueButton";
+import {isAuthenticated} from "../../helpers";
 
 interface TypographyPropsType extends SpacingProps {
     component?: string
@@ -104,7 +105,9 @@ const Project: React.FC<ProjectPropsType> = ({ image, title, description, id }) 
                 <Button size="small" color="primary" href={"/search?cql=projectKey="+id}>
                     View Issues
                 </Button>
+                {isAuthenticated() &&
                 <NewIssueButton projectId={id}/>
+                }
             </CardActions>
         </Card>
     );
