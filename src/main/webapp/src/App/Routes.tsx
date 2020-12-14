@@ -19,7 +19,7 @@ const NoMatch = ({ location }) => {
     )
 }
 
-const Routes = (init) => {
+const Routes = ({init}) => {
     const Routing = (!init.instancePrivate) ? Route : PrivateRoute
     return (
         <Switch>
