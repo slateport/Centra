@@ -2,6 +2,7 @@ import draw2d from 'draw2d'
 import BaseStatusView from "./BaseStatusView";
 import StatusFigure from "./StatusFigure";
 import Direction from "./Direction";
+import PositionOnParentBoundsLocator from "./PositionOnParentBoundsLocator";
 
 export default class StatusView extends BaseStatusView {
 
@@ -14,7 +15,7 @@ export default class StatusView extends BaseStatusView {
 
     addPort(bias, direction) {
         const port = this.createPort({connectionDirection: direction});
-        const locator = new draw2d.layout.locator.Locator({
+        const locator = new PositionOnParentBoundsLocator({
             parent: this.figure,
             side: direction,
             bias: bias

@@ -227,7 +227,8 @@ export default class CanvasView {
         function isNonGlobalTransitionConnectedToPositionedStatus(transitionView) {
             return !transitionView.model.isGlobalTransition() && transitionView.isConnectedToAnyStatus(positionedStatusViews);
         }
-        _.chain(this.transitionViews).filter(isNonGlobalTransitionConnectedToPositionedStatus).invoke("resetConnection");
+        _.chain(this.transitionViews).filter(isNonGlobalTransitionConnectedToPositionedStatus)
+            .value().map(view => view.resetConnection());
     }
 
     _getStatusViewWithModel (statusViews) {
