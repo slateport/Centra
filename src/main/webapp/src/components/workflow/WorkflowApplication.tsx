@@ -1,7 +1,7 @@
 import React from "react";
 import _ from 'underscore';
 import { workflow } from '../../services'
-import Canvas from "./Canvas";
+import Canvas from "./Canvas"
 import WorkflowModel from './WorkflowModel'
 
 
@@ -56,7 +56,7 @@ export default class WorkflowApplication extends React.Component<any, any>{
         this.initialiseWorkflow(this.options)
             .then(() => {
                 this.canvas = this.createCanvas({workflowModel: this.state.workflowModel});
-                this.canvas.canvasView.render('demo')
+                this.canvas.canvasView.render('workflow')
                 this.state.workflowModel.states().map(state => this.canvas.canvasView.addStatus(state))
                 this.canvas.canvasView.positionNewStatuses();
                 // this.canvas.autoFit();
@@ -66,7 +66,7 @@ export default class WorkflowApplication extends React.Component<any, any>{
 
     render() {
          return (
-             <div id={"demo"}></div>
+             <div id={'workflow'} />
          )
     }
 };
