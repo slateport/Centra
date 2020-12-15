@@ -63,9 +63,9 @@ export default class TransitionView extends Draw2DView {
 
     resetConnection () {
         if (this.canvas && this.connection) {
-            this.canvas.removeFigure(this.connection);
-            this.connection = null;
+            this.canvas.removeFigure(this.connection)
+            this.connection = null
         }
-        this.render();
+        this.render()
     }
 }
