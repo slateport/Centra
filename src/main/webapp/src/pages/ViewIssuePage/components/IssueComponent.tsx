@@ -255,7 +255,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         <Grid container xs={8}>
                             <Grid item xs={12}>
                                 <EditableContainer Component={RedactorField} handlefn={onSaveDescription(props, issue)}>
-                                    {issue.description}
+                                    {issue.description ?? ""}
                                 </EditableContainer>
                             </Grid>
                             <Grid item xs={12}>
