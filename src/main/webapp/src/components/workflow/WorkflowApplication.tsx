@@ -21,7 +21,9 @@ export default class WorkflowApplication extends React.Component<any, any>{
                  [],
                  [],
                  null
-             )
+             ),
+             width: 0,
+             height: 0
          }
 
          // if (!options.immutable) {
@@ -53,20 +55,20 @@ export default class WorkflowApplication extends React.Component<any, any>{
     }
 
     componentDidMount() {
+        this.setState({width: ((window.innerWidth - 40) / 4 * 3) - 24, height: window.innerHeight / 3 * 2})
         this.initialiseWorkflow(this.options)
             .then(() => {
                 this.canvas = this.createCanvas({ workflowModel: this.state.workflowModel });
-                this.canvas.canvasView.render('workflow')
+                this.canvas.canvasView.render('workflow');
                 this.state.workflowModel.states().map(state => this.canvas.canvasView.addStatus(state))
                 this.canvas.canvasView.positionNewStatuses();
                 // this.canvas.autoFit();
             })
-
     }
 
     render() {
          return (
-             <div id={'workflow'} />
+             <div id={'workflow'} style={{width: this.state.width, height:this.state.height}}/>
          )
     }
 }
