@@ -81,6 +81,13 @@ public class IssueController {
 
         ApplicationUser user = applicationUserService.findByUsername(principal.getName());
 
+        if (user == null){
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "User not found"
+            );
+        }
+
         try {
             return convertToDTO(issueService.createIssue(issue, user));
         } catch (Exception e) {
