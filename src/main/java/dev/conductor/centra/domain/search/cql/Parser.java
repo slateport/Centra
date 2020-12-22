@@ -12,10 +12,10 @@ import java.util.List;
 public class Parser {
 
     public List<Condition> parse(String input) {
-        CqlParser cqlParser = new CqlParser(new CommonTokenStream(new CqlLexer(CharStreams.fromString(input))));
+        cqlParser cqlParser = new cqlParser(new CommonTokenStream(new cqlLexer(CharStreams.fromString(input))));
 
         ParseTreeWalker walker = new ParseTreeWalker();
-        CqlListenerImpl listener = new CqlListenerImpl();
+        cqlListenerImpl listener = new cqlListenerImpl();
         walker.walk(listener, cqlParser.parse());
 
         return listener.getConditions();

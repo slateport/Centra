@@ -5,20 +5,47 @@ parse
  ;
 
 cql_stmt_list
- : SCOL* cql_stmt ( SCOL+ cql_stmt )* SCOL*
+ : SCOL? cql_stmt ( SCOL+ cql_stmt )* SCOL?
  ;
 
 cql_stmt
- : OPEN_PAR* expr ( ( K_AND | K_OR) OPEN_PAR* expr CLOSE_PAR* )* CLOSE_PAR* ordering_term?
+ : logical_expression ordering_term?
  ;
+ 
+logical_expression:
+OPEN_PAR logical_expression CLOSE_PAR #BracedExpression
+| expr #SimpleExpression
+| K_NOT logical_expression #NegatedLogicalExpression
+| logical_expression K_AND logical_expression #AndLogicalExpression
+| logical_expression K_OR logical_expression #OrLogicalExpression
+;
 
 expr
- : K_NOT* ( field | literal_value ) operator OPEN_PAR* ( literal_value | literal_list | FUNCTION | dates ) (compare_dates)? CLOSE_PAR*
+ : left_value operator right_value (compare_dates)? 
+ | left_value operator OPEN_PAR right_value (compare_dates)? CLOSE_PAR
  ;
+ 
+right_value:
+ literal_value | function_call | literal_list  | dates ;
+ 
+left_value:
+ field /*| literal_value*/;
 
-ordering_term
+/*ordering_term
  : K_ORDER K_BY literal_value ( K_ASC | K_DESC )? (COMMA literal_value ( K_ASC | K_DESC )? )*
- ;
+ ;*/
+ 
+ordering_term
+ : ordering_list;
+ 
+ordering_list
+ : ordering_list_item+;
+ 
+ordering_list_item
+ : order_by field (order= (K_ASC | K_DESC) )? ;
+ 
+order_by:
+ K_ORDER K_BY;
 
 operator
  : EQ
@@ -46,9 +73,21 @@ literal_value
  | dates
  ;
 
-FUNCTION
- : [a-zA-Z]+ '(' (.*? | FUNCTION) ')'
+function_call
+ : IDENTIFIER '(' argument_list? ')'
+;
+
+argument_list
+ : function_argument (',' function_argument)*
  ;
+ 
+function_argument
+ : literal_value | function_call
+ ;
+
+/*FUNCTION
+ : [a-zA-Z]+ '(' (.*? | FUNCTION) ')'
+ ;*/
 
 literal_list
  : '(' literal_value ( COMMA literal_value )* ')'
@@ -112,6 +151,7 @@ field
  | F_PARENT
  | F_PRIORITY
  | F_PROJECT
+ | F_PROJECT_KEY // added by dk2k
  | F_RANK
  | F_REMAINING_ESTIMATE
  | F_REPORTER
@@ -219,6 +259,7 @@ F_ORIGINAL_ESTIMATE : O R I G I N A L E S T I M A T E;
 F_PARENT : P A R E N T;
 F_PRIORITY : P R I O R I T Y;
 F_PROJECT : P R O J E C T;
+F_PROJECT_KEY : P R O J E C T K E Y;
 F_RANK : R A N K;
 F_REMAINING_ESTIMATE : R E M A I N I N G E S T I M A T E;
 F_REPORTER : R E P O R T E R;
