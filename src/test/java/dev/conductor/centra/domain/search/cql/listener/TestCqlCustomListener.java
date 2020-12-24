@@ -11,7 +11,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Assert;
 import org.junit.Test;
-import util.LoggedPrintStream;
 
 import java.util.List;
 
@@ -157,7 +156,8 @@ public class TestCqlCustomListener {
         List<CqlStatement> statementList = listener.getStatementList();
         Assert.assertTrue(statementList.size() == 1);
         CqlStatement statement = statementList.get(0);
-        System.out.println(statement);
+        //System.out.println(statement);
+        System.out.println(statement.prettyPrint());
 
         Assert.assertTrue(listener.getExpressionStack().empty());
         Assert.assertTrue(listener.getFunctionArgumentStack().empty());
@@ -178,7 +178,8 @@ public class TestCqlCustomListener {
         List<CqlStatement> statementList = listener.getStatementList();
         Assert.assertTrue(statementList.size() == 1);
         CqlStatement statement = statementList.get(0);
-        System.out.println(statement);
+        //System.out.println(statement);
+        System.out.println(statement.prettyPrint());
 
         Assert.assertTrue(listener.getExpressionStack().empty());
         Assert.assertTrue(listener.getFunctionArgumentStack().empty());

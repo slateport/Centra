@@ -1,5 +1,7 @@
 package dev.conductor.centra.domain.search.cql.ast;
 
+import dev.conductor.centra.domain.search.cql.ast.enumeration.OrderTypeEnum;
+
 public class OrderingListItem {
     private String field;
     private OrderTypeEnum orderType = OrderTypeEnum.ASC; // default value

@@ -1,8 +1,10 @@
 package dev.conductor.centra.domain.search.cql.ast.listener;
 
 import dev.conductor.centra.domain.search.cql.ast.*;
+import dev.conductor.centra.domain.search.cql.ast.enumeration.*;
 import dev.conductor.centra.domain.search.cql.cqlBaseListener;
 import dev.conductor.centra.domain.search.cql.cqlParser;
+import dev.conductor.centra.domain.search.cql.exception.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,7 @@ public class CqlCustomListener extends cqlBaseListener {
     public void exitCql_stmt_list(cqlParser.Cql_stmt_listContext ctx) {
 
         if (statementList.size() < statementCounter || statementList.size() == 0) {
-            throw new RuntimeException("parse error");
+            throw new CqlParseException("parse error");
         }
     }
 
@@ -184,7 +186,7 @@ public class CqlCustomListener extends cqlBaseListener {
                 break;
 
             default:
-                throw new RuntimeException("unexpected operator " + operatorString);
+                throw new CqlParseException("unexpected operator " + operatorString);
         }
 
         expression.setLeftValue(ctx.left_value().getText());
@@ -253,7 +255,7 @@ public class CqlCustomListener extends cqlBaseListener {
 
         Object obj = rightValueStack.pop();
         if (!(obj instanceof AbstractFunctionArgument)) {
-            throw new RuntimeException("unexpected type");
+            throw new CqlParseException("unexpected type");
         }
         AbstractFunctionArgument abstractFunctionArgument = (AbstractFunctionArgument) obj;
 
@@ -279,7 +281,7 @@ public class CqlCustomListener extends cqlBaseListener {
                         item.setOrderType(OrderTypeEnum.DESC);
                         break;
                     default:
-                        throw new RuntimeException("unexpected ordering type");
+                        throw new CqlParseException("unexpected ordering type");
                 }
             }
         }

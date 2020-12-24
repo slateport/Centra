@@ -29,4 +29,11 @@ public class CqlStatement {
                 "expression=" + expression +
                 '}';
     }
+
+    public String prettyPrint() {
+        return "CqlStatement{" +
+                "\nexpression=" + expression.prettyPrint(0) +
+                "\n}";
+    }
+
 }

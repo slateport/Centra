@@ -19,4 +19,18 @@ public class NonCombinedLogicalExpression extends AbstractLogicalExpression {
                 ", braced=" + isBraced() +
                 '}';
     }
+
+    @Override
+    public String prettyPrint(int level) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("\n");
+
+        for (int i=0; i < level; i++) {
+            stringBuilder.append(INDENT);
+        }
+        stringBuilder.append(toString());
+
+        return stringBuilder.toString();
+    }
 }

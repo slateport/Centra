@@ -1,6 +1,9 @@
 package dev.conductor.centra.domain.search.cql.ast;
 
 public abstract class AbstractLogicalExpression {
+
+    protected final String INDENT = "    ";
+
     private boolean negated;
     private boolean braced;
 
@@ -27,4 +30,6 @@ public abstract class AbstractLogicalExpression {
                 ", braced=" + braced +
                 '}';
     }
+
+    public abstract String prettyPrint(int level);
 }

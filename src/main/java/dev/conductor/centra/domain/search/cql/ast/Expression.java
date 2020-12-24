@@ -1,5 +1,7 @@
 package dev.conductor.centra.domain.search.cql.ast;
 
+import dev.conductor.centra.domain.search.cql.ast.enumeration.OperatorTypeEnum;
+
 public class Expression {
 
     private String leftValue;
