@@ -15,11 +15,16 @@ import java.util.Optional;
 @Repository
 public class ApplicationUserPersistenceAdapter implements ApplicationUserPersistencePort {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final ApplicationUserRepository repository;
 
     @Autowired
-    private ApplicationUserRepository repository;
+    public ApplicationUserPersistenceAdapter(ApplicationUserRepository repository, ModelMapper modelMapper) {
+        this.repository = repository;
+        this.modelMapper = modelMapper;
+
+        this.configureMapper();
+    }
 
     @Override
     public ApplicationUser findByUsername(String username) {
@@ -70,5 +75,10 @@ public class ApplicationUserPersistenceAdapter implements ApplicationUserPersist
         repository.save(entity);
 
         return modelMapper.map(entity, ApplicationUser.class);
+    }
+
+    private void configureMapper(){
+//        this.modelMapper.typeMap(ApplicationUserEntity.class, ApplicationUser.class)
+//                .addMapping()
     }
 }
