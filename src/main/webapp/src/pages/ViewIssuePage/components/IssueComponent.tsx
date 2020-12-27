@@ -235,14 +235,14 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             <Card mb={6}>
                 <CardContent>
                     <Grid container>
-                        <Grid item xs={1}>Status <StatusChip label={issue.workflowState.label} isEnitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} /></Grid>
+                        <Grid item xs={3}>Status <StatusChip label={issue.workflowState.label} isEnitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} /></Grid>
                         <Grid item xs={1}/>
-                        <Grid item xs={1}>
-                            <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={"Type: "} postText={""}/>
+                        <Grid item xs={3}>
+                            Type <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={""} postText={""}/>
                         </Grid>
                         <Grid item xs={1} />
-                        <Grid item xs={1}>
-                            <EditablePriorityField clickable={false} handleFn={() => {}} priorityId={issue.issuePriorityId} projectKey={issue.projectKey}  preText={""} postText={""}/>
+                        <Grid item xs={3}>
+                            Priority <EditablePriorityField clickable={false} handleFn={() => {}} priorityId={issue.issuePriorityId} projectKey={issue.projectKey}  preText={""} postText={""}/>
                         </Grid>
                     </Grid>
                 </CardContent>
