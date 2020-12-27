@@ -39,6 +39,9 @@ import EditableIssueTypeField from "./EditableIssueTypeField";
 import EditablePriorityField from "./EditablePriorityField";
 import RelatedIssuesComponent from "./RelatedIssuesComponent";
 import { NewIssueLinkDialog } from "./NewIssueLinkDialog";
+import {StatusPicker} from "./StatusPicker";
+import {IssueTypePicker} from "./IssueTypePicker";
+import {IssuePriorityPicker} from "./IssuePriorityPicker";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
@@ -81,21 +84,12 @@ function TabPanel(props) {
 }
 
 const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
-    const [anchorElTransitionMenu, setAnchorElTransitionMenu] = React.useState<null | HTMLElement>(null);
     const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions);
     const [tabValue, setTabValue] = React.useState(0);
 
     useEffect(() => {
         setWorkflowTransitions(initialWorkflowTransitions)
     }, [initialWorkflowTransitions])
-
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorElTransitionMenu(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorElTransitionMenu(null);
-    };
 
     const workflowOptions = (issue) => {
         return {
@@ -123,7 +117,6 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                 .then(() => issueService.getWorkflowTransitions(issueHelper.buildExternalKey(issue))
                     .then(response => setWorkflowTransitions(response))
                 )
-                .then(() => handleClose())
                 .then(() => props.dispatch(issueActions.getIssue(issueHelper.buildExternalKey(issue))))
         }
     }
@@ -144,6 +137,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
 
     const onSaveIssueType = (props, issue) => {
         return value => {
+            console.log(value)
             issue.issueTypeId = value
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
             location.reload()
@@ -152,7 +146,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
 
     const onSavePriority = (props, issue) => {
         return value => {
-            issue.issuePriorityId = value.target.value
+            issue.issuePriorityId = value
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
             location.reload()
         }
@@ -182,46 +176,15 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                 <CardContent>
                     <Grid container>
                         <Grid item xs={3}>
-                            <React.Fragment>
-                                <Button
-                                    aria-controls="transition-menu"
-                                    aria-haspopup="true"
-                                    color="primary"
-                                    onClick={handleClick}
-                                    disabled={workflowTransitions.length == 0}
-                                >
-                                    Status:
-                                    { issue.workflowState &&
-                                    <StatusChip label={issue.workflowState.label} isEnitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} />
-                                    }
-                                    <KeyboardArrowDownIcon />
-                                </Button>
-                                <Menu
-                                    id="transition-menu"
-                                    anchorEl={anchorElTransitionMenu}
-                                    keepMounted
-                                    getContentAnchorEl={null}
-                                    anchorOrigin={{vertical: "bottom", horizontal: "center"}}
-                                    transformOrigin={{vertical: "top", horizontal: "center"}}
-                                    open={Boolean(anchorElTransitionMenu)}
-                                    onClose={handleClose}
-                                    color={"primary"}
-                                >
-                                    {workflowTransitions.map(transition =>
-                                        <MenuItem
-                                            onClick={onTransitionIssue(props, issue, transition)}
-                                        >
-                                            <StatusChip label={transition.label} isEnitial={transition.isInitial} isTerminus={transition.isTerminus} /></MenuItem>
-                                    )}
-                                </Menu>
-                            </React.Fragment>
+                            <StatusPicker issue={issue} workflowTransitions={workflowTransitions} props={props} onTransitionIssue={onTransitionIssue}/>
                         </Grid>
                         <Grid item xs={1} />
                         <Grid item xs={3}>
-                            <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} preText={"Type: "} postText={<KeyboardArrowDownIcon />}/></Grid>
+                            <IssueTypePicker postText={<KeyboardArrowDownIcon />} preText={"Type"} issueTypeId={issue.issueTypeId} projectKey={issue.projectKey} onClickEvent={onSaveIssueType(props,issue)}/>
+                        </Grid>
                         <Grid item xs={1} />
                         <Grid item xs={3}>
-                            <EditablePriorityField clickable={true} handleFn={onSavePriority(props, issue)} priorityId={issue.issuePriorityId} projectKey={issue.projectKey} preText={"Priority: "} postText={<KeyboardArrowDownIcon />}/>
+                            <IssuePriorityPicker preText={"Priority "} postText={<KeyboardArrowDownIcon />} issuePriorityId={issue.issuePriorityId} projectKey={issue.projectKey} onClickEvent={onSavePriority(props, issue)}/>
                         </Grid>
                         <Grid item xs={1} />
                     </Grid>
@@ -235,7 +198,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             <Card mb={6}>
                 <CardContent>
                     <Grid container>
-                        <Grid item xs={3}>Status <StatusChip label={issue.workflowState.label} isEnitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} /></Grid>
+                        <Grid item xs={3}>Status <StatusChip label={issue.workflowState.label} isInitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} /></Grid>
                         <Grid item xs={1}/>
                         <Grid item xs={3}>
                             Type <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={""} postText={""}/>
