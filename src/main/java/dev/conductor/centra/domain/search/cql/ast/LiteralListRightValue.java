@@ -20,4 +20,13 @@ public class LiteralListRightValue implements AbstractRightValue {
                 "rightValueList=" + rightValueList +
                 '}';
     }
+
+    @Override
+    public Object getRightValue() {
+        List<Object> objects = new ArrayList<>();
+        rightValueList.forEach(rightValue -> {
+            objects.add(rightValue.getValue());
+        });
+        return objects.toArray();
+    }
 }

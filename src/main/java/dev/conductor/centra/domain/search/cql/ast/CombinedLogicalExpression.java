@@ -64,4 +64,5 @@ public class CombinedLogicalExpression extends AbstractLogicalExpression {
 
         return stringBuilder.toString();
     }
+
 }

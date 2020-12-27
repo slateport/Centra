@@ -35,5 +35,4 @@ public class CqlStatement {
                 "\nexpression=" + expression.prettyPrint(0) +
                 "\n}";
     }
-
 }

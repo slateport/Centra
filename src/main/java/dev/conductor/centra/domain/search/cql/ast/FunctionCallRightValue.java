@@ -1,5 +1,8 @@
 package dev.conductor.centra.domain.search.cql.ast;
 
+import dev.conductor.centra.domain.search.cql.ast.AbstractFunctionArgument;
+import dev.conductor.centra.domain.search.cql.ast.AbstractRightValue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,5 +36,10 @@ public class FunctionCallRightValue implements AbstractRightValue, AbstractFunct
                 "functionName='" + functionName + '\'' +
                 ", argumentList=" + argumentList +
                 '}';
+    }
+
+    @Override
+    public Object getRightValue() {
+        return functionName; // it's a stub for tests
     }
 }

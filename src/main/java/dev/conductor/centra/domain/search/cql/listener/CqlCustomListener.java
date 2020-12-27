@@ -1,10 +1,12 @@
 package dev.conductor.centra.domain.search.cql.ast.listener;
 
 import dev.conductor.centra.domain.search.cql.ast.*;
-import dev.conductor.centra.domain.search.cql.ast.enumeration.*;
+import dev.conductor.centra.domain.search.cql.ast.enumeration.LiteralValueTypeEnum;
+import dev.conductor.centra.domain.search.cql.ast.enumeration.LogicalOperatorEnum;
+import dev.conductor.centra.domain.search.cql.ast.enumeration.OperatorTypeEnum;
+import dev.conductor.centra.domain.search.cql.ast.enumeration.OrderTypeEnum;
 import dev.conductor.centra.domain.search.cql.cqlBaseListener;
 import dev.conductor.centra.domain.search.cql.cqlParser;
-import dev.conductor.centra.domain.search.cql.exception.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +57,7 @@ public class CqlCustomListener extends cqlBaseListener {
     public void exitCql_stmt_list(cqlParser.Cql_stmt_listContext ctx) {
 
         if (statementList.size() < statementCounter || statementList.size() == 0) {
-            throw new CqlParseException("parse error");
+            throw new RuntimeException("parse error");
         }
     }
 
@@ -129,13 +131,12 @@ public class CqlCustomListener extends cqlBaseListener {
 
     @Override
     public void enterLiteral_list(cqlParser.Literal_listContext ctx) {
-        System.out.println();
+        //System.out.println();
 
     }
 
     @Override
     public void exitLiteral_list(cqlParser.Literal_listContext ctx) {
-        //TODO form a list and put into rightValueStack
 
         List<LiteralRightValue> abstractRightValueList = new ArrayList<>();
         while (!rightValueStack.empty()) {
@@ -186,7 +187,7 @@ public class CqlCustomListener extends cqlBaseListener {
                 break;
 
             default:
-                throw new CqlParseException("unexpected operator " + operatorString);
+                throw new RuntimeException("unexpected operator " + operatorString);
         }
 
         expression.setLeftValue(ctx.left_value().getText());
@@ -203,18 +204,30 @@ public class CqlCustomListener extends cqlBaseListener {
         LiteralRightValue rightValue = new LiteralRightValue();
         rightValue.setValue(ctx.getText());
 
+        if (ctx.dates() != null) {
+            rightValue.setType(LiteralValueTypeEnum.DATES);
+        } else if (ctx.state_name() != null) {
+            rightValue.setType(LiteralValueTypeEnum.STATE_NAME);
+        } else if (ctx.field() != null) {
+            rightValue.setType(LiteralValueTypeEnum.FIELD);
+        } else if (ctx.STRING_LITERAL() != null) {
+            rightValue.setType(LiteralValueTypeEnum.STRING_LITERAL);
+        } else if (ctx.IDENTIFIER() != null) {
+            rightValue.setType(LiteralValueTypeEnum.IDENTIFIER);
+        }
+
         rightValueStack.push(rightValue);
 
     }
 
     @Override
     public void enterFunction_call(cqlParser.Function_callContext ctx) {
-        System.out.println("called enterFunction_call()");
+        //System.out.println("called enterFunction_call()");
     }
 
     @Override
     public void exitFunction_call(cqlParser.Function_callContext ctx) {
-        System.out.println("called exitFunction_call()");
+        //System.out.println("called exitFunction_call()");
 
         FunctionCallRightValue rightValue = new FunctionCallRightValue();
         rightValue.setFunctionName(ctx.IDENTIFIER().getText());
@@ -231,12 +244,12 @@ public class CqlCustomListener extends cqlBaseListener {
 
     @Override
     public void exitArgument_list(cqlParser.Argument_listContext ctx) {
-        System.out.println("called exitArgument_list()");
+        //System.out.println("called exitArgument_list()");
     }
 
     @Override
     public void enterFunction_argument(cqlParser.Function_argumentContext ctx) {
-        System.out.println("called enterFunction_argument() " + ctx.getText());
+        //System.out.println("called enterFunction_argument() " + ctx.getText());
 
         // intersection :
         /*
@@ -255,7 +268,7 @@ public class CqlCustomListener extends cqlBaseListener {
 
         Object obj = rightValueStack.pop();
         if (!(obj instanceof AbstractFunctionArgument)) {
-            throw new CqlParseException("unexpected type");
+            throw new RuntimeException("unexpected type");
         }
         AbstractFunctionArgument abstractFunctionArgument = (AbstractFunctionArgument) obj;
 
@@ -281,7 +294,7 @@ public class CqlCustomListener extends cqlBaseListener {
                         item.setOrderType(OrderTypeEnum.DESC);
                         break;
                     default:
-                        throw new CqlParseException("unexpected ordering type");
+                        throw new RuntimeException("unexpected ordering type");
                 }
             }
         }

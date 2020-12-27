@@ -8,4 +8,5 @@ import java.util.List;
 public interface SearchService {
 
     List<Issue> search(List<Condition> conditions);
+    //List<Issue> search();
 }
