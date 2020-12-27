@@ -2,9 +2,9 @@ package dev.conductor.centra.domain.workflow.entities;
 
 public class WorkflowState {
 
-    private boolean isEntry;
-    private boolean isTerminus;
-    private String label;
+    private final boolean isEntry;
+    private final boolean isTerminus;
+    private final String label;
 
     public WorkflowState(boolean isEntry, boolean isTerminus, String label) {
         this.isEntry = isEntry;

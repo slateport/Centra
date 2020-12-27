@@ -191,7 +191,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 >
                                     Status:
                                     { issue.workflowState &&
-                                    <StatusChip issue={issue} />
+                                    <StatusChip label={issue.workflowState.label} isEnitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} />
                                     }
                                 </Button>
                                 <Menu
@@ -208,7 +208,8 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                     {workflowTransitions.map(transition =>
                                         <MenuItem
                                             onClick={onTransitionIssue(props, issue, transition)}
-                                        >{transition.label}</MenuItem>
+                                        >
+                                            <StatusChip label={transition.label} isEnitial={transition.isInitial} isTerminus={transition.isTerminus} /></MenuItem>
                                     )}
                                 </Menu>
                             </React.Fragment>
@@ -232,7 +233,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             <Card mb={6}>
                 <CardContent>
                     <Grid container>
-                        <Grid item xs={1}>Status <StatusChip issue={issue} /></Grid>
+                        <Grid item xs={1}>Status <StatusChip label={issue.workflowState.label} isEnitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} /></Grid>
                         <Grid item xs={1}/>
                         <Grid item xs={1}>
                             <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={"Type: "}/>
@@ -255,7 +256,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         <Grid container xs={8}>
                             <Grid item xs={12}>
                                 <EditableContainer Component={RedactorField} handlefn={onSaveDescription(props, issue)}>
-                                    {issue.description ?? <em>Double click to add a description...</em>}
+                                    {typeof issue.description === "string" && issue.description.length != 0 ? issue.description : "<em>Double click to add a description...</em>"}
                                 </EditableContainer>
                             </Grid>
                             <Grid item xs={12}>
