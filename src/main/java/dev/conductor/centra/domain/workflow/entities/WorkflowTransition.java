@@ -49,8 +49,6 @@ public class WorkflowTransition {
         WorkflowTransition that = (WorkflowTransition) o;
         return Objects.equals(fromNode, that.fromNode) &&
                 Objects.equals(toNode, that.toNode) &&
-                Objects.equals(isTerminus, that.isTerminus) &&
-                Objects.equals(isInitial, that.isInitial) &&
                 Objects.equals(label, that.label);
     }
 }

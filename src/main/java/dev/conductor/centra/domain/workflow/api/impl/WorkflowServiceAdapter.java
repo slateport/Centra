@@ -54,10 +54,6 @@ public class WorkflowServiceAdapter implements WorkflowService {
     }
 
     public List<WorkflowTransition> getAvailableTransitions(Workflow workflow, WorkflowState currentState) {
-        if (currentState.getIsTerminus()){
-            return new ArrayList<>();
-        }
-
         return workflow.getTransitions().stream()
                 .filter(e -> e.getFromNode().equals(currentState.getLabel()))
                 .collect(Collectors.toList());
@@ -78,7 +74,7 @@ public class WorkflowServiceAdapter implements WorkflowService {
         WorkflowState state = workflow.getStates().stream()
                 .filter(e -> e.getLabel().equals(transition.getToNode()))
                 .findFirst()
-                .orElse(new WorkflowState(true, false, "DEFAULT"));
+                .orElse(workflow.getStates().get(0));
 
         issue.setWorkflowState(state);
         issue.setLastModifiedDate(new Date());
