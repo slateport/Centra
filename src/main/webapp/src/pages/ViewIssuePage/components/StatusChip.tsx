@@ -58,23 +58,23 @@ const BlueChip = styled(Chip)`
   }
 `;
 
-const StatusChip = ({issue}) => {
-    if (issue.workflowState.isTerminus){
+const StatusChip = ({isTerminus, isEnitial, label}) => {
+    if (isTerminus){
         return (
             <React.Fragment>
-                <GreenChip label={issue.workflowState.label}/>
+                <GreenChip label={label}/>
             </React.Fragment>
         )
-    } else if (!issue.workflowState.isTerminus && !issue.workflowState.entry){
+    } else if (!isTerminus && !isEnitial){
         return (
             <React.Fragment>
-                <YellowChip label={issue.workflowState.label}/>
+                <YellowChip label={label}/>
             </React.Fragment>
         )
     } else {
         return (
             <React.Fragment>
-                <BlueChip label={issue.workflowState.label}/>
+                <BlueChip label={label}/>
             </React.Fragment>
         )
     }
