@@ -70,7 +70,7 @@ const priorityMap = {
     "ChevronsUp": <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />} label={"Highest"} />,
 }
 
-const EditablePriorityField = ({priorityId, handleFn, clickable, projectKey}) => {
+const EditablePriorityField = ({priorityId, handleFn, clickable, projectKey, preText, postText}) => {
 
     if (!priorityId) {
         return (<span>Unknown</span>)
@@ -107,11 +107,13 @@ const EditablePriorityField = ({priorityId, handleFn, clickable, projectKey}) =>
 
     if (edit) {
         return (
-            <IssuePriorityEnumPickerField selectedPriorityId={priorityId} handleFn={(val) => wrappedHandleFn(val)} projectKey={projectKey}/>
+            <React.Fragment>
+                {preText} <IssuePriorityEnumPickerField selectedPriorityId={priorityId} handleFn={(val) => wrappedHandleFn(val)} projectKey={projectKey}/>
+            </React.Fragment>
         )
     } else {
         return (
-            <Button color="primary" onClick={clickable ? handleClick : (e) => {}}>Priority: {priorityMap[(priority || {}).icon]}</Button>
+            <Button color="primary" onClick={clickable ? handleClick : (e) => {}}>{preText} {priorityMap[(priority || {}).icon]} {postText}</Button>
         )
     }
 }

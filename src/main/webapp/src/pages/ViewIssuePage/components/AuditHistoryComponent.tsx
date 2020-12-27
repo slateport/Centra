@@ -46,10 +46,10 @@ const blacklistedChanges = [
 const renderRight = (change) => {
     switch(change.propertyNameWithPath) {
         case 'title':
-            return parse(change.right)
+            return parse(change.right || "")
 
         case 'description':
-            return parse(change.right)
+            return parse(change.right || "")
 
         case 'workflowState:label':
             return change.right;
@@ -61,12 +61,12 @@ const renderRight = (change) => {
 
         case 'issueTypeId':
             return (
-                <EditableIssueTypeField id={change.right} handleFn={() => {}} clickable={false} projectKey={null} preText={""}/>
+                <EditableIssueTypeField id={change.right} handleFn={() => {}} clickable={false} projectKey={null} preText={""} postText={""}/>
             )
 
         case 'issuePriorityId':
             return (
-                <EditablePriorityField priorityId={change.right} clickable={false} handleFn={() => {}} projectKey={null} />
+                <EditablePriorityField priorityId={change.right} clickable={false} handleFn={() => {}} projectKey={null} preText={""} postText={""}/>
             )
 
         default:
@@ -77,10 +77,10 @@ const renderRight = (change) => {
 const renderLeft = (change) => {
     switch(change.propertyNameWithPath) {
         case 'title':
-            return parse(change.left)
+            return parse(change.left || "")
 
         case 'description':
-            return parse(change.left)
+            return parse(change.left || "")
 
         case 'workflowState:label':
             return change.left;
@@ -92,12 +92,12 @@ const renderLeft = (change) => {
 
         case 'issueTypeId':
             return (
-                <EditableIssueTypeField id={change.left} handleFn={() => {}} clickable={false} projectKey={null} preText={""}/>
+                <EditableIssueTypeField id={change.left} handleFn={() => {}} clickable={false} projectKey={null} preText={""} postText={""}/>
             )
 
         case 'issuePriorityId':
             return (
-                <EditablePriorityField priorityId={change.left} clickable={false} handleFn={() => {}} projectKey={null} />
+                <EditablePriorityField priorityId={change.left} clickable={false} handleFn={() => {}} projectKey={null} preText={""} postText={""}/>
             )
 
         default:
