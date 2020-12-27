@@ -1,7 +1,13 @@
-import {Button, Menu, MenuItem} from "@material-ui/core";
+import {Button as MuiButton, Menu, MenuItem} from "@material-ui/core";
 import StatusChip from "./StatusChip";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import React from "react";
+import styled from "styled-components";
+import {isAuthenticated} from "../../../helpers";
+
+const Button = styled(MuiButton)`
+    padding-left:0
+`
 
 const StatusPicker = ({issue, workflowTransitions, onTransitionIssue, props}) => {
 
@@ -20,9 +26,8 @@ const StatusPicker = ({issue, workflowTransitions, onTransitionIssue, props}) =>
             <Button
                 color="primary"
                 onClick={handleClick}
-                disabled={workflowTransitions.length == 0}
+                disabled={workflowTransitions.length == 0 || !isAuthenticated()}
             >
-                Status
                 { issue.workflowState &&
                 <StatusChip label={issue.workflowState.label} isInitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} />
                 }

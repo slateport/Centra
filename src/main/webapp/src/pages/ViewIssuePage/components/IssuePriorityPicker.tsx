@@ -1,9 +1,14 @@
 import React, {useEffect, useState} from "react";
-import {Button, Chip, Menu, MenuItem} from "@material-ui/core";
-import {issue, project} from "../../../services";
+import {Button as MuiButton, Chip, Menu, MenuItem} from "@material-ui/core";
+import {project} from "../../../services";
 import * as Icon from "react-feather";
 import styled from "styled-components";
 import {blueGrey, red, yellow} from "@material-ui/core/colors";
+import {isAuthenticated} from "../../../helpers";
+
+const Button = styled(MuiButton)`
+    padding-left:0
+`
 
 const priorityPromise = (id) => project.getPriorityById(id)
 
@@ -62,12 +67,12 @@ const RedChip = styled(Chip)`
 `;
 
 const priorityMap = {
-    "ChevronsDown": (priority) => <BlueChip icon={<Icon.ChevronsDown color={"white"} size={16}/>} label={priority.label} />,
-    "ChevronDown": (priority) =><BlueChip icon={<Icon.ChevronDown color={"white"} size={16} />} label={priority.label} />,
-    "Code": (priority) => <YellowChip icon={<Icon.Code  color={"white"} size={16}/>} label={priority.label} />,
-    "ChevronUp": (priority) => <RedChip icon={<Icon.ChevronUp color={"white"} size={16} />} label={priority.label} />,
-    "ChevronsUp": (priority) => <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />} label={priority.label} />,
-    undefined: <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />} label={"Unknown"} />
+    "ChevronsDown": (priority) => <BlueChip icon={<Icon.ChevronsDown color={"white"} size={16}/>} />,
+    "ChevronDown": (priority) =><BlueChip icon={<Icon.ChevronDown color={"white"} size={16} />} />,
+    "Code": (priority) => <YellowChip icon={<Icon.Code  color={"white"} size={16}/>} />,
+    "ChevronUp": (priority) => <RedChip icon={<Icon.ChevronUp color={"white"} size={16} />} />,
+    "ChevronsUp": (priority) => <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />} />,
+    undefined: <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />}/>
 }
 
 const IssuePriorityPicker = ({preText, postText, issuePriorityId, projectKey, onClickEvent}) => {
@@ -94,7 +99,10 @@ const IssuePriorityPicker = ({preText, postText, issuePriorityId, projectKey, on
     if (priority) {
         return (
             <React.Fragment>
-                <Button color="primary" onClick={handleClick}>{preText} {typeof priorityMap[(priority || {}).icon] === 'function' ? priorityMap[(priority || {}).icon](priority) : null} {postText}</Button>
+                <Button color="primary"
+                        onClick={handleClick}
+                        disabled={!isAuthenticated()}
+                >{preText} {typeof priorityMap[(priority || {}).icon] === 'function' ? priorityMap[(priority || {}).icon](priority) : null}&nbsp;{priority.label} {postText}</Button>
                 <Menu
                     id="issueType-menu"
                     anchorEl={anchorElTransitionMenu}
@@ -109,7 +117,7 @@ const IssuePriorityPicker = ({preText, postText, issuePriorityId, projectKey, on
 
                     {issuePriorityList.map((priorityType) =>
                         <MenuItem key={priorityType.id} onClick={() => onClickEvent(priorityType.id)}>
-                            {typeof priorityMap[(priorityType || {}).icon] === 'function' ? priorityMap[(priorityType || {}).icon](priorityType) : null}
+                            {typeof priorityMap[(priorityType || {}).icon] === 'function' ? priorityMap[(priorityType || {}).icon](priorityType) : null}&nbsp;{priorityType.label}
                         </MenuItem>
                     )}
                 </Menu>

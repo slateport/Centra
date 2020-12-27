@@ -2,14 +2,11 @@ import React, {useEffect, useState} from "react"
 import {Helmet} from "react-helmet";
 import {
     Breadcrumbs as MuiBreadcrumbs,
-    Button,
     Card as MuiCard,
     CardContent,
     Divider as MuiDivider,
     Grid,
     Link,
-    Menu,
-    MenuItem,
     Typography
 } from "@material-ui/core";
 import {DropzoneArea} from "material-ui-dropzone";
@@ -44,9 +41,16 @@ import {IssueTypePicker} from "./IssueTypePicker";
 import {IssuePriorityPicker} from "./IssuePriorityPicker";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const SectionTitle = styled.span`
+    text-transform: uppercase;
+    font-size:12.5px;
+    font-weight: 700;
+    color: #5E6C84;
+`
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
     <RouterNavLink innerRef={ref} {...props} />
 ));
+
 const GlobalStyleDropzone = createGlobalStyle`
   &&  .MuiDropzoneArea-root {
     max-height: 51px;
@@ -171,34 +175,14 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     >{issueHelper.buildExternalKey(issue)}: {issue.title}</Link></Typography>
             </Breadcrumbs>
             <Divider my={8} />
-            {isAuthenticated() &&
-            <Card mb={6}>
-                <CardContent>
-                    <Grid container>
-                        <Grid item xs={3}>
-                            <StatusPicker issue={issue} workflowTransitions={workflowTransitions} props={props} onTransitionIssue={onTransitionIssue}/>
-                        </Grid>
-                        <Grid item xs={1} />
-                        <Grid item xs={3}>
-                            <IssueTypePicker postText={<KeyboardArrowDownIcon />} preText={"Type"} issueTypeId={issue.issueTypeId} projectKey={issue.projectKey} onClickEvent={onSaveIssueType(props,issue)}/>
-                        </Grid>
-                        <Grid item xs={1} />
-                        <Grid item xs={3}>
-                            <IssuePriorityPicker preText={"Priority "} postText={<KeyboardArrowDownIcon />} issuePriorityId={issue.issuePriorityId} projectKey={issue.projectKey} onClickEvent={onSavePriority(props, issue)}/>
-                        </Grid>
-                        <Grid item xs={1} />
-                    </Grid>
-
-                </CardContent>
-
-            </Card>
-            }
 
             {!isAuthenticated() &&
             <Card mb={6}>
                 <CardContent>
                     <Grid container>
-                        <Grid item xs={3}>Status <StatusChip label={issue.workflowState.label} isInitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} /></Grid>
+                        <Grid item xs={3}>
+                            Status <StatusChip label={issue.workflowState.label} isInitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} />
+                        </Grid>
                         <Grid item xs={1}/>
                         <Grid item xs={3}>
                             Type <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={""} postText={""}/>
@@ -213,15 +197,13 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             }
             <Card mb={6}>
                 <CardContent>
-                    <Typography variant="h6">
-                        Details
-                    </Typography>
-                    <br />
                     <Grid container>
                         <Grid container xs={8}>
                             <Grid item xs={12}>
                                 <EditableContainer Component={RedactorField} handlefn={onSaveDescription(props, issue)}>
-                                    {typeof issue.description === "string" && issue.description.length != 0 ? issue.description : "<em>Double click to add a description...</em>"}
+                                    {typeof issue.description === "string" && issue.description.length != 0
+                                        ? issue.description : "<em>Double click to add a description...</em>"
+                                    }
                                 </EditableContainer>
                             </Grid>
                             <Grid item xs={12}>
@@ -250,35 +232,49 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         <Grid container xs={1} />
                         <Grid container xs={3}>
                             <Grid container xs={12}>
-                                <Grid item xs={6}>
-                                    Assignee:
+                                <Grid item xs={12}>
+                                    <SectionTitle>Status</SectionTitle>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <EditablePeopleField userId={issue.assigneeId} handleFn={onSaveAssignee(props, issue)} clickable={true} />
+                                <Grid item xs={12}>
+                                    <StatusPicker issue={issue} workflowTransitions={workflowTransitions} props={props} onTransitionIssue={onTransitionIssue}/>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    Reporter:
+                                <Grid item xs={12}>
+                                    <SectionTitle>Type</SectionTitle>
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={12}>
+                                    <IssueTypePicker postText={<KeyboardArrowDownIcon />} preText={""} issueTypeId={issue.issueTypeId} projectKey={issue.projectKey} onClickEvent={onSaveIssueType(props,issue)}/>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <SectionTitle>Priority</SectionTitle>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <IssuePriorityPicker preText={""} postText={<KeyboardArrowDownIcon />} issuePriorityId={issue.issuePriorityId} projectKey={issue.projectKey} onClickEvent={onSavePriority(props, issue)}/>
+                                </Grid>
+                                <Divider my={6} />
+                                <Grid item xs={12}>
+                                    <SectionTitle>Assignee</SectionTitle>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <EditablePeopleField userId={issue.assigneeId} handleFn={onSaveAssignee(props, issue)} clickable={isAuthenticated()} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <SectionTitle>Reporter</SectionTitle>
+                                </Grid>
+                                <Grid item xs={12}>
                                     <EditablePeopleField userId={issue.createdByUserId} handleFn={() => {}} clickable={false}/>
                                 </Grid>
+                                <Divider my={6} />
                                 {issue.createdDate &&
                                 <React.Fragment>
-                                    <Grid item xs={6}>
-                                        Date created:
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <RoundTimeAgo date={new Date(issue.createdDate)} />
+                                    <Grid item xs={12}>
+                                        Created <RoundTimeAgo date={new Date(issue.createdDate)} />
                                     </Grid>
                                 </React.Fragment>
                                 }
                                 {issue.lastModifiedDate &&
                                 <React.Fragment>
-                                    <Grid item xs={6}>
-                                        Last modified:
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <RoundTimeAgo date={new Date(issue.lastModifiedDate)} />
+                                    <Grid item xs={12}>
+                                        Updated <RoundTimeAgo date={new Date(issue.lastModifiedDate)} />
                                     </Grid>
                                 </React.Fragment>
                                 }

@@ -1,9 +1,14 @@
 import React, {useEffect, useState} from "react";
-import {Button, Chip, Menu, MenuItem} from "@material-ui/core";
+import {Button as MuiButton, Chip, Menu, MenuItem} from "@material-ui/core";
 import {issue, project} from "../../../services";
 import * as Icon from "react-feather";
 import styled from "styled-components";
 import {green, red, yellow} from "@material-ui/core/colors";
+import {isAuthenticated} from "../../../helpers";
+
+const Button = styled(MuiButton)`
+    padding-left:0
+`
 
 const GreenChip = styled(Chip)`
   background-color: ${green[700]};
@@ -95,7 +100,10 @@ const IssueTypePicker = ({preText, postText, issueTypeId, projectKey, onClickEve
     if (issueType) {
         return (
             <React.Fragment>
-                <Button color="primary" onClick={handleClick}>{preText} {iconMap[issueType.icon](issueType.label)} {postText}</Button>
+                <Button color="primary"
+                        onClick={handleClick}
+                        disabled={!isAuthenticated()}
+                >{preText} {iconMap[issueType.icon]()}&nbsp;{issueType.label} {postText}</Button>
                 <Menu
                     id="issueType-menu"
                     anchorEl={anchorElTransitionMenu}
@@ -110,7 +118,7 @@ const IssueTypePicker = ({preText, postText, issueTypeId, projectKey, onClickEve
 
                     {issueTypeList.map((issueType) =>
                         <MenuItem key={issueType.id} onClick={() => onClickEvent(issueType.id)}>
-                            {iconMap[issueType.icon](issueType.label)}
+                            {iconMap[issueType.icon]("")}&nbsp;{issueType.label}
                         </MenuItem>
                     )}
                 </Menu>
