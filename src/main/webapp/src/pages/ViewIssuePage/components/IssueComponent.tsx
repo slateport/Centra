@@ -13,6 +13,7 @@ import {
     Typography
 } from "@material-ui/core";
 import {DropzoneArea} from "material-ui-dropzone";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import styled, {createGlobalStyle} from "styled-components";
 import {spacing} from "@material-ui/system";
 import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
@@ -193,6 +194,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                     { issue.workflowState &&
                                     <StatusChip label={issue.workflowState.label} isEnitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} />
                                     }
+                                    <KeyboardArrowDownIcon />
                                 </Button>
                                 <Menu
                                     id="transition-menu"
@@ -216,10 +218,10 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         </Grid>
                         <Grid item xs={1} />
                         <Grid item xs={3}>
-                            <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} preText={"Type: "}/></Grid>
+                            <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} preText={"Type: "} postText={<KeyboardArrowDownIcon />}/></Grid>
                         <Grid item xs={1} />
                         <Grid item xs={3}>
-                            <EditablePriorityField clickable={true} handleFn={onSavePriority(props, issue)} priorityId={issue.issuePriorityId} projectKey={issue.projectKey} />
+                            <EditablePriorityField clickable={true} handleFn={onSavePriority(props, issue)} priorityId={issue.issuePriorityId} projectKey={issue.projectKey} preText={"Priority: "} postText={<KeyboardArrowDownIcon />}/>
                         </Grid>
                         <Grid item xs={1} />
                     </Grid>
@@ -236,11 +238,11 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         <Grid item xs={1}>Status <StatusChip label={issue.workflowState.label} isEnitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} /></Grid>
                         <Grid item xs={1}/>
                         <Grid item xs={1}>
-                            <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={"Type: "}/>
+                            <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={"Type: "} postText={""}/>
                         </Grid>
                         <Grid item xs={1} />
                         <Grid item xs={1}>
-                            <EditablePriorityField clickable={false} handleFn={() => {}} priorityId={issue.issuePriorityId} projectKey={issue.projectKey}/>
+                            <EditablePriorityField clickable={false} handleFn={() => {}} priorityId={issue.issuePriorityId} projectKey={issue.projectKey}  preText={""} postText={""}/>
                         </Grid>
                     </Grid>
                 </CardContent>

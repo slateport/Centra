@@ -53,10 +53,10 @@ class RelatedIssuesComponent extends React.Component<IRelatedIssuedComponentProp
                 {this.state.links.map((link, index) => (
                     <ListItem key={index} disableGutters={true}>
                         <ListItemIcon>
-                            <StatusChip issue={link.issue} />
+                            <StatusChip label={link.issue.workflowState.label} isEnitial={link.issue.workflowState.entry} isTerminus={link.issue.workflowState.isTerminus} />
                         </ListItemIcon>
                         <ListItemIcon>
-                            <EditableIssueTypeField handleFn={() => {}} id={link.issue.issueTypeId} clickable={false} projectKey={link.issue.projectKey} preText={""}/>
+                            <EditableIssueTypeField handleFn={() => {}} id={link.issue.issueTypeId} clickable={false} projectKey={link.issue.projectKey} preText={""} postText={""}/>
                         </ListItemIcon>
                         <Link href={"/browse/" + issueHelper.buildExternalKey(link.issue)}>{issueHelper.buildExternalKey(link.issue)}: {link.issue.title}</Link>
                         { isAuthenticated() &&
