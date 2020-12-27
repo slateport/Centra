@@ -58,14 +58,14 @@ const BlueChip = styled(Chip)`
   }
 `;
 
-const StatusChip = ({isTerminus, isEnitial, label}) => {
+const StatusChip = ({isTerminus, isInitial, label}) => {
     if (isTerminus){
         return (
             <React.Fragment>
                 <GreenChip label={label}/>
             </React.Fragment>
         )
-    } else if (!isTerminus && !isEnitial){
+    } else if (!isTerminus && !isInitial){
         return (
             <React.Fragment>
                 <YellowChip label={label}/>

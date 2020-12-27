@@ -1,5 +1,23 @@
 import React from 'react'
-import { TextField } from '@material-ui/core'
+import styled from "styled-components";
+
+export const TextArea = styled.textarea`
+    margin: 18px 0 0 -8px;
+    height: 44px;
+    width: 100%;
+    padding: 7px 7px 8px;
+    border: none;
+    resize: none;
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 1px transparent;
+    transition: background 0.1s;
+    font-size:1.5rem;
+    font-weight: 500;
+    &:hover:not(:focus) {
+      
+    }
+`;
 
 export default class StandardTextField extends React.Component<any, any> {
     private ref;
@@ -19,10 +37,8 @@ export default class StandardTextField extends React.Component<any, any> {
       // auto focus
       const ref = autoFocus ? (ref) => { this.ref = ref } : null
       return (
-            <TextField
+            <TextArea
                 ref={ref}
-                fullWidth
-                type="text"
                 {...rest}
             />
       )
