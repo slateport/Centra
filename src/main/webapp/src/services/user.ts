@@ -5,6 +5,7 @@ export const user = {
   login,
   logout,
   getUser,
+  getUserLite,
   getAllLite,
   registerUser,
   updateUser
@@ -23,9 +24,14 @@ function logout () {
   localStorage.removeItem('user')
 }
 
+function getUserLite (userId: string) {
+  return httpClient.get(`/api/users/${userId}/lite`)
+    .then(response => response.data)
+}
+
 function getUser (userId: string) {
   return httpClient.get(`/api/users/${userId}`)
-    .then(response => response.data)
+      .then(response => response.data)
 }
 
 function getAllLite () : Promise<UserLite[]> {

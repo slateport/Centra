@@ -79,7 +79,8 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
     }
 
     @Override
-    public List<UserLiteDTO> findAllLite() {
+    public List<UserLiteDTO>
+    findAllLite() {
         List<UserLiteDTO> results = new ArrayList<>();
 
         for (ApplicationUser user : findAll()) {
