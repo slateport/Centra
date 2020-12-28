@@ -47,6 +47,12 @@ const SectionTitle = styled.span`
     font-weight: 700;
     color: #5E6C84;
 `
+
+const SectionTime = styled.span`
+    color: #5E6C84;
+    font-size:12.5px;
+`
+
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
     <RouterNavLink innerRef={ref} {...props} />
 ));
@@ -273,14 +279,19 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 {issue.createdDate &&
                                 <React.Fragment>
                                     <Grid item xs={12}>
-                                        Created <RoundTimeAgo date={new Date(issue.createdDate)} />
+                                        <SectionTime>
+                                            Created <RoundTimeAgo date={new Date(issue.createdDate)} />
+                                        </SectionTime>
+
                                     </Grid>
                                 </React.Fragment>
                                 }
                                 {issue.lastModifiedDate &&
                                 <React.Fragment>
                                     <Grid item xs={12}>
-                                        Updated <RoundTimeAgo date={new Date(issue.lastModifiedDate)} />
+                                        <SectionTime>
+                                            Updated <RoundTimeAgo date={new Date(issue.lastModifiedDate)} />
+                                        </SectionTime>
                                     </Grid>
                                 </React.Fragment>
                                 }

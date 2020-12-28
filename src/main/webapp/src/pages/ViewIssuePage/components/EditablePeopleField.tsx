@@ -27,10 +27,6 @@ const useStyles = makeStyles((theme) => ({
 const EditablePeopleField = ({userId, handleFn, clickable}) => {
     const classes = useStyles();
 
-    if(userId == null){
-        return <span>Unassigned</span>
-    }
-
     let count = 0;
     let timeout = 250;
 
@@ -61,13 +57,14 @@ const EditablePeopleField = ({userId, handleFn, clickable}) => {
         handleFn(val)
     }
 
-
     if (edit) {
         return (
             <UserPickerField handleFn={wrappedHandleFn} userId={userId} />
         )
     } else {
-        return (user == null) ? (<span>Unknown</span>) : (
+        return (user == null) ? (
+            <Button onClick={clickable ? handleClick : (e) => {}}><Avatar className={classes.small}/>&nbsp;Unassigned</Button>
+        ) : (
             <Button onClick={clickable ? handleClick : (e) => {}}><Avatar className={classes.small}/>&nbsp;{user.displayName}</Button>
         )
     }
