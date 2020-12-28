@@ -1,7 +1,7 @@
 import React from 'react'
 import $ from 'jquery'
 import theme from '../theme'
-import { Routes } from "./Routes";
+import { Routes } from './Routes'
 import styled, { ThemeProvider } from 'styled-components'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -21,7 +21,6 @@ z-index: 100;
 position: relative;
 `
 
-
 class App extends React.Component<any, any> {
   constructor (props) {
     super(props)
@@ -35,7 +34,7 @@ class App extends React.Component<any, any> {
     if (init && init.installationComplete === false && window.location.href !== '/install') {
       return (
                 <React.Fragment>
-                    <Helmet titleTemplate={"%s | Centra"} defaultTitle={'Centra'}/>
+                    <Helmet titleTemplate={'%s | Centra'} defaultTitle={'Centra'}/>
                     <StylesProvider injectFirst>
                         <MuiThemeProvider theme={theme[0]}>
                             <ThemeProvider theme={theme[0]}>
@@ -50,10 +49,10 @@ class App extends React.Component<any, any> {
 
       )
     } else {
-      const siteName = (init) ? init?.publicName : "Centra"
+      const siteName = (init) ? init?.publicName : 'Centra'
       return (
         <React.Fragment>
-            <Helmet titleTemplate={"%s | " + siteName} defaultTitle={siteName}/>
+            <Helmet titleTemplate={'%s | ' + siteName} defaultTitle={siteName}/>
             <StylesProvider injectFirst>
                 <Router>
                 <MuiThemeProvider theme={theme[0]}>

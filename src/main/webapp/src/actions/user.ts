@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom'
 import { userConstants } from '../constants'
 import { user as userService } from '../services'
 import { alertActions } from './'
@@ -16,7 +16,7 @@ function login (username, password) {
       .then(
         user => {
           dispatch(success(user))
-          const history = useHistory();
+          const history = useHistory()
           history.push('/profile')
         },
         error => {
