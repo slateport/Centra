@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from "styled-components";
-import {isAuthenticated} from "../helpers";
+import styled from 'styled-components'
+import { isAuthenticated } from '../helpers'
 
 export const TextArea = styled.textarea`
     margin: 18px 0 0 -8px;
@@ -18,7 +18,7 @@ export const TextArea = styled.textarea`
     &:hover:not(:focus) {
       background-color: #ebecf0;
     }
-`;
+`
 
 export default class StandardTextArea extends React.Component<any, any> {
     private ref;

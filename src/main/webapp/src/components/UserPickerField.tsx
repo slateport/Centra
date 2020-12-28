@@ -32,7 +32,7 @@ export default class UserPickerField extends React.Component<IUserFieldPickerPro
                 getOptionSelected={(option, value) => option.id == value.id}
                 renderInput={(params) => <TextField {...params} variant="outlined" />}
                 onChange={(_, value: UserLite) => this.props.handleFn(value.id)}
-                size={"small"}
+                size={'small'}
             />
     )
   }

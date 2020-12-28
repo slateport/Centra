@@ -38,6 +38,6 @@ function registerUser (username: string, password: string, displayName: string, 
     .then(response => response.data)
 }
 
-function updateUser(user) {
+function updateUser (user) {
   return httpClient.put(`/api/users/${user.id}`, user)
 }

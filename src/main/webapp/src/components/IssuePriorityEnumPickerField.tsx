@@ -2,7 +2,7 @@ import React from 'react'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import { project } from '../services'
-import {priorityMap} from "../pages/ViewIssuePage/components/EditablePriorityField";
+import { priorityMap } from '../pages/ViewIssuePage/components/EditablePriorityField'
 
 interface IIssuePriorityEnumPickerFieldProps {
     projectKey: string
