@@ -164,8 +164,8 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             <Helmet title={issue.title} />
             <Typography variant="h3" gutterBottom display="inline">
                 <TextArea ref={titleRef} onBlur={onSaveTitle(props, issue, titleRef)} id={'title'} defaultValue={issue.title} onKeyDown={event => {
-                    if (event.keyCode === 13) {
-                        event.target.blur();
+                    if (event.key === 'Enter') {
+                        event.currentTarget.blur();
                     }
                 }}>
                 </TextArea>
