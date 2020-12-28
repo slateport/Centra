@@ -2,6 +2,7 @@ package dev.conductor.centra.domain.applicationUser.api;
 
 import dev.conductor.centra.domain.applicationUser.dto.UserLiteDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
+import dev.conductor.centra.domain.applicationUser.entiity.UserGroup;
 
 import java.security.Principal;
 import java.util.List;
@@ -17,4 +18,7 @@ public interface ApplicationUserService {
     Boolean isAdmin(Principal principal);
     void changePassword(ApplicationUser user, String password);
     List<UserLiteDTO> findAllLite();
+    UserGroup saveGroup(UserGroup group);
+    UserGroup findGroupById(String id);
+    UserGroup findGroupByName(String name);
 }
