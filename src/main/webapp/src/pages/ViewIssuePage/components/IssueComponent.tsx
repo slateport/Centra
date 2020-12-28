@@ -103,6 +103,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
 
     const onSaveTitle = (props, issue, titleRef) => {
         return _ => {
+            if (issue.title === titleRef.current.value) return
             issue.title = titleRef.current.value;
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
         }
