@@ -1,5 +1,7 @@
 package dev.conductor.centra.data.install;
 
+import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
+import dev.conductor.centra.domain.applicationUser.entiity.UserGroup;
 import dev.conductor.centra.domain.issue.entity.IssuePriority;
 import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;
 import dev.conductor.centra.domain.issue.entity.IssueType;
@@ -22,17 +24,20 @@ public class DefaultInstall {
     private final WorkflowService workflowService;
     private final ProjectService projectService;
     private final IssuePrioritySchemaService prioritySchemaService;
+    private final ApplicationUserService userService;
 
     public DefaultInstall(
             IssueTypeSchemaService issueTypeSchemaService,
             WorkflowService workflowService,
             ProjectService projectService,
-            IssuePrioritySchemaService prioritySchemaService
+            IssuePrioritySchemaService prioritySchemaService,
+            ApplicationUserService userService
     ) {
         this.issueTypeSchemaService = issueTypeSchemaService;
         this.workflowService = workflowService;
         this.projectService = projectService;
         this.prioritySchemaService = prioritySchemaService;
+        this.userService = userService;
     }
 
     public void createDefaultEntities(){
@@ -99,5 +104,17 @@ public class DefaultInstall {
                 schema.getId(),
                 prioritySchema.getId()
         ));
+
+        setupUserGroups();
+    }
+
+    private void setupUserGroups() {
+        UserGroup centraUsers = new UserGroup();
+        centraUsers.setName(UserGroup.CENTRA_USERS);
+        userService.saveGroup(centraUsers);
+
+        UserGroup centraAdministrators = new UserGroup();
+        centraAdministrators.setName(UserGroup.CENTRA_ADMINISTRATORS);
+        userService.saveGroup(centraAdministrators);
     }
 }

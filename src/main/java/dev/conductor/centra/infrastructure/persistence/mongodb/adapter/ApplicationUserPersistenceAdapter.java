@@ -1,9 +1,12 @@
 package dev.conductor.centra.infrastructure.persistence.mongodb.adapter;
 
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
+import dev.conductor.centra.domain.applicationUser.entiity.UserGroup;
 import dev.conductor.centra.domain.applicationUser.spi.ApplicationUserPersistencePort;
 import dev.conductor.centra.infrastructure.persistence.mongodb.entity.ApplicationUserEntity;
+import dev.conductor.centra.infrastructure.persistence.mongodb.entity.UserGroupEntity;
 import dev.conductor.centra.infrastructure.persistence.mongodb.repository.ApplicationUserRepository;
+import dev.conductor.centra.infrastructure.persistence.mongodb.repository.UserGroupRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,11 +18,16 @@ import java.util.Optional;
 @Repository
 public class ApplicationUserPersistenceAdapter implements ApplicationUserPersistencePort {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final ApplicationUserRepository repository;
+    private final UserGroupRepository userGroupRepository;
 
     @Autowired
-    private ApplicationUserRepository repository;
+    public ApplicationUserPersistenceAdapter(ApplicationUserRepository repository, ModelMapper modelMapper, UserGroupRepository userGroupRepository) {
+        this.repository = repository;
+        this.modelMapper = modelMapper;
+        this.userGroupRepository = userGroupRepository;
+    }
 
     @Override
     public ApplicationUser findByUsername(String username) {
@@ -70,5 +78,33 @@ public class ApplicationUserPersistenceAdapter implements ApplicationUserPersist
         repository.save(entity);
 
         return modelMapper.map(entity, ApplicationUser.class);
+    }
+
+    @Override
+    public UserGroup findGroupById(String id) {
+        Optional<UserGroupEntity> entity = userGroupRepository.findById(id);
+
+        return entity.map(
+                userGroupEntity -> modelMapper.map(userGroupEntity, UserGroup.class)
+        ).orElse(null);
+    }
+
+    @Override
+    public UserGroup saveGroup(UserGroup group) {
+        UserGroupEntity entity = modelMapper.map(group, UserGroupEntity.class);
+        userGroupRepository.save(entity);
+
+        return modelMapper.map(entity, UserGroup.class);
+    }
+
+    @Override
+    public UserGroup findGroupByName(String name) {
+        UserGroupEntity entity = userGroupRepository.findByName(name);
+
+        if (entity != null) {
+            return modelMapper.map(entity, UserGroup.class);
+        }
+
+        return null;
     }
 }

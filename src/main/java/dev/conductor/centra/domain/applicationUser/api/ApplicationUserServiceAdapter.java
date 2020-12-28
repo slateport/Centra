@@ -2,6 +2,7 @@ package dev.conductor.centra.domain.applicationUser.api;
 
 import dev.conductor.centra.domain.applicationUser.dto.UserLiteDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
+import dev.conductor.centra.domain.applicationUser.entiity.UserGroup;
 import dev.conductor.centra.domain.applicationUser.spi.ApplicationUserPersistencePort;
 import dev.conductor.centra.domain.applicationUser.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,15 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
             throw new UserAlreadyExistsException("Account with email already exists");
         }
 
+        if (user.getUserGroups().isEmpty()){
+            UserGroup group = findGroupByName(UserGroup.CENTRA_USERS);
+            user.getUserGroups().add(group);
+        }
+
+        if (user.getAdmin() != null && user.getAdmin()) {
+            user.getUserGroups().add(findGroupByName(UserGroup.CENTRA_ADMINISTRATORS));
+        }
+
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         persistence.save(user);
 
@@ -79,7 +89,8 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
     }
 
     @Override
-    public List<UserLiteDTO> findAllLite() {
+    public List<UserLiteDTO>
+    findAllLite() {
         List<UserLiteDTO> results = new ArrayList<>();
 
         for (ApplicationUser user : findAll()) {
@@ -87,5 +98,20 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
         }
 
         return results;
+    }
+
+    @Override
+    public UserGroup saveGroup(UserGroup group) {
+        return persistence.saveGroup(group);
+    }
+
+    @Override
+    public UserGroup findGroupById(String id) {
+        return persistence.findGroupById(id);
+    }
+
+    @Override
+    public UserGroup findGroupByName(String name) {
+        return persistence.findGroupByName(name);
     }
 }

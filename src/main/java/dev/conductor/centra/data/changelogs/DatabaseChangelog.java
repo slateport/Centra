@@ -2,6 +2,7 @@ package dev.conductor.centra.data.changelogs;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.settings.SettingsEnum;
 import dev.conductor.centra.data.install.DefaultInstall;
 import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
@@ -24,10 +25,18 @@ public class DatabaseChangelog {
             IssueTypeSchemaService issueTypeSchemaService,
             WorkflowService workflowService,
             ProjectService projectService,
-            IssuePrioritySchemaService prioritySchemaService
+            IssuePrioritySchemaService prioritySchemaService,
+            ApplicationUserService userService
     ) {
         updateSettings(settingsService);
-        DefaultInstall install = new DefaultInstall(issueTypeSchemaService, workflowService, projectService, prioritySchemaService);
+        DefaultInstall install = new DefaultInstall(
+                issueTypeSchemaService,
+                workflowService,
+                projectService,
+                prioritySchemaService,
+                userService
+        );
+
         install.createDefaultEntities();
     }
 
@@ -42,7 +51,7 @@ public class DatabaseChangelog {
                         settingsService.getDefaultByName(settings).getValue()
                 );
 
-                Settings savedSettings = settingsService.save(entity);
+                settingsService.save(entity);
             }
         }
     }

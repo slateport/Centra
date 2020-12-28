@@ -9,7 +9,7 @@ const Button = styled(MuiButton)`
     padding-left:0
 `
 
-const userPromise = (userId) => user.getUser(userId)
+const userPromise = (userId) => user.getUserLite(userId)
 
 const useStyles = makeStyles((theme) => ({
     root: {

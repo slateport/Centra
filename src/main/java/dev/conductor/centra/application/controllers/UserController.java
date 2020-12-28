@@ -107,8 +107,21 @@ public class UserController extends BaseController {
         return user;
     }
 
+    @GetMapping("/{id}/lite")
+    public UserLiteDTO getUserDtoLite(@PathVariable String id) {
+        ApplicationUser user = userService.findById(id);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), user.getAdmin());
+    }
+
     @GetMapping("/lite")
     public List<UserLiteDTO> getAllUserLite() {
         return userService.findAllLite();
     }
+
+
 }

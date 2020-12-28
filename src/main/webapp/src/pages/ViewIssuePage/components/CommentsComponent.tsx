@@ -9,7 +9,7 @@ import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 
-const userPromise = (userId) => user.getUser(userId)
+const userPromise = (userId) => user.getUserLite(userId)
 const Divider = styled(MuiDivider)(spacing);
 const IssueComment = ({comment: commentDto}) => {
     const [user, setUser] = useState(null);
