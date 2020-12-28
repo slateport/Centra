@@ -63,14 +63,15 @@ const RedChip = styled(Chip)`
 `;
 
 const priorityMap = {
-    "ChevronsDown": <BlueChip icon={<Icon.ChevronsDown color={"white"} size={16}/>} label={"Lowest"} />,
-    "ChevronDown": <BlueChip icon={<Icon.ChevronDown color={"white"} size={16} />} label={"Low"} />,
-    "Code": <YellowChip icon={<Icon.Code  color={"white"} size={16}/>} label={"Medium"} />,
-    "ChevronUp": <RedChip icon={<Icon.ChevronUp color={"white"} size={16} />} label={"High"} />,
-    "ChevronsUp": <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />} label={"Highest"} />,
+    "ChevronsDown": (priority) => <BlueChip icon={<Icon.ChevronsDown color={"white"} size={16}/>} label={priority.label} />,
+    "ChevronDown": (priority) =><BlueChip icon={<Icon.ChevronDown color={"white"} size={16} />} label={priority.label} />,
+    "Code": (priority) => <YellowChip icon={<Icon.Code  color={"white"} size={16}/>} label={priority.label} />,
+    "ChevronUp": (priority) => <RedChip icon={<Icon.ChevronUp color={"white"} size={16} />} label={priority.label} />,
+    "ChevronsUp": (priority) => <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />} label={priority.label} />,
+    undefined: <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />} label={"Unknown"} />
 }
 
-const EditablePriorityField = ({priorityId, handleFn, clickable, projectKey}) => {
+const EditablePriorityField = ({priorityId, handleFn, clickable, projectKey, preText, postText}) => {
 
     if (!priorityId) {
         return (<span>Unknown</span>)
@@ -107,13 +108,17 @@ const EditablePriorityField = ({priorityId, handleFn, clickable, projectKey}) =>
 
     if (edit) {
         return (
-            <IssuePriorityEnumPickerField selectedPriorityId={priorityId} handleFn={(val) => wrappedHandleFn(val)} projectKey={projectKey}/>
+            <React.Fragment>
+                {preText} <IssuePriorityEnumPickerField selectedPriorityId={priorityId} handleFn={(val) => wrappedHandleFn(val)} projectKey={projectKey}/>
+            </React.Fragment>
         )
     } else {
+        const fn = priorityMap[(priority || {}).icon]
         return (
-            <Button color="primary" onClick={clickable ? handleClick : (e) => {}}>Priority: {priorityMap[(priority || {}).icon]}</Button>
+            <Button color="primary" onClick={clickable ? handleClick : (e) => {}}>{preText} {typeof fn === 'function' ? fn(priority) : null} {postText}</Button>
         )
     }
 }
 
 export default EditablePriorityField
+export { priorityMap }

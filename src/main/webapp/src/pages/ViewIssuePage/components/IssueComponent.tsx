@@ -1,23 +1,21 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import {Helmet} from "react-helmet";
 import {
     Breadcrumbs as MuiBreadcrumbs,
-    Button,
     Card as MuiCard,
     CardContent,
     Divider as MuiDivider,
     Grid,
     Link,
-    Menu,
-    MenuItem,
     Typography
 } from "@material-ui/core";
 import {DropzoneArea} from "material-ui-dropzone";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import styled, {createGlobalStyle} from "styled-components";
 import {spacing} from "@material-ui/system";
 import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import EditableContainer from "../../../components/EditableContainer";
-import Field from "../../../components/StandardTextField";
+import Field, {TextArea} from "../../../components/StandardTextArea";
 import StatusChip from "./StatusChip";
 import EditablePeopleField from "./EditablePeopleField";
 import RedactorField from "../../../components/RedactorField";
@@ -38,11 +36,27 @@ import EditableIssueTypeField from "./EditableIssueTypeField";
 import EditablePriorityField from "./EditablePriorityField";
 import RelatedIssuesComponent from "./RelatedIssuesComponent";
 import { NewIssueLinkDialog } from "./NewIssueLinkDialog";
+import {StatusPicker} from "./StatusPicker";
+import {IssueTypePicker} from "./IssueTypePicker";
+import {IssuePriorityPicker} from "./IssuePriorityPicker";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const SectionTitle = styled.span`
+    text-transform: uppercase;
+    font-size:12.5px;
+    font-weight: 700;
+    color: #5E6C84;
+`
+
+const SectionTime = styled.span`
+    color: #5E6C84;
+    font-size:12.5px;
+`
+
 const NavLink = React.forwardRef<LinkProps, any>((props, ref) => (
     <RouterNavLink innerRef={ref} {...props} />
 ));
+
 const GlobalStyleDropzone = createGlobalStyle`
   &&  .MuiDropzoneArea-root {
     max-height: 51px;
@@ -80,7 +94,6 @@ function TabPanel(props) {
 }
 
 const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
-    const [anchorElTransitionMenu, setAnchorElTransitionMenu] = React.useState<null | HTMLElement>(null);
     const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions);
     const [tabValue, setTabValue] = React.useState(0);
 
@@ -88,23 +101,16 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
         setWorkflowTransitions(initialWorkflowTransitions)
     }, [initialWorkflowTransitions])
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorElTransitionMenu(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorElTransitionMenu(null);
-    };
-
     const workflowOptions = (issue) => {
         return {
             workflowId: issue.workflowId
         }
     }
 
-    const onSaveTitle = (props, issue) => {
-        return (e) => {
-            issue.title = e.children;
+    const onSaveTitle = (props, issue, titleRef) => {
+        return _ => {
+            if (issue.title === titleRef.current.value) return
+            issue.title = titleRef.current.value;
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
         }
     }
@@ -122,7 +128,6 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                 .then(() => issueService.getWorkflowTransitions(issueHelper.buildExternalKey(issue))
                     .then(response => setWorkflowTransitions(response))
                 )
-                .then(() => handleClose())
                 .then(() => props.dispatch(issueActions.getIssue(issueHelper.buildExternalKey(issue))))
         }
     }
@@ -143,6 +148,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
 
     const onSaveIssueType = (props, issue) => {
         return value => {
+            console.log(value)
             issue.issueTypeId = value
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
             location.reload()
@@ -151,20 +157,25 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
 
     const onSavePriority = (props, issue) => {
         return value => {
-            issue.issuePriorityId = value.target.value
+            issue.issuePriorityId = value
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
             location.reload()
         }
     }
+
+    const titleRef = useRef()
 
     return (
         <React.Fragment>
             <GlobalStyleDropzone />
             <Helmet title={issue.title} />
             <Typography variant="h3" gutterBottom display="inline">
-                <EditableContainer handlefn={onSaveTitle(props, issue)} Component={Field}>
-                    {issue.title}
-                </EditableContainer>
+                <TextArea ref={titleRef} onBlur={onSaveTitle(props, issue, titleRef)} id={'title'} defaultValue={issue.title} onKeyDown={event => {
+                    if (event.key === 'Enter') {
+                        event.currentTarget.blur();
+                    }
+                }}>
+                </TextArea>
             </Typography>
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
                 <Link component={NavLink} exact to="/">
@@ -176,86 +187,15 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     >{issueHelper.buildExternalKey(issue)}: {issue.title}</Link></Typography>
             </Breadcrumbs>
             <Divider my={8} />
-            {isAuthenticated() &&
             <Card mb={6}>
                 <CardContent>
-                    <Grid container>
-                        <Grid item xs={3}>
-                            <React.Fragment>
-                                <Button
-                                    aria-controls="transition-menu"
-                                    aria-haspopup="true"
-                                    color="primary"
-                                    onClick={handleClick}
-                                    disabled={workflowTransitions.length == 0}
-                                >
-                                    Status:
-                                    { issue.workflowState &&
-                                    <StatusChip issue={issue} />
-                                    }
-                                </Button>
-                                <Menu
-                                    id="transition-menu"
-                                    anchorEl={anchorElTransitionMenu}
-                                    keepMounted
-                                    getContentAnchorEl={null}
-                                    anchorOrigin={{vertical: "bottom", horizontal: "center"}}
-                                    transformOrigin={{vertical: "top", horizontal: "center"}}
-                                    open={Boolean(anchorElTransitionMenu)}
-                                    onClose={handleClose}
-                                    color={"primary"}
-                                >
-                                    {workflowTransitions.map(transition =>
-                                        <MenuItem
-                                            onClick={onTransitionIssue(props, issue, transition)}
-                                        >{transition.label}</MenuItem>
-                                    )}
-                                </Menu>
-                            </React.Fragment>
-                        </Grid>
-                        <Grid item xs={1} />
-                        <Grid item xs={3}>
-                            <EditableIssueTypeField handleFn={onSaveIssueType(props, issue)} id={issue.issueTypeId} clickable={true} projectKey={issue.projectKey} preText={"Type: "}/></Grid>
-                        <Grid item xs={1} />
-                        <Grid item xs={3}>
-                            <EditablePriorityField clickable={true} handleFn={onSavePriority(props, issue)} priorityId={issue.issuePriorityId} projectKey={issue.projectKey} />
-                        </Grid>
-                        <Grid item xs={1} />
-                    </Grid>
-
-                </CardContent>
-
-            </Card>
-            }
-
-            {!isAuthenticated() &&
-            <Card mb={6}>
-                <CardContent>
-                    <Grid container>
-                        <Grid item xs={1}>Status <StatusChip issue={issue} /></Grid>
-                        <Grid item xs={1}/>
-                        <Grid item xs={1}>
-                            <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={"Type: "}/>
-                        </Grid>
-                        <Grid item xs={1} />
-                        <Grid item xs={1}>
-                            <EditablePriorityField clickable={false} handleFn={() => {}} priorityId={issue.issuePriorityId} projectKey={issue.projectKey}/>
-                        </Grid>
-                    </Grid>
-                </CardContent>
-            </Card>
-            }
-            <Card mb={6}>
-                <CardContent>
-                    <Typography variant="h6">
-                        Details
-                    </Typography>
-                    <br />
                     <Grid container>
                         <Grid container xs={8}>
                             <Grid item xs={12}>
                                 <EditableContainer Component={RedactorField} handlefn={onSaveDescription(props, issue)}>
-                                    {issue.description ?? <em>Double click to add a description...</em>}
+                                    {typeof issue.description === "string" && issue.description.length != 0
+                                        ? issue.description : "<em>Double click to add a description...</em>"
+                                    }
                                 </EditableContainer>
                             </Grid>
                             <Grid item xs={12}>
@@ -284,35 +224,54 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         <Grid container xs={1} />
                         <Grid container xs={3}>
                             <Grid container xs={12}>
-                                <Grid item xs={6}>
-                                    Assignee:
+                                <Grid item xs={12}>
+                                    <SectionTitle>Status</SectionTitle>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <EditablePeopleField userId={issue.assigneeId} handleFn={onSaveAssignee(props, issue)} clickable={true} />
+                                <Grid item xs={12}>
+                                    <StatusPicker issue={issue} workflowTransitions={workflowTransitions} props={props} onTransitionIssue={onTransitionIssue}/>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    Reporter:
+                                <Grid item xs={12}>
+                                    <SectionTitle>Type</SectionTitle>
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={12}>
+                                    <IssueTypePicker postText={<KeyboardArrowDownIcon />} preText={""} issueTypeId={issue.issueTypeId} projectKey={issue.projectKey} onClickEvent={onSaveIssueType(props,issue)}/>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <SectionTitle>Priority</SectionTitle>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <IssuePriorityPicker preText={""} postText={<KeyboardArrowDownIcon />} issuePriorityId={issue.issuePriorityId} projectKey={issue.projectKey} onClickEvent={onSavePriority(props, issue)}/>
+                                </Grid>
+                                <Divider my={6} />
+                                <Grid item xs={12}>
+                                    <SectionTitle>Assignee</SectionTitle>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <EditablePeopleField userId={issue.assigneeId} handleFn={onSaveAssignee(props, issue)} clickable={isAuthenticated()} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <SectionTitle>Reporter</SectionTitle>
+                                </Grid>
+                                <Grid item xs={12}>
                                     <EditablePeopleField userId={issue.createdByUserId} handleFn={() => {}} clickable={false}/>
                                 </Grid>
+                                <Divider my={6} />
                                 {issue.createdDate &&
                                 <React.Fragment>
-                                    <Grid item xs={6}>
-                                        Date created:
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <RoundTimeAgo date={new Date(issue.createdDate)} />
+                                    <Grid item xs={12}>
+                                        <SectionTime>
+                                            Created <RoundTimeAgo date={new Date(issue.createdDate)} />
+                                        </SectionTime>
+
                                     </Grid>
                                 </React.Fragment>
                                 }
                                 {issue.lastModifiedDate &&
                                 <React.Fragment>
-                                    <Grid item xs={6}>
-                                        Last modified:
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <RoundTimeAgo date={new Date(issue.lastModifiedDate)} />
+                                    <Grid item xs={12}>
+                                        <SectionTime>
+                                            Updated <RoundTimeAgo date={new Date(issue.lastModifiedDate)} />
+                                        </SectionTime>
                                     </Grid>
                                 </React.Fragment>
                                 }

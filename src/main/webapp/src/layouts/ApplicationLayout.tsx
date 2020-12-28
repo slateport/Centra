@@ -8,9 +8,9 @@ import {
   CssBaseline,
   Paper as MuiPaper
 } from '@material-ui/core'
-import {alertActions} from "../actions";
-import {connect} from "react-redux";
-import { withRouter } from 'react-router-dom';
+import { alertActions } from '../actions'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   html,
@@ -57,17 +57,15 @@ const MainContent = styled(Paper)`
   }
 `
 
-
 class ApplicationLayout extends React.Component<any, any> {
+  componentDidMount () {
+    this.props.history.listen(() => {
+      this.props.dispatch(alertActions.clear())
+    })
+  }
 
-    componentDidMount() {
-        this.props.history.listen(() => {
-            this.props.dispatch(alertActions.clear())
-        })
-    }
-
-    render() {
-        return (
+  render () {
+    return (
             <Root>
                 <CssBaseline />
                 <GlobalStyle />
@@ -78,8 +76,8 @@ class ApplicationLayout extends React.Component<any, any> {
                     </MainContent>
                 </AppContent>
             </Root>
-        )
-    }
+    )
+  }
 }
 
 const connectedLayout = withRouter(ApplicationLayout)

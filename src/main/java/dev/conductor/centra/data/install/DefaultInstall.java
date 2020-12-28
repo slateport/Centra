@@ -66,9 +66,9 @@ public class DefaultInstall {
         states.add(new WorkflowState(false, true, "DONE"));
 
         List<WorkflowTransition> transitions = new ArrayList<>();
-        transitions.add(new WorkflowTransition("TO DO", "IN PROGRESS", "In Progress", true));
-        transitions.add(new WorkflowTransition("IN PROGRESS", "DONE", "Done", false));
-        transitions.add(new WorkflowTransition("DONE", "TODO", "Reopen", false));
+        transitions.add(new WorkflowTransition("TO DO", "IN PROGRESS", "In Progress", false, false));
+        transitions.add(new WorkflowTransition("IN PROGRESS", "DONE", "Done", false, true));
+        transitions.add(new WorkflowTransition("DONE", "TODO", "Reopen", true, false));
 
         Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions);
 

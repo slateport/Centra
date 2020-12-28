@@ -10,7 +10,7 @@ import TableCell from "@material-ui/core/TableCell";
 import Switcher from "../../../components/switcher";
 import { settings as settingsService } from './../../../services'
 import EditableContainer from "../../../components/EditableContainer";
-import Field from "../../../components/StandardTextField";
+import Field from "../../../components/StandardTextArea";
 import {initActions} from "../../../actions";
 
 const Divider = styled(MuiDivider)(spacing)

@@ -1,13 +1,31 @@
 import {user} from "../../../services";
 import React, {useEffect, useState} from "react";
 import UserPickerField from "../../../components/UserPickerField";
+import {Avatar, Button as MuiButton} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
+import styled from "styled-components";
+
+const Button = styled(MuiButton)`
+    padding-left:0
+`
 
 const userPromise = (userId) => user.getUser(userId)
 
-const EditablePeopleField = ({userId, handleFn, clickable}) => {
-    if(userId == null){
-        return <span>Unassigned</span>
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+    small: {
+        width: theme.spacing(6),
+        height: theme.spacing(6),
     }
+}));
+
+const EditablePeopleField = ({userId, handleFn, clickable}) => {
+    const classes = useStyles();
 
     let count = 0;
     let timeout = 250;
@@ -39,14 +57,15 @@ const EditablePeopleField = ({userId, handleFn, clickable}) => {
         handleFn(val)
     }
 
-
     if (edit) {
         return (
             <UserPickerField handleFn={wrappedHandleFn} userId={userId} />
         )
     } else {
-        return (user == null) ? (<span>Unknown</span>) : (
-            <span onClick={clickable ? handleClick : (e) => {}}>{user.displayName}</span>
+        return (user == null) ? (
+            <Button onClick={clickable ? handleClick : (e) => {}}><Avatar className={classes.small}/>&nbsp;Unassigned</Button>
+        ) : (
+            <Button onClick={clickable ? handleClick : (e) => {}}><Avatar className={classes.small}/>&nbsp;{user.displayName}</Button>
         )
     }
 }

@@ -8,12 +8,14 @@ public class WorkflowTransition {
     private final String toNode;
     private final String label;
     private Boolean isInitial = false;
+    private Boolean isTerminus = false;
 
-    public WorkflowTransition(String fromNode, String toNode, String label, Boolean isInitial) {
+    public WorkflowTransition(String fromNode, String toNode, String label, Boolean isInitial, Boolean isTerminus) {
         this.fromNode = fromNode;
         this.toNode = toNode;
         this.label = label;
         this.isInitial = isInitial;
+        this.isTerminus = isTerminus;
     }
 
     public String getFromNode() {
@@ -30,6 +32,14 @@ public class WorkflowTransition {
 
     public Boolean getInitial() {
         return isInitial;
+    }
+
+    public Boolean getTerminus() {
+        return isTerminus;
+    }
+
+    public void setTerminus(Boolean terminus) {
+        isTerminus = terminus;
     }
 
     @Override

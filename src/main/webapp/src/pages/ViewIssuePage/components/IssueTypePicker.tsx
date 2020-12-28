@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from "react";
-import {issue} from "../../../services";
-import ProjectIssueTypePickerField from "../../../components/ProjectIssueTypePickerField";
-import {Button, Chip} from "@material-ui/core";
+import {Button as MuiButton, Chip, Menu, MenuItem} from "@material-ui/core";
+import {issue, project} from "../../../services";
 import * as Icon from "react-feather";
 import styled from "styled-components";
 import {green, red, yellow} from "@material-ui/core/colors";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import {isAuthenticated} from "../../../helpers";
 
-const typePromise = (id) => issue.getIssueTypeById(id)
+const Button = styled(MuiButton)`
+    padding-left:0
+`
 
 const GreenChip = styled(Chip)`
   background-color: ${green[700]};
@@ -63,6 +64,8 @@ const RedChip = styled(Chip)`
   }
 `;
 
+const typePromise = (id) => issue.getIssueTypeById(id)
+
 const iconMap = {
     "AlertTriangle": (text) => <YellowChip icon={<Icon.AlertTriangle color={"white"} size={16}/>} label={text} />,
     "Zap": (text) => <GreenChip icon={<Icon.Zap color={"white"} size={16} />} label={text} />,
@@ -73,53 +76,55 @@ const iconMap = {
     "CheckSquare": (text) => <YellowChip icon={<Icon.CheckSquare color={"white"} size={16} />} label={text} />,
 }
 
-const EditableIssueTypeField = ({id, handleFn, clickable, projectKey, preText, postText}) => {
-    if(id == null){
-        return (<span>Unknown</span>)
-    }
-
-    let count = 0;
-    let timeout = 250;
-
-    const handleClick = (e) => {
-        if (timeout) clearTimeout(timeout)
-        count++
-
-        timeout = setTimeout(() => {
-            if (count === 1) {
-                setEdit(true)
-            }
-
-            // reset count
-            count = 0
-        }, 250)
-    }
-
-    const [issueType, setIssueType] = useState(null);
-    const [edit, setEdit] = useState(false);
-
+const IssueTypePicker = ({preText, postText, issueTypeId, projectKey, onClickEvent}) => {
+    const [anchorElTransitionMenu, setAnchorElTransitionMenu] = React.useState<null | HTMLElement>(null);
+    const [issueType, setIssueType] = useState({ icon: 'Zap', label: 'Foo'});
+    const [issueTypeList, setIssueTypeList] = useState([]);
 
     useEffect(() => {
-        typePromise(id).then(data => setIssueType(data))
+        typePromise(issueTypeId)
+            .then(data => setIssueType(data))
+
+        project.getIssueTypesForProject(projectKey)
+            .then(issueTypes => setIssueTypeList(issueTypes))
     }, []);
 
-    const wrappedHandleFn = (val) => {
-        setEdit(false)
-        handleFn(val)
-    }
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorElTransitionMenu(event.currentTarget);
+    };
 
+    const handleClose = () => {
+        setAnchorElTransitionMenu(null);
+    };
 
-    if (edit) {
+    if (issueType) {
         return (
-            <ProjectIssueTypePickerField selectedId={id} projectKey={projectKey} handleFn={(val) => wrappedHandleFn(val)}/>
-        )
-    } else {
-        return (issueType == null) ? (<span>Unknown</span>) : (
-            <Button color="primary" onClick={clickable ? handleClick : (e) => {}}>{preText} {iconMap[issueType.icon](issueType.label)} {postText}</Button>
+            <React.Fragment>
+                <Button color="primary"
+                        onClick={handleClick}
+                        disabled={!isAuthenticated()}
+                >{preText} {iconMap[issueType.icon]()}&nbsp;{issueType.label} {postText}</Button>
+                <Menu
+                    id="issueType-menu"
+                    anchorEl={anchorElTransitionMenu}
+                    keepMounted
+                    getContentAnchorEl={null}
+                    anchorOrigin={{vertical: "bottom", horizontal: "center"}}
+                    transformOrigin={{vertical: "top", horizontal: "center"}}
+                    open={Boolean(anchorElTransitionMenu)}
+                    onClose={handleClose}
+                    color={"primary"}
+                >
+
+                    {issueTypeList.map((issueType) =>
+                        <MenuItem key={issueType.id} onClick={() => onClickEvent(issueType.id)}>
+                            {iconMap[issueType.icon]("")}&nbsp;{issueType.label}
+                        </MenuItem>
+                    )}
+                </Menu>
+            </React.Fragment>
         )
     }
 }
 
-
-
-export default EditableIssueTypeField
+export { IssueTypePicker }
