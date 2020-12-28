@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from "styled-components";
+import {isAuthenticated} from "../helpers";
 
 export const TextArea = styled.textarea`
     margin: 18px 0 0 -8px;
@@ -39,6 +40,7 @@ export default class StandardTextArea extends React.Component<any, any> {
       return (
             <TextArea
                 ref={ref}
+                disabled={!isAuthenticated()}
                 {...rest}
             />
       )

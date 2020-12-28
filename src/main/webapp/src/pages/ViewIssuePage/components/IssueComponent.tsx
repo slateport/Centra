@@ -187,26 +187,6 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                     >{issueHelper.buildExternalKey(issue)}: {issue.title}</Link></Typography>
             </Breadcrumbs>
             <Divider my={8} />
-
-            {!isAuthenticated() &&
-            <Card mb={6}>
-                <CardContent>
-                    <Grid container>
-                        <Grid item xs={3}>
-                            Status <StatusChip label={issue.workflowState.label} isInitial={issue.workflowState.entry} isTerminus={issue.workflowState.isTerminus} />
-                        </Grid>
-                        <Grid item xs={1}/>
-                        <Grid item xs={3}>
-                            Type <EditableIssueTypeField handleFn={() => {}} id={issue.issueTypeId} clickable={false} projectKey={issue.projectKey} preText={""} postText={""}/>
-                        </Grid>
-                        <Grid item xs={1} />
-                        <Grid item xs={3}>
-                            Priority <EditablePriorityField clickable={false} handleFn={() => {}} priorityId={issue.issuePriorityId} projectKey={issue.projectKey}  preText={""} postText={""}/>
-                        </Grid>
-                    </Grid>
-                </CardContent>
-            </Card>
-            }
             <Card mb={6}>
                 <CardContent>
                     <Grid container>
