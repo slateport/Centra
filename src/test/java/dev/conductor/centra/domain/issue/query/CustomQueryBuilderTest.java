@@ -14,6 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class CustomQueryBuilderTest {
@@ -206,7 +208,10 @@ public class CustomQueryBuilderTest {
         Query query = CustomQueryBuilder.composeQuery(statement, sessionContainer);
         System.out.println(query);
 
-        Assert.assertEquals("Query: { \"createdDate\" : \"27-12-2020\"}, Fields: {}, Sort: {}",
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String expected = LocalDate.now().format(formatter);
+
+        Assert.assertEquals("Query: { \"createdDate\" : \""+ expected +"\"}, Fields: {}, Sort: {}",
                 query.toString());
 
         System.out.println("******************************");
@@ -244,7 +249,7 @@ public class CustomQueryBuilderTest {
         Query query = CustomQueryBuilder.composeQuery(statement, sessionContainer);
         System.out.println(query);
 
-        Assert.assertEquals("Query: { \"Text\" : { \"$regularExpression\" : { \"pattern\" : \"/\\\"foo\\\"/\", \"options\" : \"i\"}}}, Fields: {}, Sort: {}",
+        Assert.assertEquals("Query: { \"Text\" : { \"$regularExpression\" : { \"pattern\" : \"/foo/\", \"options\" : \"i\"}}}, Fields: {}, Sort: {}",
                 query.toString());
 
         System.out.println("******************************");
@@ -265,7 +270,7 @@ public class CustomQueryBuilderTest {
 
         // N.B. $not in the query can be seen in debug only
         // https://jira.mongodb.org/browse/JAVA-548
-        Assert.assertEquals("Query: { \"Text\" : { \"$regularExpression\" : { \"pattern\" : \"/\\\"foo\\\"/\", \"options\" : \"i\"}}}, Fields: {}, Sort: {}",
+        Assert.assertEquals("Query: { \"Text\" : { \"$regularExpression\" : { \"pattern\" : \"/foo/\", \"options\" : \"i\"}}}, Fields: {}, Sort: {}",
                 query.toString());
 
         System.out.println("******************************");
@@ -286,7 +291,7 @@ public class CustomQueryBuilderTest {
 
         // N.B. $not in the query can be seen in debug only
         // https://jira.mongodb.org/browse/JAVA-548
-        Assert.assertEquals("Query: { \"Text\" : { \"$regularExpression\" : { \"pattern\" : \"/\\\"foo\\\"/\", \"options\" : \"i\"}}}, Fields: {}, Sort: {}",
+        Assert.assertEquals("Query: { \"Text\" : { \"$regularExpression\" : { \"pattern\" : \"/foo/\", \"options\" : \"i\"}}}, Fields: {}, Sort: {}",
                 query.toString());
 
         System.out.println("******************************");

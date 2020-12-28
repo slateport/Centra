@@ -11,7 +11,7 @@ cql_stmt_list
 cql_stmt
  : logical_expression ordering_term?
  ;
- 
+
 logical_expression:
 OPEN_PAR logical_expression CLOSE_PAR #BracedExpression
 | expr #SimpleExpression
@@ -21,29 +21,29 @@ OPEN_PAR logical_expression CLOSE_PAR #BracedExpression
 ;
 
 expr
- : left_value operator right_value (compare_dates)? 
+ : left_value operator right_value (compare_dates)?
  | left_value operator OPEN_PAR right_value (compare_dates)? CLOSE_PAR
  ;
- 
+
 right_value:
  literal_value | function_call | literal_list  | dates ;
- 
+
 left_value:
  field /*| literal_value*/;
 
 /*ordering_term
  : K_ORDER K_BY literal_value ( K_ASC | K_DESC )? (COMMA literal_value ( K_ASC | K_DESC )? )*
  ;*/
- 
+
 ordering_term
  : ordering_list;
- 
+
 ordering_list
  : ordering_list_item+;
- 
+
 ordering_list_item
  : order_by field (order= (K_ASC | K_DESC) )? ;
- 
+
 order_by:
  K_ORDER K_BY;
 
@@ -80,7 +80,7 @@ function_call
 argument_list
  : function_argument (',' function_argument)*
  ;
- 
+
 function_argument
  : literal_value | function_call
  ;
@@ -285,9 +285,9 @@ F_WATCHERS : W A T C H E R S;
 F_WORK_RATIO : W  O R K R A T I O;
 
 IDENTIFIER
- : '"' (~'"' | '""')* '"'
+ : /*'"' (~'"' | '""')* '"'
  | '`' (~'`' | '``')* '`'
- | '[' ~']'* ']'
+ | */ '[' ~']'* ']'
  | [a-zA-Z_] [a-zA-Z_0-9.\-]* // TODO check: needs more chars in set
  | '-'
  | [A-Z]+ '-' [0-9]+ // ex) KEY-###
