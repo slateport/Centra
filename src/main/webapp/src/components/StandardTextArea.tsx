@@ -15,11 +15,11 @@ export const TextArea = styled.textarea`
     font-size:1.5rem;
     font-weight: 500;
     &:hover:not(:focus) {
-      
+      background-color: #ebecf0;
     }
 `;
 
-export default class StandardTextField extends React.Component<any, any> {
+export default class StandardTextArea extends React.Component<any, any> {
     private ref;
 
     constructor (props) {

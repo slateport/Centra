@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import {Helmet} from "react-helmet";
 import {
     Breadcrumbs as MuiBreadcrumbs,
@@ -15,7 +15,7 @@ import styled, {createGlobalStyle} from "styled-components";
 import {spacing} from "@material-ui/system";
 import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import EditableContainer from "../../../components/EditableContainer";
-import Field from "../../../components/StandardTextField";
+import Field, {TextArea} from "../../../components/StandardTextArea";
 import StatusChip from "./StatusChip";
 import EditablePeopleField from "./EditablePeopleField";
 import RedactorField from "../../../components/RedactorField";
@@ -101,9 +101,9 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
         }
     }
 
-    const onSaveTitle = (props, issue) => {
-        return (e) => {
-            issue.title = e.children;
+    const onSaveTitle = (props, issue, titleRef) => {
+        return _ => {
+            issue.title = titleRef.current.value;
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
         }
     }
@@ -156,14 +156,19 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
         }
     }
 
+    const titleRef = useRef()
+
     return (
         <React.Fragment>
             <GlobalStyleDropzone />
             <Helmet title={issue.title} />
             <Typography variant="h3" gutterBottom display="inline">
-                <EditableContainer handlefn={onSaveTitle(props, issue)} Component={Field}>
-                    {issue.title}
-                </EditableContainer>
+                <TextArea ref={titleRef} onBlur={onSaveTitle(props, issue, titleRef)} id={'title'} defaultValue={issue.title} onKeyDown={event => {
+                    if (event.keyCode === 13) {
+                        event.target.blur();
+                    }
+                }}>
+                </TextArea>
             </Typography>
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
                 <Link component={NavLink} exact to="/">
