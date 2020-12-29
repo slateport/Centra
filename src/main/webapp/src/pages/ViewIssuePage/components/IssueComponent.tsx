@@ -146,9 +146,17 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
         }
     }
 
+    const onSaveReporter = (props, issue) => {
+        return value => {
+            issue.createdByUserId = value
+            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            location.reload()
+
+        }
+    }
+
     const onSaveIssueType = (props, issue) => {
         return value => {
-            console.log(value)
             issue.issueTypeId = value
             props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
             location.reload()
@@ -253,7 +261,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                     <SectionTitle>Reporter</SectionTitle>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <EditablePeopleField userId={issue.createdByUserId} handleFn={() => {}} clickable={false}/>
+                                    <EditablePeopleField userId={issue.createdByUserId} handleFn={onSaveReporter(props,issue)} clickable={isAuthenticated()}/>
                                 </Grid>
                                 <Divider my={6} />
                                 {issue.createdDate &&
