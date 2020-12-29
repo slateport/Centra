@@ -27,6 +27,9 @@ const normalisePropertyName = (propertyName) => {
         case 'assigneeId':
             return "Assignee"
 
+        case 'createdByUserId':
+            return "Reporter"
+
         case 'issueTypeId':
             return "Issue type"
 
@@ -59,6 +62,11 @@ const renderRight = (change) => {
                 <EditablePeopleField userId={change.right} handleFn={() => {}} clickable={false}/>
             )
 
+        case 'createdByUserId':
+            return (
+                <EditablePeopleField userId={change.left} handleFn={() => {}} clickable={false}/>
+            )
+
         case 'issueTypeId':
             return (
                 <EditableIssueTypeField id={change.right} handleFn={() => {}} clickable={false} projectKey={null} preText={""} postText={""}/>
@@ -86,6 +94,11 @@ const renderLeft = (change) => {
             return change.left;
 
         case 'assigneeId':
+            return (
+                <EditablePeopleField userId={change.left} handleFn={() => {}} clickable={false}/>
+            )
+
+        case 'createdByUserId':
             return (
                 <EditablePeopleField userId={change.left} handleFn={() => {}} clickable={false}/>
             )
