@@ -80,7 +80,7 @@ public class UserController extends BaseController {
 
         if (authenticatedUser == null
                 || (!authenticatedUser.getId().equals(id)
-                && !this.getAuthenticatedUser(principal).getAdmin())
+                && !this.isAdmin(principal))
         ) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
@@ -115,7 +115,7 @@ public class UserController extends BaseController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        return new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), user.getAdmin());
+        return new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), userService.isAdmin(user));
     }
 
     @GetMapping("/lite")
