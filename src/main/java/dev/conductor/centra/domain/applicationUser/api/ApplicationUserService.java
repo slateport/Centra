@@ -13,7 +13,7 @@ public interface ApplicationUserService {
     ApplicationUser findByUsername(String username);
     ApplicationUser findByEmailAddress(String emailAddress);
     ApplicationUser findById(String id);
-    ApplicationUser createUser(ApplicationUser user);
+    ApplicationUser createUser(ApplicationUser user, boolean admin);
     Boolean isAdmin(ApplicationUser user);
     void changePassword(ApplicationUser user, String password);
     List<UserLiteDTO> findAllLite();

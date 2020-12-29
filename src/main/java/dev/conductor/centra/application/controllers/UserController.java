@@ -34,7 +34,7 @@ public class UserController extends BaseController {
         }
 
         try{
-            userService.createUser(user);
+            userService.createUser(user, user.getAdmin() != null && user.getAdmin());
             user.setPassword(null);
         } catch (UserAlreadyExistsException e) {
             throw new ResponseStatusException(

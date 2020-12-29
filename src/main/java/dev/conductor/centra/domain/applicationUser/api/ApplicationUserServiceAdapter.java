@@ -46,7 +46,7 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
     }
 
     @Override
-    public ApplicationUser createUser(ApplicationUser user) {
+    public ApplicationUser createUser(ApplicationUser user, boolean admin) {
 
         if (findByUsername(user.getUsername()) != null) {
             throw new UserAlreadyExistsException("Account with username already exists");
@@ -56,12 +56,9 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
             throw new UserAlreadyExistsException("Account with email already exists");
         }
 
-        if (user.getUserGroups().isEmpty()){
-            UserGroup group = findGroupByName(UserGroup.CENTRA_USERS);
-            user.getUserGroups().add(group);
-        }
+        user.getUserGroups().add(findGroupByName(UserGroup.CENTRA_USERS));
 
-        if (user.getAdmin() != null && user.getAdmin()) {
+        if (admin) {
             user.getUserGroups().add(findGroupByName(UserGroup.CENTRA_ADMINISTRATORS));
         }
 
