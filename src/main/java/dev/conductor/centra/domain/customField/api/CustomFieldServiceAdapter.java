@@ -23,6 +23,11 @@ public class CustomFieldServiceAdapter implements CustomFieldService {
     }
 
     @Override
+    public CustomField getCustomFieldById(String id) {
+        return customFieldPersistencePort.findById(id);
+    }
+
+    @Override
     public CustomField createCustomField(CustomField customField) {
         return customFieldPersistencePort.save(customField);
     }

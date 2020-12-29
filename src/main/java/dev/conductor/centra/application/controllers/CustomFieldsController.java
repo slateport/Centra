@@ -39,6 +39,12 @@ public class CustomFieldsController extends BaseController {
 
     @PostMapping("/issue/{id}")
     public CustomFieldValue saveCustomFieldValue(@RequestBody CustomFieldValue value, @PathVariable String id) {
+        CustomField customField = service.getCustomFieldById(value.getCustomFieldId());
+
+        if (customField == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Custom Field not found!");
+        }
+
         return service.saveValue(getIssueByExternalId(id), value);
     }
 

@@ -10,4 +10,5 @@ public interface CustomFieldPersistencePort {
     CustomField save(CustomField customField);
     CustomField findByName(String name);
     List<CustomField> findByProject(Project project);
+    CustomField findById(String id);
 }

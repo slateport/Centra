@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -44,5 +45,12 @@ public class CustomFieldPersistenceAdapter implements CustomFieldPersistencePort
                 .stream()
                 .map(customFieldEntity -> modelMapper.map(customFieldEntity, CustomField.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public CustomField findById(String id) {
+        return customFieldRepository.findById(id)
+                .map(customFieldEntity -> modelMapper.map(customFieldEntity, CustomField.class))
+                .orElse(null);
     }
 }
