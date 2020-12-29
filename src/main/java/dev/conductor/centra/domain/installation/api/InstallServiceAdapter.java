@@ -42,14 +42,13 @@ public class InstallServiceAdapter implements InstallService {
 //        }
 
         ApplicationUser user = new ApplicationUser();
-        user.setAdmin(true);
         user.setDisplayName(installationDTO.getUsername());
         user.setEnabled(true);
         user.setEmailAddress("");
         user.setPassword(installationDTO.getPassword());
         user.setUsername(installationDTO.getUsername());
 
-        userService.createUser(user);
+        userService.createUser(user, true);
 
         installComplete.setValue("true");
         settingsService.save(installComplete);
