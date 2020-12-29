@@ -28,7 +28,7 @@ public class SettingsController extends BaseController {
     public HashMap<String, String> listAll(Principal principal) {
         HashMap<String, String> map = new HashMap<>();
 
-        if (!applicationUserService.isAdmin(principal)){
+        if (!isAdmin(principal)){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
@@ -43,7 +43,7 @@ public class SettingsController extends BaseController {
 
     @PutMapping("/{key}")
     public void setSettingsValue(@RequestBody SettingValueDTO dto,  @PathVariable String key, Principal principal) {
-        if (!applicationUserService.isAdmin(principal)){
+        if (!isAdmin(principal)){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
