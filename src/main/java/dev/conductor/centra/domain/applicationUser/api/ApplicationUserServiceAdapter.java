@@ -72,14 +72,8 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
     }
 
     @Override
-    public Boolean isAdmin(Principal principal) {
-        if (principal == null){
-            return false;
-        }
-
-        ApplicationUser user = findByUsername(principal.getName());
-
-        if (user == null) {
+    public Boolean isAdmin(ApplicationUser user) {
+        if (user == null){
             return false;
         }
 
@@ -106,7 +100,7 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
         List<UserLiteDTO> results = new ArrayList<>();
 
         for (ApplicationUser user : findAll()) {
-            results.add(new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), user.getAdmin()));
+            results.add(new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), isAdmin(user)));
         }
 
         return results;

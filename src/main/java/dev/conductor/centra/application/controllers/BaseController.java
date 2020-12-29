@@ -26,6 +26,7 @@ abstract class BaseController {
     }
 
     protected Boolean isAdmin(Principal principal) {
-        return applicationUserService.isAdmin(principal);
+        ApplicationUser user = getAuthenticatedUser(principal);
+        return user != null && applicationUserService.isAdmin(user);
     }
 }
