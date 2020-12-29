@@ -74,12 +74,6 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
             return false;
         }
 
-        // Legacy isAdmin flag
-        if (user.getAdmin()) {
-            return true;
-        }
-
-
         return user.getUserGroups()
                 .stream()
                 .anyMatch(userGroup -> userGroup.getName().equals(UserGroup.CENTRA_ADMINISTRATORS));
