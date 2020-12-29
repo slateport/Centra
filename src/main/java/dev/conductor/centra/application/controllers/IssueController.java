@@ -24,12 +24,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/issues")
-public class IssueController {
+public class IssueController extends BaseController {
 
     private final String PROJECT_NOT_FOUND_ERROR_MESSAGE = "Project not found";
 
@@ -99,7 +100,11 @@ public class IssueController {
     }
 
     @PutMapping("/{id}")
-    public IssueDTO updateIssue (@RequestBody IssueDTO issueDto, @PathVariable String id) {
+    public IssueDTO updateIssue (
+            @RequestBody IssueDTO issueDto,
+            @PathVariable String id,
+            Principal principal
+    ) {
         Issue issue = getIssueByExternalId(id);
         Project project = projectService.findById(issue.getProjectId());
 
@@ -111,6 +116,8 @@ public class IssueController {
         }
 
         Issue entityToSave = Issue.fromIssueDto(issueDto);
+        entityToSave.setLastModifiedDate(new Date());
+        entityToSave.setLastModifiedByUserId(getAuthenticatedUser(principal).getId());
         issueService.save(entityToSave);
 
         return convertToDTO(entityToSave);
