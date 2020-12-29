@@ -106,9 +106,9 @@ public class Issue {
             issueDTO.getLastModifiedDate(),
             issueDTO.getWorkflowState(),
             issueDTO.getWorkflowId(),
-            issueDTO.getLastModifiedByUserId(),
-            issueDTO.getAssigneeId(),
             issueDTO.getCreatedByUserId(),
+            issueDTO.getAssigneeId(),
+            issueDTO.getLastModifiedByUserId(),
             issueDTO.getIssuePriorityId(),
             issueDTO.getIssueTypeId(),
             issueDTO.getLabels()
