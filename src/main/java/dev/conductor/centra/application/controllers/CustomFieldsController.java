@@ -3,6 +3,7 @@ package dev.conductor.centra.application.controllers;
 import dev.conductor.centra.domain.customField.api.CustomFieldService;
 import dev.conductor.centra.domain.customField.entity.CustomField;
 import dev.conductor.centra.domain.customField.entity.CustomFieldValue;
+import dev.conductor.centra.domain.issue.entity.Issue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,14 +40,19 @@ public class CustomFieldsController extends BaseController {
 
     @PostMapping("/issue/{id}")
     public CustomFieldValue saveCustomFieldValue(@RequestBody CustomFieldValue value, @PathVariable String id) {
+        Issue issue = getIssueByExternalId(id);
         CustomField customField = service.getCustomFieldById(value.getCustomFieldId());
 
         if (customField == null) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Custom Field not found!");
         }
 
+        if (customField.getProjectId() != null && !customField.getProjectId().equals(issue.getProjectId())) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Custom Field not a part of the issue's project");
+        }
+
         try {
-            return service.saveValue(getIssueByExternalId(id), value);
+            return service.saveValue(issue, value);
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage());
         }
