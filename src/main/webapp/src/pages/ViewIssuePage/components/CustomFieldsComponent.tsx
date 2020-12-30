@@ -6,6 +6,11 @@ import EditableContainer from "../../../components/EditableContainer";
 import StandardTextField from "../../../components/StandardTextField";
 import {alertActions} from "../../../actions";
 import StandardSelectField from "../../../components/StandardSelectField";
+import styled from "styled-components";
+
+const CustomFieldText = styled.span`
+    color: #5E6C84;
+`
 
 interface ICustomFieldsComponentProps {
     issue: any
@@ -33,7 +38,7 @@ export default class CustomFieldsComponent extends React.Component<ICustomFields
         return state => {
             customFieldValue.stringValue = state.children
             issue.setCustomFieldValue(customFieldValue, issueHelper.buildExternalKey(this.props.issue))
-                .catch(e => this.props.dispatch(alertActions.error("Failed to update custom field")))
+                .catch(_ => this.props.dispatch(alertActions.error("Failed to update custom field")))
             this.forceUpdate()
         }
     }
@@ -42,7 +47,7 @@ export default class CustomFieldsComponent extends React.Component<ICustomFields
         return (
             this.state.customFields.map(fieldDto =>
                 <React.Fragment>
-                    <Grid item xs={4}>{fieldDto.customField.name}</Grid>
+                    <Grid item xs={4}><CustomFieldText>{fieldDto.customField.name}:</CustomFieldText></Grid>
                     <Grid item xs={8}>
                         <EditableContainer Component={fieldDto.customField.options.length === 0 ? StandardTextField : StandardSelectField}
                                            handlefn={this.onSaveCustomFieldValue(fieldDto.customFieldValue)}

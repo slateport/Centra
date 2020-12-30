@@ -208,7 +208,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 <Divider my={8} />
                             </Grid>
                             <Grid item xs={2}>
-                                Labels
+                                <SectionTitle>Labels</SectionTitle>
                             </Grid>
                             <Grid item xs={10}>
                                 <LabelsField
@@ -220,14 +220,14 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 />
                             </Grid>
                             <Grid item xs={2}>
-                                Related Issues
+                                <SectionTitle>Related Issues</SectionTitle>
                                 <NewIssueLinkDialog issueId={issueHelper.buildExternalKey(issue)}/>
                             </Grid>
                             <Grid item xs={10}>
                                 <RelatedIssuesComponent issue={issue}/>
                             </Grid>
                             <Grid item xs={2}>
-                                Custom Fields
+                                <SectionTitle>Custom Fields</SectionTitle>
                             </Grid>
                             <Grid container xs={10}>
                                 <CustomFieldsComponent issue={issue} dispatch={props.dispatch}/>
