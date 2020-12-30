@@ -32,8 +32,6 @@ import java.util.Optional;
 @RequestMapping("/api/issues")
 public class IssueController extends BaseController {
 
-    private final String PROJECT_NOT_FOUND_ERROR_MESSAGE = "Project not found";
-
     @Autowired
     private IssueService issueService;
 
@@ -218,36 +216,6 @@ public class IssueController extends BaseController {
         return issueTypeSchemaService.findTypeById(id);
     }
 
-    private Issue getIssueByExternalId(String id) {
-        String projectKey = id.split("-")[0];
-        long externalId = Long.parseLong(id.split("-")[1]);
-
-        Project project = projectService.findByKey(projectKey);
-
-        if (project == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, PROJECT_NOT_FOUND_ERROR_MESSAGE);
-        }
-
-        Issue issue = issueService.findByProjectIdAndExternalId(project.getId(), externalId);
-
-        if (issue == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Issue not found");
-        }
-
-        return issue;
-    }
-
-    private String buildExternalKeyFromIssue(Issue issue){
-        Project projectOptional = projectService.findById(issue.getProjectId());
-
-        if (projectOptional == null) {
-            throw new RuntimeException(PROJECT_NOT_FOUND_ERROR_MESSAGE);
-        }
-
-        String projectKey = projectOptional.getProjectKey();
-        long externalId = issue.getExternalId();
-        return projectKey + "-" + externalId;
-    }
     
     private IssueDTO convertToDTO(Issue issue) {
         IssueDTO dto = modelMapper.map(issue, IssueDTO.class);
