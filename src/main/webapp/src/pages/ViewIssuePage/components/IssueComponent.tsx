@@ -230,7 +230,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 Custom Fields
                             </Grid>
                             <Grid container xs={10}>
-                                <CustomFieldsComponent issue={issue}/>
+                                <CustomFieldsComponent issue={issue} dispatch={props.dispatch}/>
                             </Grid>
                         </Grid>
                         <Grid container xs={1} />

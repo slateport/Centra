@@ -4,9 +4,11 @@ import { issueHelper } from '../../../helpers'
 import {Grid} from "@material-ui/core";
 import EditableContainer from "../../../components/EditableContainer";
 import StandardTextField from "../../../components/StandardTextField";
+import {alertActions} from "../../../actions";
 
 interface ICustomFieldsComponentProps {
     issue: any
+    dispatch: Function
 }
 
 export default class CustomFieldsComponent extends React.Component<ICustomFieldsComponentProps, any> {
@@ -30,6 +32,7 @@ export default class CustomFieldsComponent extends React.Component<ICustomFields
         return state => {
             customFieldValue.stringValue = state.children
             issue.setCustomFieldValue(customFieldValue, issueHelper.buildExternalKey(this.props.issue))
+                .catch(e => this.props.dispatch(alertActions.error("Failed to update custom field")))
             this.forceUpdate()
         }
     }
