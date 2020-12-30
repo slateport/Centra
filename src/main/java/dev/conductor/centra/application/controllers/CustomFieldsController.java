@@ -1,6 +1,7 @@
 package dev.conductor.centra.application.controllers;
 
 import dev.conductor.centra.domain.customField.api.CustomFieldService;
+import dev.conductor.centra.domain.customField.dto.CustomFieldValueWithCustomFieldDTO;
 import dev.conductor.centra.domain.customField.entity.CustomField;
 import dev.conductor.centra.domain.customField.entity.CustomFieldValue;
 import dev.conductor.centra.domain.issue.entity.Issue;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/customfields")
@@ -33,9 +35,20 @@ public class CustomFieldsController extends BaseController {
         return service.createCustomField(customField);
     }
 
+    @GetMapping("/{id}")
+    public CustomField getCustomFieldById(@PathVariable String id) {
+        return service.getCustomFieldById(id);
+    }
+
     @GetMapping("/issue/{id}")
-    public List<CustomFieldValue> getCustomFieldValuesForIssues(@PathVariable String id) {
-        return service.getCustomFieldValuesForIssue(getIssueByExternalId(id));
+    public List<CustomFieldValueWithCustomFieldDTO> getCustomFieldValuesForIssues(@PathVariable String id) {
+        return service.getCustomFieldValuesForIssue(getIssueByExternalId(id))
+                .stream()
+                .map(customFieldValue -> new CustomFieldValueWithCustomFieldDTO(
+                        service.getCustomFieldById(customFieldValue.getCustomFieldId()),
+                        customFieldValue
+                ))
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/issue/{id}")
