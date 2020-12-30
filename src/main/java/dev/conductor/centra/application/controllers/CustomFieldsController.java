@@ -45,7 +45,11 @@ public class CustomFieldsController extends BaseController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Custom Field not found!");
         }
 
-        return service.saveValue(getIssueByExternalId(id), value);
+        try {
+            return service.saveValue(getIssueByExternalId(id), value);
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage());
+        }
     }
 
 }

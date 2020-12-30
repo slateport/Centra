@@ -3,10 +3,12 @@ package dev.conductor.centra.infrastructure.persistence.mongodb.adapter;
 import dev.conductor.centra.domain.customField.entity.CustomFieldValue;
 import dev.conductor.centra.domain.customField.spi.CustomFieldValuePersistencePort;
 import dev.conductor.centra.domain.issue.entity.Issue;
+import dev.conductor.centra.infrastructure.persistence.mongodb.adapter.exceptions.DuplicateCustomFieldValue;
 import dev.conductor.centra.infrastructure.persistence.mongodb.entity.CustomFieldValueEntity;
 import dev.conductor.centra.infrastructure.persistence.mongodb.repository.CustomFieldValueRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +29,11 @@ public class CustomFieldValuePersistenceAdapter implements CustomFieldValuePersi
     @Override
     public CustomFieldValue save(CustomFieldValue customFieldValue) {
         CustomFieldValueEntity entity = modelMapper.map(customFieldValue, CustomFieldValueEntity.class);
-        repository.save(entity);
+        try {
+            repository.save(entity);
+        } catch (DuplicateKeyException e) {
+            throw new DuplicateCustomFieldValue("Duplicate Custom Field Value: issue id + custom field value id");
+        }
 
         return modelMapper.map(entity, CustomFieldValue.class);
     }
