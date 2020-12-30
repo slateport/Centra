@@ -39,6 +39,7 @@ import { NewIssueLinkDialog } from "./NewIssueLinkDialog";
 import {StatusPicker} from "./StatusPicker";
 import {IssueTypePicker} from "./IssueTypePicker";
 import {IssuePriorityPicker} from "./IssuePriorityPicker";
+import CustomFieldsComponent from "./CustomFieldsComponent";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const SectionTitle = styled.span`
@@ -227,6 +228,12 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                             </Grid>
                             <Grid item xs={10}>
                                 <RelatedIssuesComponent issue={issue}/>
+                            </Grid>
+                            <Grid item xs={2}>
+                                Custom Fields
+                            </Grid>
+                            <Grid container xs={10}>
+                                <CustomFieldsComponent issue={issue}/>
                             </Grid>
                         </Grid>
                         <Grid container xs={1} />

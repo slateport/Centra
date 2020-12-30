@@ -13,7 +13,8 @@ export const issue = {
   getIssueTypeById,
   getLinks,
   deleteLink,
-  createLink
+  createLink,
+  getCustomFieldValues
 }
 
 function getIssue (externalId: string) {
@@ -77,4 +78,9 @@ function deleteLink (id: string) {
 
 function createLink (nodePublicId, linkPublicId) {
   return httpClient.post('/api/issues/links', { nodePublicId, linkPublicId })
+}
+
+function getCustomFieldValues(externalId: string) {
+  return httpClient.get(`/api/customfields/issue/${externalId}`)
+      .then(response => response.data)
 }
