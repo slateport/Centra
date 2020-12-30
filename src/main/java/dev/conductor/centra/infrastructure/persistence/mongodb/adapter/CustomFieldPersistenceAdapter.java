@@ -41,7 +41,8 @@ public class CustomFieldPersistenceAdapter implements CustomFieldPersistencePort
 
     @Override
     public List<CustomField> findByProject(Project project) {
-        return customFieldRepository.findByProjectId(project.getProjectKey())
+        return customFieldRepository.findByProjectId(project.getId()
+        )
                 .stream()
                 .map(customFieldEntity -> modelMapper.map(customFieldEntity, CustomField.class))
                 .collect(Collectors.toList());

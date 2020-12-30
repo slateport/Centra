@@ -2,6 +2,7 @@ package dev.conductor.centra.domain.workflow.api.impl;
 
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.api.IssueService;
+import dev.conductor.centra.domain.issue.spi.IssuePersistencePort;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
@@ -24,7 +25,7 @@ public class WorkflowServiceAdapter implements WorkflowService {
     private WorkflowPersistencePort persistencePort;
 
     @Autowired
-    private IssueService issueService;
+    private IssuePersistencePort issuePersistencePort;
 
     @Override
     public List<Workflow> findAll() {
@@ -80,7 +81,7 @@ public class WorkflowServiceAdapter implements WorkflowService {
         issue.setLastModifiedDate(new Date());
         issue.setLastModifiedByUserId(user.getId());
 
-        issueService.save(issue);
+        issuePersistencePort.save(issue);
 
         return issue;
     }

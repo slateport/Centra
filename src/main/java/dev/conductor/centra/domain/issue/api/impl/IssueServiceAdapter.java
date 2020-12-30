@@ -1,5 +1,6 @@
 package dev.conductor.centra.domain.issue.api.impl;
 
+import dev.conductor.centra.domain.customField.api.CustomFieldService;
 import dev.conductor.centra.domain.issue.api.IssueService;
 import dev.conductor.centra.domain.issue.dto.IssueChangeDTO;
 import dev.conductor.centra.domain.issue.dto.IssueDTO;
@@ -13,7 +14,6 @@ import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
 import dev.conductor.centra.infrastructure.persistence.mongodb.entity.IssueEntity;
-import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueLinksRepository;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import org.javers.core.diff.Change;
 import org.javers.core.diff.changetype.PropertyChange;
@@ -27,7 +27,6 @@ import org.javers.repository.jql.QueryBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class IssueServiceAdapter implements IssueService {
@@ -46,6 +45,9 @@ public class IssueServiceAdapter implements IssueService {
 
     @Autowired
     private WorkflowService workflowService;
+
+    @Autowired
+    private CustomFieldService customFieldService;
 
     @Autowired
     private Javers javers;
@@ -161,9 +163,11 @@ public class IssueServiceAdapter implements IssueService {
                 (issueDTO.getLabels() != null) ? issueDTO.getLabels() : new ArrayList<>()
             );
 
-        save(entity);
+        Issue savedIssue = save(entity);
 
-        return entity;
+        customFieldService.createDefaultCustomFieldValuesForIssue(savedIssue);
+
+        return savedIssue;
     }
 
     private String getPropertyNameWithPath(Change change) {

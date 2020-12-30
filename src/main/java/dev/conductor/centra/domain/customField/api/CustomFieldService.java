@@ -11,4 +11,5 @@ public interface CustomFieldService {
     CustomField createCustomField(CustomField customField);
     List<CustomFieldValue> getCustomFieldValuesForIssue(Issue issue);
     CustomFieldValue saveValue(Issue issue, CustomFieldValue customFieldValue);
+    List<CustomFieldValue> createDefaultCustomFieldValuesForIssue(Issue issue);
 }
