@@ -3,6 +3,9 @@ package dev.conductor.centra.domain.customField.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 public class CustomField {
@@ -12,4 +15,5 @@ public class CustomField {
     private Object defaultValue;
     private String valueType;
     private String projectId;
+    private List<String> options = new ArrayList<>();
 }

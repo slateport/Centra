@@ -5,6 +5,7 @@ import {Grid} from "@material-ui/core";
 import EditableContainer from "../../../components/EditableContainer";
 import StandardTextField from "../../../components/StandardTextField";
 import {alertActions} from "../../../actions";
+import StandardSelectField from "../../../components/StandardSelectField";
 
 interface ICustomFieldsComponentProps {
     issue: any
@@ -43,8 +44,9 @@ export default class CustomFieldsComponent extends React.Component<ICustomFields
                 <React.Fragment>
                     <Grid item xs={4}>{fieldDto.customField.name}</Grid>
                     <Grid item xs={8}>
-                        <EditableContainer Component={StandardTextField}
+                        <EditableContainer Component={fieldDto.customField.options.length === 0 ? StandardTextField : StandardSelectField}
                                            handlefn={this.onSaveCustomFieldValue(fieldDto.customFieldValue)}
+                                           options={fieldDto.customField.options}
                         >
                             {fieldDto.customFieldValue.stringValue}
                         </EditableContainer>

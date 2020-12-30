@@ -7,6 +7,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Document(collection = "custom_fields")
@@ -18,4 +21,5 @@ public class CustomFieldEntity {
     private Object defaultValue;
     private String valueType;
     private String projectId;
+    private List<String> options = new ArrayList<>();
 }
