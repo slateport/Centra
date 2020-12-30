@@ -15,8 +15,7 @@ import styled, {createGlobalStyle} from "styled-components";
 import {spacing} from "@material-ui/system";
 import {LinkProps, NavLink as RouterNavLink} from "react-router-dom";
 import EditableContainer from "../../../components/EditableContainer";
-import Field, {TextArea} from "../../../components/StandardTextArea";
-import StatusChip from "./StatusChip";
+import {TextArea} from "../../../components/StandardTextArea"
 import EditablePeopleField from "./EditablePeopleField";
 import RedactorField from "../../../components/RedactorField";
 import {RoundTimeAgo} from "../../../components/RoundTimeAgo";
@@ -32,8 +31,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
-import EditableIssueTypeField from "./EditableIssueTypeField";
-import EditablePriorityField from "./EditablePriorityField";
 import RelatedIssuesComponent from "./RelatedIssuesComponent";
 import { NewIssueLinkDialog } from "./NewIssueLinkDialog";
 import {StatusPicker} from "./StatusPicker";

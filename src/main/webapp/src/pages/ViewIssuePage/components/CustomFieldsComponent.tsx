@@ -2,6 +2,8 @@ import React from "react";
 import { issue } from '../../../services'
 import { issueHelper } from '../../../helpers'
 import {Grid} from "@material-ui/core";
+import EditableContainer from "../../../components/EditableContainer";
+import StandardTextField from "../../../components/StandardTextField";
 
 interface ICustomFieldsComponentProps {
     issue: any
@@ -15,6 +17,8 @@ export default class CustomFieldsComponent extends React.Component<ICustomFields
         this.state = {
             customFields : []
         }
+
+        this.onSaveCustomFieldValue = this.onSaveCustomFieldValue.bind(this)
     }
 
     componentDidMount() {
@@ -22,13 +26,26 @@ export default class CustomFieldsComponent extends React.Component<ICustomFields
             .then(customFields => this.setState({ customFields }))
     }
 
+    onSaveCustomFieldValue(customFieldValue) {
+        return state => {
+            customFieldValue.stringValue = state.children
+            issue.setCustomFieldValue(customFieldValue, issueHelper.buildExternalKey(this.props.issue))
+            this.forceUpdate()
+        }
+    }
+
     render() {
-        console.log(this.state.customFields)
         return (
             this.state.customFields.map(fieldDto =>
                 <React.Fragment>
                     <Grid item xs={4}>{fieldDto.customField.name}</Grid>
-                    <Grid item xs={8}>{fieldDto.customFieldValue.stringValue}</Grid>
+                    <Grid item xs={8}>
+                        <EditableContainer Component={StandardTextField}
+                                           handlefn={this.onSaveCustomFieldValue(fieldDto.customFieldValue)}
+                        >
+                            {fieldDto.customFieldValue.stringValue}
+                        </EditableContainer>
+                    </Grid>
                 </React.Fragment>
             )
         )
