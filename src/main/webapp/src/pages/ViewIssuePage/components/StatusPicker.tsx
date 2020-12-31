@@ -45,7 +45,7 @@ const StatusPicker = ({issue, workflowTransitions, onTransitionIssue, props}) =>
                 color={"primary"}
             >
                 {workflowTransitions.map(transition =>
-                    <MenuItem onClick={onTransitionIssue(props, issue, transition)}>
+                    <MenuItem onClick={onTransitionIssue(props, issue, transition)} key={transition.label}>
                         <StatusChip label={transition.label} isInitial={transition.initial} isTerminus={transition.terminus} />
                     </MenuItem>
                 )}
