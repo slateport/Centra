@@ -167,8 +167,8 @@ class SearchPage extends React.Component<any, any>{
                                             issue={this.props.issue}
                                             project={this.props.project}
                                             initialWorkflowTransitions={this.transitions}
-                                            props={this.props} />
-
+                                            props={this.props}
+                                        />
                                     </CardContent>
                                 </Card>
                                 }

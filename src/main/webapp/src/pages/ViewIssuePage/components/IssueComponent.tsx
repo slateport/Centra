@@ -92,12 +92,14 @@ function TabPanel(props) {
 }
 
 const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
-    const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions);
-    const [tabValue, setTabValue] = React.useState(0);
+    const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions)
+    const [tabValue, setTabValue] = React.useState(0)
+    const [title, setTitle] = React.useState("")
 
     useEffect(() => {
         setWorkflowTransitions(initialWorkflowTransitions)
-    }, [initialWorkflowTransitions])
+        setTitle(issue.title)
+    }, [initialWorkflowTransitions, issue])
 
     const workflowOptions = (issue) => {
         return {
@@ -176,12 +178,17 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
             <GlobalStyleDropzone />
             <Helmet title={issue.title} />
             <Typography variant="h3" gutterBottom display="inline">
-                <TextArea ref={titleRef} onBlur={onSaveTitle(props, issue, titleRef)} id={'title'} defaultValue={issue.title} onKeyDown={event => {
-                    if (event.key === 'Enter') {
-                        event.currentTarget.blur();
-                    }
-                }}>
-                </TextArea>
+                <TextArea ref={titleRef}
+                    onBlur={onSaveTitle(props, issue, titleRef)}
+                    id={'title'}
+                    value={title}
+                    onKeyDown={event => {
+                        if (event.key === 'Enter') {
+                            event.currentTarget.blur();
+                        }
+                    }}
+                    onChange={e => setTitle(e.target.value)}
+                />
             </Typography>
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
                 <Link component={NavLink} exact to="/">
