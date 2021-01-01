@@ -107,41 +107,43 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
         }
     }
 
+    const externalKey = issueHelper.buildExternalKey(issue)
+
     const onSaveTitle = (props, issue, titleRef) => {
         return _ => {
             if (issue.title === titleRef.current.value) return
             issue.title = titleRef.current.value;
-            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            props.dispatch(issueActions.updateIssue(externalKey, issue))
         }
     }
 
     const onSaveDescription = (props, issue) => {
         return (e) => {
             issue.description = e.children;
-            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            props.dispatch(issueActions.updateIssue(externalKey, issue))
         }
     }
 
     const onTransitionIssue = (props, issue, transition) => {
         return _ => {
-            issueService.postWorkflowTransitions(issueHelper.buildExternalKey(issue), transition)
-                .then(() => issueService.getWorkflowTransitions(issueHelper.buildExternalKey(issue))
+            issueService.postWorkflowTransitions(externalKey, transition)
+                .then(() => issueService.getWorkflowTransitions(externalKey)
                     .then(response => setWorkflowTransitions(response))
                 )
-                .then(() => props.dispatch(issueActions.getIssue(issueHelper.buildExternalKey(issue))))
+                .then(() => props.dispatch(issueActions.getIssue(externalKey)))
         }
     }
 
     const onAddComment = (props, issue) => {
         return (e, value) => {
-            return props.dispatch(issueActions.addComment(issueHelper.buildExternalKey(issue), value))
+            return props.dispatch(issueActions.addComment(externalKey, value))
         }
     }
 
     const onSaveAssignee = (props, issue) => {
         return value => {
             issue.assigneeId = value
-            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            props.dispatch(issueActions.updateIssue(externalKey, issue))
             location.reload()
         }
     }
@@ -149,7 +151,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
     const onSaveReporter = (props, issue) => {
         return value => {
             issue.createdByUserId = value
-            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            props.dispatch(issueActions.updateIssue(externalKey, issue))
             location.reload()
 
         }
@@ -158,7 +160,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
     const onSaveIssueType = (props, issue) => {
         return value => {
             issue.issueTypeId = value
-            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            props.dispatch(issueActions.updateIssue(externalKey, issue))
             location.reload()
         }
     }
@@ -166,17 +168,19 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
     const onSavePriority = (props, issue) => {
         return value => {
             issue.issuePriorityId = value
-            props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+            props.dispatch(issueActions.updateIssue(externalKey, issue))
             location.reload()
         }
     }
 
     const titleRef = useRef()
 
+    const headerTitle = externalKey + " - " + issue.title
+
     return (
         <React.Fragment>
             <GlobalStyleDropzone />
-            <Helmet title={issue.title} />
+            <Helmet title={headerTitle} />
             <Typography variant="h3" gutterBottom display="inline">
                 <TextArea ref={titleRef}
                     onBlur={onSaveTitle(props, issue, titleRef)}
@@ -222,13 +226,13 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                     currentLabels={issue.labels}
                                     onLabelChange={(values) => {
                                         issue.labels = values
-                                        props.dispatch(issueActions.updateIssue(issueHelper.buildExternalKey(issue), issue))
+                                        props.dispatch(issueActions.updateIssue(externalKey, issue))
                                     }}
                                 />
                             </Grid>
                             <Grid item xs={2}>
                                 <SectionTitle>Related Issues</SectionTitle>
-                                <NewIssueLinkDialog issueId={issueHelper.buildExternalKey(issue)}/>
+                                <NewIssueLinkDialog issueId={externalKey}/>
                             </Grid>
                             <Grid item xs={10}>
                                 <RelatedIssuesComponent issue={issue}/>
@@ -351,7 +355,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                         }
                     </TabPanel>
                     <TabPanel value={tabValue} index={2}>
-                        <AuditHistory externalId={issueHelper.buildExternalKey(issue)} />
+                        <AuditHistory externalId={externalKey} />
                     </TabPanel>
                 </CardContent>
             </Card>
