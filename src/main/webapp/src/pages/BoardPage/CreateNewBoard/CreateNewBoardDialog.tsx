@@ -72,7 +72,9 @@ class CreateNewBoardDialog extends React.Component<ICreateNewBoardDialogProps, a
                             />
                         </Grid>
                         <Grid item xs={3} p={2}>Project(s)</Grid>
-                        <Grid><ProjectsAutocomplete onChangeFunction={(value) => this.setProjects(value)}/></Grid>
+                        <Grid item xs={9} p={2}>
+                            <ProjectsAutocomplete onChangeFunction={(value) => this.setProjects(value)}/>
+                        </Grid>
                     </Grid>
                 </DialogContent>
                     <DialogActions>
