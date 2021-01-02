@@ -5,8 +5,6 @@ import {Typography} from "@material-ui/core";
 import {List} from "./Lists/List";
 import {Helmet} from "react-helmet";
 
-
-
 class ViewBoardPage extends React.Component<any, any> {
 
     constructor(props) {

@@ -9,8 +9,8 @@ class List extends React.Component<any, any> {
 
         this.state = {
             issues: [
-                { title: "test1", id: Math.floor(Math.random() * Math.floor(100)).toString()},
-                { title: "test2", id: Math.floor(Math.random() * Math.floor(100)).toString()},
+                { title: Math.floor(Math.random() * Math.floor(100)).toString(), id: Math.floor(Math.random() * Math.floor(100)).toString()},
+                { title: Math.floor(Math.random() * Math.floor(100)).toString(), id: Math.floor(Math.random() * Math.floor(100)).toString()},
             ]
         }
     }
@@ -21,7 +21,7 @@ class List extends React.Component<any, any> {
                 {(provided, snapshot) => (
                     <div
                         ref={provided.innerRef}
-                        style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey', width: 250 }}
+                        style={{ backgroundColor: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey', width: 250 }}
                         {...provided.droppableProps}
                     >
                         <h2>{this.props.boardColumn.label}</h2>
