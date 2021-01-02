@@ -1,5 +1,6 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
+import {issueHelper} from "../../../../../helpers";
 
 interface IIssueProps {
     issue: any,
@@ -19,7 +20,7 @@ class Issue extends React.Component<IIssueProps, any> {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}>
-                        {this.props.issue.title}
+                        {issueHelper.buildExternalKey(this.props.issue)}: {this.props.issue.title}
                     </div>
                 )}
             </Draggable>

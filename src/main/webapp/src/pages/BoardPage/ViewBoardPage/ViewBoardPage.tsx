@@ -63,10 +63,11 @@ class ViewBoardPage extends React.Component<any, any> {
         const targetWorkflowState = matchingDestination[0].workflowStates[0];
         const matchedIssue = this.state.issues.filter(issue => issue.id === draggableId)[0]
 
-
         issue.getWorkflowTransitions(issueHelper.buildExternalKey(matchedIssue))
             .then(transitions => {
-                issue.postWorkflowTransitions(issueHelper.buildExternalKey(matchedIssue), transitions[0])
+                issue.postWorkflowTransitions(issueHelper.buildExternalKey(matchedIssue), transitions.filter(
+                    transition => transition.toNode === targetWorkflowState.label
+                )[0])
                     .then(_ => this.searchForIssues());
             })
     }
