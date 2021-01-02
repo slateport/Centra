@@ -4,6 +4,7 @@ import {boards} from "../../../services";
 import {Typography} from "@material-ui/core";
 import {List} from "./Lists/List";
 import {Helmet} from "react-helmet";
+import { Lists } from './Styles'
 
 class ViewBoardPage extends React.Component<any, any> {
 
@@ -42,6 +43,7 @@ class ViewBoardPage extends React.Component<any, any> {
         if (!this.isPositionChanged(destination, source)) return
 
 
+
     }
 
     render() {
@@ -59,9 +61,11 @@ class ViewBoardPage extends React.Component<any, any> {
             <React.Fragment>
                 <Helmet title={this.state.board.name} />
                 <DragDropContext onDragEnd={this.onDragEnd}>
+                <Lists>
                     {this.state.board.boardColumns.map(boardColumn =>
                         <List boardColumn={boardColumn} key={boardColumn.label}/>
                     )}
+                </Lists>
                 </DragDropContext>
             </React.Fragment>
         )
