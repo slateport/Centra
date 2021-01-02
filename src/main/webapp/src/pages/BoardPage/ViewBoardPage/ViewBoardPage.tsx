@@ -1,6 +1,11 @@
 import React from 'react'
+import { DragDropContext } from 'react-beautiful-dnd'
 import {boards} from "../../../services";
 import {Typography} from "@material-ui/core";
+import {List} from "./Lists/List";
+import {Helmet} from "react-helmet";
+
+
 
 class ViewBoardPage extends React.Component<any, any> {
 
@@ -12,6 +17,7 @@ class ViewBoardPage extends React.Component<any, any> {
         }
 
         this.loadState = this.loadState.bind(this)
+        this.onDragEnd = this.onDragEnd.bind(this)
     }
 
     loadState() {
@@ -22,6 +28,22 @@ class ViewBoardPage extends React.Component<any, any> {
 
     componentDidMount() {
         this.loadState()
+    }
+
+    isPositionChanged (destination, source) {
+        if (!destination) return false;
+        const isSameList = destination.droppableId === source.droppableId;
+        const isSamePosition = destination.index === source.index;
+        return !isSameList || !isSamePosition;
+    }
+
+    onDragEnd({ draggableId, destination, source }) {
+        // dropped outside the list
+        if (!destination) return
+        // Dropped into the same position
+        if (!this.isPositionChanged(destination, source)) return
+
+
     }
 
     render() {
@@ -36,7 +58,14 @@ class ViewBoardPage extends React.Component<any, any> {
         }
 
         return (
-            <code>{JSON.stringify(this.state.board)}</code>
+            <React.Fragment>
+                <Helmet title={this.state.board.name} />
+                <DragDropContext onDragEnd={this.onDragEnd}>
+                    {this.state.board.boardColumns.map(boardColumn =>
+                        <List boardColumn={boardColumn} key={boardColumn.label}/>
+                    )}
+                </DragDropContext>
+            </React.Fragment>
         )
     }
 }
