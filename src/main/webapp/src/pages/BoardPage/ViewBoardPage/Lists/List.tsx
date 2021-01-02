@@ -48,13 +48,6 @@ const statusFiltered = (workflowStates: any[], issues: any[]) => {
     })
 }
 
-const formatIssuesCount = (allListIssues, filteredListIssues) => {
-    if (allListIssues.length !== filteredListIssues.length) {
-        return `${filteredListIssues.length} of ${allListIssues.length}`;
-    }
-    return allListIssues.length;
-};
-
 class List extends React.Component<{issues: any[], boardColumn: any}, any> {
 
     constructor(props) {
@@ -70,7 +63,7 @@ class List extends React.Component<{issues: any[], boardColumn: any}, any> {
                            <Title>
                                {`${this.props.boardColumn.label} `}
                                <IssuesCount>
-                                   {formatIssuesCount(this.props.issues, this.props.issues)}
+                                   {statusFiltered(this.props.boardColumn.workflowStates, this.props.issues).length}
                                </IssuesCount>
                            </Title>
                            <Issues
