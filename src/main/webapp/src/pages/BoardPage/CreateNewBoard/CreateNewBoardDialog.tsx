@@ -3,11 +3,13 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid as MuiGr
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 import ProjectsAutocomplete from '../../../components/ProjectsAutocomplete';
+import {boards} from "../../../services";
+
 
 const Grid = styled(MuiGrid)(spacing)
 
 interface ICreateNewBoardDialogProps {
-    type: 'Kanban' | 'Scrum'
+    type: 'Kanban' | 'Scrum',
 }
 
 class CreateNewBoardDialog extends React.Component<ICreateNewBoardDialogProps, any> {
@@ -49,6 +51,14 @@ class CreateNewBoardDialog extends React.Component<ICreateNewBoardDialogProps, a
         this.setState({ projectIds })
     }
 
+    createBoard() {
+        boards.createBoard(this.state.type, this.state.projectIds, this.state.name)
+            .then(response => {
+                console.log('redirecting')
+            })
+            .catch(e => alert(e))
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -81,7 +91,7 @@ class CreateNewBoardDialog extends React.Component<ICreateNewBoardDialogProps, a
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={() => console.log(this.state)} color="primary">
+                        <Button onClick={() => this.createBoard()} color="primary">
                             Create
                         </Button>
                     </DialogActions>

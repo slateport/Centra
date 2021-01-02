@@ -1,9 +1,11 @@
 import React from 'react'
 import {Helmet} from "react-helmet";
-import {Button, Card, CardContent, Divider as MuiDivider, Grid, Link, Typography} from "@material-ui/core";
+import {Button, Card, CardContent, Divider as MuiDivider, Grid, Typography} from "@material-ui/core";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 import {CreateNewBoardDialog} from "./CreateNewBoard";
+import {boards} from "../../services";
+import {Link} from 'react-router-dom'
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -14,6 +16,11 @@ class BoardsPage extends React.Component<any, any> {
         this.state = {
             boards: []
         }
+    }
+
+    componentDidMount() {
+        boards.getAll()
+            .then(boards => this.setState({ boards }))
     }
 
     render() {
@@ -51,7 +58,10 @@ class BoardsPage extends React.Component<any, any> {
                                 }
 
                                 {this.state.boards.map(board =>
-                                    <Link component={Button}>{board.label}</Link>
+                                   <React.Fragment>
+                                       <Link component={Button} to={`/boards/${board.id}`}>{board.name}</Link>
+                                       <br />
+                                   </React.Fragment>
                                 )}
                             </CardContent>
                         </Card>

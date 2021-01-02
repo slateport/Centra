@@ -12,6 +12,7 @@ import { GeneralPage } from '../pages/Admin/GeneralPage'
 import React from 'react'
 import { PrivateRoute } from '../components'
 import {BoardsPage} from "../pages/BoardPage";
+import {ViewBoardPage} from "../pages/BoardPage/ViewBoardPage/ViewBoardPage";
 
 const NoMatch = ({ location }) => {
   const pathName = location.pathname || location.location.pathname
@@ -31,7 +32,7 @@ const Routes = ({ init }) => {
             <Routing path="/search" component={SearchPage} />
             <Routing exact path="/" component={HomePage} />
             <Routing exact path="/boards" component={BoardsPage} />
-            <Routing exact path="/boards/:boardId" component={BoardsPage} />
+            <Routing exact path="/boards/:boardId" component={ViewBoardPage} />
             <PrivateRoute exact path="/admin/projects" component={ProjectsPage} />
             <PrivateRoute exact path="/admin/users" component={UsersPage} />
             <PrivateRoute exact path="/admin/users/:internalId" component={ModifyUserPage} />
