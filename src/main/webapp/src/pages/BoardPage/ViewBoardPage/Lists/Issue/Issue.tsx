@@ -62,8 +62,12 @@ class Issue extends React.Component<IIssueProps, any> {
                             <Title>{this.props.issue.title}</Title>
                             <Bottom>
                                 <div>
-                                    {typeIconMap[this.state.issueType.icon]()}
-                                    {typeof priorityMap[(this.state.issuePriority || {}).icon] === 'function' ? priorityMap[(this.state.issuePriority || {}).icon](this.state.issuePriority) : null}
+                                    <Tooltip title={this.state.issueType.label}>
+                                        {typeIconMap[this.state.issueType.icon]()}
+                                    </Tooltip>
+                                    <Tooltip title={this.state.issuePriority.label}>
+                                        {typeof priorityMap[(this.state.issuePriority || {}).icon] === 'function' ? priorityMap[(this.state.issuePriority || {}).icon](this.state.issuePriority) : null}
+                                    </Tooltip>
                                 </div>
                                 <Assignees>
                                     {this.props.issue.assigneeId &&

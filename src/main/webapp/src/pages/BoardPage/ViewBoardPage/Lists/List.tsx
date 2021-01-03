@@ -72,7 +72,7 @@ class List extends React.Component<{issues: any[], boardColumn: any, lastList: b
                             data-testid={`board-list:${status}`}
                         >
                             {statusFiltered(this.props.boardColumn.workflowStates, this.props.issues).map((issue, index) =>
-                                <Issue issue={issue} index={index} />
+                                <Issue issue={issue} index={index} key={issue.id} />
                             )}
                             {this.props.issues.length === 0 && this.props.lastList &&
                             <span>We're only showing recently modified issues.</span>

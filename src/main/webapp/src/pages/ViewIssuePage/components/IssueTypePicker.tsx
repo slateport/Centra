@@ -67,15 +67,16 @@ const RedChip = styled(Chip)`
 const typePromise = (id) => issue.getIssueTypeById(id)
 
 export const iconMap = {
-    "AlertTriangle": (text) => <YellowChip icon={<Icon.AlertTriangle color={"white"} size={16}/>} label={text} />,
-    "Zap": (text) => <GreenChip icon={<Icon.Zap color={"white"} size={16} />} label={text} />,
-    "ArrowUp": (text) => <GreenChip icon={<Icon.ArrowUp  color={"white"} size={16}/>} label={text} />,
-    "Plus": (text) => <GreenChip icon={<Icon.Plus color={"white"} size={16} />} label={text} />,
-    "FileText": (text) => <RedChip icon={<Icon.FileText color={"white"} size={16} />} label={text} />,
-    "Copy": (text) => <RedChip icon={<Icon.Copy color={"white"} size={16} />} label={text} />,
-    "CheckSquare": (text) => <YellowChip icon={<Icon.CheckSquare color={"white"} size={16} />} label={text} />,
-    undefined: (text) => {}
+    "AlertTriangle": (text) => <YellowChip icon={<Icon.AlertTriangle color={"white"} size={16}/>} label={text}/>,
+    "Zap": (text) => <GreenChip icon={<Icon.Zap color={"white"} size={16}/>} label={text}/>,
+    "ArrowUp": (text) => <GreenChip icon={<Icon.ArrowUp color={"white"} size={16}/>} label={text}/>,
+    "Plus": (text) => <GreenChip icon={<Icon.Plus color={"white"} size={16}/>} label={text}/>,
+    "FileText": (text) => <RedChip icon={<Icon.FileText color={"white"} size={16}/>} label={text}/>,
+    "Copy": (text) => <RedChip icon={<Icon.Copy color={"white"} size={16}/>} label={text}/>,
+    "CheckSquare": (text) => <YellowChip icon={<Icon.CheckSquare color={"white"} size={16}/>} label={text}/>,
+    undefined: (text) => <YellowChip icon={<Icon.CheckSquare color={"white"} size={16}/>} label={text}/>
 }
+
 
 const IssueTypePicker = ({preText, postText, issueTypeId, projectKey, onClickEvent}) => {
     const [anchorElTransitionMenu, setAnchorElTransitionMenu] = React.useState<null | HTMLElement>(null);
