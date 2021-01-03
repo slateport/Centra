@@ -8,7 +8,6 @@ export const ListDiv = styled.div`
   flex-direction: column;
   margin: 0 5px;
   min-height: 400px;
-  width: 25%;
   border-radius: 3px;
   background-color: #F4F5F7;
 `;
