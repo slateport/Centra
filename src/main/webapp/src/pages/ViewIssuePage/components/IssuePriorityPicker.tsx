@@ -72,7 +72,7 @@ export const priorityMap = {
     "Code": (priority) => <YellowChip icon={<Icon.Code  color={"white"} size={16}/>} />,
     "ChevronUp": (priority) => <RedChip icon={<Icon.ChevronUp color={"white"} size={16} />} />,
     "ChevronsUp": (priority) => <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />} />,
-    undefined: () => <RedChip icon={<Icon.ChevronsUp color={"white"} size={16} />}/>
+    undefined: () => <RedChip/>
 }
 
 const IssuePriorityPicker = ({preText, postText, issuePriorityId, projectKey, onClickEvent}) => {
