@@ -66,7 +66,7 @@ const RedChip = styled(Chip)`
   }
 `;
 
-const priorityMap = {
+export const priorityMap = {
     "ChevronsDown": (priority) => <BlueChip icon={<Icon.ChevronsDown color={"white"} size={16}/>} />,
     "ChevronDown": (priority) =><BlueChip icon={<Icon.ChevronDown color={"white"} size={16} />} />,
     "Code": (priority) => <YellowChip icon={<Icon.Code  color={"white"} size={16}/>} />,

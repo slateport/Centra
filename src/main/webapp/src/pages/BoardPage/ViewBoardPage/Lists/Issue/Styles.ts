@@ -4,7 +4,10 @@ import {Link} from "react-router-dom";
 export const IssueLink = styled(Link)`
   display: block;
   margin-bottom: 5px;
+  text-decoration: none;
 `;
+
+
 
 export const IssueDiv = styled.div`
   padding: 10px;
@@ -12,8 +15,6 @@ export const IssueDiv = styled.div`
   background: #fff;
   box-shadow: 0px 1px 2px 0px rgba(9, 30, 66, 0.25);
   transition: background 0.1s;
-  display: flex;
-  box-sizing: border-box;
   min-width: 324px;
   @media (max-width: 1100px) {
     padding: 10px 8px;
@@ -40,7 +41,5 @@ export const Title = styled.p`
 
 export const Bottom = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
 `;
