@@ -2,7 +2,7 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import {issueHelper} from "../../../../../helpers";
 import { IssueLink, IssueDiv, Title, Bottom } from './Styles';
-import {Card, Link} from "@material-ui/core";
+import { Link} from "@material-ui/core";
 import {issue, project} from "../../../../../services";
 import { iconMap as typeIconMap } from '../../../../ViewIssuePage/components/IssueTypePicker';
 import {priorityMap} from "../../../../ViewIssuePage/components/IssuePriorityPicker";

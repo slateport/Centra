@@ -1,11 +1,13 @@
 import React from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import {boards, search, issue} from "../../../services";
-import {Typography} from "@material-ui/core";
+import {Divider as MuiDivider, Typography} from "@material-ui/core";
 import {List} from "./Lists/List";
 import {Helmet} from "react-helmet";
 import { Lists } from './Styles'
 import {issueHelper} from "../../../helpers";
+import styled from "styled-components";
+import {spacing} from "@material-ui/system";
 
 export const updateArrayItemById = (arr, itemId, fields) => {
     const arrClone = [...arr];
@@ -17,6 +19,8 @@ export const updateArrayItemById = (arr, itemId, fields) => {
 
     return arrClone;
 };
+
+const Divider = styled(MuiDivider)(spacing);
 
 class ViewBoardPage extends React.Component<any, any> {
 
@@ -107,10 +111,15 @@ class ViewBoardPage extends React.Component<any, any> {
         return (
             <React.Fragment>
                 <Helmet title={this.state.board.name} />
+                <Typography variant="h6" display="block">{this.state.board.name}</Typography>
+                <Typography variant="h3" display="block">{this.state.board.type === 'KANBAN' ? 'Kanban' : 'Scrum'} Board</Typography>
+                <br />
+                <Divider my={6}/>
+                <br />
                 <DragDropContext onDragEnd={this.onDragEnd}>
                 <Lists>
-                    {this.state.board.boardColumns.map(boardColumn =>
-                        <List boardColumn={boardColumn} key={boardColumn.label} issues={this.state.issues}/>
+                    {this.state.board.boardColumns.map((boardColumn, index) =>
+                        <List boardColumn={boardColumn} key={boardColumn.label} issues={this.state.issues} lastList={this.state.board.boardColumns.length === (index + 1)}/>
                     )}
                 </Lists>
                 </DragDropContext>

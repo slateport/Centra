@@ -18,7 +18,7 @@ export const Title = styled.div`
   text-transform: uppercase;
   font-size: 12.5px;
   font-weight: 700;
-  color: #5E6C84;
+  color: #5E6C84 !important;
   width: 100%;
 `;
 
@@ -49,7 +49,7 @@ const statusFiltered = (workflowStates: any[], issues: any[]) => {
     })
 }
 
-class List extends React.Component<{issues: any[], boardColumn: any}, any> {
+class List extends React.Component<{issues: any[], boardColumn: any, lastList: boolean}, any> {
 
     constructor(props) {
         super(props);
@@ -74,6 +74,9 @@ class List extends React.Component<{issues: any[], boardColumn: any}, any> {
                             {statusFiltered(this.props.boardColumn.workflowStates, this.props.issues).map((issue, index) =>
                                 <Issue issue={issue} index={index} />
                             )}
+                            {this.props.issues.length === 0 && this.props.lastList &&
+                            <span>We're only showing recently modified issues.</span>
+                            }
                             {provided.placeholder}
                         </Issues>
                     </ListDiv>

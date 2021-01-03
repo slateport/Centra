@@ -42,4 +42,5 @@ export const Title = styled.p`
 export const Bottom = styled.div`
   display: flex;
   width: 100%;
+  font-size: 12.5px;
 `;
