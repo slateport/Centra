@@ -1,6 +1,7 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import {issueHelper} from "../../../../../helpers";
+import { IssueLink, IssueDiv, Title, Bottom } from './Styles';
 
 interface IIssueProps {
     issue: any,
@@ -15,13 +16,21 @@ class Issue extends React.Component<IIssueProps, any> {
                 draggableId={this.props.issue.id}
                 index={this.props.index}
             >
-                {(provided) => (
-                    <div
+                {(provided, snapshot) => (
+                    <IssueLink
+                        to={`/browse/${issueHelper.buildExternalKey(this.props.issue)}`}
                         ref={provided.innerRef}
+                        data-testid="list-issue"
                         {...provided.draggableProps}
-                        {...provided.dragHandleProps}>
-                        {issueHelper.buildExternalKey(this.props.issue)}: {this.props.issue.title}
-                    </div>
+                        {...provided.dragHandleProps}
+                    >
+                        <IssueDiv isBeingDragged={snapshot.isDragging && !snapshot.isDropAnimating}>
+                            <Title>{this.props.issue.title}</Title>
+                            <Bottom>
+                                {issueHelper.buildExternalKey(this.props.issue)}
+                            </Bottom>
+                        </IssueDiv>
+                    </IssueLink>
                 )}
             </Draggable>
         )

@@ -10,6 +10,7 @@ export const ListDiv = styled.div`
   min-height: 400px;
   min-width: 25%;
   border-radius: 3px;
+  background-color: #F4F5F7;
 `;
 
 export const Title = styled.div`
@@ -28,7 +29,6 @@ export const IssuesCount = styled.span`
 export const Issues = styled.div`
   height: 100%;
   padding: 0 5px;
-  background: #fff;
   padding: 10px;
 `;
 
