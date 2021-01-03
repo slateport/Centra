@@ -1,9 +1,9 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import {issueHelper} from "../../../../../helpers";
-import { IssueLink, IssueDiv, Title, Bottom } from './Styles';
-import { Link} from "@material-ui/core";
-import {issue, project} from "../../../../../services";
+import { IssueLink, IssueDiv, Title, Bottom, Assignees, AssigneeAvatar } from './Styles';
+import {Link, Tooltip} from "@material-ui/core";
+import {issue, project, user} from "../../../../../services";
 import { iconMap as typeIconMap } from '../../../../ViewIssuePage/components/IssueTypePicker';
 import {priorityMap} from "../../../../ViewIssuePage/components/IssuePriorityPicker";
 
@@ -13,6 +13,7 @@ interface IIssueProps {
 }
 
 const typePromise = (id) => issue.getIssueTypeById(id)
+const userPromise = (userId) => user.getUserLite(userId)
 const priorityPromise = (id) => project.getPriorityById(id)
 
 class Issue extends React.Component<IIssueProps, any> {
@@ -22,7 +23,8 @@ class Issue extends React.Component<IIssueProps, any> {
 
         this.state = {
             issueType: {},
-            issuePriority: {}
+            issuePriority: {},
+            assignee: {}
         }
     }
 
@@ -31,6 +33,11 @@ class Issue extends React.Component<IIssueProps, any> {
             .then(issueType => this.setState({ issueType }))
         priorityPromise(this.props.issue.issuePriorityId)
             .then(issuePriority => this.setState({ issuePriority }))
+
+        if (this.props.issue.assigneeId){
+            userPromise(this.props.issue.assigneeId)
+                .then(assignee => this.setState({ assignee }))
+        }
     }
 
     render() {
@@ -54,8 +61,17 @@ class Issue extends React.Component<IIssueProps, any> {
                             <br />
                             <Title>{this.props.issue.title}</Title>
                             <Bottom>
-                                {typeIconMap[this.state.issueType.icon]()}
-                                {typeof priorityMap[(this.state.issuePriority || {}).icon] === 'function' ? priorityMap[(this.state.issuePriority || {}).icon](this.state.issuePriority) : null}
+                                <div>
+                                    {typeIconMap[this.state.issueType.icon]()}
+                                    {typeof priorityMap[(this.state.issuePriority || {}).icon] === 'function' ? priorityMap[(this.state.issuePriority || {}).icon](this.state.issuePriority) : null}
+                                </div>
+                                <Assignees>
+                                    {this.props.issue.assigneeId &&
+                                        <Tooltip title={this.state.assignee.displayName}>
+                                            <AssigneeAvatar />
+                                        </Tooltip>
+                                    }
+                                </Assignees>
                             </Bottom>
                         </IssueDiv>
                     </IssueLink>

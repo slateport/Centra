@@ -1,13 +1,13 @@
 import styled, { css }  from "styled-components";
 import {Link} from "react-router-dom";
+import {Avatar} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
 export const IssueLink = styled(Link)`
   display: block;
   margin-bottom: 5px;
   text-decoration: none;
 `;
-
-
 
 export const IssueDiv = styled.div`
   padding: 10px;
@@ -41,6 +41,20 @@ export const Title = styled.p`
 
 export const Bottom = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  font-size: 12.5px;
+`;
+
+export const Assignees = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  margin-left: 2px;
+`;
+
+export const AssigneeAvatar = styled(Avatar)`
+  margin-left: -2px;
+  box-shadow: 0 0 0 2px #fff;
+  height: 24px;
+  width: 24px;
 `;
