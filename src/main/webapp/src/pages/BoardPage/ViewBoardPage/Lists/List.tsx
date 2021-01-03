@@ -19,6 +19,7 @@ export const Title = styled.div`
   font-size: 12.5px;
   font-weight: 700;
   color: #5E6C84;
+  width: 100%;
 `;
 
 export const IssuesCount = styled.span`
@@ -58,26 +59,24 @@ class List extends React.Component<{issues: any[], boardColumn: any}, any> {
         return (
             <Droppable key={this.props.boardColumn.label} droppableId={this.props.boardColumn.label}>
                 {(provided) => (
-                   <ListDiv>
-                       <ListDiv>
-                           <Title>
-                               {`${this.props.boardColumn.label} `}
-                               <IssuesCount>
-                                   {statusFiltered(this.props.boardColumn.workflowStates, this.props.issues).length}
-                               </IssuesCount>
-                           </Title>
-                           <Issues
-                               {...provided.droppableProps}
-                               ref={provided.innerRef}
-                               data-testid={`board-list:${status}`}
-                           >
-                               {statusFiltered(this.props.boardColumn.workflowStates, this.props.issues).map((issue, index) =>
+                    <ListDiv>
+                        <Title>
+                            {`${this.props.boardColumn.label} `}
+                            <IssuesCount>
+                                {statusFiltered(this.props.boardColumn.workflowStates, this.props.issues).length}
+                            </IssuesCount>
+                        </Title>
+                        <Issues
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            data-testid={`board-list:${status}`}
+                        >
+                            {statusFiltered(this.props.boardColumn.workflowStates, this.props.issues).map((issue, index) =>
                                 <Issue issue={issue} index={index} />
-                               )}
-                               {provided.placeholder}
-                           </Issues>
-                       </ListDiv>
-                   </ListDiv>
+                            )}
+                            {provided.placeholder}
+                        </Issues>
+                    </ListDiv>
                 )}
             </Droppable>
         )
