@@ -38,5 +38,5 @@ export default function IssueMenu() {
             }} component={"a"} href={"/search"}>Search for issues</MenuItem>
         </Menu>
         </React.Fragment>
-);
+    );
 }

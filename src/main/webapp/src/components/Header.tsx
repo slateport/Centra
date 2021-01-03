@@ -10,9 +10,10 @@ import { darken } from 'polished'
 import IssueMenu from './header/IssueMenu'
 import MyProfileMenu from './header/MyProfileMenu'
 import { NewIssueButton } from './header/NewIssueButton'
-import { isAdmin, isAuthenticated } from '../helpers'
+import { isAuthenticated } from '../helpers'
 import AdminMenu from './header/AdminMenu'
 import { blue } from '@material-ui/core/colors'
+import BoardMenu from "./header/BoardMenu";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -190,6 +191,7 @@ function PrimarySearchAppBar ({ initData }) {
                 { initData.user?.admin &&
                 <AdminMenu />
                 }
+                <BoardMenu />
                 <MyProfileMenu />
             </Box>
         </Box>
