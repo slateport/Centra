@@ -9,7 +9,7 @@ export const IssueLink = styled(Link)`
   text-decoration: none;
 `;
 
-export const IssueDiv = styled.div`
+export const IssueDiv = styled.div<{isBeingDragged: boolean}>`
   padding: 10px;
   border-radius: 3px;
   background: #fff;
