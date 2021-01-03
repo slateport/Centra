@@ -10,11 +10,9 @@ import {issueHelper} from "../../../helpers";
 export const updateArrayItemById = (arr, itemId, fields) => {
     const arrClone = [...arr];
     const item = arrClone.find(({ id }) => id === itemId);
-    console.log(item)
     if (item) {
         const itemIndex = arrClone.indexOf(item);
-        arrClone.splice(itemIndex, 1, { ...item, workflowState: fields });
-        console.log(arrClone[itemIndex])
+        arrClone.splice(itemIndex, 1, { ...item, ...fields});
     }
 
     return arrClone;
@@ -84,7 +82,7 @@ class ViewBoardPage extends React.Component<any, any> {
                 }
 
                 const issueList = this.state.issues
-                const updatedIssueList = updateArrayItemById(issueList, matchedIssue.id, workflowState)
+                const updatedIssueList = updateArrayItemById(issueList, matchedIssue.id, {workflowState})
 
                 this.setState({ issues: updatedIssueList })
 
