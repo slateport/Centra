@@ -78,6 +78,8 @@ class ViewBoardPage extends React.Component<any, any> {
                 const targetTransition = transitions.filter(
                     transition => transition.toNode === targetWorkflowState.label
                 )[0]
+                
+                if(!targetTransition) return
 
                 const workflowState = {
                     isTerminus: targetTransition.terminus,
@@ -86,7 +88,7 @@ class ViewBoardPage extends React.Component<any, any> {
                 }
 
                 const issueList = this.state.issues
-                const updatedIssueList = updateArrayItemById(issueList, matchedIssue.id, {workflowState})
+                const updatedIssueList = updateArrayItemById(issueList, matchedIssue.id, { workflowState })
 
                 this.setState({ issues: updatedIssueList })
 
