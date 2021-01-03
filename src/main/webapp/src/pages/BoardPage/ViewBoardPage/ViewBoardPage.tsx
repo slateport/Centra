@@ -78,8 +78,8 @@ class ViewBoardPage extends React.Component<any, any> {
                 const targetTransition = transitions.filter(
                     transition => transition.toNode === targetWorkflowState.label
                 )[0]
-                
-                if(!targetTransition) return
+
+                if (!targetTransition) return
 
                 const workflowState = {
                     isTerminus: targetTransition.terminus,

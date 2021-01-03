@@ -54,7 +54,7 @@ class CreateNewBoardDialog extends React.Component<ICreateNewBoardDialogProps, a
     createBoard() {
         boards.createBoard(this.state.type, this.state.projectIds, this.state.name)
             .then(response => {
-                console.log('redirecting')
+                location.reload();
             })
             .catch(e => alert(e))
     }
