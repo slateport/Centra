@@ -7,6 +7,19 @@ import {Helmet} from "react-helmet";
 import { Lists } from './Styles'
 import {issueHelper} from "../../../helpers";
 
+export const updateArrayItemById = (arr, itemId, fields) => {
+    const arrClone = [...arr];
+    const item = arrClone.find(({ id }) => id === itemId);
+    console.log(item)
+    if (item) {
+        const itemIndex = arrClone.indexOf(item);
+        arrClone.splice(itemIndex, 1, { ...item, workflowState: fields });
+        console.log(arrClone[itemIndex])
+    }
+
+    return arrClone;
+};
+
 class ViewBoardPage extends React.Component<any, any> {
 
     constructor(props) {
@@ -51,11 +64,6 @@ class ViewBoardPage extends React.Component<any, any> {
         // Dropped into the same position
         if (!this.isPositionChanged(destination, source)) return
 
-        // draggableId is the issue id
-        // source.droppableId = "To Do"
-        // destination.droppableId = "In Progress"
-        // what needs to be done is to get workflowState:
-
         const matchingDestination = this.state.board.boardColumns.filter(
             column => column.workflowStates[0].label == destination.droppableId.toUpperCase()
         )
@@ -65,6 +73,21 @@ class ViewBoardPage extends React.Component<any, any> {
 
         issue.getWorkflowTransitions(issueHelper.buildExternalKey(matchedIssue))
             .then(transitions => {
+                const targetTransition = transitions.filter(
+                    transition => transition.toNode === targetWorkflowState.label
+                )[0]
+
+                const workflowState = {
+                    isTerminus: targetTransition.terminus,
+                    entry: targetTransition.initial,
+                    label: targetTransition.toNode
+                }
+
+                const issueList = this.state.issues
+                const updatedIssueList = updateArrayItemById(issueList, matchedIssue.id, workflowState)
+
+                this.setState({ issues: updatedIssueList })
+
                 issue.postWorkflowTransitions(issueHelper.buildExternalKey(matchedIssue), transitions.filter(
                     transition => transition.toNode === targetWorkflowState.label
                 )[0])
