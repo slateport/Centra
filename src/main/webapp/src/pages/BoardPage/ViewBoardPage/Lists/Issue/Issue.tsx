@@ -1,6 +1,6 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import {issueHelper} from "../../../../../helpers";
+import {isAuthenticated, issueHelper} from "../../../../../helpers";
 import { IssueLink, IssueDiv, Title, Bottom, Assignees, AssigneeAvatar } from './Styles';
 import {Link, Tooltip} from "@material-ui/core";
 import {issue, project, user} from "../../../../../services";
@@ -46,6 +46,7 @@ class Issue extends React.Component<IIssueProps, any> {
                 key={this.props.issue.id}
                 draggableId={this.props.issue.id}
                 index={this.props.index}
+                isDragDisabled={!isAuthenticated()}
             >
                 {(provided, snapshot) => (
                     <IssueLink
