@@ -6,7 +6,7 @@ export default class WorkflowModel {
     private readonly _transitions;
     private readonly _permissions;
 
-    constructor(name, states, transitions, permissions) {
+        constructor(name, states, transitions, permissions) {
         this._name = name;
         this._states = states;
         this._transitions = transitions;

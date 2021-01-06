@@ -48,20 +48,25 @@ export default class WorkflowApplication extends React.Component<any, any>{
 
     loadWorkflow(options) {
         return workflow.getWorkflow(options.workflowId)
-            .then(
-                data => this.setState({
-                    workflowModel: new WorkflowModel(data.name, data.states, data.transitions, null )}))
+            .then(resp =>  {
+                let data  = resp;
+                data.states.push({entry: true, isTerminus: false, label: "INIT"});
+                this.setState({workflowModel: new WorkflowModel(data.name, data.states, data.transitions, null )});
+            })
 
     }
 
     componentDidMount() {
-        this.setState({width: ((window.innerWidth - 40) / 4 * 3) - 24, height: window.innerHeight / 3 * 2})
+        this.setState({width: ((window.innerWidth - 40) / 4 * 3) - 112, height: 500})
         this.initialiseWorkflow(this.options)
             .then(() => {
                 this.canvas = this.createCanvas({ workflowModel: this.state.workflowModel });
                 this.canvas.canvasView.render('workflow');
-                this.state.workflowModel.states().map(state => this.canvas.canvasView.addStatus(state))
+                this.state.workflowModel.states().map(state => {
+                    this.canvas.canvasView.addStatus(state)
+                })
                 this.canvas.canvasView.positionNewStatuses();
+                this.canvas.canvasView.setConnectionStatusView();
                 // this.canvas.autoFit();
             })
     }

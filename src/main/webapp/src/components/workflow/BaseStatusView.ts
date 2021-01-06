@@ -71,7 +71,6 @@ export default abstract class BaseStatusView extends Draw2DView{
             isPortDragged: this.isPortDragged,
             getAllTargetPorts: this.getAllTargetPorts
         });
-
         return new draw2d.HybridPort(options);
     }
 
@@ -105,11 +104,26 @@ export default abstract class BaseStatusView extends Draw2DView{
     abstract getPorts(): draw2d.port
 
     positionFigure () {
-        if (this.model?.x && this.model?.y) {
-            this.figure.setPosition(
-                this.model.x,
-                this.model.y
-            );
+        // if (this.model?.x && this.model?.y) {
+        //     this.figure.setPosition(
+        //         this.model.x,
+        //         this.model.y
+        //     );
+        // }
+        if(!this.model) {
+            this.figure.setPosition(this.canvas.initialWidth / 2 - 25, 150);
+        } else {
+            switch(this.model.label) {
+                case "TO DO":
+                    this.figure.setPosition((this.canvas.initialWidth - this.figure.width) / 2, 220);
+                    break;
+                case "IN PROGRESS":
+                    this.figure.setPosition((this.canvas.initialWidth - this.figure.width) / 2, 270);
+                    break;
+                case "DONE":
+                    this.figure.setPosition((this.canvas.initialWidth - this.figure.width) / 2, 320);
+                    break;
+            }
         }
     }
 
