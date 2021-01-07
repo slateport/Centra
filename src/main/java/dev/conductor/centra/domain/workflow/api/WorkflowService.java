@@ -15,6 +15,7 @@ public interface WorkflowService {
     Workflow findById(String id);
     Workflow findByName(String name);
     Workflow create(Workflow workflow);
+    Workflow save(Workflow workflow);
     WorkflowState getInitialState(Workflow workflow);
     List<WorkflowTransition> getAvailableTransitions(Workflow workflow, WorkflowState currentState);
     Issue transitionIssue(Issue issue, WorkflowTransition transition, ApplicationUser user);

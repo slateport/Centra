@@ -1,7 +1,6 @@
 package dev.conductor.centra.domain.workflow.api.impl;
 
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
-import dev.conductor.centra.domain.issue.api.IssueService;
 import dev.conductor.centra.domain.issue.spi.IssuePersistencePort;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.issue.entity.Issue;
@@ -12,10 +11,8 @@ import dev.conductor.centra.domain.workflow.spi.WorkflowPersistencePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,8 +29,14 @@ public class WorkflowServiceAdapter implements WorkflowService {
         return persistencePort.findAll();
     }
 
+    @Override
     public Workflow create(Workflow workflow) {
-        return persistencePort.create(workflow);
+        return persistencePort.save(workflow);
+    }
+
+    @Override
+    public Workflow save(Workflow workflow) {
+        return persistencePort.save(workflow);
     }
 
     @Override

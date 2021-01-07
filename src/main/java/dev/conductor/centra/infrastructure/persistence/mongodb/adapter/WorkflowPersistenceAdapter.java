@@ -44,7 +44,7 @@ public class WorkflowPersistenceAdapter implements WorkflowPersistencePort {
     }
 
     @Override
-    public Workflow create(Workflow workflow) {
+    public Workflow save(Workflow workflow) {
         return modelMapper.map(repository.save(modelMapper.map(workflow, WorkflowEntity.class)), Workflow.class);
     }
 }

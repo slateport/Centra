@@ -9,5 +9,5 @@ public interface WorkflowPersistencePort {
     List<Workflow> findAll();
     Workflow findByName(String name);
     Workflow findById(String id);
-    Workflow create(Workflow workflow);
+    Workflow save(Workflow workflow);
 }
