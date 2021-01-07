@@ -66,9 +66,9 @@ public class DefaultInstall {
         issueTypeSchemaService.createSchema(schema);
 
         List<WorkflowState> states = new ArrayList<>();
-        states.add(new WorkflowState(true, false, "TO DO"));
-        states.add(new WorkflowState(false, false, "IN PROGRESS"));
-        states.add(new WorkflowState(false, true, "DONE"));
+        states.add(new WorkflowState(true, false, "TO DO", 0));
+        states.add(new WorkflowState(false, false, "IN PROGRESS", 1));
+        states.add(new WorkflowState(false, true, "DONE", 2));
 
         List<WorkflowTransition> transitions = new ArrayList<>();
         transitions.add(new WorkflowTransition("TO DO", "IN PROGRESS", "In Progress", false, false));

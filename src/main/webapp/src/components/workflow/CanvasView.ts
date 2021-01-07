@@ -31,9 +31,12 @@ export default class CanvasView {
             // isSelected = this.canvasModel.get("selectedModel") === statusModel,
             statusView,
             viewClass;
-
         if (isInitial) {
-            viewClass = InitialStatusView;
+            if(statusModel.label === 'TO DO') {
+                viewClass = StatusView;
+            } else {
+                viewClass = InitialStatusView;
+            }
         } else {
             viewClass = StatusView;
         }
@@ -215,12 +218,12 @@ export default class CanvasView {
     positionNewStatuses () {
         var positionedStatusViews,
             statusViews = this.workflowModel.states().map(this._getStatusViewWithModel(this.statusViews));
-
         positionedStatusViews = (new Positioner()).positionStatuses({
             statusViews: statusViews,
             viewBox: this.canvas.getViewBox(),
             workflowModel: this.workflowModel
         });
+
 
         // Find transitions of automatically positioned statuses and reset their connection figures.
         // This will trigger transition source and target angle re-calculation.
@@ -238,4 +241,50 @@ export default class CanvasView {
             });
         }
     }
+
+    async setConnectionStatusView() {
+        
+        let figures = this.canvas.getFigures().asArray();
+         
+         this.canvas.installEditPolicy(  new draw2d.policy.connection.DragConnectionCreatePolicy({
+               createConnection: this.createConnection
+         }));
+
+        let startFigure  = new draw2d.shape.basic.Circle();
+        let betweenFigure1, betweenFigure2,endFigure   = new draw2d.shape.basic.Rectangle();
+        await this.statusViews.map(statusView => {
+            if(!statusView.model) {
+                startFigure = statusView.figure;
+            } else {
+                switch(statusView.model.label) {
+                    case 'TO DO':
+                        betweenFigure1 = statusView.figure;
+                        break;
+                    case 'IN PROGRESS':
+                        betweenFigure2 = statusView.figure;
+                        break;
+                    case 'DONE':
+                        endFigure = statusView.figure;
+                        break;
+                }
+            }
+        });
+
+
+        let con1 = this.createConnection(startFigure, betweenFigure1);
+        let con2 = this.createConnection(betweenFigure1, betweenFigure2);
+        let con3 = this.createConnection(betweenFigure2, endFigure);
+        this.canvas.add(con1);
+        this.canvas.add(con2);
+        this.canvas.add(con3);
+    }
+
+    createConnection(sourcePort, targetPort) {
+        // return my special kind of connection
+        var con = new draw2d.Connection();
+        con.setRouter(new draw2d.layout.connection.ManhattanConnectionRouter());
+        con.setSource(sourcePort.getOutputPort(0));
+        con.setTarget(targetPort.getInputPort(0));
+        return con;
+     };
 }

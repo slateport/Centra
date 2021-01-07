@@ -14,14 +14,15 @@ export default class StatusView extends BaseStatusView {
     }
 
     addPort(bias, direction) {
-        const port = this.createPort({connectionDirection: direction});
-        const locator = new PositionOnParentBoundsLocator({
-            parent: this.figure,
-            side: direction,
-            bias: bias
-        });
+        // const port = this.createPort({connectionDirection: direction});
+        // const locator = new PositionOnParentBoundsLocator({
+        //     parent: this.figure,
+        //     side: direction,
+        //     bias: bias
+        // });
 
-        this.figure.addPort(port, locator)
+        // this.figure.addPort(port, locator);
+
     }
 
     createFigure () {
@@ -47,30 +48,61 @@ export default class StatusView extends BaseStatusView {
     }
 
     createPorts () {
-        this.ports = [
-            // Top
-            this.addPort(0.22, Direction.UP),
-            this.addPort(0.5, Direction.UP),
-            this.addPort(0.78, Direction.UP),
+        let inputPort;
+        let outputPort;
+        
+        switch(this.model.label) {
+            case 'TO DO':
+                inputPort = new draw2d.layout.locator.XYRelPortLocator(0,this.figure.height);
+                outputPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width,this.figure.height * 2);
+                this.figure.createPort('input',inputPort);
+                this.figure.createPort('output',outputPort);
+                break;
+            case 'IN PROGRESS':
+                inputPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width,0);
+                outputPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width,this.figure.height * 2);
+                this.figure.createPort('input',inputPort);
+                this.figure.createPort('output',outputPort);
+                break;
+            case 'DONE':
+                inputPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width,0);
+                this.figure.createPort('input',inputPort);
+                break;
+        }
+        // this.ports = [
+        //     // Top
+        //     this.addPort(0.22, Direction.UP),
+        //     this.addPort(0.5, Direction.UP),
+        //     this.addPort(0.78, Direction.UP),
 
-            // Right
-            this.addPort(0.5, Direction.RIGHT),
+        //     // // Right
+        //     this.addPort(0.5, Direction.RIGHT),
 
-            // Bottom
-            this.addPort(0.78, Direction.DOWN),
-            this.addPort(0.5, Direction.DOWN),
-            this.addPort(0.22, Direction.DOWN),
+        //     // // Bottom
+        //     this.addPort(0.78, Direction.DOWN),
+        //     this.addPort(0.5, Direction.DOWN),
+        //     this.addPort(0.22, Direction.DOWN),
 
-            // Left
-            this.addPort(0.5, Direction.LEFT)
-        ];
+        //     // // Left
+        //     this.addPort(0.5, Direction.LEFT)
+        // ];
     }
 
     getBackgroundColor () {
         var colour,
             isSubtle = this.isSubtle(),
             statusCategory = undefined; // get from the model and workflowStep
-
+            // switch(this.model.label) {
+            //     case "TO DO":
+            //         colour = "#42526e";
+            //         break;
+            //     case "IN PROGRESS":
+            //         colour = "#0053cc";
+            //         break;
+            //     case "DONE":
+            //         colour = "#03875b";
+            //         break;
+            // }
         if (statusCategory) {
             colour = "#deebff";
         } else if (isSubtle) {
@@ -101,7 +133,7 @@ export default class StatusView extends BaseStatusView {
     }
 
     getTextColor () {
-        return "#000"
+        return "#fff"
     }
 
     render() {

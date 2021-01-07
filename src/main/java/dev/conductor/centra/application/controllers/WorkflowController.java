@@ -60,9 +60,7 @@ public class WorkflowController {
                 dto.getTransitions()
         );
 
-        workflowService.create(workflow);
-
-        return workflow;
+        return workflowService.create(workflow);
     }
 
     @GetMapping("/{id}")
