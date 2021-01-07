@@ -21,11 +21,4 @@ public class WorkflowEntity {
     private List<WorkflowState> states;
     private List<WorkflowTransition> transitions;
 
-    public WorkflowEntity(){}
-
-    public WorkflowEntity(String name, List<WorkflowState> states, List<WorkflowTransition> transitions) {
-        this.name = name;
-        this.states = states;
-        this.transitions = transitions;
-    }
 }
