@@ -67,4 +67,20 @@ public class WorkflowController {
     Workflow getById(@PathVariable String id){
         return workflowService.findById(id);
     }
+
+    @PutMapping("/{id}")
+    Workflow save(@PathVariable String id, EntityModel<WorkflowDTO> workflowDto) {
+        WorkflowDTO dto = workflowDto.getContent();
+        assert dto != null;
+
+        Workflow originalWorkflow = workflowService.findById(id);
+
+        Workflow workflow = new Workflow();
+        workflow.setId(id);
+        workflow.setName(dto.getName() == null ? originalWorkflow.getName() : dto.getName());
+        workflow.setStates(dto.getStates() == null ? originalWorkflow.getStates() : dto.getStates());
+        workflow.setTransitions(dto.getTransitions() == null ? originalWorkflow.getTransitions() : dto.getTransitions());
+
+        return workflowService.save(workflow);
+    }
 }
