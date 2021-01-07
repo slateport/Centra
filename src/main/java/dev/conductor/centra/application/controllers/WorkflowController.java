@@ -69,7 +69,7 @@ public class WorkflowController {
     }
 
     @PutMapping("/{id}")
-    Workflow save(@PathVariable String id, EntityModel<WorkflowDTO> workflowDto) {
+    Workflow save(@PathVariable String id, @RequestBody EntityModel<WorkflowDTO> workflowDto) {
         WorkflowDTO dto = workflowDto.getContent();
         assert dto != null;
 
