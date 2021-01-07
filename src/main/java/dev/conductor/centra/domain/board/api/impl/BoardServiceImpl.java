@@ -75,7 +75,7 @@ public class BoardServiceImpl implements BoardService {
 
 
         List<WorkflowState> todoStates = workflowStates.stream()
-                .filter(workflowState -> !workflowState.getIsTerminus() && workflowState.isEntry())
+                .filter(workflowState -> !workflowState.isTerminus() && workflowState.isEntry())
                 .collect(Collectors.toList());
 
         BoardColumn todoColumn = new BoardColumn();
@@ -86,7 +86,7 @@ public class BoardServiceImpl implements BoardService {
         board.getBoardColumns().add(todoColumn);
 
         List<WorkflowState> inProgressStates = workflowStates.stream()
-                .filter(workflowState -> !workflowState.getIsTerminus() && !workflowState.isEntry())
+                .filter(workflowState -> !workflowState.isTerminus() && !workflowState.isEntry())
                 .collect(Collectors.toList());
 
         BoardColumn inProgressColumn = new BoardColumn();
@@ -97,7 +97,7 @@ public class BoardServiceImpl implements BoardService {
         board.getBoardColumns().add(inProgressColumn);
 
         List<WorkflowState> doneStates = workflowStates.stream()
-                .filter(workflowState -> workflowState.getIsTerminus() && !workflowState.isEntry())
+                .filter(workflowState -> workflowState.isTerminus() && !workflowState.isEntry())
                 .collect(Collectors.toList());
 
         BoardColumn doneColumn = new BoardColumn();
