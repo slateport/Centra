@@ -71,7 +71,10 @@ public class WorkflowController {
     @PutMapping("/{id}")
     Workflow save(@PathVariable String id, @RequestBody EntityModel<WorkflowDTO> workflowDto) {
         WorkflowDTO dto = workflowDto.getContent();
-        assert dto != null;
+
+        if (dto == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
 
         Workflow originalWorkflow = workflowService.findById(id);
 

@@ -41,7 +41,7 @@ public class ProjectPersistenceAdapter implements ProjectPersistencePort {
     }
 
     @Override
-    public Project create(Project project) {
+    public Project save(Project project) {
         return modelMapper.map(repository.save(modelMapper.map(project, ProjectEntity.class)), Project.class);
     }
 

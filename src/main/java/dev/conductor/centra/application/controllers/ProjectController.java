@@ -58,6 +58,19 @@ public class ProjectController extends BaseController {
         return projectService.create(project);
     }
 
+    @PostMapping("/{id}")
+    public Project saveProject(@PathVariable String id, @RequestBody Project project, Principal principal) {
+        if (project == null || !id.equals(project.getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if (projectService.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return projectService.save(project);
+    }
+
     @GetMapping("/{id}/issueTypes")
     public List<IssueType> getIssueTypesForProject(@PathVariable String id) {
         Project project = null;
