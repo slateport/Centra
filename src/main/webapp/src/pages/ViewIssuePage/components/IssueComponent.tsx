@@ -195,7 +195,7 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                 />
             </Typography>
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-                <Link component={NavLink} exact to="/">
+                <Link component={NavLink} exact to={"/project/"+project.id}>
                     {project.projectName}
                 </Link>
                 <Typography>

@@ -13,6 +13,7 @@ import React from 'react'
 import { PrivateRoute } from '../components'
 import {BoardsPage} from "../pages/BoardPage";
 import {ViewBoardPage} from "../pages/BoardPage/ViewBoardPage/ViewBoardPage";
+import {ProjectPage} from "../pages/ProjectPage";
 
 const NoMatch = ({ location }) => {
   const pathName = location.pathname || location.location.pathname
@@ -23,7 +24,8 @@ const NoMatch = ({ location }) => {
 
 const Routes = ({ init }) => {
   const Routing = (!init.instancePrivate) ? Route : PrivateRoute
-  return (
+  // @ts-ignore
+    return (
         <Switch>
             <Route path="/register" component={RegistrationPage} />
             <Route path="/login" component={LoginPage} />
@@ -37,6 +39,7 @@ const Routes = ({ init }) => {
             <PrivateRoute exact path="/admin/users" component={UsersPage} />
             <PrivateRoute exact path="/admin/users/:internalId" component={ModifyUserPage} />
             <PrivateRoute exact path="/admin/" component={GeneralPage} />
+            <PrivateRoute exact path="/project/:projectId" component={ProjectPage} />
 
             <Route component={NoMatch} />
             <Redirect to="/page-not-found" />
