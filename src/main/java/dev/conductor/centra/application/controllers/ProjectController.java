@@ -64,6 +64,13 @@ public class ProjectController extends BaseController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
+        if (!this.isAdmin(principal)){
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Not an administrator"
+            );
+        }
+
         if (projectService.findById(id) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
