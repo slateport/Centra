@@ -9,7 +9,7 @@ public interface ProjectPersistencePort {
     Project findByProjectKey(String key);
     Project findByProjectName(String name);
     Project findById(String id);
-    Project create(Project project);
+    Project save(Project project);
     List<Project> findAll();
     void delete(Project project);
 }
