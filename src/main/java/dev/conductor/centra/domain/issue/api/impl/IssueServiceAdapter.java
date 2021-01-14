@@ -69,12 +69,17 @@ public class IssueServiceAdapter implements IssueService {
 
     @Override
     public synchronized long getNextExternalIdByProject(String projectId) {
-        Issue issue = persistencePort.findFirstByProjectIdOrderByCreatedDateDesc(projectId);
-        if (issue == null) {
-            return 1;
-        } else {
-            return issue.getExternalId()+1;
+        Project project = projectService.findById(projectId);
+
+        long counter = 1;
+
+        if (project.getCounter() > 0) {
+            counter = project.getCounter() + 1;
         }
+
+        project.setCounter(counter);
+        projectService.save(project);
+        return counter;
     }
 
     public List<IssueChangeDTO> getAuditLogsForIssue(Issue issue) {

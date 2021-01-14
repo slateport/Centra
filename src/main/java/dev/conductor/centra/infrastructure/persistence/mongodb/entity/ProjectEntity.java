@@ -19,4 +19,5 @@ public class ProjectEntity {
     private String workflowId;
     private String issueTypeSchemaId;
     private String prioritySchemaId;
+    private long counter;
 }
