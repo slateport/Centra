@@ -64,6 +64,7 @@ public class IssueServiceAdapter implements IssueService {
 
     @Override
     public Issue save(Issue issue) {
+        issue.setLastModifiedDate(new Date());
         return persistencePort.save(issue);
     }
 
@@ -73,7 +74,7 @@ public class IssueServiceAdapter implements IssueService {
         if (issue == null) {
             return 1;
         } else {
-            return issue.getExternalId()+1;
+            return issue.getExternalId() + 1;
         }
     }
 
@@ -168,6 +169,32 @@ public class IssueServiceAdapter implements IssueService {
         customFieldService.createDefaultCustomFieldValuesForIssue(savedIssue);
 
         return savedIssue;
+    }
+
+    @Override
+    public Issue move(Issue issue, Project toProject) {
+        long newId = getNextExternalIdByProject(toProject.getId());
+        Project oldProject = projectService.findById(issue.getProjectId());
+        String oldExternalId = oldProject.getProjectKey() + "-" + issue.getExternalId();
+        String newExternalId = toProject.getProjectKey() + "-" + newId;
+
+        this.getLinksForIssueByExternalId(oldExternalId).forEach(issueLinks -> {
+                IssueLinks newLink = new IssueLinks();
+                if (issueLinks.getLinkPublicId().equals(oldExternalId)){
+                    newLink.setLinkPublicId(newExternalId);
+                    newLink.setNodePublicId(issueLinks.getNodePublicId());
+                } else {
+                    newLink.setNodePublicId(newExternalId);
+                    newLink.setLinkPublicId(issueLinks.getLinkPublicId());
+                }
+
+                createIssuelinks(newLink);
+                deleteIssueLink(issueLinks);
+            });
+
+        issue.setExternalId(newId);
+        issue.setProjectId(toProject.getId());
+        return save(issue);
     }
 
     private String getPropertyNameWithPath(Change change) {
