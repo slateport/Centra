@@ -18,6 +18,7 @@ public class Project {
     private String workflowId;
     private String issueTypeSchemaId;
     private String prioritySchemaId;
+    private long counter;
 
     public Project() {}
 
@@ -28,5 +29,6 @@ public class Project {
         this.workflowId = workflowId;
         this.issueTypeSchemaId = issueTypeSchemaId;
         this.prioritySchemaId = prioritySchemaId;
+        this.counter = 0;
     }
 }

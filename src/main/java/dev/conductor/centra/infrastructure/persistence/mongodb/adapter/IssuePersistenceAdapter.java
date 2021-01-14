@@ -40,16 +40,6 @@ public class IssuePersistenceAdapter implements IssuePersistencePort {
     }
 
     @Override
-    public Issue findFirstByProjectIdOrderByLastModifiedDateDesc(String projectId) {
-        return modelMapper.map(repository.findFirstByProjectIdOrderByLastModifiedDateDesc(projectId), Issue.class);
-    }
-
-    @Override
-    public Issue findFirstByProjectIdOrderByCreatedDateDesc(String projectId) {
-        return modelMapper.map(repository.findFirstByProjectIdOrderByCreatedDateDesc(projectId), Issue.class);
-    }
-
-    @Override
     public Issue save(Issue issue) {
         return modelMapper.map(repository.save(modelMapper.map(issue, IssueEntity.class)), Issue.class);
     }
