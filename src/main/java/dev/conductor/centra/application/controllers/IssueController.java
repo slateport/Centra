@@ -216,6 +216,17 @@ public class IssueController extends BaseController {
         return issueTypeSchemaService.findTypeById(id);
     }
 
+    @PostMapping("/{id}/move/{newProjectId}")
+    public IssueDTO moveProject(@PathVariable String id, @PathVariable String newProjectId){
+        Issue issue = getIssueByExternalId(id);
+        Project project = projectService.findById(newProjectId);
+
+        if (project == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
+        }
+
+        return convertToDTO(issueService.move(issue, project));
+    }
     
     private IssueDTO convertToDTO(Issue issue) {
         IssueDTO dto = modelMapper.map(issue, IssueDTO.class);
