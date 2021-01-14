@@ -66,16 +66,27 @@ public class DefaultInstall {
         issueTypeSchemaService.createSchema(schema);
 
         List<WorkflowState> states = new ArrayList<>();
-        states.add(new WorkflowState(true, false, "TO DO", 0));
-        states.add(new WorkflowState(false, false, "IN PROGRESS", 1));
-        states.add(new WorkflowState(false, true, "DONE", 2));
+
+        List<StatePort> todoPorts = new ArrayList<>();
+//        todoPorts.add(new StatePort("input", "LM", null, null));
+//        todoPorts.add(new StatePort("output", "BM", null, 1));
+        states.add(new WorkflowState(true, false, "TO DO", 0,todoPorts));
+
+        List<StatePort> doingPorts = new ArrayList<>();
+//        doingPorts.add(new StatePort("input", "TM", 0, null));
+//        doingPorts.add(new StatePort("output", "BM", null, 2));
+        states.add(new WorkflowState(false, false, "IN PROGRESS", 1, doingPorts));
+
+        List<StatePort> donePorts = new ArrayList<>();
+//        donePorts.add(new StatePort("input", "TM", 1, null ));
+        states.add(new WorkflowState(false, true, "DONE", 2, donePorts));
 
         List<WorkflowTransition> transitions = new ArrayList<>();
         transitions.add(new WorkflowTransition("TO DO", "IN PROGRESS", "In Progress", false, false));
         transitions.add(new WorkflowTransition("IN PROGRESS", "DONE", "Done", false, true));
         transitions.add(new WorkflowTransition("DONE", "TO DO", "Reopen", true, false));
 
-        Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions);
+        Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions, states.size() > 3 ? 1 : 0);
 
         workflowService.create(wfl);
 

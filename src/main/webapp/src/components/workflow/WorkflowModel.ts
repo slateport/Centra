@@ -5,12 +5,14 @@ export default class WorkflowModel {
     private readonly _states;
     private readonly _transitions;
     private readonly _permissions;
+    private readonly _level;
 
-        constructor(name, states, transitions, permissions) {
+        constructor(name, states, transitions, permissions, level) {
         this._name = name;
         this._states = states;
         this._transitions = transitions;
         this._permissions = permissions;
+        this._level = level;
     }
 
 
@@ -24,6 +26,10 @@ export default class WorkflowModel {
 
     transitions() {
         return this._transitions;
+    }
+
+    level() {
+        return this._level;
     }
 
     permissions() {
