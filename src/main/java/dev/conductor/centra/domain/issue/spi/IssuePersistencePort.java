@@ -8,8 +8,6 @@ public interface IssuePersistencePort {
 
     List<Issue> findByProjectId (String projectId);
     Issue findByProjectIdAndExternalId(String projectId, long externalId);
-    Issue findFirstByProjectIdOrderByLastModifiedDateDesc(String projectId);
-    Issue findFirstByProjectIdOrderByCreatedDateDesc(String projectId);
     Issue save(Issue issue);
     void delete(Issue issue);
 }

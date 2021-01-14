@@ -12,6 +12,4 @@ public interface IssueRepository extends MongoRepository<IssueEntity, String> {
 
     List<IssueEntity> findByProjectId (String projectId);
     IssueEntity findByProjectIdAndExternalId(String projectId, long externalId);
-    IssueEntity findFirstByProjectIdOrderByLastModifiedDateDesc(String projectId);
-    IssueEntity findFirstByProjectIdOrderByCreatedDateDesc(String projectId);
 }
