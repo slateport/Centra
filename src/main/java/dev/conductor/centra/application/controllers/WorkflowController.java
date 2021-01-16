@@ -7,7 +7,6 @@ import dev.conductor.centra.domain.workflow.entities.Workflow;
 import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.workflow.entities.WorkflowState;
-import jdk.jfr.internal.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
