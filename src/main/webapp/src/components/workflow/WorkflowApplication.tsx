@@ -20,6 +20,7 @@ export default class WorkflowApplication extends React.Component<any, any>{
                  null,
                  [],
                  [],
+                 null,
                  null
              ),
              width: 0,
@@ -51,19 +52,23 @@ export default class WorkflowApplication extends React.Component<any, any>{
             .then(resp =>  {
                 let data  = resp;
                 data.states.push({entry: true, isTerminus: false, label: "INIT"});
-                this.setState({workflowModel: new WorkflowModel(data.name, data.states, data.transitions, null )});
+                this.setState({workflowModel: new WorkflowModel(data.name, data.states, data.transitions, null, data.level )});
             })
 
     }
 
     componentDidMount() {
-        this.setState({width: ((window.innerWidth - 40) / 4 * 3) - 112, height: 500})
         this.initialiseWorkflow(this.options)
             .then(() => {
+                if(this.state.workflowModel._level === 1) {
+                    this.setState({width: ((window.innerWidth - 40) / 4 * 3) - 112, height: 700})
+                } else {
+                    this.setState({width: ((window.innerWidth - 40) / 4 * 3) - 112, height: 500})
+                }
                 this.canvas = this.createCanvas({ workflowModel: this.state.workflowModel });
                 this.canvas.canvasView.render('workflow');
                 this.state.workflowModel.states().map(state => {
-                    this.canvas.canvasView.addStatus(state)
+                    this.canvas.canvasView.addStatus({...state, level: this.state.workflowModel._level});
                 })
                 this.canvas.canvasView.positionNewStatuses();
                 this.canvas.canvasView.setConnectionStatusView();

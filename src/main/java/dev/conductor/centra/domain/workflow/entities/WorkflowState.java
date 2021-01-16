@@ -3,6 +3,8 @@ package dev.conductor.centra.domain.workflow.entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.reflect.Array;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -13,12 +15,14 @@ public class WorkflowState {
     private final boolean isTerminus;
     private final String label;
     private final Integer order;
+    private List<StatePort> ports;
 
-    public WorkflowState(boolean isEntry, boolean isTerminus, String label, Integer order) {
+    public WorkflowState(boolean isEntry, boolean isTerminus, String label, Integer order, List<StatePort> ports) {
         this.isEntry = isEntry;
         this.isTerminus = isTerminus;
         this.label = label;
         this.order = order;
+        this.ports = ports;
     }
 
     @Override

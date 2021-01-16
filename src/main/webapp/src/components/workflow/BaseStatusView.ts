@@ -110,21 +110,52 @@ export default abstract class BaseStatusView extends Draw2DView{
         //         this.model.y
         //     );
         // }
-        if(!this.model) {
-            this.figure.setPosition(this.canvas.initialWidth / 2 - 25, 150);
-        } else {
-            switch(this.model.label) {
-                case "TO DO":
+
+        if(this.model.level === 0) {
+            if(this.model.label === 'INIT') {
+                this.figure.setPosition(this.canvas.initialWidth / 2 - 25, 150);
+            }
+            switch(this.model.order) {
+                case 0:
                     this.figure.setPosition((this.canvas.initialWidth - this.figure.width) / 2, 220);
                     break;
-                case "IN PROGRESS":
+                case 1:
                     this.figure.setPosition((this.canvas.initialWidth - this.figure.width) / 2, 270);
                     break;
-                case "DONE":
+                case 2:
                     this.figure.setPosition((this.canvas.initialWidth - this.figure.width) / 2, 320);
                     break;
             }
+        } else {
+            if(this.model.label === 'INIT') {
+                this.figure.setPosition(25, this.canvas.initialHeight / 4);
+            }
+            switch(this.model.order) {
+                case 0:
+                    this.figure.setPosition(110, this.canvas.initialHeight / 3 );
+                    break;
+                case 1:
+                    this.figure.setPosition(this.canvas.initialWidth / 2, 80);
+                    break;
+                case 2:
+                    this.figure.setPosition(this.canvas.initialWidth / 3 * 2 -50, this.canvas.initialHeight / 4 + 50);
+                    break;
+                case 3:
+                    this.figure.setPosition(this.canvas.initialWidth -160, this.canvas.initialHeight / 2);
+                    break;
+                case 4: 
+                    this.figure.setPosition(this.canvas.initialWidth / 3 * 2, this.canvas.initialHeight -90);
+                    break;
+                case 5: 
+                    this.figure.setPosition(this.canvas.initialWidth / 2 - 100, this.canvas.initialHeight -50);
+                    break;
+                case 6: 
+                    this.figure.setPosition(this.canvas.initialWidth / 4, this.canvas.initialHeight -50);
+                    break;
+            }
         }
+        
+        
     }
 
     setPosition (x, y) {

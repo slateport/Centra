@@ -6,6 +6,11 @@ import Direction from "./Direction";
 export default class InitialStatusView extends BaseStatusView {
     private port;
 
+    constructor(options) {
+        super(options);
+        this.model = options.model
+    }
+
     createFigure() {
         var figure, fill;
 

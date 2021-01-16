@@ -22,8 +22,6 @@ export default class CanvasView {
         this.canvasModel = options.canvasModel;
         this.immutable = options.immutable;
         this.workflowModel = options.workflowModel;
-
-
     }
 
     addStatus (statusModel) {
@@ -32,7 +30,7 @@ export default class CanvasView {
             statusView,
             viewClass;
         if (isInitial) {
-            if(statusModel.label === 'TO DO') {
+            if(statusModel.ports && statusModel.ports.length > 0) {
                 viewClass = StatusView;
             } else {
                 viewClass = InitialStatusView;
@@ -243,48 +241,98 @@ export default class CanvasView {
     }
 
     async setConnectionStatusView() {
-        
-        let figures = this.canvas.getFigures().asArray();
-         
          this.canvas.installEditPolicy(  new draw2d.policy.connection.DragConnectionCreatePolicy({
                createConnection: this.createConnection
          }));
 
         let startFigure  = new draw2d.shape.basic.Circle();
-        let betweenFigure1, betweenFigure2,endFigure   = new draw2d.shape.basic.Rectangle();
-        await this.statusViews.map(statusView => {
-            if(!statusView.model) {
-                startFigure = statusView.figure;
-            } else {
-                switch(statusView.model.label) {
-                    case 'TO DO':
-                        betweenFigure1 = statusView.figure;
-                        break;
-                    case 'IN PROGRESS':
-                        betweenFigure2 = statusView.figure;
-                        break;
-                    case 'DONE':
-                        endFigure = statusView.figure;
-                        break;
+        if(this.workflowModel.level() === 0) {
+            await this.statusViews.map(async (statusView, index) =>  {
+                if(statusView.model.ports) {
+                    let outputPorts = [];
+                    await  statusView.model.ports.map(item => {
+                        if(item.portType === 'output') {
+                            outputPorts.push(item);
+                        };
+                    })
+                    
+                    await outputPorts.map(async (port,  portIndex) => {
+                        if(port.portType === 'output') {
+                            let con = await this.connectWorkFlow(statusView, index, portIndex, port);
+                            this.canvas.add(con);
+                        }
+                    });
+                } else {
+                    var initCon = new draw2d.Connection();
+                    startFigure = statusView.figure;
+                    initCon.setRouter(new draw2d.layout.connection.ManhattanConnectionRouter());
+                    initCon.setSource(startFigure.getOutputPort(0));
+                    initCon.setTarget(this.statusViews[0].figure.getInputPort(0));
+                    this.canvas.add(initCon);
                 }
+            });
+        } else {
+            await this.statusViews.map(async (statusView, index) =>  {
+                if(statusView.model.ports) {
+                    let outputPorts = [];
+                    await  statusView.model.ports.map(item => {
+                        if(item.portType === 'output') {
+                            outputPorts.push(item);
+                        };
+                    })
+                    
+                    await outputPorts.map(async (port,  portIndex) => {
+                        if(port.portType === 'output') {
+                            let con = await this.connectWorkFlow(statusView, index, portIndex, port);
+                            this.canvas.add(con);
+                        }
+                    });
+                } else {
+                    var initCon = new draw2d.Connection();
+                    startFigure = statusView.figure;
+                    initCon.setRouter(new draw2d.layout.connection.ManhattanConnectionRouter());
+                    initCon.setSource(startFigure.getOutputPort(0));
+                    initCon.setTarget(this.statusViews[0].figure.getInputPort(2));
+                    this.canvas.add(initCon);
+                }
+            });
+        }
+    }
+
+    async connectWorkFlow(statusView, index, pIndex, port) {
+        var con = new draw2d.Connection();
+        con.setRouter(new draw2d.layout.connection.ManhattanConnectionRouter());
+        con.setSource(statusView.figure.getOutputPort(pIndex));
+        if(port.target !== null) {
+            if(this.statusViews[port.target].model.ports) {
+                let inputPorts = [];
+                await this.statusViews[port.target].model.ports.map(item => {
+                    if(item.portType === 'input') {
+                        inputPorts.push(item);
+                    }
+                })
+                await inputPorts.map((input, iIndex) => {
+                    if(input.portType === 'input' && input.from !== null && input.from === index) {
+                        con.setTarget(this.statusViews[port.target].figure.getInputPort(iIndex));
+                    } 
+                });
             }
-        });
-
-
-        let con1 = this.createConnection(startFigure, betweenFigure1);
-        let con2 = this.createConnection(betweenFigure1, betweenFigure2);
-        let con3 = this.createConnection(betweenFigure2, endFigure);
-        this.canvas.add(con1);
-        this.canvas.add(con2);
-        this.canvas.add(con3);
+        } else {
+            if(this.workflowModel.level() === 0) {
+                con.setTarget(this.statusViews[4].figure.getInputPort(0));
+            } else {
+                con.setTarget(this.statusViews[8].figure.getInputPort(0));
+            }
+        }
+        
+        return con;
     }
 
     createConnection(sourcePort, targetPort) {
-        // return my special kind of connection
         var con = new draw2d.Connection();
         con.setRouter(new draw2d.layout.connection.ManhattanConnectionRouter());
         con.setSource(sourcePort.getOutputPort(0));
         con.setTarget(targetPort.getInputPort(0));
         return con;
-     };
+    }
 }

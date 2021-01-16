@@ -48,26 +48,37 @@ export default class StatusView extends BaseStatusView {
     }
 
     createPorts () {
-        let inputPort;
-        let outputPort;
-        
-        switch(this.model.label) {
-            case 'TO DO':
-                inputPort = new draw2d.layout.locator.XYRelPortLocator(0,this.figure.height);
-                outputPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width,this.figure.height * 2);
-                this.figure.createPort('input',inputPort);
-                this.figure.createPort('output',outputPort);
-                break;
-            case 'IN PROGRESS':
-                inputPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width,0);
-                outputPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width,this.figure.height * 2);
-                this.figure.createPort('input',inputPort);
-                this.figure.createPort('output',outputPort);
-                break;
-            case 'DONE':
-                inputPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width,0);
-                this.figure.createPort('input',inputPort);
-                break;
+        if(this.model.ports && this.model.ports.length > 0) {
+            this.model.ports.map(port => {
+                let newPort;
+                switch (port.portPos) {
+                    case "T1":
+                        newPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width / 2, 0);
+                        break;
+                    case "TM":
+                        newPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width, 0);
+                        break;
+                    case "T3":
+                        newPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width / 2 * 3, 0);
+                        break;
+                    case "RM":
+                        newPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width * 2, this.figure.height);
+                        break;
+                    case "B3":
+                        newPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width  / 2 * 3, this.figure.height * 2);
+                        break;
+                    case "BM":
+                        newPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width, this.figure.height * 2);
+                        break;
+                    case "B1":
+                        newPort = new draw2d.layout.locator.XYRelPortLocator(this.figure.width /2 , this.figure.height * 2);
+                        break;
+                    case "LM":
+                        newPort = new draw2d.layout.locator.XYRelPortLocator(0, this.figure.height);
+                        break;
+                }
+                this.figure.createPort(port.portType, newPort);
+            })
         }
         // this.ports = [
         //     // Top
