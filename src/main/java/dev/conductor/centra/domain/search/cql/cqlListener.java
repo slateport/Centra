@@ -158,6 +158,16 @@ public interface cqlListener extends ParseTreeListener {
 	 */
 	void exitOrdering_list_item(cqlParser.Ordering_list_itemContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link cqlParser#order_by_argument}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrder_by_argument(cqlParser.Order_by_argumentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cqlParser#order_by_argument}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrder_by_argument(cqlParser.Order_by_argumentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link cqlParser#order_by}.
 	 * @param ctx the parse tree
 	 */
@@ -177,6 +187,16 @@ public interface cqlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOperator(cqlParser.OperatorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link cqlParser#is_operator}.
+	 * @param ctx the parse tree
+	 */
+	void enterIs_operator(cqlParser.Is_operatorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cqlParser#is_operator}.
+	 * @param ctx the parse tree
+	 */
+	void exitIs_operator(cqlParser.Is_operatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link cqlParser#literal_value}.
 	 * @param ctx the parse tree
@@ -258,23 +278,71 @@ public interface cqlListener extends ParseTreeListener {
 	 */
 	void exitField(cqlParser.FieldContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link cqlParser#compare_dates}.
+	 * Enter a parse tree produced by the {@code DateType1}
+	 * labeled alternative in {@link cqlParser#dates}.
 	 * @param ctx the parse tree
 	 */
-	void enterCompare_dates(cqlParser.Compare_datesContext ctx);
+	void enterDateType1(cqlParser.DateType1Context ctx);
 	/**
-	 * Exit a parse tree produced by {@link cqlParser#compare_dates}.
+	 * Exit a parse tree produced by the {@code DateType1}
+	 * labeled alternative in {@link cqlParser#dates}.
 	 * @param ctx the parse tree
 	 */
-	void exitCompare_dates(cqlParser.Compare_datesContext ctx);
+	void exitDateType1(cqlParser.DateType1Context ctx);
 	/**
-	 * Enter a parse tree produced by {@link cqlParser#dates}.
+	 * Enter a parse tree produced by the {@code DateType2}
+	 * labeled alternative in {@link cqlParser#dates}.
 	 * @param ctx the parse tree
 	 */
-	void enterDates(cqlParser.DatesContext ctx);
+	void enterDateType2(cqlParser.DateType2Context ctx);
 	/**
-	 * Exit a parse tree produced by {@link cqlParser#dates}.
+	 * Exit a parse tree produced by the {@code DateType2}
+	 * labeled alternative in {@link cqlParser#dates}.
 	 * @param ctx the parse tree
 	 */
-	void exitDates(cqlParser.DatesContext ctx);
+	void exitDateType2(cqlParser.DateType2Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code DateType3}
+	 * labeled alternative in {@link cqlParser#dates}.
+	 * @param ctx the parse tree
+	 */
+	void enterDateType3(cqlParser.DateType3Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code DateType3}
+	 * labeled alternative in {@link cqlParser#dates}.
+	 * @param ctx the parse tree
+	 */
+	void exitDateType3(cqlParser.DateType3Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code DateType4}
+	 * labeled alternative in {@link cqlParser#dates}.
+	 * @param ctx the parse tree
+	 */
+	void enterDateType4(cqlParser.DateType4Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code DateType4}
+	 * labeled alternative in {@link cqlParser#dates}.
+	 * @param ctx the parse tree
+	 */
+	void exitDateType4(cqlParser.DateType4Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link cqlParser#number_and_term}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumber_and_term(cqlParser.Number_and_termContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cqlParser#number_and_term}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumber_and_term(cqlParser.Number_and_termContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link cqlParser#number}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumber(cqlParser.NumberContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link cqlParser#number}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumber(cqlParser.NumberContext ctx);
 }

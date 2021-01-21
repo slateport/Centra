@@ -100,6 +100,12 @@ public interface cqlVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOrdering_list_item(cqlParser.Ordering_list_itemContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link cqlParser#order_by_argument}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrder_by_argument(cqlParser.Order_by_argumentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link cqlParser#order_by}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -111,6 +117,12 @@ public interface cqlVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOperator(cqlParser.OperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link cqlParser#is_operator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIs_operator(cqlParser.Is_operatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link cqlParser#literal_value}.
 	 * @param ctx the parse tree
@@ -160,15 +172,43 @@ public interface cqlVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitField(cqlParser.FieldContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link cqlParser#compare_dates}.
+	 * Visit a parse tree produced by the {@code DateType1}
+	 * labeled alternative in {@link cqlParser#dates}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCompare_dates(cqlParser.Compare_datesContext ctx);
+	T visitDateType1(cqlParser.DateType1Context ctx);
 	/**
-	 * Visit a parse tree produced by {@link cqlParser#dates}.
+	 * Visit a parse tree produced by the {@code DateType2}
+	 * labeled alternative in {@link cqlParser#dates}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDates(cqlParser.DatesContext ctx);
+	T visitDateType2(cqlParser.DateType2Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DateType3}
+	 * labeled alternative in {@link cqlParser#dates}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDateType3(cqlParser.DateType3Context ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DateType4}
+	 * labeled alternative in {@link cqlParser#dates}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDateType4(cqlParser.DateType4Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link cqlParser#number_and_term}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumber_and_term(cqlParser.Number_and_termContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link cqlParser#number}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumber(cqlParser.NumberContext ctx);
 }

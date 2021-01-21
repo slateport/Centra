@@ -27,8 +27,32 @@ public class CustomQueryBuilder {
                     direction = Sort.Direction.DESC;
                 }
 
-                Sort sort = Sort.by(direction, orderingListItem.getField());
-                query.with(sort);
+                AbstractOrderByArgument abstractOrderByArgument = orderingListItem.getArgument();
+
+                if (abstractOrderByArgument instanceof  FieldOrderByArgument) {
+                    FieldOrderByArgument fieldOrderByArgument = (FieldOrderByArgument) abstractOrderByArgument;
+                    Sort sort = Sort.by(direction, fieldOrderByArgument.getField());
+                    query.with(sort);
+                } else if (abstractOrderByArgument instanceof FunctionCallRightValue) {
+                    FunctionCallRightValue functionCallRightValue = (FunctionCallRightValue) abstractOrderByArgument;
+                    List<AbstractFunctionArgument> argumentList = functionCallRightValue.getArgumentList();
+                    if (argumentList.size() != 1) {
+                        throw new IllegalStateException("unexpect arg list length " + argumentList.size());
+                    }
+                    AbstractFunctionArgument arg = argumentList.get(0);
+                    if (arg instanceof LiteralRightValue) {
+                        LiteralRightValue literalRightValue = (LiteralRightValue) arg;
+                        LiteralValueTypeEnum type = literalRightValue.getType();
+                        if (type == LiteralValueTypeEnum.STRING_LITERAL) {
+                            Sort sort = Sort.by(direction, literalRightValue.getValue());
+                            query.with(sort);
+                        } else {
+                            throw new IllegalStateException("unexpected literal type");
+                        }
+                    }
+                } else {
+                    throw new IllegalStateException("unexpected arg type");
+                }
             });
         }
 
@@ -84,6 +108,7 @@ public class CustomQueryBuilder {
         boolean rightValueIsLiteral = (rightValue instanceof LiteralRightValue);
         boolean rightValueIsLiteralList = (rightValue instanceof LiteralListRightValue);
         boolean rightValueIsFunctionCall = (rightValue instanceof FunctionCallRightValue);
+        boolean rightValueIsKeyword = (rightValue instanceof KeyWordRightValue);
 
         Criteria criteria;
         Object evaluatedRightValue = "";
@@ -176,7 +201,7 @@ public class CustomQueryBuilder {
                 if (!rightValueIsLiteral) {
                     throw new IllegalStateException("CONTAINS operator should be used against literal string value");
                 }
-
+                // not sure we need slashes here
                 regex = "/" + rightValue.getRightValue() + "/";
                 //regex = (String) rightValue.getRightValue();
                 if (isNegated) {
@@ -194,7 +219,7 @@ public class CustomQueryBuilder {
                 if (!rightValueIsLiteral) {
                     throw new IllegalStateException("NOT CONTAINS operator should be used against literal string value");
                 }
-
+                // not sure we need slashes here
                 regex = "/" + rightValue.getRightValue() + "/";
                 //regex = (String) rightValue.getRightValue();
                 if (isNegated) {
@@ -203,6 +228,160 @@ public class CustomQueryBuilder {
                     // https://docs.mongodb.com/manual/reference/operator/query/regex/
                     criteria = Criteria.where(leftValue).regex(regex, "i").not();
                 }
+                break;
+
+            case IS:
+
+                if (rightValueIsLiteralList) {
+                    throw new IllegalStateException("IS operator shouldn't be used against list");
+                }
+
+                criteria = null;
+
+                if (rightValueIsKeyword) {
+                    evaluatedRightValue = rightValue.getRightValue();
+                    String keyword = evaluatedRightValue.toString().toLowerCase();
+
+                    switch (keyword) {
+                        case "null" :
+                            if (isNegated) {
+                                criteria = Criteria.where(leftValue).exists(true);
+                            } else {
+                                criteria = Criteria.where(leftValue).exists(false);
+                            }
+
+                            break;
+
+                        case "empty" :
+                            if (isNegated) {
+                                criteria = Criteria.where(leftValue).ne("");
+                            } else {
+                                criteria = Criteria.where(leftValue).is("");
+                            }
+
+                            break;
+
+                        default:
+                            throw new IllegalStateException("illegal keyword");
+                    }
+                }
+
+                break;
+
+            case IS_NOT:
+
+                if (rightValueIsLiteralList) {
+                    throw new IllegalStateException("IS_NOT operator shouldn't be used against list");
+                }
+
+                criteria = null;
+
+                if (rightValueIsKeyword) {
+                    evaluatedRightValue = rightValue.getRightValue();
+                    String keyword = evaluatedRightValue.toString().toLowerCase();
+
+                    switch (keyword) {
+                        case "null" :
+                            if (isNegated) {
+                                criteria = Criteria.where(leftValue).exists(false);
+                            } else {
+                                criteria = Criteria.where(leftValue).exists(true);
+                            }
+
+                            break;
+
+                        case "empty" :
+                            if (isNegated) {
+                                criteria = Criteria.where(leftValue).is("");
+                            } else {
+                                criteria = Criteria.where(leftValue).ne("");
+                            }
+
+                            break;
+
+                        default:
+                            throw new IllegalStateException("illegal keyword");
+                    }
+                }
+
+
+
+                break;
+
+            case GT:
+                if (rightValueIsLiteralList) {
+                    throw new IllegalStateException("GT operator shouldn't be used against list");
+                }
+
+                if (rightValueIsFunctionCall) {
+                    evaluatedRightValue = sessionContainer.processFunctionStatement((FunctionCallRightValue) rightValue);
+                } else {
+                    evaluatedRightValue = rightValue.getRightValue();
+                }
+
+                if (isNegated) {
+                    criteria = Criteria.where(leftValue).lte(evaluatedRightValue);
+                } else {
+                    criteria = Criteria.where(leftValue).gt(evaluatedRightValue);
+                }
+
+                break;
+
+            case GT_EQ:
+                if (rightValueIsLiteralList) {
+                    throw new IllegalStateException("GT_EQ operator shouldn't be used against list");
+                }
+
+                if (rightValueIsFunctionCall) {
+                    evaluatedRightValue = sessionContainer.processFunctionStatement((FunctionCallRightValue) rightValue);
+                } else {
+                    evaluatedRightValue = rightValue.getRightValue();
+                }
+
+                if (isNegated) {
+                    criteria = Criteria.where(leftValue).lt(evaluatedRightValue);
+                } else {
+                    criteria = Criteria.where(leftValue).gte(evaluatedRightValue);
+                }
+
+                break;
+
+            case LT:
+                if (rightValueIsLiteralList) {
+                    throw new IllegalStateException("LT operator shouldn't be used against list");
+                }
+
+                if (rightValueIsFunctionCall) {
+                    evaluatedRightValue = sessionContainer.processFunctionStatement((FunctionCallRightValue) rightValue);
+                } else {
+                    evaluatedRightValue = rightValue.getRightValue();
+                }
+
+                if (isNegated) {
+                    criteria = Criteria.where(leftValue).gte(evaluatedRightValue);
+                } else {
+                    criteria = Criteria.where(leftValue).lt(evaluatedRightValue);
+                }
+
+                break;
+
+            case LT_EQ:
+                if (rightValueIsLiteralList) {
+                    throw new IllegalStateException("LT_EQ operator shouldn't be used against list");
+                }
+
+                if (rightValueIsFunctionCall) {
+                    evaluatedRightValue = sessionContainer.processFunctionStatement((FunctionCallRightValue) rightValue);
+                } else {
+                    evaluatedRightValue = rightValue.getRightValue();
+                }
+
+                if (isNegated) {
+                    criteria = Criteria.where(leftValue).gt(evaluatedRightValue);
+                } else {
+                    criteria = Criteria.where(leftValue).lte(evaluatedRightValue);
+                }
+
                 break;
 
             default:

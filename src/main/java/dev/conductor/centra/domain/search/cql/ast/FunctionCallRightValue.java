@@ -6,7 +6,7 @@ import dev.conductor.centra.domain.search.cql.ast.AbstractRightValue;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionCallRightValue implements AbstractRightValue, AbstractFunctionArgument {
+public class FunctionCallRightValue implements AbstractRightValue, AbstractFunctionArgument, AbstractOrderByArgument {
     private String functionName;
     private List<AbstractFunctionArgument> argumentList = new ArrayList<>();
 

@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.data.mongodb.core.query.Query;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +46,13 @@ public class SearchPersistenceAdapter implements SearchPersistencePort {
             }
         }
 
+        return mongoOperations.find(query, IssueEntity.class).stream().map(
+                issueEntity -> modelMapper.map(issueEntity, Issue.class)
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Issue> find(Query query) {
         return mongoOperations.find(query, IssueEntity.class).stream().map(
                 issueEntity -> modelMapper.map(issueEntity, Issue.class)
         ).collect(Collectors.toList());

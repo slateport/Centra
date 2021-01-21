@@ -33,7 +33,7 @@ public class InitServiceAdapter implements InitService {
                 Boolean.valueOf(getSettingsValue(SettingsEnum.PRIVATE_INSTANCE)),
                 Boolean.valueOf(getSettingsValue(SettingsEnum.INSTALLATION_COMPLETE)),
                 getSettingsValue(SettingsEnum.INSTANCE_NAME),
-                optionalUser.isEmpty() ? null : optionalUser.get()
+                (!optionalUser.isPresent()) ? null : optionalUser.get()
         );
     }
 

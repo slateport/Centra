@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import dev.conductor.centra.domain.search.cql.ast.listener.CqlCustomListener;
+import dev.conductor.centra.domain.issue.query.CqlSessionContainer;
+import dev.conductor.centra.domain.issue.query.CustomQueryBuilder;
+
+import dev.conductor.centra.domain.search.cql.listener.CqlCustomListener;
 import dev.conductor.centra.domain.search.cql.*;
 import dev.conductor.centra.domain.search.cql.ast.*;
 import dev.conductor.centra.domain.search.cql.ast.enumeration.*;
@@ -41,8 +44,8 @@ public class SearchController {
     @Autowired
     private ProjectService projectService;
 
-    //@Autowired
-    //private ModelMapper modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping
     public List<IssueDTO> searchByCql(@RequestParam String cql){
@@ -83,11 +86,11 @@ public class SearchController {
         // if we reached this line we know it's safe to retrieve via get(0)
         CqlStatement statement = statementList.get(0);
 
-        final List<IssueDTO> dtoList = new ArrayList<>();
+        // TODO object CqlSessionContainer should be passed via @Autowire into this controller instead of created via new
+        final List<Issue> issues = searchService.search(CustomQueryBuilder.composeQuery(statement, new CqlSessionContainer()));
 
-        // TODO I will continue translating AST into mongo-compatible query
-        /*
-        for (Issue issue: searchService.search(conditions)) {
+        List<IssueDTO> dtoList = new ArrayList<>();
+        for (Issue issue: issues) {
             Project project = projectService.findById(issue.getProjectId());
 
             try {
@@ -99,7 +102,7 @@ public class SearchController {
                 System.out.println(issue.getId() + " encountered an issue");
             }
 
-        }*/
+        }
 
         // empty list so far
         return dtoList;

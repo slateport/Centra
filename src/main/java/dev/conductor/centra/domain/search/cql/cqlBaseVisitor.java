@@ -115,6 +115,13 @@ public class cqlBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements cq
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitOrder_by_argument(cqlParser.Order_by_argumentContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitOrder_by(cqlParser.Order_byContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -123,6 +130,13 @@ public class cqlBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements cq
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitOperator(cqlParser.OperatorContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitIs_operator(cqlParser.Is_operatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -185,12 +199,40 @@ public class cqlBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements cq
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCompare_dates(cqlParser.Compare_datesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDateType1(cqlParser.DateType1Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDates(cqlParser.DatesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDateType2(cqlParser.DateType2Context ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDateType3(cqlParser.DateType3Context ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDateType4(cqlParser.DateType4Context ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitNumber_and_term(cqlParser.Number_and_termContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitNumber(cqlParser.NumberContext ctx) { return visitChildren(ctx); }
 }

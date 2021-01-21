@@ -1,4 +1,4 @@
-package dev.conductor.centra.domain.search.cql.ast.listener;
+package dev.conductor.centra.domain.search.cql.listener;
 
 import dev.conductor.centra.domain.search.cql.ast.CqlStatement;
 import dev.conductor.centra.domain.search.cql.ast.OrderingListItem;
@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TestCqlCustomListener {
@@ -148,9 +149,53 @@ public class TestCqlCustomListener {
     }
 
     @Test
+    public void testCompositionWithOrCase2() {
+        String s = "projectKey = DEMO OR projectKey = -1111";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testCompositionWithOrCase3() {
+        String s = "projectKey = DEMO OR projectKey = +1111";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
     public void testCompositionWithAndOrCase1() {
 
-        String s = "(projectKey = DEMO or projectKey = Bug) and assignee = shamil";
+        String s = "(projectKey = DEMO or projectKey = Bug) and assignee = 'shamil'";
         CqlCustomListener listener = setup(s);
 
         List<CqlStatement> statementList = listener.getStatementList();
@@ -172,7 +217,7 @@ public class TestCqlCustomListener {
     @Test
     public void testCompositionWithAndOrCase2() {
 
-        String s = "projectKey = DEMO or projectKey = Bug and assignee = shamil";
+        String s = "projectKey = DEMO or projectKey = Bug and assignee = \"shamil\"";
         CqlCustomListener listener = setup(s);
 
         List<CqlStatement> statementList = listener.getStatementList();
@@ -361,7 +406,7 @@ public class TestCqlCustomListener {
 
     @Test
     public void testOrderByCase3() {
-        String s = "issueType NOT IN (Bug,Story,Task) order by text desc order by description order by projectKey Desc";
+        String s = "issueType NOT IN (Bug,Story,Task) order by text desc, description, projectKey Desc";
         CqlCustomListener listener = setup(s);
 
         List<CqlStatement> statementList = listener.getStatementList();
@@ -385,6 +430,263 @@ public class TestCqlCustomListener {
         orderingListItems.forEach(orderingListItem -> {
             System.out.println(orderingListItem);
         });
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testUpdateDateCase1() {
+        String s = "projectKey in (CT, DEMO) AND updated >= -2w ";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        //TODO
+        //Assert.assertTrue(listener.getRightValueStack().empty());
+
+        List<OrderingListItem> orderingListItems = statement.getOrderingList();
+        Assert.assertEquals(orderingListItems.size(), 0);
+
+        orderingListItems.forEach(orderingListItem -> {
+            System.out.println(orderingListItem);
+        });
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testIsCase1() {
+        String s = "issueType Is NULL";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testIsCase2() {
+        String s = "NOT issueType Is NULL";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testIsCase3() {
+        String s = "issueType Is empty";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testIsCase4() {
+        String s = "NOT issueType Is empty";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testDateCase1() {
+        String s = "issueType < -1w";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testDateCase2() {
+        String s = "issueType < -1w -1d";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testDateCase3() {
+        String s = "createdDate < 2021-01-28";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testDateCase4() {
+        String s = "createdDate < 2021-01-27 12:00";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testDateCase5() {
+        String s = "createdDate < '2021-01-26 10:05'";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
+
+        System.out.println("******************************");
+    }
+
+    @Test
+    public void testDateCase6() {
+        String s = "createdDate < \"2021-01-25\"";
+        CqlCustomListener listener = setup(s);
+
+        List<CqlStatement> statementList = listener.getStatementList();
+        Assert.assertTrue(statementList.size() == 1);
+        CqlStatement statement = statementList.get(0);
+        System.out.println(statement);
+
+        Assert.assertTrue(listener.getExpressionStack().empty());
+        Assert.assertTrue(listener.getFunctionArgumentStack().empty());
+        Assert.assertTrue(listener.getLogicalExpressionStack().empty());
+
+        /*while(!listener.getRightValueStack().empty()) {
+            System.out.println(listener.getRightValueStack().pop());
+        }*/
+
+        Assert.assertTrue(listener.getRightValueStack().empty());
 
         System.out.println("******************************");
     }

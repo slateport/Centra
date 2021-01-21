@@ -184,6 +184,18 @@ public class cqlBaseListener implements cqlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOrder_by_argument(cqlParser.Order_by_argumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrder_by_argument(cqlParser.Order_by_argumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterOrder_by(cqlParser.Order_byContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -203,6 +215,18 @@ public class cqlBaseListener implements cqlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitOperator(cqlParser.OperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIs_operator(cqlParser.Is_operatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIs_operator(cqlParser.Is_operatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -304,25 +328,73 @@ public class cqlBaseListener implements cqlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCompare_dates(cqlParser.Compare_datesContext ctx) { }
+	@Override public void enterDateType1(cqlParser.DateType1Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCompare_dates(cqlParser.Compare_datesContext ctx) { }
+	@Override public void exitDateType1(cqlParser.DateType1Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDates(cqlParser.DatesContext ctx) { }
+	@Override public void enterDateType2(cqlParser.DateType2Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDates(cqlParser.DatesContext ctx) { }
+	@Override public void exitDateType2(cqlParser.DateType2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDateType3(cqlParser.DateType3Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDateType3(cqlParser.DateType3Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDateType4(cqlParser.DateType4Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDateType4(cqlParser.DateType4Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNumber_and_term(cqlParser.Number_and_termContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNumber_and_term(cqlParser.Number_and_termContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNumber(cqlParser.NumberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNumber(cqlParser.NumberContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

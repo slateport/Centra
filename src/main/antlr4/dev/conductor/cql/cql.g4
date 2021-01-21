@@ -21,28 +21,34 @@ OPEN_PAR logical_expression CLOSE_PAR #BracedExpression
 ;
 
 expr
- : left_value operator right_value (compare_dates)?
- | left_value operator OPEN_PAR right_value (compare_dates)? CLOSE_PAR
+ : left_value operator right_value
+// | left_value operator OPEN_PAR right_value CLOSE_PAR
+ | left_value is_operator operand=(K_EMPTY | K_NULL)
  ;
 
 right_value:
  literal_value | function_call | literal_list  | dates ;
 
 left_value:
- field /*| literal_value*/;
+ field ;
 
 /*ordering_term
  : K_ORDER K_BY literal_value ( K_ASC | K_DESC )? (COMMA literal_value ( K_ASC | K_DESC )? )*
  ;*/
 
 ordering_term
- : ordering_list;
+ : order_by ordering_list;
 
 ordering_list
- : ordering_list_item+;
+ : ordering_list_item (COMMA ordering_list_item)*;
 
+ // Real SQL example: ORDER BY column1 DESC, column2
 ordering_list_item
- : order_by field (order= (K_ASC | K_DESC) )? ;
+ : order_by_argument (order= (K_ASC | K_DESC) )? ;
+
+order_by_argument
+ : field
+ ;
 
 order_by:
  K_ORDER K_BY;
@@ -58,12 +64,17 @@ operator
  | GT_EQ
  | K_IN
  | K_NOT K_IN
- | K_IS
+// | K_IS
  | K_WAS
- | K_IS K_NOT
+// | K_IS K_NOT
  | K_WAS K_NOT
  | K_CHANGED K_TO
  ;
+
+is_operator
+: K_IS
+| K_IS K_NOT
+;
 
 literal_value
  : STRING_LITERAL
@@ -71,6 +82,7 @@ literal_value
  | state_name
  | field
  | dates
+ | number
  ;
 
 function_call
@@ -177,18 +189,43 @@ field
  | F_WORK_RATIO
  ;
 
-compare_dates : ( K_ON | K_AFTER | K_BEFORE )? dates ;
-dates : DATETIME ;
+//compare_dates : ( K_ON | K_AFTER | K_BEFORE )? dates ;
+dates :
+  (number_and_term)+  #DateType1
+| DATETIME_LITERAL #DateType2
+| DATETIME_LITERAL_QUOTED_TYPE1 #DateType3
+| DATETIME_LITERAL_QUOTED_TYPE2 #DateType4
+;
 
-DATETIME
- : ('-'|'+')? (NUMBER ('d'|'w'|'y'|'h'|'m')?)+
- | ('"' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '"')
- | ('\'' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '\'')
- | ( DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? )
+DATETIME_LITERAL_QUOTED_TYPE1:
+'"' DATETIME_LITERAL '"'
+;
+
+DATETIME_LITERAL_QUOTED_TYPE2:
+'\'' DATETIME_LITERAL '\''
+;
+
+DATETIME_LITERAL:
+   DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (' ' DIGIT DIGIT ':' DIGIT DIGIT)?
  ;
 
+number_and_term:
+number unit=('d'|'w'|'M'|'y'|'h'|'m') // M - month, m - minute
+;
 
-NUMBER : DIGIT+ ;
+number :
+NUMBER;
+
+/*DATETIME_TYPE2:
+  ('"' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '"')
+;
+
+DATETIME_TYPE3:
+  ('\'' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '\'')
+; */
+
+
+NUMBER : '0' | ('-'|'+')? NON_ZERO_DIGIT DIGIT* ;
 
 WHITESPACE : ' ' -> skip ;
 
@@ -289,7 +326,7 @@ IDENTIFIER
  | '`' (~'`' | '``')* '`'
  | */ '[' ~']'* ']'
  | [a-zA-Z_] [a-zA-Z_0-9.\-]* // TODO check: needs more chars in set
- | '-'
+// | '-'
  | [A-Z]+ '-' [0-9]+ // ex) KEY-###
  ;
 
@@ -310,7 +347,10 @@ SPACES
  : [ \u000B\t\r\n] -> channel(HIDDEN)
  ;
 
+ErrorCharacter : . ;
+
 fragment DIGIT : [0-9];
+fragment NON_ZERO_DIGIT : [1-9];
 
 fragment A : [aA];
 fragment B : [bB];
