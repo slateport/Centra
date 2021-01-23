@@ -28,5 +28,5 @@ public class ApplicationUserEntity implements Serializable {
     private Boolean admin;
     private Boolean enabled;
     @DBRef
-    private Set<UserGroupEntity> userGroups = new HashSet<>();;
+    private Set<UserGroupEntity> userGroups = new HashSet<>();
 }

@@ -16,5 +16,6 @@ public class Board {
     private BoardType type;
     private List<String> projectIds = new ArrayList<>();
     private List<BoardColumn> boardColumns = new ArrayList<>();
+    private String cql;
 
 }

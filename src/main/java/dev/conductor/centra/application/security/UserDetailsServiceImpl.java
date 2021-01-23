@@ -3,7 +3,6 @@ package dev.conductor.centra.application.security;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.applicationUser.entiity.UserGroup;
-import dev.conductor.centra.infrastructure.persistence.mongodb.repository.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,9 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private List<GrantedAuthority> getUserAuthority(Set<UserGroup> userGroups) {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        userGroups.forEach((group) -> {
-            authorities.add(new SimpleGrantedAuthority(group.getName()));
-        });
+        userGroups.forEach(group -> authorities.add(new SimpleGrantedAuthority(group.getName())));
 
         return new ArrayList<>(authorities);
     }
