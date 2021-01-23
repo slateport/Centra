@@ -59,6 +59,7 @@ public class BoardServiceImpl implements BoardService {
         board.setName(dto.getName());
         board.setType(BoardType.KANBAN);
         board.setProjectIds(dto.getProjectIds());
+        board.setCql(generateCqlStringFromProjects(dto.getProjectIds()));
 
         List<WorkflowState> workflowStates = new ArrayList<>();
 
@@ -108,5 +109,14 @@ public class BoardServiceImpl implements BoardService {
         board.getBoardColumns().add(doneColumn);
 
         return persistence.save(board);
+    }
+
+    private String generateCqlStringFromProjects(List<String> projectIds) {
+        List<String> projectKeys = projectIds.stream()
+                .map(projectService::findById)
+                .map(Project::getProjectKey)
+                .collect(Collectors.toList());
+
+        return "projectKey IN ("+ String.join(",", projectKeys) +") AND updated >= -2w";
     }
 }
