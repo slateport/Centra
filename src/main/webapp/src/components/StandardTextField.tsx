@@ -1,5 +1,7 @@
 import React from 'react'
-import { TextField } from '@material-ui/core'
+import styled from 'styled-components'
+import { isAuthenticated } from '../helpers'
+import {TextField} from "@material-ui/core";
 
 export default class StandardTextField extends React.Component<any, any> {
     private ref;
@@ -21,8 +23,7 @@ export default class StandardTextField extends React.Component<any, any> {
       return (
             <TextField
                 ref={ref}
-                fullWidth
-                type="text"
+                disabled={!isAuthenticated()}
                 {...rest}
             />
       )

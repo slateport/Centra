@@ -25,18 +25,17 @@ public class UserController extends BaseController {
             @RequestBody ApplicationUser user,
             Principal principal
     ) {
-        if (user.getAdmin()
-                && (this.getAuthenticatedUser(principal) == null
-                || !this.getAuthenticatedUser(principal).getAdmin())
-        ){
+
+        if (user.getAdmin() != null && user.getAdmin() && !this.isAdmin(principal)){
             throw new ResponseStatusException(
-                    HttpStatus.UNPROCESSABLE_ENTITY,
+                    HttpStatus.FORBIDDEN,
                     "Cannot create admin user whilst not being an admin"
             );
         }
 
         try{
-            userService.createUser(user);
+            userService.createUser(user, user.getAdmin() != null && user.getAdmin());
+            user.setPassword(null);
         } catch (UserAlreadyExistsException e) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
@@ -44,17 +43,16 @@ public class UserController extends BaseController {
             );
         }
 
-        user.setPassword(null);
         return user;
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ApplicationUser updateUser(
             @RequestBody ApplicationUser user,
             Principal principal
     ) {
         if (this.getAuthenticatedUser(principal) == null
-                || (!this.getAuthenticatedUser(principal).getAdmin()
+                || (!this.isAdmin(principal)
                 && !user.getUsername().equals(principal.getName())
         )) {
             throw new ResponseStatusException(
@@ -82,7 +80,7 @@ public class UserController extends BaseController {
 
         if (authenticatedUser == null
                 || (!authenticatedUser.getId().equals(id)
-                && !this.getAuthenticatedUser(principal).getAdmin())
+                && !this.isAdmin(principal))
         ) {
             throw new ResponseStatusException(
                     HttpStatus.UNPROCESSABLE_ENTITY,
@@ -109,8 +107,21 @@ public class UserController extends BaseController {
         return user;
     }
 
+    @GetMapping("/{id}/lite")
+    public UserLiteDTO getUserDtoLite(@PathVariable String id) {
+        ApplicationUser user = userService.findById(id);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), userService.isAdmin(user));
+    }
+
     @GetMapping("/lite")
     public List<UserLiteDTO> getAllUserLite() {
         return userService.findAllLite();
     }
+
+
 }

@@ -57,7 +57,7 @@ public class ProjectServiceAdapter implements ProjectService {
             );
         }
 
-        return persistencePort.create(project);
+        return persistencePort.save(project);
     }
 
     @Override
@@ -82,5 +82,14 @@ public class ProjectServiceAdapter implements ProjectService {
         }
 
         persistencePort.delete(project);
+    }
+
+    @Override
+    public Project save(Project project) {
+        if (project.getId() == null) {
+            throw new RuntimeException("Attempted to save project without valid id");
+        }
+
+        return persistencePort.save(project);
     }
 }

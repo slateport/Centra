@@ -24,14 +24,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/issues")
-public class IssueController {
-
-    private final String PROJECT_NOT_FOUND_ERROR_MESSAGE = "Project not found";
+public class IssueController extends BaseController {
 
     @Autowired
     private IssueService issueService;
@@ -81,6 +80,13 @@ public class IssueController {
 
         ApplicationUser user = applicationUserService.findByUsername(principal.getName());
 
+        if (user == null){
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "User not found"
+            );
+        }
+
         try {
             return convertToDTO(issueService.createIssue(issue, user));
         } catch (Exception e) {
@@ -92,7 +98,11 @@ public class IssueController {
     }
 
     @PutMapping("/{id}")
-    public IssueDTO updateIssue (@RequestBody IssueDTO issueDto, @PathVariable String id) {
+    public IssueDTO updateIssue (
+            @RequestBody IssueDTO issueDto,
+            @PathVariable String id,
+            Principal principal
+    ) {
         Issue issue = getIssueByExternalId(id);
         Project project = projectService.findById(issue.getProjectId());
 
@@ -104,6 +114,8 @@ public class IssueController {
         }
 
         Issue entityToSave = Issue.fromIssueDto(issueDto);
+        entityToSave.setLastModifiedDate(new Date());
+        entityToSave.setLastModifiedByUserId(getAuthenticatedUser(principal).getId());
         issueService.save(entityToSave);
 
         return convertToDTO(entityToSave);
@@ -204,35 +216,16 @@ public class IssueController {
         return issueTypeSchemaService.findTypeById(id);
     }
 
-    private Issue getIssueByExternalId(String id) {
-        String projectKey = id.split("-")[0];
-        long externalId = Long.parseLong(id.split("-")[1]);
+    @PostMapping("/{id}/move/{newProjectId}")
+    public IssueDTO moveProject(@PathVariable String id, @PathVariable String newProjectId){
+        Issue issue = getIssueByExternalId(id);
+        Project project = projectService.findById(newProjectId);
 
-        Project project = projectService.findByKey(projectKey);
-
-        if (project == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, PROJECT_NOT_FOUND_ERROR_MESSAGE);
+        if (project == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
         }
 
-        Issue issue = issueService.findByProjectIdAndExternalId(project.getId(), externalId);
-
-        if (issue == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Issue not found");
-        }
-
-        return issue;
-    }
-
-    private String buildExternalKeyFromIssue(Issue issue){
-        Project projectOptional = projectService.findById(issue.getProjectId());
-
-        if (projectOptional == null) {
-            throw new RuntimeException(PROJECT_NOT_FOUND_ERROR_MESSAGE);
-        }
-
-        String projectKey = projectOptional.getProjectKey();
-        long externalId = issue.getExternalId();
-        return projectKey + "-" + externalId;
+        return convertToDTO(issueService.move(issue, project));
     }
     
     private IssueDTO convertToDTO(Issue issue) {

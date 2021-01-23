@@ -28,7 +28,7 @@ interface INewIssueButtonProps {
 }
 
 class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
-    private id: string;
+    private readonly id: string;
 
     constructor(props) {
         super(props);
@@ -93,6 +93,27 @@ class NewIssueButton extends React.Component<INewIssueButtonProps, any> {
     }
 
     createIssueAndReturn() {
+
+        if (!this.state.projectId?.trim()){
+            this.props.dispatch(alertActions.error("Project must be set"))
+            return;
+        }
+
+        if (!this.state.title?.trim()){
+            this.props.dispatch(alertActions.error("Title must not be empty"))
+            return;
+        }
+
+        if (!this.state.issueTypeId?.trim()){
+            this.props.dispatch(alertActions.error("Issue Type must be set"))
+            return;
+        }
+
+        if (!this.state.issuePriorityId?.trim()){
+            this.props.dispatch(alertActions.error("Issue Priority must be set"))
+            return;
+        }
+
         issueService.createIssue(
             this.state.title,
             this.state.description,

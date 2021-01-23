@@ -146,8 +146,8 @@ const LabelsField = ({currentLabels, onLabelChange, ...rest}) => {
         defaultValue: currentLabels,
         multiple: true,
         options: labels,
-        autoSelect: true,
-        freeSolo:true,
+        autoSelect: false,
+        freeSolo: true,
         getOptionLabel: (option) => option,
         getOptionSelected: (option, value) => option == value,
         onChange: (_, values) => handleOnLabelChange(values)

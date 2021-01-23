@@ -1,5 +1,7 @@
 package dev.conductor.centra.data.install;
 
+import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
+import dev.conductor.centra.domain.applicationUser.entiity.UserGroup;
 import dev.conductor.centra.domain.issue.entity.IssuePriority;
 import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;
 import dev.conductor.centra.domain.issue.entity.IssueType;
@@ -22,17 +24,20 @@ public class DefaultInstall {
     private final WorkflowService workflowService;
     private final ProjectService projectService;
     private final IssuePrioritySchemaService prioritySchemaService;
+    private final ApplicationUserService userService;
 
     public DefaultInstall(
             IssueTypeSchemaService issueTypeSchemaService,
             WorkflowService workflowService,
             ProjectService projectService,
-            IssuePrioritySchemaService prioritySchemaService
+            IssuePrioritySchemaService prioritySchemaService,
+            ApplicationUserService userService
     ) {
         this.issueTypeSchemaService = issueTypeSchemaService;
         this.workflowService = workflowService;
         this.projectService = projectService;
         this.prioritySchemaService = prioritySchemaService;
+        this.userService = userService;
     }
 
     public void createDefaultEntities(){
@@ -61,16 +66,27 @@ public class DefaultInstall {
         issueTypeSchemaService.createSchema(schema);
 
         List<WorkflowState> states = new ArrayList<>();
-        states.add(new WorkflowState(true, false, "TO DO"));
-        states.add(new WorkflowState(false, false, "IN PROGRESS"));
-        states.add(new WorkflowState(false, true, "DONE"));
+
+        List<StatePort> todoPorts = new ArrayList<>();
+//        todoPorts.add(new StatePort("input", "LM", null, null));
+//        todoPorts.add(new StatePort("output", "BM", null, 1));
+        states.add(new WorkflowState(true, false, "TO DO", 0,todoPorts));
+
+        List<StatePort> doingPorts = new ArrayList<>();
+//        doingPorts.add(new StatePort("input", "TM", 0, null));
+//        doingPorts.add(new StatePort("output", "BM", null, 2));
+        states.add(new WorkflowState(false, false, "IN PROGRESS", 1, doingPorts));
+
+        List<StatePort> donePorts = new ArrayList<>();
+//        donePorts.add(new StatePort("input", "TM", 1, null ));
+        states.add(new WorkflowState(false, true, "DONE", 2, donePorts));
 
         List<WorkflowTransition> transitions = new ArrayList<>();
-        transitions.add(new WorkflowTransition("TO DO", "IN PROGRESS", "In Progress", true));
-        transitions.add(new WorkflowTransition("IN PROGRESS", "DONE", "Done", false));
-        transitions.add(new WorkflowTransition("DONE", "TODO", "Reopen", false));
+        transitions.add(new WorkflowTransition("TO DO", "IN PROGRESS", "In Progress", false, false));
+        transitions.add(new WorkflowTransition("IN PROGRESS", "DONE", "Done", false, true));
+        transitions.add(new WorkflowTransition("DONE", "TO DO", "Reopen", true, false));
 
-        Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions);
+        Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions, states.size() > 3 ? 1 : 0);
 
         workflowService.create(wfl);
 
@@ -99,5 +115,17 @@ public class DefaultInstall {
                 schema.getId(),
                 prioritySchema.getId()
         ));
+
+        setupUserGroups();
+    }
+
+    private void setupUserGroups() {
+        UserGroup centraUsers = new UserGroup();
+        centraUsers.setName(UserGroup.CENTRA_USERS);
+        userService.saveGroup(centraUsers);
+
+        UserGroup centraAdministrators = new UserGroup();
+        centraAdministrators.setName(UserGroup.CENTRA_ADMINISTRATORS);
+        userService.saveGroup(centraAdministrators);
     }
 }

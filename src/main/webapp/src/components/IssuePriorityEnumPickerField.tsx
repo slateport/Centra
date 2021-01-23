@@ -2,6 +2,7 @@ import React from 'react'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import { project } from '../services'
+import { priorityMap } from '../pages/ViewIssuePage/components/EditablePriorityField'
 
 interface IIssuePriorityEnumPickerFieldProps {
     projectKey: string
@@ -33,7 +34,7 @@ class IssuePriorityEnumPickerField extends React.Component<IIssuePriorityEnumPic
             >
 
             {this.state.priorityList.map((priority) =>
-                <MenuItem value={priority.id} key={priority.id}>{priority.label}</MenuItem>
+                <MenuItem value={priority.id} key={priority.id}>{typeof priorityMap[(priority || {}).icon] === 'function' ? priorityMap[(priority || {}).icon](priority) : null}</MenuItem>
             )}
             </Select>
     )

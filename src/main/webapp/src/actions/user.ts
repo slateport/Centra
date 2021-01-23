@@ -1,7 +1,7 @@
+import { useHistory } from 'react-router-dom'
 import { userConstants } from '../constants'
 import { user as userService } from '../services'
 import { alertActions } from './'
-import { history } from '../helpers'
 
 export const userActions = {
   login,
@@ -16,13 +16,12 @@ function login (username, password) {
       .then(
         user => {
           dispatch(success(user))
-          history.push('/')
-          location.reload()
+          const history = useHistory()
+          history.push('/profile')
         },
         error => {
           dispatch(alertActions.error('Login failed!'))
           dispatch(failure(error))
-          console.log(error)
         }
       )
   }

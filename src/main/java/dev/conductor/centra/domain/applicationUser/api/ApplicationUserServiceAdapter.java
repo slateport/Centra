@@ -2,6 +2,7 @@ package dev.conductor.centra.domain.applicationUser.api;
 
 import dev.conductor.centra.domain.applicationUser.dto.UserLiteDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
+import dev.conductor.centra.domain.applicationUser.entiity.UserGroup;
 import dev.conductor.centra.domain.applicationUser.spi.ApplicationUserPersistencePort;
 import dev.conductor.centra.domain.applicationUser.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
     }
 
     @Override
-    public ApplicationUser createUser(ApplicationUser user) {
+    public ApplicationUser createUser(ApplicationUser user, boolean admin) {
 
         if (findByUsername(user.getUsername()) != null) {
             throw new UserAlreadyExistsException("Account with username already exists");
@@ -55,6 +56,12 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
             throw new UserAlreadyExistsException("Account with email already exists");
         }
 
+        user.getUserGroups().add(findGroupByName(UserGroup.CENTRA_USERS));
+
+        if (admin) {
+            user.getUserGroups().add(findGroupByName(UserGroup.CENTRA_ADMINISTRATORS));
+        }
+
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         persistence.save(user);
 
@@ -62,14 +69,14 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
     }
 
     @Override
-    public Boolean isAdmin(Principal principal) {
-        if (principal == null){
+    public Boolean isAdmin(ApplicationUser user) {
+        if (user == null){
             return false;
         }
 
-        ApplicationUser user = findByUsername(principal.getName());
-
-        return user != null && user.getAdmin();
+        return user.getUserGroups()
+                .stream()
+                .anyMatch(userGroup -> userGroup.getName().equals(UserGroup.CENTRA_ADMINISTRATORS));
     }
 
     @Override
@@ -79,13 +86,29 @@ public class ApplicationUserServiceAdapter implements ApplicationUserService {
     }
 
     @Override
-    public List<UserLiteDTO> findAllLite() {
+    public List<UserLiteDTO>
+    findAllLite() {
         List<UserLiteDTO> results = new ArrayList<>();
 
         for (ApplicationUser user : findAll()) {
-            results.add(new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), user.getAdmin()));
+            results.add(new UserLiteDTO(user.getId(), user.getDisplayName(), user.getUsername(), isAdmin(user)));
         }
 
         return results;
+    }
+
+    @Override
+    public UserGroup saveGroup(UserGroup group) {
+        return persistence.saveGroup(group);
+    }
+
+    @Override
+    public UserGroup findGroupById(String id) {
+        return persistence.findGroupById(id);
+    }
+
+    @Override
+    public UserGroup findGroupByName(String name) {
+        return persistence.findGroupByName(name);
     }
 }

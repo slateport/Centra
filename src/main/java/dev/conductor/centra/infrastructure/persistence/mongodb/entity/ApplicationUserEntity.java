@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,4 +27,6 @@ public class ApplicationUserEntity implements Serializable {
     private String displayName;
     private Boolean admin;
     private Boolean enabled;
+    @DBRef
+    private Set<UserGroupEntity> userGroups = new HashSet<>();
 }

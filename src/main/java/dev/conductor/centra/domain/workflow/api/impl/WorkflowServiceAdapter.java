@@ -1,7 +1,7 @@
 package dev.conductor.centra.domain.workflow.api.impl;
 
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
-import dev.conductor.centra.domain.issue.api.IssueService;
+import dev.conductor.centra.domain.issue.spi.IssuePersistencePort;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
@@ -11,10 +11,8 @@ import dev.conductor.centra.domain.workflow.spi.WorkflowPersistencePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,15 +22,21 @@ public class WorkflowServiceAdapter implements WorkflowService {
     private WorkflowPersistencePort persistencePort;
 
     @Autowired
-    private IssueService issueService;
+    private IssuePersistencePort issuePersistencePort;
 
     @Override
     public List<Workflow> findAll() {
         return persistencePort.findAll();
     }
 
+    @Override
     public Workflow create(Workflow workflow) {
-        return persistencePort.create(workflow);
+        return persistencePort.save(workflow);
+    }
+
+    @Override
+    public Workflow save(Workflow workflow) {
+        return persistencePort.save(workflow);
     }
 
     @Override
@@ -54,10 +58,6 @@ public class WorkflowServiceAdapter implements WorkflowService {
     }
 
     public List<WorkflowTransition> getAvailableTransitions(Workflow workflow, WorkflowState currentState) {
-        if (currentState.getIsTerminus()){
-            return new ArrayList<>();
-        }
-
         return workflow.getTransitions().stream()
                 .filter(e -> e.getFromNode().equals(currentState.getLabel()))
                 .collect(Collectors.toList());
@@ -78,13 +78,13 @@ public class WorkflowServiceAdapter implements WorkflowService {
         WorkflowState state = workflow.getStates().stream()
                 .filter(e -> e.getLabel().equals(transition.getToNode()))
                 .findFirst()
-                .orElse(new WorkflowState(true, false, "DEFAULT"));
+                .orElse(workflow.getStates().get(0));
 
         issue.setWorkflowState(state);
         issue.setLastModifiedDate(new Date());
         issue.setLastModifiedByUserId(user.getId());
 
-        issueService.save(issue);
+        issuePersistencePort.save(issue);
 
         return issue;
     }

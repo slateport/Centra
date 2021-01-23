@@ -5,6 +5,7 @@ import dev.conductor.centra.domain.issue.dto.IssueChangeDTO;
 import dev.conductor.centra.domain.issue.dto.IssueDTO;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.issue.entity.IssueLinks;
+import dev.conductor.centra.domain.project.entity.Project;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ public interface IssueService {
     IssueLinks findLinkById(String id);
     void deleteIssueLink(IssueLinks issueLinks);
     Issue createIssue(IssueDTO issueDTO, ApplicationUser user);
+    Issue move(Issue issue, Project toProject);
 }

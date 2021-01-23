@@ -5,6 +5,7 @@ import {Button, Chip} from "@material-ui/core";
 import * as Icon from "react-feather";
 import styled from "styled-components";
 import {green, red, yellow} from "@material-ui/core/colors";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 
 const typePromise = (id) => issue.getIssueTypeById(id)
 
@@ -72,7 +73,7 @@ const iconMap = {
     "CheckSquare": (text) => <YellowChip icon={<Icon.CheckSquare color={"white"} size={16} />} label={text} />,
 }
 
-const EditableIssueTypeField = ({id, handleFn, clickable, projectKey, preText}) => {
+const EditableIssueTypeField = ({id, handleFn, clickable, projectKey, preText, postText}) => {
     if(id == null){
         return (<span>Unknown</span>)
     }
@@ -114,7 +115,7 @@ const EditableIssueTypeField = ({id, handleFn, clickable, projectKey, preText}) 
         )
     } else {
         return (issueType == null) ? (<span>Unknown</span>) : (
-            <Button color="primary" onClick={clickable ? handleClick : (e) => {}}>{preText} {iconMap[issueType.icon](issueType.label)}</Button>
+            <Button color="primary" onClick={clickable ? handleClick : (e) => {}}>{preText} {iconMap[issueType.icon](issueType.label)} {postText}</Button>
         )
     }
 }

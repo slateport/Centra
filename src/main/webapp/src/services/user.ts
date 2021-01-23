@@ -5,8 +5,10 @@ export const user = {
   login,
   logout,
   getUser,
+  getUserLite,
   getAllLite,
-  registerUser
+  registerUser,
+  updateUser
 }
 
 function login (username: string, password: string) {
@@ -22,9 +24,14 @@ function logout () {
   localStorage.removeItem('user')
 }
 
+function getUserLite (userId: string) {
+  return httpClient.get(`/api/users/${userId}/lite`)
+    .then(response => response.data)
+}
+
 function getUser (userId: string) {
   return httpClient.get(`/api/users/${userId}`)
-    .then(response => response.data)
+      .then(response => response.data)
 }
 
 function getAllLite () : Promise<UserLite[]> {
@@ -35,4 +42,8 @@ function getAllLite () : Promise<UserLite[]> {
 function registerUser (username: string, password: string, displayName: string, emailAddress: string) {
   return httpClient.post('/api/users', { username, password, displayName, emailAddress })
     .then(response => response.data)
+}
+
+function updateUser (user) {
+  return httpClient.put(`/api/users/${user.id}`, user)
 }

@@ -7,19 +7,15 @@ import AuthLayout from '../../layouts/Auth'
 
 import {
   Button as MuiButton,
-  Checkbox,
   FormControl,
-  FormControlLabel,
   Input,
   InputLabel,
-  Link,
   Paper,
   Typography
 } from '@material-ui/core'
 import { spacing } from '@material-ui/system'
-import { MuiButtonSpacingType } from '../../types/types'
 
-const Button = styled(MuiButton)<MuiButtonSpacingType>(spacing)
+const Button = styled(MuiButton)(spacing)
 
 const Wrapper = styled(Paper)`
   padding: ${props => props.theme.spacing(6)}px;
@@ -64,9 +60,8 @@ class LoginPage extends React.Component<any, any> {
 
   render () {
     const { username, password } = this.state
-    const createNewAccountBtn = this.props.init.registrationEnabled ? ''
+    const createNewAccountBtn = !this.props.init.registrationEnabled ? ''
       : <Button
-                component={Button}
                 href={'/register'}
                 fullWidth
                 color="primary"
@@ -82,7 +77,7 @@ class LoginPage extends React.Component<any, any> {
                     <Typography component="h2" variant="h4" align="center" gutterBottom>
                         Sign in to your account to continue
                     </Typography>
-                    <form>
+                    <form onSubmit={this.handleSubmit}>
                         <FormControl margin="normal" required fullWidth onSubmit={this.handleSubmit}>
                             <InputLabel htmlFor="username">Username</InputLabel>
                             <Input
@@ -100,31 +95,18 @@ class LoginPage extends React.Component<any, any> {
                                 name="password"
                                 type="password"
                                 id="password"
-                                autoComplete="current-password"
+                                autoComplete="password"
                                 value={password}
                                 onChange={this.handleChange}
                             />
                         </FormControl>
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
                         <Button
-                            component={Button}
                             fullWidth
                             variant="contained"
                             color="primary"
-                            onClick={this.handleSubmit}
+                            type="submit"
                         >
                             Sign in
-                        </Button>
-                        <Button
-                            component={Link}
-                            to="/auth/reset-password"
-                            fullWidth
-                            color="primary"
-                        >
-                            Forgot password
                         </Button>
                         {createNewAccountBtn}
                     </form>

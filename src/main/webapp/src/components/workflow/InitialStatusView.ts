@@ -6,6 +6,11 @@ import Direction from "./Direction";
 export default class InitialStatusView extends BaseStatusView {
     private port;
 
+    constructor(options) {
+        super(options);
+        this.model = options.model
+    }
+
     createFigure() {
         var figure, fill;
 
@@ -15,33 +20,35 @@ export default class InitialStatusView extends BaseStatusView {
         figure.setSelectable(false);
         figure.snapToGeometry = true;
 
-        fill = this.fill = new draw2d.shape.basic.Circle(30);
-        fill.setBackgroundColor("#C0C0C0");
-        fill.setStroke(0);
+        // fill = this.fill = new draw2d.shape.basic.Circle(30);
+        // fill.setBackgroundColor("#C0C0C0");
+        // fill.setStroke(0);
 
-        figure.add(fill, new draw2d.layout.locator.CenterLocator(figure));
+        // figure.add(fill, new draw2d.layout.locator.CenterLocator(figure));
         this.canvas.add(figure);
 
-        Draw2DUtilities.setCursor(fill, "move");
+        // Draw2DUtilities.setCursor(fill, "move");
         this.addPort();
         this.positionFigure();
         return figure;
     }
 
     addPort () {
-        const direction = Direction.DOWN
+        let port = new draw2d.layout.locator.XYRelPortLocator(this.figure.width,this.figure.height * 2);
+        this.figure.createPort('output',port);
+        // const direction = Direction.DOWN
 
-        this.port = this.createPort({
-            connectionDirection: direction
-        });
+        // this.port = this.createPort({
+        //     connectionDirection: direction
+        // });
 
-        const locator = new draw2d.layout.locator.Locator({
-            parent: this.figure,
-            side: direction,
-            bias: 0.5
-        });
+        // const locator = new draw2d.layout.locator.Locator({
+        //     parent: this.figure,
+        //     side: direction,
+        //     bias: 0.5
+        // });
 
-        this.figure.addPort(this.port, locator);
+        // this.figure.addPort(this.port, locator);
     }
 
     getBoundingBox () {

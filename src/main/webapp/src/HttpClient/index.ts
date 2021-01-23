@@ -15,8 +15,8 @@ httpClient.interceptors.response.use(response => {
 }, error => {
   if (error.response.status === 401 && isAuthenticated()) {
     alert('Your session has expired or you are not currently logged in')
-    userService.logout();
-    location.reload();
+    userService.logout()
+    location.reload()
   }
   throw error
 })

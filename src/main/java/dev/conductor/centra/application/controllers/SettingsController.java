@@ -1,14 +1,13 @@
 package dev.conductor.centra.application.controllers;
 
 import dev.conductor.centra.domain.settings.SettingsEnum;
+import dev.conductor.centra.domain.settings.dto.SettingValueDTO;
 import dev.conductor.centra.domain.settings.entity.Settings;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.settings.api.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -29,7 +28,7 @@ public class SettingsController extends BaseController {
     public HashMap<String, String> listAll(Principal principal) {
         HashMap<String, String> map = new HashMap<>();
 
-        if (!applicationUserService.isAdmin(principal)){
+        if (!isAdmin(principal)){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
@@ -40,6 +39,28 @@ public class SettingsController extends BaseController {
         }
 
         return map;
+    }
+
+    @PutMapping("/{key}")
+    public void setSettingsValue(@RequestBody SettingValueDTO dto,  @PathVariable String key, Principal principal) {
+        if (!isAdmin(principal)){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        SettingsEnum setting = SettingsEnum.getByValue(key);
+
+        if (setting == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Setting not found");
+        }
+
+        Settings settings = settingsService.getSettingsByName(setting);
+        settings.setValue(dto.getValue());
+
+        if (setting.equals(SettingsEnum.LICENSE_KEY)){
+            /* validate license; */
+        }
+
+        settingsService.save(settings);
     }
 
     private String getSettings(SettingsEnum settings) {

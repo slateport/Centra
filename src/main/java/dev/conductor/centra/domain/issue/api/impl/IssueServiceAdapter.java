@@ -1,5 +1,6 @@
 package dev.conductor.centra.domain.issue.api.impl;
 
+import dev.conductor.centra.domain.customField.api.CustomFieldService;
 import dev.conductor.centra.domain.issue.api.IssueService;
 import dev.conductor.centra.domain.issue.dto.IssueChangeDTO;
 import dev.conductor.centra.domain.issue.dto.IssueDTO;
@@ -13,7 +14,6 @@ import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
 import dev.conductor.centra.infrastructure.persistence.mongodb.entity.IssueEntity;
-import dev.conductor.centra.infrastructure.persistence.mongodb.repository.IssueLinksRepository;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import org.javers.core.diff.Change;
 import org.javers.core.diff.changetype.PropertyChange;
@@ -27,7 +27,6 @@ import org.javers.repository.jql.QueryBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class IssueServiceAdapter implements IssueService {
@@ -48,6 +47,9 @@ public class IssueServiceAdapter implements IssueService {
     private WorkflowService workflowService;
 
     @Autowired
+    private CustomFieldService customFieldService;
+
+    @Autowired
     private Javers javers;
 
     @Override
@@ -62,17 +64,23 @@ public class IssueServiceAdapter implements IssueService {
 
     @Override
     public Issue save(Issue issue) {
+        issue.setLastModifiedDate(new Date());
         return persistencePort.save(issue);
     }
 
     @Override
     public synchronized long getNextExternalIdByProject(String projectId) {
-        Issue issue = persistencePort.findFirstByProjectIdOrderByCreatedDateDesc(projectId);
-        if (issue == null) {
-            return 1;
-        } else {
-            return issue.getExternalId()+1;
+        Project project = projectService.findById(projectId);
+
+        long counter = 1;
+
+        if (project.getCounter() > 0) {
+            counter = project.getCounter() + 1;
         }
+
+        project.setCounter(counter);
+        projectService.save(project);
+        return counter;
     }
 
     public List<IssueChangeDTO> getAuditLogsForIssue(Issue issue) {
@@ -161,9 +169,37 @@ public class IssueServiceAdapter implements IssueService {
                 (issueDTO.getLabels() != null) ? issueDTO.getLabels() : new ArrayList<>()
             );
 
-        save(entity);
+        Issue savedIssue = save(entity);
 
-        return entity;
+        customFieldService.createDefaultCustomFieldValuesForIssue(savedIssue);
+
+        return savedIssue;
+    }
+
+    @Override
+    public Issue move(Issue issue, Project toProject) {
+        long newId = getNextExternalIdByProject(toProject.getId());
+        Project oldProject = projectService.findById(issue.getProjectId());
+        String oldExternalId = oldProject.getProjectKey() + "-" + issue.getExternalId();
+        String newExternalId = toProject.getProjectKey() + "-" + newId;
+
+        this.getLinksForIssueByExternalId(oldExternalId).forEach(issueLinks -> {
+                IssueLinks newLink = new IssueLinks();
+                if (issueLinks.getLinkPublicId().equals(oldExternalId)){
+                    newLink.setLinkPublicId(newExternalId);
+                    newLink.setNodePublicId(issueLinks.getNodePublicId());
+                } else {
+                    newLink.setNodePublicId(newExternalId);
+                    newLink.setLinkPublicId(issueLinks.getLinkPublicId());
+                }
+
+                createIssuelinks(newLink);
+                deleteIssueLink(issueLinks);
+            });
+
+        issue.setExternalId(newId);
+        issue.setProjectId(toProject.getId());
+        return save(issue);
     }
 
     private String getPropertyNameWithPath(Change change) {

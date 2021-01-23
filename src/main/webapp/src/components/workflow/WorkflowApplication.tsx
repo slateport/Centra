@@ -1,7 +1,7 @@
 import React from "react";
 import _ from 'underscore';
 import { workflow } from '../../services'
-import Canvas from "./Canvas";
+import Canvas from "./Canvas"
 import WorkflowModel from './WorkflowModel'
 
 
@@ -20,8 +20,11 @@ export default class WorkflowApplication extends React.Component<any, any>{
                  null,
                  [],
                  [],
+                 null,
                  null
-             )
+             ),
+             width: 0,
+             height: 0
          }
 
          // if (!options.immutable) {
@@ -46,27 +49,36 @@ export default class WorkflowApplication extends React.Component<any, any>{
 
     loadWorkflow(options) {
         return workflow.getWorkflow(options.workflowId)
-            .then(
-                data => this.setState({
-                    workflowModel: new WorkflowModel(data.name, data.states, data.transitions, null )}))
+            .then(resp =>  {
+                let data  = resp;
+                data.states.push({entry: true, isTerminus: false, label: "INIT"});
+                this.setState({workflowModel: new WorkflowModel(data.name, data.states, data.transitions, null, data.level )});
+            })
 
     }
 
     componentDidMount() {
         this.initialiseWorkflow(this.options)
             .then(() => {
-                this.canvas = this.createCanvas({workflowModel: this.state.workflowModel});
-                this.canvas.canvasView.render('demo')
-                this.state.workflowModel.states().map(state => this.canvas.canvasView.addStatus(state))
+                if(this.state.workflowModel._level === 1) {
+                    this.setState({width: ((window.innerWidth - 40) / 4 * 3) - 112, height: 700})
+                } else {
+                    this.setState({width: ((window.innerWidth - 40) / 4 * 3) - 112, height: 500})
+                }
+                this.canvas = this.createCanvas({ workflowModel: this.state.workflowModel });
+                this.canvas.canvasView.render('workflow');
+                this.state.workflowModel.states().map(state => {
+                    this.canvas.canvasView.addStatus({...state, level: this.state.workflowModel._level});
+                })
                 this.canvas.canvasView.positionNewStatuses();
+                this.canvas.canvasView.setConnectionStatusView();
                 // this.canvas.autoFit();
             })
-
     }
 
     render() {
          return (
-             <div id={"demo"}></div>
+             <div id={'workflow'} style={{width: this.state.width, height:this.state.height}}/>
          )
     }
-};
+}

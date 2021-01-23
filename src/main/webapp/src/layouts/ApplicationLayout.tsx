@@ -8,6 +8,9 @@ import {
   CssBaseline,
   Paper as MuiPaper
 } from '@material-ui/core'
+import { alertActions } from '../actions'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   html,
@@ -54,19 +57,28 @@ const MainContent = styled(Paper)`
   }
 `
 
-const ApplicationLayout = ({ props, init, children }) => {
-  return (
-        <Root>
-            <CssBaseline />
-            <GlobalStyle />
-            <AppContent>
-                <PrimarySearchAppBar initData={init} />
-                <MainContent padding={(window.location.href.includes('admin')) ? '0' : '20px'}>
-                    {children}
-                </MainContent>
-            </AppContent>
+class ApplicationLayout extends React.Component<any, any> {
+  componentDidMount () {
+    this.props.history.listen(() => {
+      this.props.dispatch(alertActions.clear())
+    })
+  }
 
-        </Root>
-  )
+  render () {
+    return (
+            <Root>
+                <CssBaseline />
+                <GlobalStyle />
+                <AppContent>
+                    <PrimarySearchAppBar initData={this.props.init} />
+                    <MainContent padding={(window.location.href.includes('admin')) ? '0' : '20px'}>
+                        {this.props.children}
+                    </MainContent>
+                </AppContent>
+            </Root>
+    )
+  }
 }
-export { ApplicationLayout }
+
+const connectedLayout = withRouter(ApplicationLayout)
+export { connectedLayout as ApplicationLayout }

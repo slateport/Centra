@@ -45,8 +45,9 @@ const styles = theme => ({
     borderRadius: 0,
     borderTop: 'none',
     borderBottom: 'none',
-    top: theme.spacing(15), // push content down to fix scrollbar position
-    height: `calc(100% - ${theme.spacing(15)}px)`,// subtract appbar height
+    zIndex: 1,
+    paddingTop: theme.spacing(15), // push content down to fix scrollbar position
+    height: `calc(100% - ${theme.spacing(0)}px)`,// subtract appbar height
     backgroundColor: '#233044'
   },
   drawerContent: {
@@ -132,11 +133,14 @@ class AdminMenu extends React.Component<any, any> {
                 <Scrollbar>
                     <List disablePadding>
                         <Items>
-                            <Link button exact component={NavLink} to={'/admin/general'}>
+                            <Link button exact component={NavLink} to={'/admin'}>
                                 <LinkText>General Settings</LinkText>
                             </Link>
                             <Link button exact component={NavLink} to={'/admin/projects'}>
                                 <LinkText>Manage Projects</LinkText>
+                            </Link>
+                            <Link button exact={false} component={NavLink} to={'/admin/users'}>
+                                <LinkText>Manage Users</LinkText>
                             </Link>
                         </Items>
                     </List>

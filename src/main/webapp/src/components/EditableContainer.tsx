@@ -75,6 +75,7 @@ export default class EditableContainer extends React.Component<any, any> {
                     onChange={this.handleOnChange}
                     onKeyPress={this.onKeyPress}
                     saveFn={this.saveAll}
+                    options={this.props.options}
                 />
         )
       } else {
@@ -83,7 +84,7 @@ export default class EditableContainer extends React.Component<any, any> {
                     onClick={this.handleClick.bind(this)}
                     {...rest}
                 >
-          {parse(children as string)}
+        {(typeof children === 'string') ? parse(children) : children}
         </span>
         )
       }

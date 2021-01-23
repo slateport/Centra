@@ -11,13 +11,14 @@ public class Project {
     public static String DEFAULT_WORKFLOW_NAME = "Default Workflow";
     public static String DEFAULT_PRIORITY_SCHEMA_NAME = "Default Priority Schema";
 
-    private java.lang.String id;
+    private String id;
     private String projectKey;
     private String projectName;
     private String description;
     private String workflowId;
     private String issueTypeSchemaId;
     private String prioritySchemaId;
+    private long counter;
 
     public Project() {}
 
@@ -28,5 +29,6 @@ public class Project {
         this.workflowId = workflowId;
         this.issueTypeSchemaId = issueTypeSchemaId;
         this.prioritySchemaId = prioritySchemaId;
+        this.counter = 0;
     }
 }
