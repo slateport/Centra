@@ -16,7 +16,19 @@ const WatchingText = styled.span`
     }
 `
 
-class WatchComponent extends React.Component<any, any> {
+interface IWatchComponent {
+    externalId: string,
+    currentUser: any,
+}
+
+interface IAmIWatchingComponent {
+    watchers: any[],
+    currentUser: any,
+    startWatching: Function,
+    stopWatching: Function
+}
+
+class WatchComponent extends React.Component<IWatchComponent, any> {
 
     constructor(props) {
         super(props);
@@ -64,7 +76,7 @@ class WatchComponent extends React.Component<any, any> {
     }
 }
 
-class AmIWatchingComponent extends React.Component<any, any> {
+class AmIWatchingComponent extends React.Component<IAmIWatchingComponent, any> {
 
     constructor(props) {
         super(props);
