@@ -1,4 +1,4 @@
-import React from 'React'
+import React from 'react'
 import {issue as issueService} from "../../../services";
 import {Badge as MuiBadge} from "@material-ui/core";
 import styled from "styled-components";
