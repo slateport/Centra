@@ -69,6 +69,7 @@ class ViewIssuePage extends React.Component<any, any> {
                             project={project}
                             initialWorkflowTransitions={this.state.transitions}
                             props={this.props}
+                            init={this.props.init}
                         />
                     </Grid>
                     <Grid item xs={1} />

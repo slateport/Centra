@@ -37,6 +37,7 @@ import {StatusPicker} from "./StatusPicker";
 import {IssueTypePicker} from "./IssueTypePicker";
 import {IssuePriorityPicker} from "./IssuePriorityPicker";
 import CustomFieldsComponent from "./CustomFieldsComponent";
+import { WatchComponent } from "./WatchComponent";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 const SectionTitle = styled.span`
@@ -91,7 +92,7 @@ function TabPanel(props) {
     );
 }
 
-const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => {
+const IssueComponent = ({issue, project, initialWorkflowTransitions, props, init}) => {
     const [workflowTransitions, setWorkflowTransitions] = useState(initialWorkflowTransitions)
     const [tabValue, setTabValue] = React.useState(0)
     const [title, setTitle] = React.useState("")
@@ -277,6 +278,12 @@ const IssueComponent = ({issue, project, initialWorkflowTransitions, props}) => 
                                 </Grid>
                                 <Grid item xs={12}>
                                     <EditablePeopleField userId={issue.createdByUserId} handleFn={onSaveReporter(props,issue)} clickable={isAuthenticated()}/>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <SectionTitle>Watchers</SectionTitle>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <WatchComponent externalId={externalKey} currentUser={init.user}/>
                                 </Grid>
                                 <Divider my={6} />
                                 {issue.createdDate &&

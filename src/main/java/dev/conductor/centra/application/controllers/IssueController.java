@@ -1,10 +1,12 @@
 package dev.conductor.centra.application.controllers;
 
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
+import dev.conductor.centra.domain.applicationUser.dto.UserLiteDTO;
 import dev.conductor.centra.domain.applicationUser.entiity.ApplicationUser;
 import dev.conductor.centra.domain.issue.api.IssueCommentService;
 import dev.conductor.centra.domain.issue.api.IssueService;
 import dev.conductor.centra.domain.issue.api.IssueTypeSchemaService;
+import dev.conductor.centra.domain.issue.api.IssueWatchService;
 import dev.conductor.centra.domain.issue.dto.IssueChangeDTO;
 import dev.conductor.centra.domain.issue.dto.IssueCommentDTO;
 import dev.conductor.centra.domain.issue.dto.IssueDTO;
@@ -27,6 +29,7 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/issues")
@@ -52,6 +55,9 @@ public class IssueController extends BaseController {
 
     @Autowired
     private IssueTypeSchemaService issueTypeSchemaService;
+
+    @Autowired
+    private IssueWatchService issueWatchService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -227,6 +233,50 @@ public class IssueController extends BaseController {
 
         return convertToDTO(issueService.move(issue, project));
     }
+
+    @GetMapping("/{id}/watchers")
+    public List<UserLiteDTO> getIssueWatchers(@PathVariable String id) {
+        Issue issue = getIssueByExternalId(id);
+
+        return issueWatchService.getApplicationUsersWatchingIssue(issue)
+                .stream()
+                .map(applicationUser -> new UserLiteDTO(
+                        applicationUser.getId(),
+                        applicationUser.getDisplayName(),
+                        applicationUser.getUsername(),
+                        applicationUserService.isAdmin(applicationUser))
+                ).collect(Collectors.toList());
+    }
+
+    @PostMapping("/{id}/watchers/{username}")
+    public List<UserLiteDTO> addIssueWatcher(@PathVariable String id, @PathVariable String username) {
+        final Issue issue = getIssueByExternalId(id);
+
+        ApplicationUser user = applicationUserService.findByUsername(username);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+
+        issueWatchService.watchIssue(user, issue);
+
+        return getIssueWatchers(id);
+    }
+
+    @DeleteMapping("/{id}/watchers/{username}")
+    public List<UserLiteDTO> deleteWatcher(@PathVariable String id, @PathVariable String username) {
+        final Issue issue = getIssueByExternalId(id);
+
+        ApplicationUser user = applicationUserService.findByUsername(username);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+
+        issueWatchService.unwatchIssue(user, issue);
+        return getIssueWatchers(id);
+    }
+
     
     private IssueDTO convertToDTO(Issue issue) {
         IssueDTO dto = modelMapper.map(issue, IssueDTO.class);
