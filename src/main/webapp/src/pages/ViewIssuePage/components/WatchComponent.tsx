@@ -16,7 +16,7 @@ const WatchingText = styled.span`
     }
 `
 
-class WatchComponent extends React.Component<{externalId: string, currentUser: any}, any> {
+class WatchComponent extends React.Component<any, any> {
 
     constructor(props) {
         super(props);
@@ -64,7 +64,7 @@ class WatchComponent extends React.Component<{externalId: string, currentUser: a
     }
 }
 
-class AmIWatchingComponent extends React.Component<{ watchers: any[], currentUser: any, startWatching: Function, stopWatching: Function }, any> {
+class AmIWatchingComponent extends React.Component<any, any> {
 
     constructor(props) {
         super(props);
