@@ -6,10 +6,12 @@ import dev.conductor.centra.domain.issue.api.IssueWatchService;
 import dev.conductor.centra.domain.issue.entity.Issue;
 import dev.conductor.centra.domain.userAssociation.api.UserAssociationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class IssueWatchServiceAdapter implements IssueWatchService {
 
     private final UserAssociationService userAssociationService;

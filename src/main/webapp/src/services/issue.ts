@@ -1,4 +1,5 @@
 import httpClient from '../HttpClient'
+import {user} from "./user";
 
 export const issue = {
   getIssue,
@@ -15,7 +16,10 @@ export const issue = {
   deleteLink,
   createLink,
   getCustomFieldValues,
-  setCustomFieldValue
+  setCustomFieldValue,
+  getWatchers,
+  removeWatcher,
+  addWatcher
 }
 
 function getIssue (externalId: string) {
@@ -88,4 +92,19 @@ function getCustomFieldValues(externalId: string) {
 
 function setCustomFieldValue(value: any, externalId: string) {
   return httpClient.post(`/api/customfields/issue/${externalId}`, value)
+}
+
+function getWatchers(externalId: string) {
+  return httpClient.get(`/api/issues/${externalId}/watchers`)
+      .then(response => response.data)
+}
+
+function removeWatcher(externalId: string, username: string) {
+    return httpClient.delete(`/api/issues/${externalId}/watchers/${username}`)
+        .then(response => response.data)
+}
+
+function addWatcher(externalId: string, username: string) {
+    return httpClient.post(`/api/issues/${externalId}/watchers/${username}`)
+        .then(response => response.data)
 }
