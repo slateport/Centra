@@ -248,7 +248,7 @@ public class IssueController extends BaseController {
                 ).collect(Collectors.toList());
     }
 
-    @PostMapping("/{id}/watchers/{username}")
+    @PutMapping("/{id}/watchers/{username}")
     public List<UserLiteDTO> addIssueWatcher(@PathVariable String id, @PathVariable String username) {
         final Issue issue = getIssueByExternalId(id);
 
@@ -276,7 +276,6 @@ public class IssueController extends BaseController {
         issueWatchService.unwatchIssue(user, issue);
         return getIssueWatchers(id);
     }
-
     
     private IssueDTO convertToDTO(Issue issue) {
         IssueDTO dto = modelMapper.map(issue, IssueDTO.class);
