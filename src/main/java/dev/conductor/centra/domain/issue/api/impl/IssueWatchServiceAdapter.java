@@ -25,12 +25,14 @@ public class IssueWatchServiceAdapter implements IssueWatchService {
 
     @Override
     public void watchIssue(ApplicationUser user, Issue issue) {
-        userAssociationService.createAssociation(
-                IssueWatchService.ASSOCIATION_TYPE,
-                IssueWatchService.SINK_ENTITY_NAME,
-                user.getId(),
-                issue.getId()
-        );
+        if (!getApplicationUsersWatchingIssue(issue).contains(user)) {
+            userAssociationService.createAssociation(
+                    IssueWatchService.ASSOCIATION_TYPE,
+                    IssueWatchService.SINK_ENTITY_NAME,
+                    user.getId(),
+                    issue.getId()
+            );
+        }
     }
 
     @Override

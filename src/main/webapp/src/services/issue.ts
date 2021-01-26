@@ -1,5 +1,4 @@
 import httpClient from '../HttpClient'
-import {user} from "./user";
 
 export const issue = {
   getIssue,
@@ -105,6 +104,6 @@ function removeWatcher(externalId: string, username: string) {
 }
 
 function addWatcher(externalId: string, username: string) {
-    return httpClient.post(`/api/issues/${externalId}/watchers/${username}`)
+    return httpClient.put(`/api/issues/${externalId}/watchers/${username}`)
         .then(response => response.data)
 }
