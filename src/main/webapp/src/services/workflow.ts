@@ -11,7 +11,7 @@ function getWorkflow (workflowId) {
     .then(response => response.data)
 }
 
-function listWorkflows (workflowId) {
+function listWorkflows () {
   return httpClient.get(`api/workflow`)
       .then(response => response.data)
 }
