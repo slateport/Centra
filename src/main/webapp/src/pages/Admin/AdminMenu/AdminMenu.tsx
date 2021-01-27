@@ -142,6 +142,9 @@ class AdminMenu extends React.Component<any, any> {
                             <Link button exact={false} component={NavLink} to={'/admin/users'}>
                                 <LinkText>Manage Users</LinkText>
                             </Link>
+                            <Link button exact={false} component={NavLink} to={'/admin/workflow'}>
+                                <LinkText>Manage Workflows</LinkText>
+                            </Link>
                         </Items>
                     </List>
                 </Scrollbar>
