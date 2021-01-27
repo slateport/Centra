@@ -32,7 +32,7 @@ public class WorkflowController {
     }
 
     @PostMapping
-    Workflow save(@RequestBody EntityModel<WorkflowDTO> workflowDto) {
+    Workflow create(@RequestBody EntityModel<WorkflowDTO> workflowDto) {
         WorkflowDTO dto = workflowDto.getContent();
         assert dto != null;
         Project project = projectService.findById(dto.getProjectId());
