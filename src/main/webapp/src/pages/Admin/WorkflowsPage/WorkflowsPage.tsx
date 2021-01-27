@@ -1,52 +1,43 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Link as RouterLink } from 'react-router-dom'
-import {
-    Button,
-    Card,
-    CardContent,
-    Divider as MuiDivider, Link,
-    Typography
-} from "@material-ui/core";
+import {connect} from "react-redux";
+import {Card, CardContent, Divider as MuiDivider, Link, Typography} from "@material-ui/core";
 import {Helmet} from "react-helmet";
 import AdminMenu from "../AdminMenu/AdminMenu";
+import {CellParams, ColDef, DataGrid} from "@material-ui/data-grid";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
-import { user as userService } from '../../../services'
+import {Link as RouterLink} from "react-router-dom";
+import EditIcon from "@material-ui/icons/Edit";
+import { workflow as workflowService } from '../../../services'
 import {alertActions} from "../../../actions";
-import { DataGrid, ColDef, CellParams } from '@material-ui/data-grid'
-import EditIcon from '@material-ui/icons/Edit'
 
 const Divider = styled(MuiDivider)(spacing)
 
 const columns: ColDef[] = [
-    { field: 'username', headerName: 'Username', width: 200 },
-    { field: 'displayName', headerName: 'Display Name', width: 300 },
+    { field: 'name', headerName: 'Workflow Name', width: 600 },
     {
         field: "",
         headerName: "Actions",
         disableClickEventBubbling: true,
         renderCell: (params: CellParams) => {
-            return <Link component={RouterLink} to={`/admin/users/${params.row.id}`}><EditIcon /></Link>;
+            return <Link component={RouterLink} to={`/admin/workflow/${params.row.id}`}><EditIcon /></Link>;
         }
     }
 ];
 
-
-class UsersPage extends React.Component<any, any> {
-
+class WorkflowsPage extends React.Component<any, any> {
     constructor(props) {
         super(props);
 
         this.state = {
-            users: []
+            workflows: undefined
         }
     }
 
     componentDidMount() {
-        userService.getAllLite()
-            .then(users => this.setState({ users }))
-            .catch(_ => this.props.dispatch(alertActions.error("Failed to load users")))
+        workflowService.listWorkflows()
+            .then(workflows => this.setState({ workflows }))
+            .catch(_ => this.props.dispatch(alertActions.error("Failed to load workflows.")))
     }
 
     render() {
@@ -56,18 +47,24 @@ class UsersPage extends React.Component<any, any> {
             )
         }
 
+        if (this.state.workflows == undefined) {
+            return (
+                <Typography>Loading workflows...</Typography>
+            )
+        }
+
         return (
             <React.Fragment>
-                <Helmet title="Users" />
+                <Helmet title="Workflows" />
                 <AdminMenu>
                     <Typography variant="h3" gutterBottom display="inline">
-                        Manage Users
+                        Manage Workflows
                     </Typography>
                     <Divider my={6} />
                     <Card>
                         <CardContent>
                             <div style={{ height: 300, width: '100%' }}>
-                                <DataGrid rows={this.state.users} columns={columns} />
+                                <DataGrid rows={this.state.workflows} columns={columns} />
                             </div>
                         </CardContent>
                     </Card>
@@ -75,7 +72,6 @@ class UsersPage extends React.Component<any, any> {
             </React.Fragment>
         )
     }
-
 }
 
 function mapStateToProps (state) {
@@ -83,5 +79,5 @@ function mapStateToProps (state) {
     return { init }
 }
 
-const connectedUsersPage = connect(mapStateToProps)(UsersPage)
-export { connectedUsersPage as UsersPage }
+const connectedWorkflowPage = connect(mapStateToProps)(WorkflowsPage)
+export { connectedWorkflowPage as WorkflowPage }
