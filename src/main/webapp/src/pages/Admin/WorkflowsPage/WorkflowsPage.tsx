@@ -20,7 +20,7 @@ const columns: ColDef[] = [
         headerName: "Actions",
         disableClickEventBubbling: true,
         renderCell: (params: CellParams) => {
-            return <Link component={RouterLink} to={`/admin/workflows/${params.row.id}`}><EditIcon /></Link>;
+            return <Link component={RouterLink} to={`/admin/workflow/${params.row.id}`}><EditIcon /></Link>;
         }
     }
 ];
@@ -55,7 +55,7 @@ class WorkflowsPage extends React.Component<any, any> {
 
         return (
             <React.Fragment>
-                <Helmet title="Users" />
+                <Helmet title="Workflows" />
                 <AdminMenu>
                     <Typography variant="h3" gutterBottom display="inline">
                         Manage Workflows

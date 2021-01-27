@@ -15,6 +15,7 @@ import {BoardsPage} from "../pages/BoardPage";
 import {ViewBoardPage} from "../pages/BoardPage/ViewBoardPage/ViewBoardPage";
 import {ProjectPage} from "../pages/ProjectPage";
 import { WorkflowPage } from '../pages/Admin/WorkflowsPage'
+import { ModifyWorkflowPage } from '../pages/Admin/ModifyWorkflowPage'
 
 const NoMatch = ({ location }) => {
   const pathName = location.pathname || location.location.pathname
@@ -40,6 +41,7 @@ const Routes = ({ init }) => {
             <PrivateRoute exact path="/admin/users" component={UsersPage} />
             <PrivateRoute exact path="/admin/users/:internalId" component={ModifyUserPage} />
             <PrivateRoute exact path="/admin/workflow" component={WorkflowPage} />
+            <PrivateRoute exact path="/admin/workflow/:workflowId" component={ModifyWorkflowPage} />
             <PrivateRoute exact path="/admin/" component={GeneralPage} />
             <PrivateRoute exact path="/project/:projectId" component={ProjectPage} />
 
