@@ -8,6 +8,7 @@ import {spacing} from "@material-ui/system";
 import WorkflowApplication from "../../../components/workflow/WorkflowApplication";
 import {workflow as workflowService} from "../../../services";
 import {alertActions} from "../../../actions";
+import WorkFlowTool from "../../../components/workflow/WorkFlowTool";
 
 const Divider = styled(MuiDivider)(spacing)
 
@@ -55,11 +56,12 @@ class ModifyWorkflowPage extends React.Component<any, any> {
                         Manage Workflows
                     </Typography>
                     <Divider my={6} />
-                    <Card>
+                    <WorkFlowTool options={workflowOptions(this.state.workflow.id)} />
+                    {/* <Card>
                         <CardContent>
                             <WorkflowApplication options={workflowOptions(this.state.workflow.id)}/>
                         </CardContent>
-                    </Card>
+                    </Card> */}
                 </AdminMenu>
             </React.Fragment>
         )
