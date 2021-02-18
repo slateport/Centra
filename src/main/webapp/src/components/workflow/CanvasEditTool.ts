@@ -12,10 +12,12 @@ export default class CanvasEditTool {
     constructor(id) {
         this. _id = id;
         this._canvas = new draw2d.Canvas(this._id);
+        
     }
 
     createToolBox() {
-        // this._canvas = new draw2d.Canvas(this._id);
+        this._canvas.installEditPolicy(new draw2d.policy.canvas.SnapToInBetweenEditPolicy());
+        this._canvas.installEditPolicy(new draw2d.policy.canvas.SnapToCenterEditPolicy());
     }
 
     get canvasView(): draw2d.Canvas {
@@ -48,17 +50,15 @@ export default class CanvasEditTool {
         }
     }
 
-    getCommand(): any {
-        // return this._commandStack.canRedo();
-    }
-
     undo() {
-        console.log('=============>undo');
         this._canvas.getCommandStack().undo();
     }
 
+    redo() {
+        this._canvas.getCommandStack().redo();
+    }
+
     delete() {
-        console.log('delete -=--------------->');
         let selection = this._canvas.getSelection();
         this._canvas.getCommandStack().startTransaction(draw2d.Configuration.i18n.command.deleteShape);
         selection.each((index, figure) => {
@@ -73,5 +73,33 @@ export default class CanvasEditTool {
             }
         });
         this._canvas.getCommandStack().commitTransaction();
+    }
+
+    setGridView() {
+        this._canvas.installEditPolicy(new draw2d.policy.canvas.ShowGridEditPolicy());
+    }
+
+    disableGridView() {
+        this._canvas.uninstallEditPolicy(new draw2d.policy.canvas.ShowGridEditPolicy());
+    }
+
+    getSelectedFigure() {
+        return this._canvas.getSelection().getPrimary();
+    }
+
+    changeBGColor(figure: draw2d.Figure, color) {
+        console.log('=============>?', figure, color);
+        figure.attr({
+            "bgColor": color
+        })
+    }
+
+    setFigureLabel(string) {
+        let label = new draw2d.shape.basic.Label({text:string});
+        label.setFontColor('#ffffff');
+        label.setOutlineStroke(0);
+        label.setOutlineColor('transparent');
+        label.setStroke(0);
+        this.getSelectedFigure().add(label, new draw2d.layout.locator.CenterLocator());
     }
 }
