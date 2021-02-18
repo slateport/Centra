@@ -29,6 +29,7 @@
     "polished": "^4.0.5",
     "react": "^16.0.0",
     "react-beautiful-dnd": "^13.0.0",
+    "react-color": "^2.19.3",
     "react-dom": "^16.0.0",
     "react-draggable": "^4.4.3",
     "react-feather": "^2.0.8",
