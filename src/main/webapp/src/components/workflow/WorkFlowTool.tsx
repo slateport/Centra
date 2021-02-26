@@ -1,15 +1,21 @@
-import { Button, Card, CardContent, Grid, Input } from '@material-ui/core';
+import { Button, Card, CardContent, Grid, Input, MenuItem, Select } from '@material-ui/core';
 import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
 import DeleteIcon from '@material-ui/icons/Delete';
 import GridOnIcon from '@material-ui/icons/GridOn';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {Button as MuiButton, Divider as MuiDivider, Typography as MuiTypography,} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { SketchPicker, ChromePicker } from 'react-color';
+import { ChromePicker, CompactPicker } from 'react-color';
 import Draggable from 'react-draggable';
 import styled from 'styled-components';
 import CanvasEditTool from './CanvasEditTool';
 import {spacing, SpacingProps} from "@material-ui/system";
+import { RotateLeft } from '@material-ui/icons';
 
 const FlowEditor = styled.div`
     width: 100%;
@@ -42,6 +48,12 @@ const PropertyTool = styled.div`
 `;
 const Button1 = styled(MuiButton)`
     color : ${props=> props.theme.header.color}
+`;
+
+const PortDirectButton = styled(MuiButton)`
+ width: 30px;
+ height: 30px;
+ min-width: 30px;
 `;
 
 const BlackUndoIcon = styled(UndoIcon)`
@@ -113,8 +125,101 @@ const CircleStarter = styled.div`
     margin: 10px auto 0 auto;
 `;
 
+const NodeBgColorOption = styled.div`
+    width: 65%;
+    margin: auto;
+    padding: 10px;
+    display: flex;
+`;
+
+const NodeBgLabel = styled.div`
+    width: 65%;
+`;
+
+const FontLabel = styled.div`
+   width: 76%;
+`;
+
+const NodeBGSeletor = styled.div`
+    width: 50%;
+    border: 3px solid white;
+    margin-top: 6px;
+    padding: 2px;
+    height: 24px;
+    cursor: pointer;
+    box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.15);   
+`;
+
+const BackDrop =  styled.div`
+    position: fixed;
+    inset: 0px;
+    top: '0px';
+    right: '0px';
+    bottom: '0px';
+    left: '0px';
+`;
+
+const InputLabel = styled.div`
+    width: 100%;
+    padding: 15px;
+    display: flex;
+`;
+
+const FontListMenu = styled.div`
+    width: 15%;    
+`;
+
+const FontSizeField = styled.div`
+    width: 90%;
+    margin: auto;
+    display: flex;
+`;
+
+const FontSizeLabel = styled.div`
+    width: 45%;
+    display: flex;
+`;
+
+const FontColorLabel = styled.div`
+    width: 45%;
+    margin-left: 10px;
+`;
+
 const ColorPicker = styled(ChromePicker)`
     margin: 20px auto 0 auto;
+`;
+
+const FontPicker = styled(CompactPicker)`
+    margin-left: 30px;
+`;
+
+const FontColorButton = styled.div`
+    width: 23px;
+    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+    color: black;
+    font-weight: bold; 
+`;
+
+const PortPositionTool = styled.div`
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+`;
+
+const TopDirection =  styled.div`
+    width: 100%;
+    display: flex;
+`;
+const MiddleDirection =  styled.div`
+    width: 100%;
+    display: flex;
+`;
+
+const BottomDirection =  styled.div`
+    width: 100%;
+    display: flex;
 `;
 
 interface TypographyPropsType extends SpacingProps {
@@ -133,9 +238,25 @@ export default class WorkFlowTool extends React.Component<any, any>{
             squareModelState: false,
             circleStarterState: false,
             color: '#c0c0c0',
+            fontColor: '#ffffff',
+            displayBgPicker: false,
+            displayFontPicker: false,
             selectedFigure: null,
             grid: false,
+            labelExist: false,
             figureLabel: null,
+            selectedFontSize: 12,
+            ports: {
+                topLeft: false,
+                topCenter: false,
+                topRight: false,
+                middleLeft: false,
+                middleRight: false,
+                bottomLeft: false,
+                bottomCenter: false,
+                bottomRight: false
+            },
+            fontSizeList: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30, 32]
         }
     }
 
@@ -164,8 +285,6 @@ export default class WorkFlowTool extends React.Component<any, any>{
 
     createNode(type, x, y){
         this.canvas.addNewNode(type, x, y);
-        // let command = this.canvas.getCommand();
-        // console.log('=============>', command);
     }
 
     undo() {
@@ -191,21 +310,43 @@ export default class WorkFlowTool extends React.Component<any, any>{
     }
 
     handleMouseClick() {
-        // console.log('selected figure=====+>', this.canvas.getSelectedFigure().getBackgroundColor( ));
-        if(this.canvas.getSelectedFigure()) {
-            this.setState({selectedFigure: this.canvas.getSelectedFigure()});
+        let selectedFigure = this.canvas.getSelectedFigure();
+        if(selectedFigure) {
+            this.setState({selectedFigure: selectedFigure});
+            this.canvas.getFigureLabel(selectedFigure);
+            let fontColor  = this.canvas.getFontColor();
+            this.setState({fontColor:fontColor ?  `rgba(${fontColor.red}, ${fontColor.green}, ${fontColor.blue}, ${fontColor.alpha})` : '#ffffff'});
+            this.setState({labelExist: this.canvas.getLabelText() === null ? false : true})
+            this.setState({figureLabel: this.canvas.getLabelText() !== null ? this.canvas.getLabelText() : ''});
+            this.setState({selectedFontSize: this.canvas.getFontSize() !== null ? this.canvas.getFontSize() : 12});
             let bgColor = this.canvas.getSelectedFigure().getBackgroundColor();
-            this.setState({color: {r: bgColor.red, g: bgColor.green, b: bgColor.blue, a: bgColor.alpha}});
+            this.setState({color: bgColor ? `rgba(${bgColor.red}, ${bgColor.green}, ${bgColor.blue}, ${bgColor.alpha})` : '#c0c0c0'});
         } else {
             this.setState({selectedFigure: null});
+            this.setState({figureLabel: null});
         }
-        
+    }
+
+    openColorPoppover = () => {
+        this.setState({displayBgPicker: true});
+    }
+
+    openFontPoppover = () => {
+        this.setState({displayFontPicker: true});
     }
 
     handleChange = (color) => {
-        console.log('color =========>', color);
         this.setState({ color: color.hex });
         this.canvas.changeBGColor(this.state.selectedFigure, color.hex);
+    }
+
+    handleFontChange = (color) => {
+        this.setState({fontColor: color.hex});
+        let selectedFigure = this.canvas.getSelectedFigure();
+        if(selectedFigure) {
+            this.canvas.getFigureLabel(selectedFigure);
+            this.canvas.changeFontColor(color.hex);
+        }
     }
 
     changeLabel = (e) => {
@@ -214,8 +355,49 @@ export default class WorkFlowTool extends React.Component<any, any>{
     }
 
     addLabel = () => {
-        console.log('==========>?');
-        this.canvas.setFigureLabel(this.state.figureLabel)
+        if(this.state.figureLabel !== null) {
+            this.canvas.setFigureLabel(this.state.figureLabel, this.state.selectedFigure, this.state.selectedFontSize, this.state.fontColor)
+        }
+    }
+
+    updateLabel = () => {
+        if(this.state.figureLabel !== null) {
+            this.canvas.updateFigureLabel(this.state.figureLabel);
+        }
+    }
+
+    removeLabel() {
+        let selectedFigure = this.canvas.getSelectedFigure();
+        if(selectedFigure) {
+            this.canvas.getFigureLabel(selectedFigure);
+            this.canvas.removeLabel(this.state.selectedFigure);
+            this.setState({figureLabel: ''});
+        }
+    }
+
+    changeFontSize = (e) => {
+        this.setState({selectedFontSize: e.target.value});
+        let selectedFigure = this.canvas.getSelectedFigure();
+        if(selectedFigure) {
+            this.canvas.getFigureLabel(selectedFigure);
+            this.canvas.setFontSize(Number(e.target.value));
+        }
+    }
+
+    handleClose = () => {
+        this.setState({displayBgPicker: false, displayFontPicker: false});
+    }
+
+    setPortPosition = (val) => {
+
+    }
+
+    createPort =  () => {
+        let selectedFigure = this.canvas.getSelectedFigure();
+        if(selectedFigure) {
+            this.setState({selectedFigure: selectedFigure});
+            this.canvas.addPort(selectedFigure);
+        }
     }
 
 
@@ -268,27 +450,129 @@ export default class WorkFlowTool extends React.Component<any, any>{
                         </Draggable>
                         {this.state.selectedFigure && (
                             <>
+                            <NodeBgColorOption>
+                                <NodeBgLabel>
+                                    <Typography p={2} style={{fontWeight: 'bold'}}>
+                                        BG Color
+                                    </Typography>
+                                </NodeBgLabel>
+                                <NodeBGSeletor  style={{backgroundColor: this.state.color}} onClick={this.openColorPoppover}>
+                                </NodeBGSeletor>
+                            </NodeBgColorOption>
+                            {this.state.displayBgPicker && (
+                                <>
+                                    <BackDrop onClick={this.handleClose}></BackDrop>
+                                    <ColorPicker 
+                                        color={this.state.color}
+                                        onChange={ this.handleChange }>
+                                    </ColorPicker>
+                                </>
+                            )}
+                            </>
+                        )}
+                        {this.state.selectedFigure && (
+                            <>
                                 <Divider my={1} mt={5}/>
                                 <Typography variant="h6" p={2}  gutterBottom>
-                                    Add Label
+                                    Setting Label
                                 </Typography>
-                                <Input
-                                    id="label"
-                                    name="label"
-                                    autoComplete="label"
-                                    autoFocus
-                                    style={{marginLeft: 5, marginRight: 15}}
-                                    value={this.state.figureLabel}
-                                    onChange={this.changeLabel}
-                                />
-                                <Button color="primary" onClick={() => this.addLabel()}>Add</Button>
+                                <InputLabel>
+                                    <Input
+                                        id="label"
+                                        name="label"
+                                        autoComplete="label"
+                                        autoFocus
+                                        style={{marginLeft: 5, marginRight: 15}}
+                                        value={this.state.figureLabel}
+                                        onChange={this.changeLabel}
+                                    />
+                                    {!this.state.labelExist && (
+                                        <Button variant="contained" color="primary" onClick={() => this.addLabel()}>Add</Button>
+                                    )}
+
+                                    {this.state.labelExist && (
+                                        <Button variant="contained" color="primary" onClick={() => this.updateLabel()}>Save</Button>
+                                    )}
+                                    <Button variant="contained" color="primary" style={{marginLeft: 5}} onClick={() => this.removeLabel()}>Remove</Button>
+                                </InputLabel>
+                                <FontSizeField>
+                                    <FontSizeLabel>
+                                        <Typography p={2} style={{fontWeight: 'bold'}}>
+                                            Font Size
+                                        </Typography>
+                                    </FontSizeLabel>
+                                    <FontListMenu>
+                                        <Select
+                                            id="font"
+                                            name ="fontSize"
+                                            value={this.state.selectedFontSize}
+                                            onChange={this.changeFontSize}
+                                            fullWidth
+                                            defaultValue={this.state.selectedFontSize}
+                                        >
+                                            {this.state.fontSizeList.map((fontSize, index) =>
+                                                <MenuItem value={fontSize} key={index}>{fontSize}</MenuItem>
+                                            )}
+                                        </Select>
+                                    </FontListMenu>
+                                    <FontColorLabel>
+                                        <Typography p={2} style={{fontWeight: 'bold'}}>
+                                            Font Color
+                                        </Typography>
+                                    </FontColorLabel>
+                                    <FontColorButton onClick={this.openFontPoppover}>
+                                        A
+                                        <div style={{backgroundColor: this.state.fontColor, width: '100%', height: 3, marginTop: -3}}></div>
+                                    </FontColorButton>
+                                </FontSizeField>
+                                {this.state.displayFontPicker && (
+                                    <>
+                                        <BackDrop onClick={this.handleClose}></BackDrop>
+                                        <FontPicker 
+                                            color={this.state.fontColor}
+                                            onChange={ this.handleFontChange }>
+                                        </FontPicker>
+                                    </>
+                                )}
+                                <Divider my={1} mt={5}/>
                                 <Typography variant="h6" p={2}  gutterBottom>
-                                    Background Color
+                                    Setting Port
                                 </Typography>
-                                <ColorPicker 
-                                    color={this.state.color}
-                                    onChange={ this.handleChange }>
-                                </ColorPicker>
+                                <PortPositionTool>
+                                    <TopDirection>
+                                        <PortDirectButton style={{marginTop: 6, marginLeft: 6}} onClick={() => this.setPortPosition('topLeft')}>
+                                            <ArrowDropUpIcon style={{transform:`rotate(-45deg)`, fontSize: 36}}></ArrowDropUpIcon>
+                                        </PortDirectButton>
+                                        <PortDirectButton onClick={() => this.setPortPosition('topCenter')}>
+                                            <ArrowDropUpIcon style={{fontSize: 36}}></ArrowDropUpIcon>
+                                        </PortDirectButton>
+                                        <PortDirectButton style={{marginTop: 6, marginRight: 6}} onClick={() => this.setPortPosition('topRight')}>
+                                            <ArrowDropUpIcon style={{transform:`rotate(45deg)`, fontSize:36}}></ArrowDropUpIcon>
+                                        </PortDirectButton>
+                                    </TopDirection>
+                                    <MiddleDirection>
+                                        <PortDirectButton onClick={() => this.setPortPosition('middleLeft')}>
+                                            <ArrowLeftIcon style={{fontSize: 36}}></ArrowLeftIcon>
+                                        </PortDirectButton>
+                                        <PortDirectButton style={{marginLeft: 6, marginRight: 6}} onClick={() => this.createPort()}>
+                                            <AddCircleIcon style={{fontSize: 36}}></AddCircleIcon>
+                                        </PortDirectButton>
+                                        <PortDirectButton onClick={() => this.setPortPosition('middleRight')}>
+                                            <ArrowRightIcon style={{fontSize: 36}}></ArrowRightIcon>
+                                        </PortDirectButton>
+                                    </MiddleDirection>
+                                    <BottomDirection>
+                                        <PortDirectButton  style={{marginLeft: 6, marginBottom: 6}} onClick={() => this.setPortPosition('bottomLeft')}>
+                                            <ArrowDropDownIcon style={{transform:`rotate(45deg)`, fontSize: 36}}></ArrowDropDownIcon>
+                                        </PortDirectButton>
+                                        <PortDirectButton style={{marginTop: 6}} onClick={() => this.setPortPosition('bottomCenter')}>
+                                            <ArrowDropDownIcon style={{fontSize: 36}}></ArrowDropDownIcon>
+                                        </PortDirectButton>
+                                        <PortDirectButton style={{marginRight: 6, marginBottom: 6}} onClick={() => this.setPortPosition('bottomRight')}>
+                                            <ArrowDropDownIcon style={{transform:`rotate(-45deg)`, fontSize:36}}></ArrowDropDownIcon>
+                                        </PortDirectButton>
+                                    </BottomDirection>
+                                </PortPositionTool>
                             </>
                         )}
                     </EditMenuContent>
