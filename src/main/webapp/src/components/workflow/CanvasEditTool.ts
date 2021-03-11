@@ -219,4 +219,12 @@ export default class CanvasEditTool {
             node.layoutPorts();
         }
     }
+
+    saveToJSON() {
+        let  writer = new draw2d.io.json.Writer();
+        writer.marshal(this._canvas, function(json){
+            var jsonTxt = JSON.stringify(json,null,2);
+            console.log('canvas json ====>', jsonTxt);
+        }); 
+    }
 }

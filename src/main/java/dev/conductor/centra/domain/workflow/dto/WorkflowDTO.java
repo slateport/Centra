@@ -1,5 +1,6 @@
 package dev.conductor.centra.domain.workflow.dto;
 
+import dev.conductor.centra.domain.workflow.entities.FlowSchema;
 import dev.conductor.centra.domain.workflow.entities.WorkflowState;
 import dev.conductor.centra.domain.workflow.entities.WorkflowTransition;
 import lombok.Getter;
@@ -15,5 +16,6 @@ public class WorkflowDTO {
     private String name;
     private String id;
     private List<WorkflowState> states;
+    private List<FlowSchema> flow;
     private List<WorkflowTransition> transitions;
 }

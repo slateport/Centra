@@ -20,5 +20,6 @@ public class WorkflowEntity {
     private String name;
     private List<WorkflowState> states;
     private List<WorkflowTransition> transitions;
+    private List flow;
 
 }

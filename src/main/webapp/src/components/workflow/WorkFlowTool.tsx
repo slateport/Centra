@@ -8,6 +8,7 @@ import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import SaveIcon from '@material-ui/icons/Save';
 import {Button as MuiButton, Divider as MuiDivider, Typography as MuiTypography,} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { ChromePicker, CompactPicker } from 'react-color';
@@ -16,6 +17,16 @@ import styled from 'styled-components';
 import CanvasEditTool from './CanvasEditTool';
 import {spacing, SpacingProps} from "@material-ui/system";
 import { RotateLeft } from '@material-ui/icons';
+import { workflow } from '../../services';
+import draw2d from 'draw2d';
+import 'draw2d';
+
+// declare global {
+//     const draw2d: typeof _2d;
+// }
+// declare global {
+//     const draw2d: typeof _2d; 
+// }
 
 const FlowEditor = styled.div`
     width: 100%;
@@ -72,6 +83,9 @@ const BlackGridIcon = styled(GridOnIcon)`
     color: #000000;
 `;
 
+const BlackSaveIcon = styled(SaveIcon)`
+    color: #000000;
+`;
 const EditBoard = styled.div`
     width: 100%;
     display: flex;
@@ -237,6 +251,7 @@ export default class WorkFlowTool extends React.Component<any, any>{
         this.state = {
             squareModelState: false,
             circleStarterState: false,
+            flowId: props.options.workflowId,
             color: '#c0c0c0',
             fontColor: '#ffffff',
             displayBgPicker: false,
@@ -261,8 +276,52 @@ export default class WorkFlowTool extends React.Component<any, any>{
     }
 
     componentDidMount() {
-        this.canvas = new CanvasEditTool('workflowtool');
-        this.canvas.createToolBox();
+        console.log('===========>', draw2d);
+        // const draw2d = window.draw2d;
+        let canvas = new draw2d.Canvas("workflowtool");
+        canvas.setScrollArea(window);
+        var jsonDocument = 
+            [
+            {
+                "type": "draw2d.shape.basic.Oval",
+                "id": "5b4c74 b0-96d1-1aa3-7eca-bbeaed5fffd7",
+                "x": 237,
+                "y": 236,
+                "width": 93,
+                "height": 38
+            },
+            {
+                "type": "draw2d.shape.basic.Rectangle",
+                "id": "354fa3b9-a834-0221-2009-abc2d6bd852a",
+                "x": 225,
+                "y": 97,
+                "width": 201,
+                "height": 82,
+                "radius": 2
+            }
+            ];
+        // unmarshal the JSON document into the canvas
+        // (load)
+        var reader = new draw2d.io.json.Reader();
+        reader.unmarshal(canvas, jsonDocument);
+        // console.log('======+>', props.options)
+        // console.log('basic =======>', window.basic);
+        // if(typeof window !== 'undefined')
+        //     (window.draw2d = window.draw2d || []).push({});
+        //     (window.basic = window.basic || []).push({});
+
+        // this.canvas = new CanvasEditTool('workflowtool');
+        // this.canvas.createToolBox();
+        // this.getFlowData();
+    }
+    
+    getFlowData() {
+        workflow.getWorkflow(this.state.flowId)
+            .then(resp =>  {
+                let data  = resp;
+                console.log('data ========>', data);
+                // this.canvas.createToolBox(data.flow);
+         });
     }
 
 
@@ -508,6 +567,10 @@ export default class WorkFlowTool extends React.Component<any, any>{
         }
     }
 
+    save = () => {
+        this.canvas.saveToJSON();
+    }
+
 
     render() {
         return (
@@ -525,6 +588,9 @@ export default class WorkFlowTool extends React.Component<any, any>{
                         </Button1>
                     </ActionTool>
                     <PropertyTool>
+                        <Button1 onClick={() => this.save()}>
+                            <BlackSaveIcon></BlackSaveIcon>
+                        </Button1>
                         <Button1 onClick={() => this.showGrid()}>
                             <BlackGridIcon></BlackGridIcon>
                         </Button1>

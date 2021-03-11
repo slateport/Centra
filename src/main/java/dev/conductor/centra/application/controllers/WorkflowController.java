@@ -62,7 +62,8 @@ public class WorkflowController {
                 dto.getName(),
                 dto.getStates(),
                 dto.getTransitions(),
-                dto.getStates().size() > 3 ? 1 : 0
+                dto.getStates().size() > 3 ? 1 : 0,
+                dto.getFlow()
         );
 
         return workflowService.create(workflow);

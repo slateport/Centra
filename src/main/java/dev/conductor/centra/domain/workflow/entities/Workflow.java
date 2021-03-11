@@ -14,13 +14,15 @@ public class Workflow {
     private List<WorkflowState> states;
     private List<WorkflowTransition> transitions;
     private Integer level;
+    private List flow;
 
     public Workflow(){}
 
-    public Workflow(String name, List<WorkflowState> states, List<WorkflowTransition> transitions, Integer level) {
+    public Workflow(String name, List<WorkflowState> states, List<WorkflowTransition> transitions, Integer level, List flow) {
         this.name = name;
         this.states = states;
         this.transitions = transitions;
         this.level = level;
+        this.flow = flow;
     }
 }

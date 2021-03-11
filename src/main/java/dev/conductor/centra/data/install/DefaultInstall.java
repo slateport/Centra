@@ -1,19 +1,23 @@
 package dev.conductor.centra.data.install;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.applicationUser.entiity.UserGroup;
+import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
+import dev.conductor.centra.domain.issue.api.IssueTypeSchemaService;
 import dev.conductor.centra.domain.issue.entity.IssuePriority;
 import dev.conductor.centra.domain.issue.entity.IssuePrioritySchema;
 import dev.conductor.centra.domain.issue.entity.IssueType;
 import dev.conductor.centra.domain.issue.entity.IssueTypeSchema;
-import dev.conductor.centra.domain.project.entity.Project;
-import dev.conductor.centra.domain.workflow.entities.*;
-import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
-import dev.conductor.centra.domain.issue.api.IssueTypeSchemaService;
 import dev.conductor.centra.domain.project.api.ProjectService;
+import dev.conductor.centra.domain.project.entity.Project;
 import dev.conductor.centra.domain.workflow.api.WorkflowService;
+import dev.conductor.centra.domain.workflow.entities.*;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,37 +90,45 @@ public class DefaultInstall {
         transitions.add(new WorkflowTransition("IN PROGRESS", "DONE", "Done", false, true));
         transitions.add(new WorkflowTransition("DONE", "TO DO", "Reopen", true, false));
 
-        Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions, states.size() > 3 ? 1 : 0);
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeReference<List<FlowSchema>> typeReference = new TypeReference<List<FlowSchema>>() {};
+        InputStream inputStream = TypeReference.class.getResourceAsStream("../src/default_flow.json");
 
-        workflowService.create(wfl);
+        try {
+            List<FlowSchema> flowSchemas = objectMapper.readValue(inputStream, typeReference);
+            Workflow wfl = new Workflow(Project.DEFAULT_WORKFLOW_NAME, states, transitions, states.size() > 3 ? 1 : 0, flowSchemas);
+            workflowService.create(wfl);
 
-        IssuePriority lowest = prioritySchemaService.createPriority(new IssuePriority("Lowest", "ChevronsDown"));
-        IssuePriority low = prioritySchemaService.createPriority(new IssuePriority("Low", "ChevronDown"));
-        IssuePriority medium = prioritySchemaService.createPriority(new IssuePriority("Medium", "Code"));
-        IssuePriority high = prioritySchemaService.createPriority(new IssuePriority("High", "ChevronUp"));
-        IssuePriority highest = prioritySchemaService.createPriority(new IssuePriority("Highest", "ChevronsUp"));
+            IssuePriority lowest = prioritySchemaService.createPriority(new IssuePriority("Lowest", "ChevronsDown"));
+            IssuePriority low = prioritySchemaService.createPriority(new IssuePriority("Low", "ChevronDown"));
+            IssuePriority medium = prioritySchemaService.createPriority(new IssuePriority("Medium", "Code"));
+            IssuePriority high = prioritySchemaService.createPriority(new IssuePriority("High", "ChevronUp"));
+            IssuePriority highest = prioritySchemaService.createPriority(new IssuePriority("Highest", "ChevronsUp"));
 
-        IssuePrioritySchema prioritySchema = new IssuePrioritySchema();
-        prioritySchema.setName(Project.DEFAULT_PRIORITY_SCHEMA_NAME);
+            IssuePrioritySchema prioritySchema = new IssuePrioritySchema();
+            prioritySchema.setName(Project.DEFAULT_PRIORITY_SCHEMA_NAME);
 
-        prioritySchema.addPriority(lowest);
-        prioritySchema.addPriority(low);
-        prioritySchema.addPriority(medium);
-        prioritySchema.addPriority(high);
-        prioritySchema.addPriority(highest);
+            prioritySchema.addPriority(lowest);
+            prioritySchema.addPriority(low);
+            prioritySchema.addPriority(medium);
+            prioritySchema.addPriority(high);
+            prioritySchema.addPriority(highest);
 
-        prioritySchemaService.createSchema(prioritySchema);
+            prioritySchemaService.createSchema(prioritySchema);
 
-        projectService.create(new Project(
-                "DEMO",
-                "Demo",
-                "Project to demo features",
-                wfl.getId(),
-                schema.getId(),
-                prioritySchema.getId()
-        ));
+            projectService.create(new Project(
+                    "DEMO",
+                    "Demo",
+                    "Project to demo features",
+                    wfl.getId(),
+                    schema.getId(),
+                    prioritySchema.getId()
+            ));
 
-        setupUserGroups();
+            setupUserGroups();
+        } catch(IOException e) {
+            System.out.println("Unable to save " + e.getMessage());
+        }
     }
 
     private void setupUserGroups() {
