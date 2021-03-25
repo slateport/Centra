@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Grid, Input, MenuItem, Select } from '@material-ui/core';
+import { Button, Card, CardContent, FormControl, FormControlLabel, FormLabel, Grid, Input, MenuItem, Radio, RadioGroup, Select } from '@material-ui/core';
 import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -19,14 +19,6 @@ import {spacing, SpacingProps} from "@material-ui/system";
 import { RotateLeft } from '@material-ui/icons';
 import { workflow } from '../../services';
 import draw2d from 'draw2d';
-import 'draw2d';
-
-// declare global {
-//     const draw2d: typeof _2d;
-// }
-// declare global {
-//     const draw2d: typeof _2d; 
-// }
 
 const FlowEditor = styled.div`
     width: 100%;
@@ -261,58 +253,16 @@ export default class WorkFlowTool extends React.Component<any, any>{
             labelExist: false,
             figureLabel: null,
             selectedFontSize: 12,
-            ports: {
-                topLeft: false,
-                topCenter: false,
-                topRight: false,
-                middleLeft: false,
-                middleRight: false,
-                bottomLeft: false,
-                bottomCenter: false,
-                bottomRight: false
-            },
+            portType: 'output',
+            port: 'bottomCenter',
             fontSizeList: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30, 32]
         }
     }
 
     componentDidMount() {
-        console.log('===========>', draw2d);
-        // const draw2d = window.draw2d;
-        let canvas = new draw2d.Canvas("workflowtool");
-        canvas.setScrollArea(window);
-        var jsonDocument = 
-            [
-            {
-                "type": "draw2d.shape.basic.Oval",
-                "id": "5b4c74 b0-96d1-1aa3-7eca-bbeaed5fffd7",
-                "x": 237,
-                "y": 236,
-                "width": 93,
-                "height": 38
-            },
-            {
-                "type": "draw2d.shape.basic.Rectangle",
-                "id": "354fa3b9-a834-0221-2009-abc2d6bd852a",
-                "x": 225,
-                "y": 97,
-                "width": 201,
-                "height": 82,
-                "radius": 2
-            }
-            ];
-        // unmarshal the JSON document into the canvas
-        // (load)
-        var reader = new draw2d.io.json.Reader();
-        reader.unmarshal(canvas, jsonDocument);
-        // console.log('======+>', props.options)
-        // console.log('basic =======>', window.basic);
-        // if(typeof window !== 'undefined')
-        //     (window.draw2d = window.draw2d || []).push({});
-        //     (window.basic = window.basic || []).push({});
-
-        // this.canvas = new CanvasEditTool('workflowtool');
-        // this.canvas.createToolBox();
-        // this.getFlowData();
+        this.canvas = new CanvasEditTool('workflowtool');
+        this.canvas.createToolBox();
+        this.getFlowData();
     }
     
     getFlowData() {
@@ -320,6 +270,7 @@ export default class WorkFlowTool extends React.Component<any, any>{
             .then(resp =>  {
                 let data  = resp;
                 console.log('data ========>', data);
+                this.canvas.importJSON(data.flow);
                 // this.canvas.createToolBox(data.flow);
          });
     }
@@ -371,64 +322,17 @@ export default class WorkFlowTool extends React.Component<any, any>{
 
     async handleMouseClick() {
         let selectedFigure = this.canvas.getSelectedFigure();
-        console.log('selected figure ====>', selectedFigure);
         if(selectedFigure) {
+            console.log('selected figure ====>', selectedFigure);   
             this.setState({selectedFigure: selectedFigure});
             this.canvas.getFigureLabel(selectedFigure);
             let fontColor  = this.canvas.getFontColor();
 
-            let ports = selectedFigure.hybridPorts;
-            console.log('ports ====>', ports);
-            let portsTemp = {
-                topLeft: false,
-                topCenter: false,
-                topRight: false,
-                middleLeft: false,
-                middleRight: false,
-                bottomLeft: false,
-                bottomCenter: false,
-                bottomRight: false
-            }
-            if(ports) {
-                await ports.map(async (port) => {
-                    if(port) {
-                        let name = port.getName();
-                        console.log('name =========>', name);
-                        switch(name.split('_')[1]) {
-                            case "topLeft":
-                                portsTemp.topLeft = true;
-                                break;
-                            case "topCenter":
-                                portsTemp.topCenter = true;
-                                break;
-                            case "topRight":
-                                portsTemp.topRight = true;
-                                break;
-                            case "middleLeft":
-                                portsTemp.middleLeft = true;
-                                break;
-                            case "middleRight":
-                                portsTemp.middleRight = true;
-                                break;
-                            case "bottomLeft":
-                                portsTemp.bottomLeft = true;
-                                break;
-                            case "bottomCenter":
-                                portsTemp.bottomCenter = true;
-                                break;
-                            case "bottomRight":
-                                portsTemp.bottomRight = true;
-                                break;
-                        }
-                    }
-                });
-            }
             // console.log('portsTm =========>', portsTemp);
             this.setState({fontColor:fontColor ?  `rgba(${fontColor.red}, ${fontColor.green}, ${fontColor.blue}, ${fontColor.alpha})` : '#ffffff'});
             this.setState({labelExist: this.canvas.getLabelText() === null ? false : true})
             this.setState({figureLabel: this.canvas.getLabelText() !== null ? this.canvas.getLabelText() : ''});
             this.setState({selectedFontSize: this.canvas.getFontSize() !== null ? this.canvas.getFontSize() : 12});
-            this.setState({ports: portsTemp});
             let bgColor = selectedFigure.getBackgroundColor();
             this.setState({color: bgColor ? `rgba(${bgColor.red}, ${bgColor.green}, ${bgColor.blue}, ${bgColor.alpha})` : '#c0c0c0'});
         } else {
@@ -456,6 +360,7 @@ export default class WorkFlowTool extends React.Component<any, any>{
         if(selectedFigure) {
             this.canvas.getFigureLabel(selectedFigure);
             this.canvas.changeFontColor(color.hex);
+            this.canvas.updateUserData(this.state.selectedFigure, 'color', color.hex);
         }
     }
 
@@ -467,12 +372,15 @@ export default class WorkFlowTool extends React.Component<any, any>{
     addLabel = () => {
         if(this.state.figureLabel !== null) {
             this.canvas.setFigureLabel(this.state.figureLabel, this.state.selectedFigure, this.state.selectedFontSize, this.state.fontColor)
+            this.canvas.updateUserData(this.state.selectedFigure, 'label', this.state.figureLabel);
+            this.canvas.updateUserData(this.state.selectedFigure, 'font', {fontSize: this.state.selectedFontSize, color: this.state.fontColor });
         }
     }
 
     updateLabel = () => {
         if(this.state.figureLabel !== null) {
             this.canvas.updateFigureLabel(this.state.figureLabel);
+            this.canvas.updateUserData(this.state.selectedFigure, 'label', this.state.figureLabel);
         }
     }
 
@@ -499,63 +407,12 @@ export default class WorkFlowTool extends React.Component<any, any>{
     }
 
     setPortPosition = (val) => {
-        let selectedFigure = this.canvas.getSelectedFigure();
-        if(selectedFigure.getCssClass().indexOf('Start') > -1) {
-            if(this.state.ports.topLeft || this.state.ports.topCenter || this.state.ports.topRight || this.state.ports.middleLeft
-                 || this.state.ports.middleRight || this.state.ports.bottomLeft || this.state.ports.bottomCenter || this.state.ports.bottomRight) {
-                this.setPort(val, true);
-            } else {
-                this.setPort(val, true);
-            }
-        } else {
-            this.setPort(val, false);
-        }
+        this.setState({port: val});
     }
 
-    setPort = (val, isStarter) => {
-        let portsTemp = this.state.ports;
-        switch(val) {
-            case "topLeft":
-                if(!isStarter) {
-                    portsTemp[val] = !this.state.ports[val];
-                    this.setState({ports: portsTemp});
-                }
-                break;
-            case "topCenter":
-                portsTemp[val] = !this.state.ports[val];
-                this.setState({ports: portsTemp});
-                break;
-            case "topRight":
-                if(!isStarter) {
-                    portsTemp[val] = !this.state.ports[val];
-                    this.setState({ports: portsTemp});
-                }
-                break;
-            case "middleLeft":
-                portsTemp[val] = !this.state.ports[val];
-                this.setState({ports: portsTemp});
-                break;
-            case "middleRight":
-                portsTemp[val] = !this.state.ports[val];
-                this.setState({ports: portsTemp});
-                break;
-            case "bottomLeft":
-                if(!isStarter) {
-                    portsTemp[val] = !this.state.ports[val];
-                    this.setState({ports: portsTemp});
-                }
-                break;
-            case "bottomCenter":
-                portsTemp[val] = !this.state.ports[val];
-                this.setState({ports: portsTemp});
-                break;
-            case "bottomRight":
-                if(!isStarter) {
-                    portsTemp[val] = !this.state.ports[val];
-                    this.setState({ports: portsTemp});
-                }
-                break;
-        }
+    selectPortType = (e) => {
+        console.log('select =====>')
+        this.setState({portType: e.target.value});
     }
 
     createPort =  () => {
@@ -563,7 +420,8 @@ export default class WorkFlowTool extends React.Component<any, any>{
         console.log('selected figure ====>', selectedFigure);
         if(selectedFigure) {
             this.setState({selectedFigure: selectedFigure});
-            this.canvas.addPort(selectedFigure, this.state.ports);
+            this.canvas.addPort(selectedFigure, this.state.port, this.state.portType);
+            this.canvas.updateUserData(selectedFigure, 'port', {position: this.state.port, type: this.state.portType});
         }
     }
 
@@ -715,38 +573,46 @@ export default class WorkFlowTool extends React.Component<any, any>{
                                 <PortPositionTool>
                                     <TopDirection>
                                         <PortDirectButton style={{marginTop: 6, marginLeft: 6}} onClick={() => this.setPortPosition('topLeft')}>
-                                            <ArrowDropUpIcon style={{transform:`rotate(-45deg)`, fontSize: 36, color: this.state.ports.topLeft ? '#000000' : '#7f7d7d'}}></ArrowDropUpIcon>
+                                            <ArrowDropUpIcon style={{transform:`rotate(-45deg)`, fontSize: 36, color: this.state.port === 'topLeft' ? '#000000' : '#7f7d7d'}}></ArrowDropUpIcon>
                                         </PortDirectButton>
                                         <PortDirectButton onClick={() => this.setPortPosition('topCenter')}>
-                                            <ArrowDropUpIcon style={{fontSize: 36, color: this.state.ports.topCenter ? '#000000' : '#7f7d7d'}}></ArrowDropUpIcon>
+                                            <ArrowDropUpIcon style={{fontSize: 36, color: this.state.port === 'topCenter' ? '#000000' : '#7f7d7d'}}></ArrowDropUpIcon>
                                         </PortDirectButton>
                                         <PortDirectButton style={{marginTop: 6, marginRight: 6}} onClick={() => this.setPortPosition('topRight')}>
-                                            <ArrowDropUpIcon style={{transform:`rotate(45deg)`, fontSize:36, color: this.state.ports.topRight ? '#000000' : '#7f7d7d'}}></ArrowDropUpIcon>
+                                            <ArrowDropUpIcon style={{transform:`rotate(45deg)`, fontSize:36, color: this.state.port === 'topRight' ? '#000000' : '#7f7d7d'}}></ArrowDropUpIcon>
                                         </PortDirectButton>
                                     </TopDirection>
                                     <MiddleDirection>
                                         <PortDirectButton onClick={() => this.setPortPosition('middleLeft')}>
-                                            <ArrowLeftIcon style={{fontSize: 36, color: this.state.ports.middleLeft ? '#000000' : '#7f7d7d'}}></ArrowLeftIcon>
+                                            <ArrowLeftIcon style={{fontSize: 36, color: this.state.port === 'middleLeft' ? '#000000' : '#7f7d7d'}}></ArrowLeftIcon>
                                         </PortDirectButton>
                                         <PortDirectButton style={{marginLeft: 6, marginRight: 6}} onClick={() => this.createPort()}>
                                             <AddCircleIcon style={{fontSize: 36}}></AddCircleIcon>
                                         </PortDirectButton>
                                         <PortDirectButton onClick={() => this.setPortPosition('middleRight')}>
-                                            <ArrowRightIcon style={{fontSize: 36, color: this.state.ports.middleRight ? '#000000' : '#7f7d7d'}}></ArrowRightIcon>
+                                            <ArrowRightIcon style={{fontSize: 36, color: this.state.port === 'middleRight' ? '#000000' : '#7f7d7d'}}></ArrowRightIcon>
                                         </PortDirectButton>
                                     </MiddleDirection>
                                     <BottomDirection>
                                         <PortDirectButton  style={{marginLeft: 6, marginBottom: 6}} onClick={() => this.setPortPosition('bottomLeft')}>
-                                            <ArrowDropDownIcon style={{transform:`rotate(45deg)`, fontSize: 36, color: this.state.ports.bottomLeft ? '#000000' : '#7f7d7d'}}></ArrowDropDownIcon>
+                                            <ArrowDropDownIcon style={{transform:`rotate(45deg)`, fontSize: 36, color: this.state.port === 'bottomLeft' ? '#000000' : '#7f7d7d'}}></ArrowDropDownIcon>
                                         </PortDirectButton>
                                         <PortDirectButton style={{marginTop: 6}} onClick={() => this.setPortPosition('bottomCenter')}>
-                                            <ArrowDropDownIcon style={{fontSize: 36, color: this.state.ports.bottomCenter ? '#000000' : '#7f7d7d'}}></ArrowDropDownIcon>
+                                            <ArrowDropDownIcon style={{fontSize: 36, color: this.state.port === 'bottomCenter' ? '#000000' : '#7f7d7d'}}></ArrowDropDownIcon>
                                         </PortDirectButton>
                                         <PortDirectButton style={{marginRight: 6, marginBottom: 6}} onClick={() => this.setPortPosition('bottomRight')}>
-                                            <ArrowDropDownIcon style={{transform:`rotate(-45deg)`, fontSize:36, color: this.state.ports.bottomRight ? '#000000' : '#7f7d7d'}}></ArrowDropDownIcon>
+                                            <ArrowDropDownIcon style={{transform:`rotate(-45deg)`, fontSize:36, color: this.state.port === 'bottomRight' ? '#000000' : '#7f7d7d'}}></ArrowDropDownIcon>
                                         </PortDirectButton>
                                     </BottomDirection>
                                 </PortPositionTool>
+                                <FormControl component="fieldset">
+                                    <FormLabel component="legend">Port Type</FormLabel>
+                                    <RadioGroup aria-label="gender" name="type" value={this.state.portType} onChange={this.selectPortType}>
+                                        <FormControlLabel value="input" control={<Radio />} label="Input" />
+                                        <FormControlLabel value="output" control={<Radio />} label="Output" />
+                                    </RadioGroup>
+                                    </FormControl>
+
                             </>
                         )}
                     </EditMenuContent>
