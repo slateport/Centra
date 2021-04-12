@@ -267,6 +267,8 @@ export default class CanvasView {
                     startFigure = statusView.figure;
                     initCon.setRouter(new draw2d.layout.connection.ManhattanConnectionRouter());
                     initCon.setSource(startFigure.getOutputPort(0));
+                    console.log('port =====>', this.statusViews[0].figure.getInputPort(0));
+                    console.log('port 2 ======>', this.statusViews[0].figure.getInputPort(0));
                     initCon.setTarget(this.statusViews[0].figure.getInputPort(0));
                     this.canvas.add(initCon);
                 }
