@@ -8,14 +8,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+// this class is candidate for removing
+// If you want to keep it, please considet that antlr classes aren't threadsafe
 @Component
-public class Parser {
+public class CustomParser {
 
     public List<Condition> parse(String input) {
-        CqlParser cqlParser = new CqlParser(new CommonTokenStream(new CqlLexer(CharStreams.fromString(input))));
+        cqlParser cqlParser = new cqlParser(new CommonTokenStream(new cqlLexer(CharStreams.fromString(input))));
 
         ParseTreeWalker walker = new ParseTreeWalker();
-        CqlListenerImpl listener = new CqlListenerImpl();
+        cqlListenerImpl listener = new cqlListenerImpl();
         walker.walk(listener, cqlParser.parse());
 
         return listener.getConditions();

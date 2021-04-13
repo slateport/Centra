@@ -5,20 +5,53 @@ parse
  ;
 
 cql_stmt_list
- : SCOL* cql_stmt ( SCOL+ cql_stmt )* SCOL*
+ : SCOL? cql_stmt ( SCOL+ cql_stmt )* SCOL?
  ;
 
 cql_stmt
- : OPEN_PAR* expr ( ( K_AND | K_OR) OPEN_PAR* expr CLOSE_PAR* )* CLOSE_PAR* ordering_term?
+ : logical_expression ordering_term?
  ;
+
+logical_expression:
+OPEN_PAR logical_expression CLOSE_PAR #BracedExpression
+| expr #SimpleExpression
+| K_NOT logical_expression #NegatedLogicalExpression
+| logical_expression K_AND logical_expression #AndLogicalExpression
+| logical_expression K_OR logical_expression #OrLogicalExpression
+;
 
 expr
- : K_NOT* ( field | literal_value ) operator OPEN_PAR* ( literal_value | literal_list | FUNCTION | dates ) (compare_dates)? CLOSE_PAR*
+ : left_value operator right_value
+// | left_value operator OPEN_PAR right_value CLOSE_PAR
+ | left_value is_operator operand=(K_EMPTY | K_NULL)
  ;
 
-ordering_term
+right_value:
+ literal_value | function_call | literal_list  | dates ;
+
+left_value:
+ field ;
+
+/*ordering_term
  : K_ORDER K_BY literal_value ( K_ASC | K_DESC )? (COMMA literal_value ( K_ASC | K_DESC )? )*
+ ;*/
+
+ordering_term
+ : order_by ordering_list;
+
+ordering_list
+ : ordering_list_item (COMMA ordering_list_item)*;
+
+ // Real SQL example: ORDER BY column1 DESC, column2
+ordering_list_item
+ : order_by_argument (order= (K_ASC | K_DESC) )? ;
+
+order_by_argument
+ : field
  ;
+
+order_by:
+ K_ORDER K_BY;
 
 operator
  : EQ
@@ -31,12 +64,17 @@ operator
  | GT_EQ
  | K_IN
  | K_NOT K_IN
- | K_IS
+// | K_IS
  | K_WAS
- | K_IS K_NOT
+// | K_IS K_NOT
  | K_WAS K_NOT
  | K_CHANGED K_TO
  ;
+
+is_operator
+: K_IS
+| K_IS K_NOT
+;
 
 literal_value
  : STRING_LITERAL
@@ -44,11 +82,24 @@ literal_value
  | state_name
  | field
  | dates
+ | number
  ;
 
-FUNCTION
- : [a-zA-Z]+ '(' (.*? | FUNCTION) ')'
+function_call
+ : IDENTIFIER '(' argument_list? ')'
+;
+
+argument_list
+ : function_argument (',' function_argument)*
  ;
+
+function_argument
+ : literal_value | function_call
+ ;
+
+/*FUNCTION
+ : [a-zA-Z]+ '(' (.*? | FUNCTION) ')'
+ ;*/
 
 literal_list
  : '(' literal_value ( COMMA literal_value )* ')'
@@ -112,6 +163,7 @@ field
  | F_PARENT
  | F_PRIORITY
  | F_PROJECT
+ | F_PROJECT_KEY // added by dk2k
  | F_RANK
  | F_REMAINING_ESTIMATE
  | F_REPORTER
@@ -137,18 +189,43 @@ field
  | F_WORK_RATIO
  ;
 
-compare_dates : ( K_ON | K_AFTER | K_BEFORE )? dates ;
-dates : DATETIME ;
+//compare_dates : ( K_ON | K_AFTER | K_BEFORE )? dates ;
+dates :
+  (number_and_term)+  #DateType1
+| DATETIME_LITERAL #DateType2
+| DATETIME_LITERAL_QUOTED_TYPE1 #DateType3
+| DATETIME_LITERAL_QUOTED_TYPE2 #DateType4
+;
 
-DATETIME
- : ('-'|'+')? (NUMBER ('d'|'w'|'y'|'h'|'m')?)+
- | ('"' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '"')
- | ('\'' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '\'')
- | ( DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? )
+DATETIME_LITERAL_QUOTED_TYPE1:
+'"' DATETIME_LITERAL '"'
+;
+
+DATETIME_LITERAL_QUOTED_TYPE2:
+'\'' DATETIME_LITERAL '\''
+;
+
+DATETIME_LITERAL:
+   DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (' ' DIGIT DIGIT ':' DIGIT DIGIT)?
  ;
 
+number_and_term:
+number unit=('d'|'w'|'M'|'y'|'h'|'m') // M - month, m - minute
+;
 
-NUMBER : DIGIT+ ;
+number :
+NUMBER;
+
+/*DATETIME_TYPE2:
+  ('"' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '"')
+;
+
+DATETIME_TYPE3:
+  ('\'' DIGIT DIGIT DIGIT DIGIT '-' DIGIT DIGIT '-' DIGIT DIGIT (DIGIT DIGIT ':' DIGIT DIGIT)? '\'')
+; */
+
+
+NUMBER : '0' | ('-'|'+')? NON_ZERO_DIGIT DIGIT* ;
 
 WHITESPACE : ' ' -> skip ;
 
@@ -219,6 +296,7 @@ F_ORIGINAL_ESTIMATE : O R I G I N A L E S T I M A T E;
 F_PARENT : P A R E N T;
 F_PRIORITY : P R I O R I T Y;
 F_PROJECT : P R O J E C T;
+F_PROJECT_KEY : P R O J E C T K E Y;
 F_RANK : R A N K;
 F_REMAINING_ESTIMATE : R E M A I N I N G E S T I M A T E;
 F_REPORTER : R E P O R T E R;
@@ -244,11 +322,11 @@ F_WATCHERS : W A T C H E R S;
 F_WORK_RATIO : W  O R K R A T I O;
 
 IDENTIFIER
- : '"' (~'"' | '""')* '"'
+ : /*'"' (~'"' | '""')* '"'
  | '`' (~'`' | '``')* '`'
- | '[' ~']'* ']'
+ | */ '[' ~']'* ']'
  | [a-zA-Z_] [a-zA-Z_0-9.\-]* // TODO check: needs more chars in set
- | '-'
+// | '-'
  | [A-Z]+ '-' [0-9]+ // ex) KEY-###
  ;
 
@@ -269,7 +347,10 @@ SPACES
  : [ \u000B\t\r\n] -> channel(HIDDEN)
  ;
 
+ErrorCharacter : . ;
+
 fragment DIGIT : [0-9];
+fragment NON_ZERO_DIGIT : [1-9];
 
 fragment A : [aA];
 fragment B : [bB];

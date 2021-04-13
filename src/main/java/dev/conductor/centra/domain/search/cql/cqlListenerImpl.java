@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CqlListenerImpl extends CqlBaseListener {
+public class cqlListenerImpl extends cqlBaseListener {
 
     private final List<Condition> conditions = new ArrayList<>();
 
@@ -18,7 +18,7 @@ public class CqlListenerImpl extends CqlBaseListener {
     }
 
     @Override
-    public void enterExpr(CqlParser.ExprContext ctx) {
+    public void enterExpr(cqlParser.ExprContext ctx) {
         switch(stripQuotesFromString(ctx.getStart().getText())) {
             case "projectKey":
                 this.currentCondition = new ProjectKeys();
@@ -61,12 +61,12 @@ public class CqlListenerImpl extends CqlBaseListener {
     }
 
     @Override
-    public void exitExpr(CqlParser.ExprContext ctx) {
+    public void exitExpr(cqlParser.ExprContext ctx) {
         this.conditions.add(this.currentCondition);
     }
 
     @Override
-    public void enterOperator(CqlParser.OperatorContext ctx) {
+    public void enterOperator(cqlParser.OperatorContext ctx) {
         Operator operator;
 
         switch(ctx.getStop().getText()){
@@ -90,7 +90,7 @@ public class CqlListenerImpl extends CqlBaseListener {
         this.currentCondition.setOperator(operator);
     }
 
-    @Override public void enterLiteral_list(CqlParser.Literal_listContext ctx) {
+    @Override public void enterLiteral_list(cqlParser.Literal_listContext ctx) {
         List<String> items = ctx.literal_value().stream().map(RuleContext::getText).collect(Collectors.toList());
         this.currentCondition.setValue(items);
     }

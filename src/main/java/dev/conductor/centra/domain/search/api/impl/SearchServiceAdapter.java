@@ -14,6 +14,8 @@ import dev.conductor.centra.domain.search.spi.SearchPersistencePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.mongodb.core.query.Query;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collector;
@@ -46,6 +48,12 @@ public class SearchServiceAdapter implements SearchService {
                 .collect(Collectors.toList());
 
         return persistencePort.find(conditionsEnriched);
+    }
+
+    @Override
+    public List<Issue> search(Query query) {
+
+        return persistencePort.find(query);
     }
 
     private Condition enrichCondition(Condition condition) {
