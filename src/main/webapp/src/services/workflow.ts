@@ -4,6 +4,7 @@ export const workflow = {
   getWorkflow,
   listWorkflows,
   createWorkflow,
+  updateWorkflow
 }
 
 function getWorkflow (workflowId) {
@@ -19,4 +20,9 @@ function listWorkflows () {
 function createWorkflow(workflowDto) {
   return httpClient.post(`api/workflow`, workflowDto)
       .then(response => response.data)
+}
+
+function updateWorkflow(workflowId, workflowDto) {
+  return httpClient.put(`api/workflow/${workflowId}`, workflowDto )
+    .then(response  => response.data)
 }

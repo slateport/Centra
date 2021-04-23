@@ -255,6 +255,7 @@ export default class WorkFlowTool extends React.Component<any, any>{
             selectedFontSize: 12,
             portType: 'output',
             port: 'bottomCenter',
+            flowData: null,
             fontSizeList: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30, 32]
         }
     }
@@ -271,6 +272,7 @@ export default class WorkFlowTool extends React.Component<any, any>{
                 let data  = resp;
                 console.log('data ========>', data);
                 this.canvas.importJSON(data.flow);
+                this.setState({flowData: data});
                 // this.canvas.createToolBox(data.flow);
          });
     }
@@ -425,8 +427,23 @@ export default class WorkFlowTool extends React.Component<any, any>{
         }
     }
 
-    save = () => {
-        this.canvas.saveToJSON();
+    save = async () => {
+       let json =  await this.canvas.saveToJSON();
+       
+       let data = {
+           ...this.state.flowData,
+           projectId: null,
+           flow: JSON.parse(json)
+       };
+       console.log('flowdata======>', data);
+
+       workflow.updateWorkflow(this.state.flowId, data)
+        .then(resp => {
+            console.log('response ====>', resp);
+        })
+        .catch(err => {
+            console.log('error ====>', err);
+        })
     }
 
 
@@ -605,14 +622,13 @@ export default class WorkFlowTool extends React.Component<any, any>{
                                         </PortDirectButton>
                                     </BottomDirection>
                                 </PortPositionTool>
-                                <FormControl component="fieldset">
-                                    <FormLabel component="legend">Port Type</FormLabel>
+                                <FormControl component="fieldset" style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                                    <FormLabel component="legend" style={{marginLeft: 40, color: 'black'}}>Port Type</FormLabel>
                                     <RadioGroup aria-label="gender" name="type" value={this.state.portType} onChange={this.selectPortType}>
                                         <FormControlLabel value="input" control={<Radio />} label="Input" />
                                         <FormControlLabel value="output" control={<Radio />} label="Output" />
                                     </RadioGroup>
                                     </FormControl>
-
                             </>
                         )}
                     </EditMenuContent>

@@ -128,7 +128,8 @@ export default class CanvasEditTool {
         label.setOutlineColor('transparent');
         label.setStroke(0);
         selectedFigure.add(label, new draw2d.layout.locator.CenterLocator());
-        selectedFigure.setUserData({text: string, color: color, fontSize: fontSize, outlineStroke: 0, outlineColor: 'transparent', stroke: 0})
+        let data = selectedFigure.getUserData();
+        selectedFigure.setUserData({...data, text: string, color: color, fontSize: fontSize, outlineStroke: 0, outlineColor: 'transparent', stroke: 0})
     }
 
     updateFigureLabel(string) {
@@ -186,9 +187,10 @@ export default class CanvasEditTool {
 
     updateUserData(node: draw2d.shape.node.Node, type: string, value: any) {
         let data = node.getUserData() !== null ?  node.getUserData() : {};
+        console.log('data =========>', data);
         switch(type) {
             case "port":
-                data.ports = data.ports ? [...data.port, value] : [value];
+                data.ports = data.ports ? [...data.ports, value] : [value];
                 node.setUserData(data);
                 break;
             case "label":
@@ -259,12 +261,14 @@ export default class CanvasEditTool {
         }
     }
 
-    saveToJSON() {
+    async saveToJSON() {
+        var jsonTxt;
         let  writer = new draw2d.io.json.Writer();
-        writer.marshal(this._canvas, function(json){
-            var jsonTxt = JSON.stringify(json,null,2);
-            console.log('canvas json ====>', jsonTxt);
+        await writer.marshal(this._canvas, function(json){
+            jsonTxt = JSON.stringify(json,null,2);
+            // console.log('canvas json ====>', jsonTxt);
         }); 
+        return jsonTxt;
     }
 
     importJSON(json) {
@@ -296,6 +300,7 @@ export default class CanvasEditTool {
             height: attr.height,
             radius: attr.radius,
             id: attr.id,
+            userData: attr.userData
         });
         this._node.resetPorts();
         if(attr.userData.text) {
