@@ -2,6 +2,7 @@ package dev.conductor.centra.data.install;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import dev.conductor.centra.domain.applicationUser.api.ApplicationUserService;
 import dev.conductor.centra.domain.applicationUser.entiity.UserGroup;
 import dev.conductor.centra.domain.issue.api.IssuePrioritySchemaService;
@@ -91,6 +92,7 @@ public class DefaultInstall {
         transitions.add(new WorkflowTransition("DONE", "TO DO", "Reopen", true, false));
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         TypeReference<List<FlowSchema>> typeReference = new TypeReference<List<FlowSchema>>() {};
         InputStream inputStream = TypeReference.class.getResourceAsStream("../src/default_flow.json");
 

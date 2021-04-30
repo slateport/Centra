@@ -1,7 +1,12 @@
 package dev.conductor.centra.domain.workflow.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
 public class FlowSchema {
     private String type;
     private String id;
@@ -13,7 +18,7 @@ public class FlowSchema {
     private boolean selectable;
     private boolean draggable;
     private int angle;
-    private List userData;
+    private Object userData;
     private String cssClass;
     private List ports;
     private String bgColor;
@@ -29,9 +34,7 @@ public class FlowSchema {
     private Object source;
     private Object target;
 
-    public FlowSchema() {};
-
-    public FlowSchema(String type, String id, int x, int y, int height, int width, int alpha, boolean selectable, boolean draggable, int angle, List userData, String cssClass, List ports, String bgColor,
+    public FlowSchema(String type, String id, int x, int y, int height, int width, int alpha, boolean selectable, boolean draggable, int angle, Object userData, String cssClass, List ports, String bgColor,
                       String color, int stroke, int radius, String dasharray, int outlineStroke, String outlineColor, String policy, List vertex, String router, Object source, Object target) {
         this.type = type;
         this.id = id;

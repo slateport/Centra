@@ -1,12 +1,15 @@
 package dev.conductor.centra.application.controllers;
 
-import dev.conductor.centra.domain.workflow.dto.WorkflowDTO;
+import dev.conductor.centra.domain.project.api.ProjectService;
 import dev.conductor.centra.domain.project.entity.Project;
+import dev.conductor.centra.domain.workflow.api.WorkflowService;
+import dev.conductor.centra.domain.workflow.dto.WorkflowDTO;
+import dev.conductor.centra.domain.workflow.entities.FlowSchema;
 import dev.conductor.centra.domain.workflow.entities.StatePort;
 import dev.conductor.centra.domain.workflow.entities.Workflow;
-import dev.conductor.centra.domain.project.api.ProjectService;
-import dev.conductor.centra.domain.workflow.api.WorkflowService;
 import dev.conductor.centra.domain.workflow.entities.WorkflowState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -22,7 +25,7 @@ public class WorkflowController {
 
     @Autowired
     private WorkflowService workflowService;
-
+    private static Logger LOGGER = LoggerFactory.getLogger(WorkflowController.class);
     @Autowired
     private ProjectService projectService;
 
@@ -72,9 +75,14 @@ public class WorkflowController {
     @GetMapping("/{id}")
     Workflow getById(@PathVariable String id){
         Workflow workflow = workflowService.findById(id);
+        if(workflow.getFlow() == null) {
+            List<FlowSchema> flow = new ArrayList<>();
+            workflow.setFlow(flow);
+        }
         if(workflow.getLevel() == null) {
             workflow.setLevel(workflow.getStates().size() > 3 ? 1 : 0);
         }
+
         List<WorkflowState> orgStates = workflow.getStates();
         orgStates.forEach(workflowState -> {
             if(orgStates.size() > 3) {
@@ -174,7 +182,8 @@ public class WorkflowController {
 
         Workflow workflow = new Workflow();
         workflow.setId(id);
-        workflow.setName(dto.getName() == null ? originalWorkflow.getName() : dto.getName());
+        workflow.setFlow(dto.getFlow() == null ? originalWorkflow.getFlow() : dto.getFlow());
+        workflow.setName(dto.getName());
         workflow.setStates(dto.getStates() == null ? originalWorkflow.getStates() : dto.getStates());
         workflow.setTransitions(dto.getTransitions() == null ? originalWorkflow.getTransitions() : dto.getTransitions());
 
